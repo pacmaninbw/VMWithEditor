@@ -9,8 +9,8 @@ C programming language
 Modular Design
 
 ## My Original Development Environment.
-Visual Studion 2019 Professional.
-Windows 10 Professional
+ - Visual Studion 2019 Professional.  
+ - Windows 10 Professional.  
 
 ## Final Development Environment
 To allow this program to be built on multiple platforms using CMake, once the program is fully developed and tested CLion will be used to create CMake solutions.
