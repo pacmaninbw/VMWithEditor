@@ -8,3 +8,5 @@
 *FileListAbsolute.txt
 **human_readable_format_unit_test_log.txt
 .vs
+*.tlog
+x64
