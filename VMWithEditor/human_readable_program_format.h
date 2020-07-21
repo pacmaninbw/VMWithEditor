@@ -25,7 +25,6 @@ extern Human_Readable_Program_Format* convert_link_list_program_to_array(Program
 extern bool write_program_to_file(Human_Readable_Program_Format* program, size_t program_size, FILE* out_file);
 extern void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_program_steps);
 extern Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, char* file_name);
-extern bool init_hurman_readable_format(char* error_log_file_name);
 extern Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned char* text_line, size_t* line_number, char* file_name);
 
 #ifdef UNIT_TESTING
