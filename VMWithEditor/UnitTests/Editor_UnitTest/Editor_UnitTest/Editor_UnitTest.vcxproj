@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{449e5c4f-2eae-4cdb-a80e-6a3cc5b7c7a6}</ProjectGuid>
-    <RootNamespace>HRFUnitTest</RootNamespace>
+    <ProjectGuid>{01f4069e-973c-4c8f-ba39-2b4c895160d9}</ProjectGuid>
+    <RootNamespace>EditorUnitTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -84,10 +84,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Editor_UnitTest\Editor_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,9 +115,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,28 +140,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\arg_flags.c" />
-    <ClCompile Include="..\..\..\common_console_functions.c" />
-    <ClCompile Include="..\..\..\file_io_vm.c" />
-    <ClCompile Include="..\..\..\human_readable_program_format.c" />
-    <ClCompile Include="..\..\..\opcode.c" />
-    <ClCompile Include="..\..\..\virtual_machine.c" />
-    <ClCompile Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.c" />
-    <ClCompile Include="hrf_unit_test_main.c">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level4</WarningLevel>
-    </ClCompile>
+    <ClCompile Include="Editor_UnitTest_Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\arg_flags.h" />
-    <ClInclude Include="..\..\..\common_console_functions.h" />
-    <ClInclude Include="..\..\..\file_io_vm.h" />
-    <ClInclude Include="..\..\..\human_readable_program_format.h" />
-    <ClInclude Include="..\..\..\opcode.h" />
-    <ClInclude Include="..\..\..\virtual_machine.h" />
-    <ClInclude Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.h" />
-    <ClInclude Include="hrf_unit_test_main.h" />
-    <ClInclude Include="unit_test_human_readable_program_format.h" />
+    <ClInclude Include="Editor_UnitTest_main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

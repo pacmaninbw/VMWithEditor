@@ -1,5 +1,6 @@
 #include "human_readable_program_format.h"
-#include "common_program_logic.h"
+#include "common_unit_test_logic.h"
+#include "hrf_unit_test_main.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,7 +19,7 @@ typedef struct unit_test_functions_and_args
 	unit_test_function func;
 } Unit_Test_Functions_and_Args;
 
-bool individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Functions_and_Args unit_tests[])
+static bool hrf_individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Functions_and_Args unit_tests[])
 {
 	bool passed = true;
 	size_t test_step = 0;
@@ -38,10 +39,10 @@ bool individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Functions_and_
 	return passed;
 }
 
-int main()
+bool run_all_hrf_unit_tests(void)
 {
-	error_out_file = stderr;
-	int passed = EXIT_SUCCESS;
+	bool all_unit_tests_passed = true;
+
 	char buffer[BUFSIZ];
 	Unit_Test_Functions_and_Args unit_tests[] =
 	{
@@ -54,19 +55,14 @@ int main()
 
 	size_t test_count = (sizeof(unit_tests) / sizeof(*unit_tests));
 
-	if (!init_vm_error_reporting(NULL) || !init_hrf_unit_tests("human_readable_format_unit_test_log.txt"))
-	{
-		return EXIT_FAILURE;
-	}
-
-	if (individual_stand_alone_unit_tests(test_count, unit_tests))
+	if (hrf_individual_stand_alone_unit_tests(test_count, unit_tests))
 	{
 		test_count++;
 		if (!unit_test_all_human_readable_format())
 		{
 			sprintf(buffer, "Unit Test %zd: unit_test_all_human_readable_format() : Failed\n\n", test_count);
 			write_to_log_file(buffer);
-			passed = EXIT_FAILURE;
+			all_unit_tests_passed = false;
 		}
 		else
 		{
@@ -76,6 +72,25 @@ int main()
 	}
 	else
 	{
+		all_unit_tests_passed = false;
+	}
+
+	return all_unit_tests_passed;
+}
+
+#ifndef ALL_UNIT_TESTING
+int main()
+{
+	error_out_file = stderr;
+	int passed = EXIT_SUCCESS;
+
+	if (!init_vm_error_reporting(NULL) || !init_hrf_unit_tests("human_readable_format_unit_test_log.txt"))
+	{
+		return EXIT_FAILURE;
+	}
+
+	if (!run_all_hrf_unit_tests())
+	{
 		passed = EXIT_FAILURE;
 	}
 
@@ -84,4 +99,5 @@ int main()
 
 	return passed;
 }
+#endif	// ALL_UNIT_TESTiNG
 
