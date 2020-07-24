@@ -20,7 +20,7 @@ This program adds:
  - A command line processing capability to bypass the Command Interface Console.  
 
 ## Unit Tests  
-Unit tests have been developed or are being developed as stand alone programs for each major portion of the program, there will also be a unit test to run all of the portions of the code together.  
+Unit tests have been developed or are being developed as stand alone programs for each major portion of the program, there will also be a unit test to run all of the portions of the code together. The unit tests are not currently utilizing and unit test framework.  
  - Command Console unit test  
  - Assembly Language unit test  
  - File input and output unit test
@@ -38,6 +38,6 @@ Modular Design
  - Visual Studion 2019 Professional.  
  - Windows 10 Professional.  
 
-## Final Development Environment
-To allow this program to be built on multiple platforms using CMake, once the program is fully developed and tested CLion will be used to create CMake solutions.
+## Building the Executables
+Both Visual Studio 2019 and Linux builds are supported. Microsoft Visual Studio solution files and project files as well as CMakeLists.txt files are provided.
 
