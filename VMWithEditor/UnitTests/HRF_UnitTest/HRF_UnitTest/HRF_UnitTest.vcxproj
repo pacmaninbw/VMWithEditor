@@ -140,8 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\arg_flags.c" />
-    <ClCompile Include="..\..\..\common_console_functions.c" />
     <ClCompile Include="..\..\..\file_io_vm.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\opcode.c" />
@@ -153,7 +151,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\arg_flags.h" />
     <ClInclude Include="..\..\..\common_console_functions.h" />
     <ClInclude Include="..\..\..\file_io_vm.h" />
     <ClInclude Include="..\..\..\human_readable_program_format.h" />

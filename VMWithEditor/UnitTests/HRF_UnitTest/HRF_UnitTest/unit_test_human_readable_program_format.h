@@ -4,6 +4,7 @@
 extern bool init_hrf_unit_tests(char* log_file_name);
 extern bool unit_test_hrf_duplicate_program(unsigned test_step);
 extern bool unit_test_hrf_create_program_step(unsigned test_step);
+extern bool unit_test_hrf_convert_array_program_to_linked_list(unsigned test_step);
 extern bool unit_test_hrf_convert_link_list_program_to_array(unsigned test_step);
 extern bool unit_test_hrf_writing_to_file(char* file_name, unsigned test_step);
 extern bool unit_test_hrf_reading_from_file(char* file_name, unsigned test_step);

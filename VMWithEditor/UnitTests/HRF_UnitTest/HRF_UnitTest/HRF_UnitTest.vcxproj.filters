@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\arg_flags.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\common_console_functions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\file_io_vm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,9 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="unit_test_human_readable_program_format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\arg_flags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\common_console_functions.h">

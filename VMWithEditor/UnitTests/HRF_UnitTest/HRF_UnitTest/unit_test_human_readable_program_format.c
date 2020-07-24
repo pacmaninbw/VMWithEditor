@@ -266,6 +266,23 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 	return passed;
 }
 
+bool unit_test_hrf_convert_array_program_to_linked_list(unsigned test_step)
+{
+	bool passed = true;
+	bool stand_alone_test = (!test_step);
+	bool this_test_passed = true;
+
+	if (stand_alone_test)
+	{
+		fprintf(unit_test_log_file, "\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
+	}
+
+	show_test_status_each_step("unit_test_hrf_convert_array_program_to_linked_list", this_test_passed, "Negative", stand_alone_test);
+	passed = (!this_test_passed) ? false : passed;
+
+	return passed;
+}
+
 bool unit_test_hrf_convert_link_list_program_to_array(unsigned test_step)
 {
 	bool passed = true;
