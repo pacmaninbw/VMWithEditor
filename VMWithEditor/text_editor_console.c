@@ -1,4 +1,8 @@
+#ifdef UNIT_TESTING
+#include "common_unit_test_logic.h"
+#else
 #include "common_program_logic.h"
+#endif
 #include "common_console_functions.h"
 #include "text_editor_console.h"
 #include "virtual_machine.h"

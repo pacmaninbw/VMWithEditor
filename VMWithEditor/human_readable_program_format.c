@@ -1,6 +1,13 @@
+/*
+ * virtual_machine.c
+ */
 #include "human_readable_program_format.h"
 #include "virtual_machine.h"
+#ifdef UNIT_TESTING
+#include "common_unit_test_logic.h"
+#else
 #include "common_program_logic.h"
+#endif
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -24,7 +31,6 @@ Human_Readable_Program_Format* duplicate_program(Human_Readable_Program_Format* 
 		{
 			*copy_current_ptr = *prog_current_ptr;
 		}
-
 	}
 	else
 	{
@@ -51,8 +57,34 @@ Program_Step_Node* create_program_step(Human_Readable_Program_Format *user_input
 	return program_step;
 }
 
+static bool conversion_function_has_required_parameters(void *program, size_t program_size, char * error_function_name)
+{
+	bool has_required_parameters = true;
+
+	if (!program || !program_size)
+	{
+		if (!program)
+		{
+			fprintf(error_out_file, "In %s, linked_program is NULL\n", error_function_name);
+		}
+
+		if (!program_size)
+		{
+			fprintf(error_out_file, "In %s, program_size is zero.\n", error_function_name);
+		}
+		has_required_parameters = false;
+	}
+
+	return has_required_parameters;
+}
+
 Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_Node *linked_program, size_t program_size)
 {
+	if (!conversion_function_has_required_parameters((void *)linked_program, program_size, "convert_link_list_program_to_array(Program_Step_Node *linked_program, size_t program_size)"))
+	{
+		return NULL;
+	}
+
 	Human_Readable_Program_Format* array_program = calloc(program_size, sizeof(*array_program));
 	if (!array_program)
 	{
@@ -72,6 +104,48 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_N
 	}
 
 	return array_program;
+}
+
+Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size)
+{
+	if (!conversion_function_has_required_parameters((void*)array_program, program_size, "convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size)"))
+	{
+		return NULL;
+	}
+
+	Program_Step_Node* head = NULL;
+	Program_Step_Node* tail = NULL;
+	bool memory_allocation_failed = false;
+
+	for (size_t program_step = 0; program_step < program_size && !memory_allocation_failed; program_step++)
+	{
+		if (!head)
+		{
+			tail = create_program_step(&array_program[program_step]);
+			head = tail;
+			if (!tail)
+			{
+				memory_allocation_failed = true;
+			}
+		}
+		else
+		{
+			tail->next_step = create_program_step(&array_program[program_step]);
+			if (!tail->next_step)
+			{
+				memory_allocation_failed = true;
+			}
+		}
+		tail = tail->next_step;
+	}
+
+	if (memory_allocation_failed)
+	{
+		delete_linked_list_of_program_steps(head);
+		head = NULL;
+	}
+
+	return head;
 }
 
 /* 

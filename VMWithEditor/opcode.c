@@ -1,4 +1,8 @@
+#ifdef UNIT_TESTING
+#include "common_unit_test_logic.h"
+#else
 #include "common_program_logic.h"
+#endif
 #include "opcode.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -22,7 +26,7 @@ OPCODE_TRANSLATION_UNIT opcode_translator[] =
 
 
 
-// Allows the flexibility to reoder the ocodes in the header file and/or change the opcode values.
+// Allows the flexibility to reorder the opcodes in the header file and/or change the opcode values.
 void initialize_opcode_translater()
 {
 	// Since there is no guarantee the opcodes will keep the same values, explicitly add each opcode and string overriding the initializing at compile time.

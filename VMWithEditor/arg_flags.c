@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef UNIT_TESTING
+#include "common_unit_test_logic.h"
+#else
 #include "common_program_logic.h"
+#endif
 #include "arg_flags.h"
 
 static ARG_FLAGS_PTR construct_arguments()

@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include ".\common_program_logic.h"
+#ifdef UNIT_TESTING
+#include "common_unit_test_logic.h"
+#else
+#include "common_program_logic.h"
+#endif
 #include "file_io_vm.h"
 
 bool write_program_to_file(Human_Readable_Program_Format* program, size_t program_size, FILE* out_file)
