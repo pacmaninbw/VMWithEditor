@@ -114,7 +114,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

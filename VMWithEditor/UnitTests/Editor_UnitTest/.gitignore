@@ -1,0 +1,12 @@
+*.obj
+*.exe
+*.ilk
+*.pdb
+*/x64
+*/Debug
+*/Release
+*FileListAbsolute.txt
+**human_readable_format_unit_test_log.txt
+.vs
+*.tlog
+x64
