@@ -35,7 +35,10 @@ extern void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_o
 extern Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned char* text_line, size_t* line_number, char* file_name);
 
 #ifdef UNIT_TESTING
+#ifdef HRF_UNIT_TESTING
+// Don't need hrf unit tests for most other unit tests.
 #include "unit_test_human_readable_program_format.h"
+#endif	// HRF_UNIT_TESTiNG
 #endif	// UNIT_TESTING
 
 #endif
