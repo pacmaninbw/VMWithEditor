@@ -1,3 +1,6 @@
+/*
+ * Run the unit tests for the Human Readable Program portion of the VM with Editor
+ */
 #include "human_readable_program_format.h"
 #include "common_unit_test_logic.h"
 #include "hrf_unit_test_main.h"
@@ -28,7 +31,7 @@ static bool hrf_individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Fun
 
 	for (size_t test_count = 0; test_count < test_max && passed; test_count++)
 	{
-		bool test_passed = (unit_tests[test_count].arg_count == 1)?
+		bool test_passed = (unit_tests[test_count].arg_count == 1) ?
 			unit_tests[test_count].func.func1(test_step) :
 			unit_tests[test_count].func.func2(file_name, test_step);
 		sprintf(buffer, "\nUnit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed)? "Passed" : "Failed");
@@ -80,6 +83,9 @@ bool run_all_hrf_unit_tests(void)
 }
 
 #ifndef ALL_UNIT_TESTING
+/*
+ * All the unit tests can be combined into a single executable, when this is done main should not be in each file.
+ */
 int main()
 {
 	error_out_file = stderr;
