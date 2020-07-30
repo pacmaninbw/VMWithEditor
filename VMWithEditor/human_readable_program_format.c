@@ -1,6 +1,17 @@
 /*
- * virtual_machine.c
+ * human_readable_program_format.c
+ * Contains the implementation of the Human Readable parser and support code.
+ * If generic linked lists were necessary they would be implemented in their own file.
+ * The lower level Unit Tests are include because static functions need to be tested.
+ *
+ * Provides the API for using the Human Readable Programing Format (assembly language for the virtual machine).
+ * A program consists of assembly language instructions of the format '{' OPCODE ',' OPERAND '}' [','].
+ * Unfortunately due to the simple nature of the parser all instructions require an OPCODE OPERAND pair.
+ * A program can be either a linked list of Program_Step_Nodes or an array of Human_Readable_Program_Format.
+ * The ability to convert from aaray to linked list and back again is provided.
+ *
  */
+
 #include "human_readable_program_format.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
