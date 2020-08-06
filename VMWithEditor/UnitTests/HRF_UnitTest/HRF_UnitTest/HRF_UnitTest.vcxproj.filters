@@ -30,7 +30,7 @@
     <ClCompile Include="hrf_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.c">
+    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hrf_unit_test_main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

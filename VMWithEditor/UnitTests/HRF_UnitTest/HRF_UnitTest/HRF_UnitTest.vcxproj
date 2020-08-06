@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +144,7 @@
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\opcode.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
-    <ClCompile Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.c" />
+    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="hrf_unit_test_main.c">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level4</WarningLevel>
@@ -156,7 +156,6 @@
     <ClInclude Include="..\..\..\human_readable_program_format.h" />
     <ClInclude Include="..\..\..\opcode.h" />
     <ClInclude Include="..\..\..\virtual_machine.h" />
-    <ClInclude Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.h" />
     <ClInclude Include="hrf_unit_test_main.h" />
     <ClInclude Include="unit_test_human_readable_program_format.h" />
   </ItemGroup>

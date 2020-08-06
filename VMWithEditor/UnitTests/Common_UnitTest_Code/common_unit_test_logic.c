@@ -1,4 +1,4 @@
-#include "common_program_logic.h"
+//#include "common_program_logic.h"
 #include "virtual_machine.h"
 #include <stdio.h>
 #include <stdlib.h>

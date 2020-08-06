@@ -357,7 +357,7 @@ bool unit_test_all_human_readable_format()
 	return passed;
 }
 
-void write_to_log_file(char *buffer)
+void write_to_test_log_file(char *buffer)
 {
 	fprintf(unit_test_log_file, "%s", buffer);
 }

@@ -35,7 +35,7 @@ static bool hrf_individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Fun
 			unit_tests[test_count].func.func1(test_step) :
 			unit_tests[test_count].func.func2(file_name, test_step);
 		sprintf(buffer, "\nUnit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed)? "Passed" : "Failed");
-		write_to_log_file(buffer);
+		write_to_test_log_file(buffer);
 		passed = test_passed;
 	}
 
@@ -65,13 +65,13 @@ bool run_all_hrf_unit_tests(void)
 		if (!unit_test_all_human_readable_format())
 		{
 			sprintf(buffer, "Unit Test %zd: unit_test_all_human_readable_format() : Failed\n\n", test_count);
-			write_to_log_file(buffer);
+			write_to_test_log_file(buffer);
 			all_unit_tests_passed = false;
 		}
 		else
 		{
 			sprintf(buffer, "Unit Test %zd: unit_test_all_human_readable_format() : Passed\n\n", test_count);
-			write_to_log_file(buffer);
+			write_to_test_log_file(buffer);
 		}
 	}
 	else

@@ -9,6 +9,6 @@ extern bool unit_test_hrf_convert_link_list_program_to_array(unsigned test_step)
 extern bool unit_test_hrf_writing_to_file(char* file_name, unsigned test_step);
 extern bool unit_test_hrf_reading_from_file(char* file_name, unsigned test_step);
 extern bool unit_test_all_human_readable_format();
-extern void write_to_log_file(char* buffer);
+extern void write_to_test_log_file(char* buffer);
 extern void close_hrf_unit_tests(void);
 #endif
