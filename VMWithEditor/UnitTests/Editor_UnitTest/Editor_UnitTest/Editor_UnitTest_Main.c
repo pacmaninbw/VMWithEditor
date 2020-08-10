@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Editor_UnitTest_main.h"
+#ifndef UNIT_TESTING
+#include "common_program_logic.h"
+#else
+#include "common_unit_test_logic.h"
+#endif
 
 bool run_all_editor_unit_tests(void)
 {
@@ -16,22 +21,23 @@ bool run_all_editor_unit_tests(void)
 int main()
 {
 	int passed = EXIT_SUCCESS;
-#if 0
+
 	error_out_file = stderr;
 
-	if (!init_vm_error_reporting(NULL) || !init_hrf_unit_tests("human_readable_format_unit_test_log.txt"))
+	if (!init_vm_error_reporting(NULL))
 	{
 		return EXIT_FAILURE;
 	}
 
+#if 0
 	if (!run_all_hrf_unit_tests())
 	{
 		passed = EXIT_FAILURE;
 	}
 
 	close_hrf_unit_tests();
-	disengage_error_reporting();
 #endif
+	disengage_error_reporting();
 
 	return passed;
 
