@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\ControlConsole_UnitTest\ControlConsole_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +140,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.c" />
+    <ClCompile Include="..\..\..\human_readable_program_format.c" />
+    <ClCompile Include="..\..\..\opcode.c" />
+    <ClCompile Include="..\..\..\virtual_machine.c" />
+    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="control_console_unit_test_main.c" />
   </ItemGroup>
   <ItemGroup>

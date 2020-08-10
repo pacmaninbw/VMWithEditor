@@ -18,7 +18,16 @@
     <ClCompile Include="control_console_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode\common_unit_test_logic.c">
+    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\human_readable_program_format.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\virtual_machine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\opcode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
