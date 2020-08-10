@@ -362,31 +362,3 @@ void write_to_test_log_file(char *buffer)
 	fprintf(unit_test_log_file, "%s", buffer);
 }
 
-bool init_hrf_unit_tests(char* log_file_name)
-{
-	if (log_file_name)
-	{
-		unit_test_log_file = fopen(log_file_name, "w");
-		if (!unit_test_log_file)
-		{
-			fprintf(error_out_file, "Can't open %s for output\n", log_file_name);
-			return false;
-		}
-		error_out_file = unit_test_log_file;
-	}
-	else
-	{
-		unit_test_log_file = stdout;
-		error_out_file = stderr;
-	}
-
-	return true;
-}
-
-void close_hrf_unit_tests(void)
-{
-	if (unit_test_log_file != stdout)
-	{
-		fclose(unit_test_log_file);
-	}
-}

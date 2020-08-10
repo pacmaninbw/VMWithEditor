@@ -91,7 +91,7 @@ int main()
 	error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) || !init_hrf_unit_tests("human_readable_format_unit_test_log.txt"))
+	if (!init_vm_error_reporting(NULL) || !init_unit_tests("human_readable_format_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -101,7 +101,7 @@ int main()
 		passed = EXIT_FAILURE;
 	}
 
-	close_hrf_unit_tests();
+	close_unit_tests();
 	disengage_error_reporting();
 
 	return passed;
