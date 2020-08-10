@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 FILE* error_out_file = NULL;
+FILE* unit_test_log_file = NULL;
 
 bool init_vm_error_reporting(char* error_log_file_name)
 {
@@ -14,6 +15,7 @@ bool init_vm_error_reporting(char* error_log_file_name)
 		error_out_file = fopen(error_log_file_name, "w");
 		if (!error_out_file)
 		{
+			error_out_file = stderr;
 			fprintf(error_out_file, "Can't open error output file, %s", "error_log_file_name");
 			status_is_good = false;
 		}
@@ -63,4 +65,32 @@ Human_Readable_Program_Format* default_program(size_t* program_size)
 	return copy_of_program;
 }
 
+bool init_unit_tests(char* log_file_name)
+{
+	if (log_file_name)
+	{
+		unit_test_log_file = fopen(log_file_name, "w");
+		if (!unit_test_log_file)
+		{
+			fprintf(error_out_file, "Can't open %s for output\n", log_file_name);
+			return false;
+		}
+		error_out_file = unit_test_log_file;
+	}
+	else
+	{
+		unit_test_log_file = stdout;
+		error_out_file = stderr;
+	}
+
+	return true;
+}
+
+void close_unit_tests(void)
+{
+	if (unit_test_log_file != stdout)
+	{
+		fclose(unit_test_log_file);
+	}
+}
 
