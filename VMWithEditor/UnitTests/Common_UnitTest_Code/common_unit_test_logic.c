@@ -1,7 +1,9 @@
-//#include "common_program_logic.h"
+#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
 #include "virtual_machine.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 FILE* error_out_file = NULL;
 FILE* unit_test_log_file = NULL;
@@ -36,7 +38,10 @@ void disengage_error_reporting(void)
 	}
 }
 
-
+#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
+/*
+ * Allow unit tests that don't require virtual_machine.c and human_readable_program_format.c.
+ */
 Human_Readable_Program_Format* default_program(size_t* program_size)
 {
 	Human_Readable_Program_Format program[] =
@@ -64,6 +69,7 @@ Human_Readable_Program_Format* default_program(size_t* program_size)
 
 	return copy_of_program;
 }
+#endif
 
 bool init_unit_tests(char* log_file_name)
 {
