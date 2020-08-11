@@ -4,9 +4,11 @@
 #include "syntax_state_machine.h"
 #include <stdio.h>
 
+#ifndef ALL_UNIT_TESTING
 int main()
 {
     printf( "Hello World!\n");
 }
+#endif
 
 
