@@ -45,6 +45,9 @@
     <ClCompile Include="virtual_machine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="syntax_state_machine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_console_functions.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="virtual_machine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="syntax_state_machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
