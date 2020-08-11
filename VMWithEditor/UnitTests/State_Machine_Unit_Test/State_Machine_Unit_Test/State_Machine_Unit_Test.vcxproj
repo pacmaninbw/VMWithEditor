@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;NO_DUPICATE_PROGRAM;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;REDUCED_VM_AND_HRF_DEPENDENCIES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
