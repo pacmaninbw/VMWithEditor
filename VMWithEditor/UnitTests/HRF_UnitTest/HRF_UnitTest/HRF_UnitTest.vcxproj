@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\CommonUnitTestCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\CommonUnitTestCode;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\..\file_io_vm.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\opcode.c" />
+    <ClCompile Include="..\..\..\syntax_state_machine.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="hrf_unit_test_main.c">
