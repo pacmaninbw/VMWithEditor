@@ -17,14 +17,6 @@ static bool unit_test_template(unsigned test_step)
 }
 #endif
 
-static void show_test_status_each_step(char* function_name, bool status, char *path, bool stand_alone)
-{
-	if (stand_alone)
-	{
-		fprintf(unit_test_log_file, "%s(): %s Path %s\n", function_name, path, (status)? "Passed" : "Failed");
-	}
-}
-
 static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 {
 	bool passed = true;
@@ -50,7 +42,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 		}
 	}
 	this_test_passed = print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char *) text_line);
-	show_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Positive", stand_alone_test);
+	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Positive", stand_alone_test);
 	passed = (!this_test_passed)? false : passed;
 	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for unit_test_print_syntax_errors\n");
 
@@ -70,7 +62,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 		}
 	}
 	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
-	show_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 	fprintf(unit_test_log_file, "\nEndting NEGATIVE PATH testing for unit_test_print_syntax_errors\n");
 
@@ -130,7 +122,7 @@ static bool single_syntax_test(bool stand_alone_test, Syntax_Strings_For_Testing
 	this_test_passed = test_data.path_is_positive ?
 		(test_head && test_head->opcode_and_operand.opcode == HALT) :
 		(!test_head);
-	show_test_status_each_step("unit_test_check_line_syntax_return_program_step_if_valid", this_test_passed, test_path, stand_alone_test);
+	log_test_status_each_step("unit_test_check_line_syntax_return_program_step_if_valid", this_test_passed, test_path, stand_alone_test);
 	free(test_head);
 	fprintf(unit_test_log_file, "\n");
 
@@ -193,7 +185,7 @@ bool unit_test_hrf_duplicate_program(unsigned test_step)
 		fprintf(unit_test_log_file, "\nUnit test: unit_test_hrf_duplicate_program NOT IMPLEMENTED\n");
 	}
 
-	show_test_status_each_step("unit_test_hrf_duplicate_program", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_duplicate_program", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 
 	return passed;
@@ -222,7 +214,7 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 			test_tail = create_program_step(&test_program[step_count]);
 			if (!test_tail)
 			{
-				show_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
+				log_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
 				return false;
 			}
 			test_head = test_tail;
@@ -233,7 +225,7 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 			test_tail = test_tail->next_step;
 			if (!test_tail)
 			{
-				show_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
+				log_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
 				return false;
 			}
 		}
@@ -253,7 +245,7 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 		test_tail = test_tail->next_step;
 	}
 
-	show_test_status_each_step("unit_test_hrf_create_program_step", passed, "Positive", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_create_program_step", passed, "Positive", stand_alone_test);
 
 	delete_linked_list_of_program_steps(test_head);
 	free(test_program);
@@ -277,7 +269,7 @@ bool unit_test_hrf_convert_array_program_to_linked_list(unsigned test_step)
 		fprintf(unit_test_log_file, "\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
 	}
 
-	show_test_status_each_step("unit_test_hrf_convert_array_program_to_linked_list", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_convert_array_program_to_linked_list", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 
 	return passed;
@@ -294,7 +286,7 @@ bool unit_test_hrf_convert_link_list_program_to_array(unsigned test_step)
 		fprintf(unit_test_log_file, "\nUnit test: unit_test_hrf_convert_link_list_program_to_array NOT IMPLEMENTED\n");
 	}
 
-	show_test_status_each_step("unit_test_hrf_convert_link_list_program_to_array", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_convert_link_list_program_to_array", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 
 	return passed;
@@ -311,7 +303,7 @@ bool unit_test_hrf_writing_to_file(char *file_name, unsigned test_step)
 		fprintf(unit_test_log_file, "\nUnit test: unit_test_hrf_writing_to_file NOT IMPLEMENTED\n");
 	}
 
-	show_test_status_each_step("unit_test_hrf_writing_to_file", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_writing_to_file", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 
 	return passed;
@@ -337,7 +329,7 @@ bool unit_test_hrf_reading_from_file(char* file_name, unsigned test_step)
 		}
 	}
 
-	show_test_status_each_step("unit_test_hrf_reading_from_file", this_test_passed, "Negative", stand_alone_test);
+	log_test_status_each_step("unit_test_hrf_reading_from_file", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
 
 	if (stand_alone_test)
