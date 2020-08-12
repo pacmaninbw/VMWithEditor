@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;REDUCED_VM_AND_HRF_DEPENDENCIES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +143,10 @@
     <ClCompile Include="..\..\..\syntax_state_machine.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="state_machine_unit_test_main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="internal_sytax_state_tests.h" />
+    <ClInclude Include="state_machine_unit_test_main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
