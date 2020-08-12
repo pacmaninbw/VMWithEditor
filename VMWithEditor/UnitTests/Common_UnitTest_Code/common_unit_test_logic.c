@@ -1,3 +1,4 @@
+#include "common_unit_test_logic.h"
 #ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
 #include "virtual_machine.h"
 #endif
@@ -98,5 +99,46 @@ void close_unit_tests(void)
 	{
 		fclose(unit_test_log_file);
 	}
+}
+
+void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone)
+{
+	if (stand_alone)
+	{
+		fprintf(unit_test_log_file, "%s(): %s Path %s\n", function_name, path, (status) ? "Passed" : "Failed");
+	}
+}
+
+void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
+{
+	if (test_data_to_log->stand_alone)
+	{
+		fprintf(unit_test_log_file, "%s(): %s Path %s\n", test_data_to_log->function_name, test_data_to_log->path, (test_data_to_log->status) ? "Passed" : "Failed");
+	}
+}
+
+void log_start_positive_path(char* function_name)
+{
+	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n", function_name);
+}
+
+void log_end_positive_path(char* function_name)
+{
+	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s\n", function_name);
+}
+
+void log_start_negative_path(char* function_name)
+{
+	fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for %s\n", function_name);
+}
+
+void log_end_negative_path(char* function_name)
+{
+	fprintf(unit_test_log_file, "\nEndting NEGATIVE PATH testing for %s\n", function_name);
+}
+
+void log_generic_message(char* log_message)
+{
+	fprintf(unit_test_log_file, log_message);
 }
 
