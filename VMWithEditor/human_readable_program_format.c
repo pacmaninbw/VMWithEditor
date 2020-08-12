@@ -13,6 +13,7 @@
  */
 
 #include "human_readable_program_format.h"
+#include "syntax_state_machine.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
@@ -24,10 +25,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef UNIT_TESTING
-static FILE* unit_test_log_file = NULL;
-#endif
 
 Human_Readable_Program_Format* duplicate_program(Human_Readable_Program_Format* program, size_t program_size)
 {
@@ -147,7 +144,7 @@ Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_F
 				memory_allocation_failed = true;
 			}
 		}
-		tail = tail->next_step;
+		tail = (tail) ? tail->next_step : NULL;
 	}
 
 	if (memory_allocation_failed)
@@ -162,20 +159,6 @@ Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_F
 /* 
  * Syntax checking starts here
  */
-typedef enum syntax_checks_offss
-{
-	OPENBRACE = 0,
-	CLOSEBRACE = 1,
-	COMMA = 2,
-	LEGALOPCODE = 3,
-	LEGALOPERAND = 4,
-	ILLEGALOPCODE = 5,
-	ILLEGALOPERAND = 6,
-	ILLEGALFIRSTCHAR = 7,
-	MULTIPLESTATEMENTSONELINE = 8
-#define SYNTAX_CHECK_COUNT 9
-} Syntax_Check_Offss;
-
 static void init_error_strings(char * error_strings[SYNTAX_CHECK_COUNT])
 {
 	error_strings[OPENBRACE] = "Missing the opening brace.";
@@ -187,10 +170,6 @@ static void init_error_strings(char * error_strings[SYNTAX_CHECK_COUNT])
 	error_strings[ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
 	error_strings[MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
 }
-
-static const unsigned MAX_COMMA = 2;
-static const unsigned MAX_OPEN_BRACE = 1;
-static const unsigned MAX_CLOSE_BRACE = 1;
 
 static bool print_syntax_errors(unsigned *necessary_items, size_t *line_number, char* file_name, unsigned char *line)
 {
@@ -326,32 +305,25 @@ Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned c
 {
 	unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
 	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
-	Human_Readable_Program_Format legal;
-	legal.opcode = (OPCODE)OPCODE_TRANSLATOR_COUNT;
-	legal.operand = 0;
-
-	if (!isspace(*text_line) && *text_line != '{')
-	{
-		syntax_check_list[ILLEGALFIRSTCHAR]++;
-	}
+	Human_Readable_Program_Format legal = { OPCODE_TRANSLATOR_COUNT, 0 };
+	Syntax_State current_state = START_STATE;
 
 	unsigned char* current_character = text_line;
 	while (*current_character)
 	{
-		check_for_required_character(*current_character, OPENBRACE, MAX_OPEN_BRACE, syntax_check_list);
-
-		check_for_required_character(*current_character, COMMA, MAX_COMMA, syntax_check_list);
-
-		check_for_required_character(*current_character, CLOSEBRACE, MAX_CLOSE_BRACE, syntax_check_list);
-
-		if (syntax_check_list[(size_t)OPENBRACE] && !syntax_check_list[(size_t)COMMA] && isalpha(*current_character))
+		Syntax_State new_state = state_transition(current_state, current_character, syntax_check_list);
+		if (new_state != current_state)
 		{
-			legal.opcode = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPCODE);
-		}
+			if (syntax_check_list[(size_t)OPENBRACE] && !syntax_check_list[(size_t)COMMA] && isalpha(*current_character))
+			{
+				legal.opcode = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPCODE);
+			}
 
-		if (syntax_check_list[(size_t)OPENBRACE] && syntax_check_list[(size_t)COMMA] && isalnum(*current_character))
-		{
-			legal.operand = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPERAND);
+			if (syntax_check_list[(size_t)OPENBRACE] && syntax_check_list[(size_t)COMMA] && isalnum(*current_character))
+			{
+				legal.operand = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPERAND);
+			}
+			current_state = new_state;
 		}
 
 		current_character++;
