@@ -21,37 +21,46 @@ static void init_next_states(Syntax_State_Transition next_states[(int)ERROR_STAT
 	next_states[OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, ENTER_OPERAND_STATE };
 	next_states[END_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, OPERAND_STATE };
 	next_states[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, END_OPERAND_STATE };
-	next_states[OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, END_STATEMENT };
-	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_STATEMENT, DONE_STATE };
-	next_states[END_STATEMENT] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
+	next_states[OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, END_STATEMENT_STATE };
+	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, DONE_STATE };
+	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
 	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
 	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, ERROR_STATE };
 }
 
 static Syntax_State state_transition_on_closebrace(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
 {
+	Syntax_State new_value = ERROR_STATE;
+
 	switch (current_state)
 	{
-	case OPERAND_STATE:
-	case END_OPERAND_STATE:
-		syntax_check_list[CLOSEBRACE]++;
-		if (syntax_check_list[CLOSEBRACE] >= MAX_CLOSE_BRACE)
-		{
-			syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
-		}
-		return next_states[current_state].legal_next_state;
+		case OPERAND_STATE:
+		case END_OPERAND_STATE:
+			new_value = next_states[current_state].legal_next_state;
 
-	default:
-		return ERROR_STATE;
+		case ENTER_OPERAND_STATE:
+			new_value = next_states[current_state].error_with_next_state;
+
+		default:
+			new_value = ERROR_STATE;
 	}
+
+	syntax_check_list[CLOSEBRACE]++;
+	if (syntax_check_list[CLOSEBRACE] >= MAX_CLOSE_BRACE)
+	{
+		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
+	}
+
+	return new_value;
 }
+
 
 static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
 {
 	switch (current_state)
 	{
 		case OPCODE_STATE:
-		case END_STATEMENT:
+		case END_STATEMENT_STATE:
 			return next_states[current_state].legal_next_state;
 
 		case END_OPCODE_STATE:
@@ -103,7 +112,7 @@ static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, 
 	case START_STATE:		// Blank line is ok
 	case DONE_STATE:
 		return DONE_STATE;
-	case END_STATEMENT:
+	case END_STATEMENT_STATE:
 	case END_OPERAND_STATE:
 		return next_states[current_state].error_with_next_state;
 	default:
@@ -237,3 +246,6 @@ Syntax_State state_transition(Syntax_State current_state, unsigned char* input, 
 	return ERROR_STATE;
 }
 
+#ifdef UNIT_TESTING
+#include "internal_sytax_state_tests.c"
+#endif
