@@ -14,8 +14,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void init_next_states(Syntax_State_Transition next_states[(int)ERROR_STATE])
+static Syntax_State_Transition* create_next_states(void)
 {
+	Syntax_State_Transition *next_states = calloc(((size_t)ERROR_STATE) + 1, sizeof(*next_states));
+	if (!next_states)
+	{
+		fprintf(error_out_file, "In create_next_states(), memory allocation for next_states failed\n");
+		return next_states;
+	}
+
 	next_states[START_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, OPCODE_STATE };
 	next_states[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ OPCODE_STATE, END_OPCODE_STATE };
 	next_states[OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, ENTER_OPERAND_STATE };
@@ -26,9 +33,11 @@ static void init_next_states(Syntax_State_Transition next_states[(int)ERROR_STAT
 	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
 	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
 	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, ERROR_STATE };
+
+	return next_states;
 }
 
-static Syntax_State state_transition_on_closebrace(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
+static Syntax_State state_transition_on_closebrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
 	Syntax_State new_value = ERROR_STATE;
 
@@ -37,16 +46,19 @@ static Syntax_State state_transition_on_closebrace(Syntax_State current_state, S
 		case OPERAND_STATE:
 		case END_OPERAND_STATE:
 			new_value = next_states[current_state].legal_next_state;
+			break;
 
 		case ENTER_OPERAND_STATE:
 			new_value = next_states[current_state].error_with_next_state;
+			break;
 
 		default:
 			new_value = ERROR_STATE;
+			break;
 	}
 
 	syntax_check_list[CLOSEBRACE]++;
-	if (syntax_check_list[CLOSEBRACE] >= MAX_CLOSE_BRACE)
+	if (syntax_check_list[CLOSEBRACE] > MAX_CLOSE_BRACE)
 	{
 		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
 	}
@@ -55,7 +67,7 @@ static Syntax_State state_transition_on_closebrace(Syntax_State current_state, S
 }
 
 
-static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
+static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
 	switch (current_state)
 	{
@@ -88,7 +100,7 @@ static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax
 	}
 }
 
-static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
+static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
 	switch (current_state)
 	{
@@ -105,7 +117,7 @@ static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Sy
 	}
 }
 
-static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, Syntax_State_Transition next_states[])
+static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, Syntax_State_Transition *next_states)
 {
 	switch (current_state)
 	{
@@ -120,7 +132,7 @@ static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, 
 	}
 }
 
-static Syntax_State state_transition_on_white_space(Syntax_State current_state, Syntax_State_Transition next_states[])
+static Syntax_State state_transition_on_white_space(Syntax_State current_state, Syntax_State_Transition *next_states)
 {
 	switch (current_state)
 	{
@@ -153,7 +165,7 @@ static bool is_legal_in_hex_number(unsigned char input)
 	return is_legal;
 }
 
-static Syntax_State state_transition_on_alpha(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned char input, unsigned syntax_check_list[])
+static Syntax_State state_transition_on_alpha(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned char input, unsigned syntax_check_list[])
 {
 	switch (current_state)
 	{
@@ -183,7 +195,7 @@ static Syntax_State state_transition_on_alpha(Syntax_State current_state, Syntax
 	}
 }
 
-static Syntax_State state_transition_on_digit(Syntax_State current_state, Syntax_State_Transition next_states[], unsigned syntax_check_list[])
+static Syntax_State state_transition_on_digit(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
 	switch (current_state)
 	{
@@ -205,8 +217,7 @@ static Syntax_State state_transition_on_digit(Syntax_State current_state, Syntax
 
 Syntax_State state_transition(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
 {
-	Syntax_State_Transition next_states[(int)ERROR_STATE];
-	init_next_states(next_states);
+	Syntax_State_Transition *next_states = create_next_states();
 
 	if (*input == '\n')
 	{
@@ -242,6 +253,8 @@ Syntax_State state_transition(Syntax_State current_state, unsigned char* input, 
 	{
 		return state_transition_on_closebrace(current_state, next_states, syntax_check_list);
 	}
+
+	free(next_states);
 
 	return ERROR_STATE;
 }

@@ -1,0 +1,20 @@
+
+Starting POSITIVE PATH testing for unit_test_state_transition_on_closebrace
+
+unit_test_state_transition_on_closebrace(): Positive Path Passed
+unit_test_state_transition_on_closebrace(): Positive Path Passed
+unit_test_state_transition_on_closebrace(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_state_transition_on_closebrace
+
+Starting NEGATIVE PATH testing for unit_test_state_transition_on_closebrace
+
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+unit_test_state_transition_on_closebrace(): Negative Path Passed
+
+Ending NEGATIVE PATH testing for unit_test_state_transition_on_closebrace

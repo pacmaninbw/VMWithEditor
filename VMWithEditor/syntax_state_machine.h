@@ -26,7 +26,7 @@ typedef enum Syntax_State
 	END_OPERAND_STATE,
 	END_STATEMENT_STATE,
 	DONE_STATE,
-	ERROR_STATE = 8
+	ERROR_STATE = 9
 } Syntax_State;
 
 typedef struct syntax_state_transition

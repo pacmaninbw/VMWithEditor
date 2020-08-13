@@ -119,7 +119,7 @@ void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
 
 void log_start_positive_path(char* function_name)
 {
-	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n", function_name);
+	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n", function_name);
 }
 
 void log_end_positive_path(char* function_name)
@@ -129,12 +129,13 @@ void log_end_positive_path(char* function_name)
 
 void log_start_negative_path(char* function_name)
 {
-	fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for %s\n", function_name);
+	fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for %s\n\n", function_name);
 }
 
 void log_end_negative_path(char* function_name)
 {
-	fprintf(unit_test_log_file, "\nEndting NEGATIVE PATH testing for %s\n", function_name);
+	fprintf(unit_test_log_file, "\nEnding NEGATIVE PATH testing for %s\n", function_name);
+	fflush(unit_test_log_file);		// Current unit test is done flush the output.
 }
 
 void log_generic_message(char* log_message)
