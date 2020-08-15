@@ -114,3 +114,8 @@ bool set_up_command_line_args_and_vm(ARG_FLAGS_PTR* command_line_args, int argc,
 	return successful;
 }
 
+void report_error_generic(char* error_message)
+{
+	fprintf(error_out_file, "%s\n", error_message);
+}
+
