@@ -23,6 +23,7 @@ extern Human_Readable_Program_Format* default_program(size_t* program_size);
 #endif
 extern void disengage_error_reporting(void);
 extern bool init_unit_tests(char* log_file_name);
+extern void report_error_generic(char* error_message);
 extern void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone);
 extern void log_test_status_each_step2(Test_Log_Data* test_data_to_log);
 extern void log_start_positive_path(char* function_name);

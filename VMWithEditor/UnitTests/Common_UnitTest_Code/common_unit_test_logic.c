@@ -93,6 +93,11 @@ bool init_unit_tests(char* log_file_name)
 	return true;
 }
 
+void report_error_generic(char *error_message)
+{
+	fprintf(error_out_file, "%s\n", error_message);
+}
+
 void close_unit_tests(void)
 {
 	if (unit_test_log_file != stdout)
