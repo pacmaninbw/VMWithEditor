@@ -1,3 +1,16 @@
+/*
+ * syntax_state_machine.h
+ *
+*
+ * The Syntax State Machine is a simple lexical analiser. Given the current syntax
+ * state and the new input character what is the new syntax state. State machines
+ * can be represented as tables. Table implementation of a state machine uses
+ * more memory but performs faster, the lexical analyser programs Flex and LEX
+ * generate tables to implement lexical analysis.
+ *
+ * This module uses enums to make the states and transitions easier to understand.
+ *
+ */
 #ifndef SYNTAX_STATE_MACHINE_H
 #define SYNTAX_STATE_MACHINE_H
 
@@ -15,24 +28,54 @@ typedef enum syntax_checks_offss
 #define SYNTAX_CHECK_COUNT 9
 } Syntax_Check_Offss;
 
-typedef enum Syntax_State
+typedef enum syntax_state_enum
 {
-	START_STATE = 0,
-	ENTER_OPCODE_STATE,
-	OPCODE_STATE,
-	END_OPCODE_STATE,
-	ENTER_OPERAND_STATE,
-	OPERAND_STATE,
-	END_OPERAND_STATE,
-	END_STATEMENT_STATE,
-	DONE_STATE,
+	START_STATE = 0,				// Start of a new line, only white space or open brace is really expected
+	ENTER_OPCODE_STATE = 1,			// Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+	OPCODE_STATE = 2,				// Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+	END_OPCODE_STATE = 3,			// White space has been encountered only white space or comma expected
+	ENTER_OPERAND_STATE = 4,		// Comma has been encountered, waiting for first digit of operand white space allowed
+	OPERAND_STATE = 5,				// First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+	END_OPERAND_STATE = 6,			// White space has been encountered, waiting for close brace to end statement
+	END_STATEMENT_STATE = 7,		// Close brace has been encountered, comma or new line expected
+	DONE_STATE = 8,					// Comma has been encountered only legal input is white space or new line
 	ERROR_STATE = 9
 } Syntax_State;
 
+#define SYNTAX_STATE_ARRAY_SIZE	9 + 1	// (size_t) ERROR_STATE + 1
+
+#ifdef UNIT_TEST_DEBUG
+static char* debug_state_names[SYNTAX_STATE_ARRAY_SIZE] =
+{
+	"START_STATE",
+	"ENTER_OPCODE_STATE",
+	"OPCODE_STATE",
+	"END_OPCODE_STATE",
+	"ENTER_OPERAND_STATE",
+	"OPERAND_STATE",
+	"END_OPERAND_STATE",
+	"END_STATEMENT_STATE",
+	"DONE_STATE",
+	"ERROR_STATE"
+};
+#endif // DEBUG
+
+typedef enum legal_characters_that_cause_transitions
+{
+	OPENBRACE_STATE_TRANSITION = 0,
+	CLOSEBRACE_STATE_TRANSITION = 1,
+	COMMA_STATE_TRANSITION = 2,
+	ALPHA_STATE_TRANSITION = 3,
+	DIGIT_STATE_TRANSITION = 4,
+	WHITESPACE_STATE_TRANSITION = 5,
+	EOL_STATE_TRANSITION = 6		// End of Line
+} State_Transition_Characters;
+#define TRANSITION_ARRAY_SIZE 6 + 1		// EOL_STATE_TRANSITION + 1
+
 typedef struct syntax_state_transition
 {
-	Syntax_State legal_next_state;
-	Syntax_State error_with_next_state;
+	Syntax_State current_state;
+	Syntax_State transition_on_char_type[TRANSITION_ARRAY_SIZE];
 } Syntax_State_Transition;
 
 #define MAX_COMMA 2

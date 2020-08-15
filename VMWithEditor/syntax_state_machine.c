@@ -1,5 +1,14 @@
 /*
  * syntax_state_machine.c
+ *
+ * The Syntax State Machine is a simple lexical analiser. Given the current syntax
+ * state and the new input character what is the new syntax state. State machines
+ * can be represented as tables. Table implementation of a state machine uses
+ * more memory but performs faster, the lexical analyser programs Flex and LEX
+ * generate tables to implement lexical analysis.
+ *
+ * This module uses enums to make the states and transitions easier to understand.
+ *
  */
 #include "syntax_state_machine.h"
 #include "virtual_machine.h"
@@ -14,48 +23,75 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * This function returns the table that represents the current syntactic state
+ * and the new state that each possible legal into can go to from the current
+ * state.
+ *
+ * To allow the parser to report as many errors as possible per statement
+ * not all errors result in ERROR_STATE, missing required items are reported
+ * in a separate data structure. The decision to report the error is made
+ * at the parser level.
+ *
+ * Columns in table below
+ *	OPENBRACE_STATE_TRANSITION = 0,
+ *	CLOSEBRACE_STATE_TRANSITION = 1,
+ *	COMMA_STATE_TRANSITION = 2,
+ *	ALPHA_STATE_TRANSITION = 3,
+ *	DIGIT_STATE_TRANSITION = 4,
+ *	WHITESPACE_STATE_TRANSITION = 5,
+ *	EOL_STATE_TRANSITION = 6		// End of Line
+ *
+ * Rows in table below
+ *	START_STATE = 0,			Start of a new line, only white space or open brace is really expected
+ *	ENTER_OPCODE_STATE = 1,		Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+ *	OPCODE_STATE = 2,			Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+ *	END_OPCODE_STATE = 3,		White space has been encountered only white space or comma expected
+ *	ENTER_OPERAND_STATE = 4,	Comma has been encountered, waiting for first digit of operand white space allowed
+ *	OPERAND_STATE = 5,			First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+ *	END_OPERAND_STATE = 6,		White space has been encountered, waiting for close brace to end statement
+ *	END_STATEMENT_STATE = 7,	Close brace has been encountered, comma or new line expected
+ *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
+ *	ERROR_STATE = 9
+ */
 static Syntax_State_Transition* create_next_states(void)
 {
 	Syntax_State_Transition *next_states = calloc(((size_t)ERROR_STATE) + 1, sizeof(*next_states));
 	if (!next_states)
 	{
-		fprintf(error_out_file, "In create_next_states(), memory allocation for next_states failed\n");
+		report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
 		return next_states;
 	}
 
-	next_states[START_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, OPCODE_STATE };
-	next_states[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ OPCODE_STATE, END_OPCODE_STATE };
-	next_states[OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, ENTER_OPERAND_STATE };
-	next_states[END_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, OPERAND_STATE };
-	next_states[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, END_OPERAND_STATE };
-	next_states[OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, END_STATEMENT_STATE };
-	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, DONE_STATE };
-	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
-	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, ERROR_STATE };
-	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, ERROR_STATE };
+	next_states[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE, 
+		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE} };
+	next_states[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
+		END_STATEMENT_STATE, ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, ENTER_OPCODE_STATE,
+		ERROR_STATE} };
+	next_states[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE} };
+	next_states[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
+		END_STATEMENT_STATE, ENTER_OPERAND_STATE, ERROR_STATE, OPERAND_STATE, END_OPCODE_STATE,
+		ERROR_STATE} };
+	next_states[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
+		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, OPERAND_STATE, ENTER_OPERAND_STATE, ERROR_STATE} };
+	next_states[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+		DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE} };
+	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
+		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE} };
+	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
+		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE} };
+	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
+		DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE} };
+	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
+		ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
 
 	return next_states;
 }
 
 static Syntax_State state_transition_on_closebrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
-	Syntax_State new_value = ERROR_STATE;
-
-	switch (current_state)
-	{
-		case OPERAND_STATE:
-		case END_OPERAND_STATE:
-			new_value = next_states[current_state].legal_next_state;
-			break;
-
-		case ENTER_OPERAND_STATE:
-			new_value = next_states[current_state].error_with_next_state;
-			break;
-
-		default:
-			new_value = ERROR_STATE;
-			break;
-	}
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[CLOSEBRACE_STATE_TRANSITION];
 
 	syntax_check_list[CLOSEBRACE]++;
 	if (syntax_check_list[CLOSEBRACE] > MAX_CLOSE_BRACE)
@@ -63,86 +99,47 @@ static Syntax_State state_transition_on_closebrace(Syntax_State current_state, S
 		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
 	}
 
-	return new_value;
+	return new_state;
 }
-
 
 static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
-	switch (current_state)
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[COMMA_STATE_TRANSITION];
+
+	syntax_check_list[COMMA]++;
+	if (syntax_check_list[COMMA] > MAX_COMMA)
 	{
-		case OPCODE_STATE:
-		case END_STATEMENT_STATE:
-			return next_states[current_state].legal_next_state;
-
-		case END_OPCODE_STATE:
-		case END_OPERAND_STATE:
-		case ENTER_OPCODE_STATE:
-			return next_states[current_state].error_with_next_state;
-
-		case DONE_STATE:
-			if (syntax_check_list[COMMA] < MAX_COMMA)
-			{
-				syntax_check_list[COMMA]++;
-				return next_states[current_state].legal_next_state;
-			}
-			else
-			{
-				return next_states[current_state].error_with_next_state;
-			}
-
-		case START_STATE:
-			syntax_check_list[ILLEGALFIRSTCHAR]++;
-			return OPERAND_STATE;
-
-		default:
-			return ERROR_STATE;
+		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
 	}
+
+	return new_state;
 }
 
 static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
-	switch (current_state)
-	{
-		case START_STATE:
-			syntax_check_list[OPENBRACE]++;
-			if (syntax_check_list[OPENBRACE] >= MAX_CLOSE_BRACE)
-			{
-				syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
-			}
-			return next_states[current_state].legal_next_state;
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[OPENBRACE_STATE_TRANSITION];
 
-		default:
-			return ERROR_STATE;
+	syntax_check_list[OPENBRACE]++;
+	if (syntax_check_list[OPENBRACE] > MAX_CLOSE_BRACE)
+	{
+		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
 	}
+
+	return new_state;
 }
 
 static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, Syntax_State_Transition *next_states)
 {
-	switch (current_state)
-	{
-	case START_STATE:		// Blank line is ok
-	case DONE_STATE:
-		return DONE_STATE;
-	case END_STATEMENT_STATE:
-	case END_OPERAND_STATE:
-		return next_states[current_state].error_with_next_state;
-	default:
-		return ERROR_STATE;
-	}
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[EOL_STATE_TRANSITION];
+
+	return new_state;
 }
 
 static Syntax_State state_transition_on_white_space(Syntax_State current_state, Syntax_State_Transition *next_states)
 {
-	switch (current_state)
-	{
-	case OPCODE_STATE:
-	case OPERAND_STATE:
-		return next_states[current_state].legal_next_state;
-		break;
-	default:
-		return current_state;
-	}
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[WHITESPACE_STATE_TRANSITION];
+
+	return new_state;
 }
 
 static bool is_legal_in_hex_number(unsigned char input)
@@ -167,96 +164,80 @@ static bool is_legal_in_hex_number(unsigned char input)
 
 static Syntax_State state_transition_on_alpha(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned char input, unsigned syntax_check_list[])
 {
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[ALPHA_STATE_TRANSITION];
+
 	switch (current_state)
 	{
-	case START_STATE:
-		syntax_check_list[ILLEGALFIRSTCHAR]++;
-		return next_states[current_state].error_with_next_state;
+		case START_STATE:
+			syntax_check_list[ILLEGALFIRSTCHAR]++;
+			break;
 
-	case ENTER_OPCODE_STATE:
-		return next_states[current_state].legal_next_state;
-
-	case OPCODE_STATE:
-		return current_state;
-
-	case OPERAND_STATE:
-		if (is_legal_in_hex_number(input))
-		{
-			return current_state;
-		}
-		else
-		{
-			return ERROR_STATE;
-		}
-		break;
-
-	default:
-		return ERROR_STATE;
+		case OPERAND_STATE:
+			if (is_legal_in_hex_number(input))
+			{
+				new_state = next_states[current_state].transition_on_char_type[DIGIT_STATE_TRANSITION];
+			}
+			break;
 	}
+
+	return new_state;
 }
 
 static Syntax_State state_transition_on_digit(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
 {
-	switch (current_state)
+	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[ALPHA_STATE_TRANSITION];
+
+	if (current_state == START_STATE)
 	{
-	case OPERAND_STATE:
-		return current_state;
-
-	case ENTER_OPERAND_STATE:
-		return next_states[current_state].legal_next_state;
-
-	case END_OPCODE_STATE:
-		return next_states[current_state].error_with_next_state;
-
-	case START_STATE:
 		syntax_check_list[ILLEGALFIRSTCHAR]++;
-	default:
-		return ERROR_STATE;
 	}
+
+	return new_state;
 }
 
 Syntax_State state_transition(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
 {
+	Syntax_State new_state = ERROR_STATE;
 	Syntax_State_Transition *next_states = create_next_states();
 
 	if (*input == '\n')
 	{
-		return state_transition_on_end_of_line(current_state, next_states);
+		new_state =  state_transition_on_end_of_line(current_state, next_states);
 	}
 
 	if (isspace(*input))
 	{
-		return state_transition_on_white_space(current_state, next_states);
+		new_state = state_transition_on_white_space(current_state, next_states);
 	}
 
 	if (isalpha(*input))
 	{
-		return state_transition_on_alpha(current_state, next_states, *input, syntax_check_list);
+		new_state = state_transition_on_alpha(current_state, next_states, *input, syntax_check_list);
 	}
 
 	if (isdigit(*input))
 	{
-		return state_transition_on_digit(current_state, next_states, syntax_check_list);
+		new_state = state_transition_on_digit(current_state, next_states, syntax_check_list);
 	}
 
 	if (*input == ',')
 	{
-		return state_transition_on_comma(current_state, next_states, syntax_check_list);
+		new_state = state_transition_on_comma(current_state, next_states, syntax_check_list);
 	}
 
 	if (*input == '{')
 	{
-		return state_transition_on_openbrace(current_state, next_states, syntax_check_list);
+		new_state = state_transition_on_openbrace(current_state, next_states, syntax_check_list);
 	}
 
 	if (*input == '}')
 	{
-		return state_transition_on_closebrace(current_state, next_states, syntax_check_list);
+		new_state = state_transition_on_closebrace(current_state, next_states, syntax_check_list);
 	}
 
 	free(next_states);
 
-	return ERROR_STATE;
+	return new_state;
 }
 
 #ifdef UNIT_TESTING
