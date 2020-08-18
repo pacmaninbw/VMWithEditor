@@ -556,19 +556,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = START_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = START_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -581,19 +575,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ENTER_OPCODE_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ENTER_OPCODE_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -606,19 +594,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = OPCODE_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = OPCODE_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -631,19 +613,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_OPCODE_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_OPCODE_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -656,19 +632,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ENTER_OPERAND_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ENTER_OPERAND_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -681,19 +651,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = OPERAND_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = OPERAND_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -706,19 +670,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_OPERAND_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_OPERAND_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -731,19 +689,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_STATEMENT_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = END_STATEMENT_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -756,19 +708,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = DONE_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = DONE_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -781,19 +727,13 @@ Starting POSITIVE PATH testing for unit_test_get_transition_character_type punct
 
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ERROR_STATE input character = ,
-	Expected Transitiion Transition on Illegal Character Actual Transition Transition on ,
-
+unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Failed
-	current_state = ERROR_STATE input character = +
-	Expected Transitiion Transition on , Actual Transition Transition on Illegal Character
-
+unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
 unit_test_get_transition_character_type(): Positive Path Passed
