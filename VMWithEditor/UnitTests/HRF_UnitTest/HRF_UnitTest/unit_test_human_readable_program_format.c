@@ -196,9 +196,11 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
 
-	if (stand_alone_test)
+	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_state_transition_on_comma", passed, "Positive", test_step == 0);
+
+	if (log_data->stand_alone)
 	{
-		fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing in unit_test_hrf_create_program_step.\n");
+		log_start_positive_path(log_data->function_name);
 	}
 
 	size_t test_program_size = 0;
@@ -214,7 +216,8 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 			test_tail = create_program_step(&test_program[step_count]);
 			if (!test_tail)
 			{
-				log_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
+				log_data->status = false;
+				log_test_status_each_step2(log_data);
 				return false;
 			}
 			test_head = test_tail;
@@ -225,8 +228,9 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 			test_tail = test_tail->next_step;
 			if (!test_tail)
 			{
-				log_test_status_each_step("unit_test_hrf_create_program_step", false, "Positive", stand_alone_test);
-				return false;
+				log_data->status = false;
+				log_test_status_each_step2(log_data);
+				return log_data->status;
 			}
 		}
 	}
@@ -245,15 +249,17 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 		test_tail = test_tail->next_step;
 	}
 
-	log_test_status_each_step("unit_test_hrf_create_program_step", passed, "Positive", stand_alone_test);
+	log_data->status = passed;
+	log_test_status_each_step2(log_data);
 
 	delete_linked_list_of_program_steps(test_head);
 	free(test_program);
 	
-	if (stand_alone_test)
+	if (log_data->stand_alone)
 	{
-		fprintf(unit_test_log_file, "\nEndinging POSITIVE PATH testing in unit_test_hrf_create_program_step.\n");
+		log_end_positive_path(log_data->function_name);
 	}
+	free(log_data);
 
 	return passed;
 }

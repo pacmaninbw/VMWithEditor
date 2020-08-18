@@ -41,6 +41,7 @@
  *	DIGIT_STATE_TRANSITION = 4,
  *	WHITESPACE_STATE_TRANSITION = 5,
  *	EOL_STATE_TRANSITION = 6		// End of Line
+ *  ILLEGAL_CHAR_TRANSITION = 7
  *
  * Rows in table below
  *	START_STATE = 0,			Start of a new line, only white space or open brace is really expected
@@ -64,27 +65,27 @@ static Syntax_State_Transition* create_next_states(void)
 	}
 
 	next_states[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE, 
-		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE} };
+		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE, ERROR_STATE} };
 	next_states[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
 		END_STATEMENT_STATE, ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, ENTER_OPCODE_STATE,
-		ERROR_STATE} };
+		ERROR_STATE, ERROR_STATE} };
 	next_states[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
-		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE} };
+		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE, ERROR_STATE} };
 	next_states[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, ENTER_OPERAND_STATE, ERROR_STATE, OPERAND_STATE, END_OPCODE_STATE,
-		ERROR_STATE} };
+		ERROR_STATE, ERROR_STATE} };
 	next_states[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, OPERAND_STATE, ENTER_OPERAND_STATE, ERROR_STATE} };
 	next_states[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
-		DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE} };
+		DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
 	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE} };
+		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
 	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE} };
+		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE, ERROR_STATE} };
 	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
-		DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE} };
+		DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE, ERROR_STATE} };
 	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
-		ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
+		ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
 
 	return next_states;
 }
@@ -128,117 +129,167 @@ static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Sy
 	return new_state;
 }
 
-static Syntax_State state_transition_on_end_of_line(Syntax_State current_state, Syntax_State_Transition *next_states)
-{
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[EOL_STATE_TRANSITION];
-
-	return new_state;
-}
-
-static Syntax_State state_transition_on_white_space(Syntax_State current_state, Syntax_State_Transition *next_states)
-{
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[WHITESPACE_STATE_TRANSITION];
-
-	return new_state;
-}
-
 static bool is_legal_in_hex_number(unsigned char input)
 {
 	bool is_legal = false;
-	char legal_hex_characters[] = "XABCDEF";
-	char* legal_char_ptr = legal_hex_characters;
 
-	input = (char)toupper(input);
-
-	while (*legal_char_ptr)
+	switch (toupper(input))
 	{
-		if (input == *legal_char_ptr)
-		{
-			return true;
-		}
-		legal_char_ptr++;
+		case 'A':
+		case 'B':
+		case 'C':
+		case 'D':
+		case 'E':
+		case 'F':
+		case 'X':
+			is_legal = true;
+			break;
+
+		default:
+			is_legal = false;
+			break;
 	}
+
 
 	return is_legal;
 }
 
-static Syntax_State state_transition_on_alpha(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned char input, unsigned syntax_check_list[])
+/*
+ * The calling function has already gone through one filter so it is assured that
+ * the input character is an alpha and not some other type of character.
+ */
+static State_Transition_Characters get_alpha_input_transition_character_type(unsigned char input, Syntax_State current_state)
 {
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[ALPHA_STATE_TRANSITION];
+	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 
 	switch (current_state)
 	{
-		case START_STATE:
-			syntax_check_list[ILLEGALFIRSTCHAR]++;
+		case ENTER_OPERAND_STATE:
+		case OPERAND_STATE:
+		case END_OPERAND_STATE:
+			character_type = (is_legal_in_hex_number(input)) ? DIGIT_STATE_TRANSITION :
+				ALPHA_STATE_TRANSITION;
 			break;
 
-		case OPERAND_STATE:
-			if (is_legal_in_hex_number(input))
+		default:
+			character_type = ALPHA_STATE_TRANSITION;
+			break;
+	}
+
+	return character_type;
+}
+
+/*
+ * The calling function has already gone through several filter so it is assured
+ * that the input character is not an alpha, digit, white space or end of line.
+ */
+static State_Transition_Characters get_puctuation_transition_character_type(unsigned char input)
+{
+	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+
+	switch (input)
+	{
+		case ',':
+			character_type = COMMA_STATE_TRANSITION;
+			break;
+
+		case '{':
+			character_type = OPENBRACE_STATE_TRANSITION;
+			break;
+
+		case '}':
+			character_type = CLOSEBRACE_STATE_TRANSITION;
+			break;
+
+		default:
+			character_type = ILLEGAL_CHAR_TRANSITION;
+			break;
+	}
+
+	return character_type;
+}
+
+/*
+ * Rather than create a table indexed by each and every character in the character
+ * set save space using ctype functions for large ranges. Also save time on
+ * implementation and debugging.
+ */
+State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
+{
+	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+	if (isalpha(input))
+	{
+		character_type = get_alpha_input_transition_character_type(input, current_state);
+	}
+	else if (isdigit(input))
+	{
+		character_type = DIGIT_STATE_TRANSITION;
+	}
+	else if (input == '\n')	// needs to be before white space to give correct output
+	{
+		character_type = EOL_STATE_TRANSITION;
+	}
+	else if (isspace(input))
+	{
+		character_type = WHITESPACE_STATE_TRANSITION;
+	}
+	else
+	{
+		character_type = get_puctuation_transition_character_type(input);
+	}
+
+	return character_type;
+}
+
+/*
+ * syntax_check_list provides additional error information for the parser.
+ */
+static void collect_error_reporting_data(Syntax_State current_state,
+	State_Transition_Characters character_type, unsigned syntax_check_list[])
+{
+	switch (character_type)
+	{
+		case WHITESPACE_STATE_TRANSITION:		// This section is for character types that
+		case EOL_STATE_TRANSITION:				// are a legal first character on a line
+			break;
+
+		case COMMA_STATE_TRANSITION:			// Punctuation required by grammer on
+		case OPENBRACE_STATE_TRANSITION:		// every line
+		case CLOSEBRACE_STATE_TRANSITION:
+		{
+			unsigned maximum_allow[] = { MAX_OPEN_BRACE, MAX_CLOSE_BRACE, MAX_COMMA };
+			syntax_check_list[character_type]++;
+			if (syntax_check_list[character_type] > maximum_allow[character_type])
 			{
-				new_state = next_states[current_state].transition_on_char_type[DIGIT_STATE_TRANSITION];
+				syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
+			}
+		}	// flow through so that punctuation is handeled like all other character
+		default:
+			if (current_state == START_STATE && character_type != OPENBRACE_STATE_TRANSITION)
+			{
+				syntax_check_list[ILLEGALFIRSTCHAR]++;
 			}
 			break;
 	}
-
-	return new_state;
 }
 
-static Syntax_State state_transition_on_digit(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
+Syntax_State state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
 {
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[ALPHA_STATE_TRANSITION];
+	State_Transition_Characters character_type = get_transition_character_type(*input, current_state);
 
-	if (current_state == START_STATE)
-	{
-		syntax_check_list[ILLEGALFIRSTCHAR]++;
-	}
+	collect_error_reporting_data(current_state, character_type, syntax_check_list);
 
-	return new_state;
-}
-
-Syntax_State state_transition(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
-{
 	Syntax_State new_state = ERROR_STATE;
-	Syntax_State_Transition *next_states = create_next_states();
-
-	if (*input == '\n')
+	Syntax_State_Transition* next_states = create_next_states();
+	if (next_states)
 	{
-		new_state =  state_transition_on_end_of_line(current_state, next_states);
+		new_state = next_states[current_state].transition_on_char_type[character_type];
+		free(next_states);
 	}
-
-	if (isspace(*input))
-	{
-		new_state = state_transition_on_white_space(current_state, next_states);
-	}
-
-	if (isalpha(*input))
-	{
-		new_state = state_transition_on_alpha(current_state, next_states, *input, syntax_check_list);
-	}
-
-	if (isdigit(*input))
-	{
-		new_state = state_transition_on_digit(current_state, next_states, syntax_check_list);
-	}
-
-	if (*input == ',')
-	{
-		new_state = state_transition_on_comma(current_state, next_states, syntax_check_list);
-	}
-
-	if (*input == '{')
-	{
-		new_state = state_transition_on_openbrace(current_state, next_states, syntax_check_list);
-	}
-
-	if (*input == '}')
-	{
-		new_state = state_transition_on_closebrace(current_state, next_states, syntax_check_list);
-	}
-
-	free(next_states);
 
 	return new_state;
 }
+
 
 #ifdef UNIT_TESTING
 #include "internal_sytax_state_tests.c"

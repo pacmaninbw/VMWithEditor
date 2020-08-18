@@ -242,7 +242,7 @@ static unsigned char* get_opcode_or_operand_string(char *original)
 	return return_string;
 }
 
-static unsigned get_legal_opcode_or_oparand(unsigned char** current_character, unsigned syntax_check_list[], Syntax_Check_Offss prime_index)
+static unsigned get_legal_opcode_or_oparand(unsigned char** current_character, unsigned syntax_check_list[], Syntax_Check_List_Items prime_index)
 {
 	if (prime_index != LEGALOPCODE && prime_index != LEGALOPERAND)
 	{
@@ -271,7 +271,7 @@ static unsigned get_legal_opcode_or_oparand(unsigned char** current_character, u
 	return (unsigned) minimum_value;
 }
 
-static void check_for_required_character(unsigned char current_character, Syntax_Check_Offss item_to_check, unsigned max_repetition, unsigned syntax_check_list[])
+static void check_for_required_character(unsigned char current_character, Syntax_Check_List_Items item_to_check, unsigned max_repetition, unsigned syntax_check_list[])
 {
 	unsigned char test_comparitor = 0;
 	switch (item_to_check)
@@ -311,7 +311,7 @@ Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned c
 	unsigned char* current_character = text_line;
 	while (*current_character)
 	{
-		Syntax_State new_state = state_transition(current_state, current_character, syntax_check_list);
+		Syntax_State new_state = state_transition_collect_parser_error_data(current_state, current_character, syntax_check_list);
 		if (new_state != current_state)
 		{
 			if (syntax_check_list[(size_t)OPENBRACE] && !syntax_check_list[(size_t)COMMA] && isalpha(*current_character))
@@ -340,7 +340,7 @@ Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned c
 }
 
 /*
- * Syntax cecking ends here.
+ * Syntax checking ends here.
  */
 
 void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_program_steps)

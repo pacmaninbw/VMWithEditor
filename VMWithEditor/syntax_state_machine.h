@@ -14,7 +14,7 @@
 #ifndef SYNTAX_STATE_MACHINE_H
 #define SYNTAX_STATE_MACHINE_H
 
-typedef enum syntax_checks_offss
+typedef enum syntax_checks_list_items
 {
 	OPENBRACE = 0,
 	CLOSEBRACE = 1,
@@ -26,7 +26,7 @@ typedef enum syntax_checks_offss
 	ILLEGALFIRSTCHAR = 7,
 	MULTIPLESTATEMENTSONELINE = 8
 #define SYNTAX_CHECK_COUNT 9
-} Syntax_Check_Offss;
+} Syntax_Check_List_Items;
 
 typedef enum syntax_state_enum
 {
@@ -44,33 +44,18 @@ typedef enum syntax_state_enum
 
 #define SYNTAX_STATE_ARRAY_SIZE	9 + 1	// (size_t) ERROR_STATE + 1
 
-#ifdef UNIT_TEST_DEBUG
-static char* debug_state_names[SYNTAX_STATE_ARRAY_SIZE] =
-{
-	"START_STATE",
-	"ENTER_OPCODE_STATE",
-	"OPCODE_STATE",
-	"END_OPCODE_STATE",
-	"ENTER_OPERAND_STATE",
-	"OPERAND_STATE",
-	"END_OPERAND_STATE",
-	"END_STATEMENT_STATE",
-	"DONE_STATE",
-	"ERROR_STATE"
-};
-#endif // DEBUG
-
 typedef enum legal_characters_that_cause_transitions
 {
-	OPENBRACE_STATE_TRANSITION = 0,
-	CLOSEBRACE_STATE_TRANSITION = 1,
-	COMMA_STATE_TRANSITION = 2,
+	OPENBRACE_STATE_TRANSITION = 0,			// This needs to be the same as OPENBRACE in Syntax_Check_List_Items
+	CLOSEBRACE_STATE_TRANSITION = 1,		// This needs to be the same as CLOSEBRACE in Syntax_Check_List_Items
+	COMMA_STATE_TRANSITION = 2,				// This needs to be the same as COMMA in Syntax_Check_List_Items
 	ALPHA_STATE_TRANSITION = 3,
 	DIGIT_STATE_TRANSITION = 4,
 	WHITESPACE_STATE_TRANSITION = 5,
-	EOL_STATE_TRANSITION = 6		// End of Line
+	EOL_STATE_TRANSITION = 6,		// End of Line
+	ILLEGAL_CHAR_TRANSITION = 7
 } State_Transition_Characters;
-#define TRANSITION_ARRAY_SIZE 6 + 1		// EOL_STATE_TRANSITION + 1
+#define TRANSITION_ARRAY_SIZE 7 + 1		// ILLEGAL_CHAR_TRANSITION + 1
 
 typedef struct syntax_state_transition
 {
@@ -81,7 +66,8 @@ typedef struct syntax_state_transition
 #define MAX_COMMA 2
 #define MAX_OPEN_BRACE 1
 #define MAX_CLOSE_BRACE 1
+#define MAX_WHITE_SPACE	200
 
-extern Syntax_State state_transition(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[]);
+extern Syntax_State state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[]);
 
 #endif	//	SYNTAX_STATE_MACHINE_H
