@@ -191,6 +191,10 @@ static bool core_character_transition_unit_test(Test_Log_Data* log_data, Syntax_
 	return test_passed;
 }
 
+/*
+ * Tests limited number of states where alpha is important calls the lower level
+ * function get_alpha_input_transition_character_type().
+ */
 static bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 {
 	bool test_passed = true;
@@ -202,7 +206,6 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 	{
 		log_start_positive_path(log_data.function_name);
 	}
-
 
 	for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
 	{
@@ -217,6 +220,100 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 	return test_passed;
 }
 
+static void init_digit_test_data(unsigned char *input, State_Transition_Characters
+	expected_transition[], size_t *positive_test_path, Syntax_State current_state)
+{
+	State_Transition_Characters* expected_ptr = expected_transition;
+	if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE || current_state == END_OPERAND_STATE)
+	{
+		for ( ; *input; input++, expected_ptr++)
+		{
+			*expected_ptr = DIGIT_STATE_TRANSITION;
+		}
+		*positive_test_path = strlen((const char*)input);
+	}
+	else
+	{
+		for (; *input; input++, expected_ptr++)
+		{
+			if (isdigit(*input))
+			{
+				*expected_ptr = DIGIT_STATE_TRANSITION;
+				(*positive_test_path)++;
+			}
+			else
+			{
+				*expected_ptr = ALPHA_STATE_TRANSITION;		// to force failures use this instead *expected_ptr = DIGIT_STATE_TRANSITION;
+			}
+		}
+	}
+}
+
+static bool unit_test_digit_transition(Test_Log_Data* log_data, Syntax_State current_state)
+{
+	bool test_passed = true;
+	unsigned char* input = (unsigned char *) "0123456789ABCDEFXabcdefx";		// size is currently 24
+#define MAX_INPUT_CHARACTERS	24
+	State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
+	size_t positive_path_count;								// Change this if more positive path tests are added.
+	init_digit_test_data(input, expected_transition, &positive_path_count, current_state);
+
+	char* local_func_name = NULL;
+	if (log_data->stand_alone)
+	{
+		char buffer[BUFSIZ];
+		sprintf(buffer, "%s digit transition test", log_data->function_name);
+		local_func_name = _strdup(buffer);
+		log_start_positive_path(local_func_name);
+	}
+
+	size_t test_count = 0;
+	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+	{
+		if (positive_path_count == test_count)
+		{
+			log_end_positive_path(local_func_name);
+			log_start_negative_path(local_func_name);
+		}
+
+		log_data->status = true;
+		State_Transition_Characters actual_transistion = get_transition_character_type(*test_input, current_state);
+		log_data->status = actual_transistion == expected_transition[test_count];
+		if (!log_data->status)
+		{
+			log_unit_test_get_transition_character_type_failure(log_data, *test_input,
+				current_state, expected_transition[test_count], actual_transistion);
+			test_passed = false;
+		}
+		else
+		{
+			log_test_status_each_step2(log_data);
+		}
+
+	}
+
+	if (log_data->stand_alone)
+	{
+		if (positive_path_count > 10)
+		{
+			log_end_positive_path(local_func_name);
+		}
+		else
+		{
+			log_end_negative_path(local_func_name);
+		}
+	}
+
+#undef MAX_INPUT_CHARACTERS
+
+	log_data->status = test_passed;
+	return test_passed;
+}
+
+/*
+ * test the state specified by the caller function. Calls the higher level function
+ * get_transition_character_type().
+ */
 static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State current_state)
 {
 	bool test_passed = true;
@@ -320,6 +417,11 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 		}
 
 		if (!unit_test_alpha_transition(log_data, state))
+		{
+			test_passed = log_data->status;
+		}
+
+		if (!unit_test_digit_transition(log_data, state))
 		{
 			test_passed = log_data->status;
 		}
@@ -538,7 +640,7 @@ bool internal_tests_on_all_state_transitions(unsigned test_step)
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n", test_count + 1 + test_step, unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
+		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
 		log_generic_message(buffer);
 		// if one test already failed we are good
 		if (all_tests_passed)

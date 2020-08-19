@@ -638,6 +638,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -723,6 +752,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
@@ -810,6 +868,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -895,6 +982,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
@@ -982,6 +1098,40 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -1067,6 +1217,40 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
@@ -1154,6 +1338,40 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -1239,6 +1457,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
@@ -1326,6 +1573,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
 unit_test_get_transition_character_type(): Positive Path Passed
@@ -1411,6 +1687,35 @@ unit_test_get_transition_character_type(): Positive Path Passed
 
 
 Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+
+Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type(): Positive Path Passed
+
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 unit_test_get_transition_character_type not Completely Implemented
 
 
