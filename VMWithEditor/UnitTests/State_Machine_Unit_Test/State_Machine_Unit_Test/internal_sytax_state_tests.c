@@ -90,10 +90,13 @@ static bool unit_test_syntax_states(size_t test_step)
 }
 #endif
 
-static void log_unit_test_get_alpha_input_transition_character_type_failure(
+static void log_unit_test_get_transition_character_type_failure(
 	Test_Log_Data *log_data, unsigned char candidate, Syntax_State current_state,
 	State_Transition_Characters expected_type, State_Transition_Characters actual_type)
 {
+	// Force failures to be reported
+	bool stand_alone = log_data->stand_alone;
+
 	log_test_status_each_step2(log_data);
 
 	char out_buffer[BUFSIZ];
@@ -104,6 +107,8 @@ static void log_unit_test_get_alpha_input_transition_character_type_failure(
 	sprintf(out_buffer, "\tExpected Transitiion %s Actual Transition %s\n\n",
 		transition_character[expected_type], transition_character[actual_type]);
 	log_generic_message(out_buffer);
+
+	log_data->stand_alone = stand_alone;
 }
 
 typedef enum test_character_case
@@ -141,53 +146,96 @@ static State_Transition_Characters get_expected_alpha_transition_character_type(
 	}
 }
 
+typedef State_Transition_Characters(*STFfunct)(unsigned char input, Syntax_State current_state);
+static bool core_character_transition_unit_test(Test_Log_Data* log_data, Syntax_State current_state, STFfunct transition_function)
+{
+	bool test_passed = true;
+	char buffer[BUFSIZ];
+
+	for (size_t alphabet = (size_t)LOWER_CASE; alphabet <= (size_t)UPPER_CASE; alphabet++)
+	{
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "\tBegin Positive test path current_state = %s input character = %s\n\n",
+				state_name_for_printing(current_state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
+			log_generic_message(buffer);
+		}
+
+		unsigned char fist_character_to_test = (alphabet == LOWER_CASE) ? 'a' : 'A';
+		unsigned char last_character_to_test = (alphabet == LOWER_CASE) ? 'z' : 'Z';
+		for (unsigned char candidate_character = fist_character_to_test; candidate_character <= last_character_to_test; candidate_character++)
+		{
+			log_data->status = true;
+			State_Transition_Characters expected_type = get_expected_alpha_transition_character_type(candidate_character, current_state);
+			State_Transition_Characters actual_type = transition_function(candidate_character, current_state);
+			if (expected_type != actual_type)
+			{
+				log_data->status = false;
+				test_passed = log_data->status;
+				log_unit_test_get_transition_character_type_failure(log_data, candidate_character, current_state, expected_type, actual_type);
+			}
+			else
+			{
+				log_test_status_each_step2(log_data);
+			}
+		}
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "\n\tEnd Positive test path current_state = %s input character = %s\n\n",
+				state_name_for_printing(current_state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
+			log_generic_message(buffer);
+		}
+	}
+
+	return test_passed;
+}
+
 static bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data log_data;
-	char buffer[BUFSIZ];
 
 	init_test_log_data(&log_data, "unit_test_get_alpha_input_transition_character_type", test_passed, "Positive", test_step == 0);
 
-	log_start_positive_path(log_data.function_name);
+	if (log_data.stand_alone)
+	{
+		log_start_positive_path(log_data.function_name);
+	}
+
 
 	for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
 	{
-		for (size_t alphabet = (size_t) LOWER_CASE; alphabet <= (size_t)UPPER_CASE; alphabet++)
-		{
-			sprintf(buffer, "\tBegin Positive test path current_state = %s input character = %s\n\n",
-				state_name_for_printing(state), (alphabet == LOWER_CASE)? "Lower Case" : "Upper case");
-			log_generic_message(buffer);
-
-			unsigned char fist_character_to_test = (alphabet == LOWER_CASE) ? 'a' : 'A';
-			unsigned char last_character_to_test = (alphabet == LOWER_CASE) ? 'z' : 'Z';
-			for (unsigned char candidate_character = fist_character_to_test; candidate_character <= last_character_to_test; candidate_character++)
-			{
-				log_data.status = true;
-				State_Transition_Characters expected_type = get_expected_alpha_transition_character_type(candidate_character, state);
-				State_Transition_Characters actual_type = get_alpha_input_transition_character_type(candidate_character, state);
-				if (expected_type != actual_type)
-				{
-					log_data.status = false;
-					log_unit_test_get_alpha_input_transition_character_type_failure(&log_data, candidate_character, state, expected_type, actual_type);
-					if (test_passed)
-					{
-						test_passed = log_data.status;
-					}
-				}
-				else
-				{
-					log_test_status_each_step2(&log_data);
-				}
-			}
-			sprintf(buffer, "\n\tEnd Positive test path current_state = %s input character = %s\n\n",
-				state_name_for_printing(state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
-			log_generic_message(buffer);
-
-		}
+		test_passed = core_character_transition_unit_test(&log_data, state, get_alpha_input_transition_character_type);
 	}
 
-	log_end_positive_path(log_data.function_name);
+	if (log_data.stand_alone)
+	{
+		log_end_positive_path(log_data.function_name);
+	}
+
+	return test_passed;
+}
+
+static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State current_state)
+{
+	bool test_passed = true;
+	char* local_func_name = NULL;
+
+	if (log_data->stand_alone)
+	{
+		char buffer[BUFSIZ];
+		sprintf(buffer, "%s alpha transition test", log_data->function_name);
+		local_func_name = _strdup(buffer);
+		log_start_positive_path(local_func_name);
+	}
+
+	test_passed = core_character_transition_unit_test(log_data, current_state, get_transition_character_type);
+
+	if (log_data->stand_alone)
+	{
+		log_end_positive_path(local_func_name);
+	}
 
 	return test_passed;
 }
@@ -196,6 +244,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_Sta
 {
 	bool test_passed = true;
 	unsigned char input[] = "{},+-/*=&";
+
 	State_Transition_Characters expected_transition[] =
 	{
 		// Positive test path
@@ -226,7 +275,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_Sta
 		log_data->status = actual_transistion == expected_transition[test_count];
 		if (!log_data->status)
 		{
-			log_unit_test_get_alpha_input_transition_character_type_failure(log_data, *test_input,
+			log_unit_test_get_transition_character_type_failure(log_data, *test_input,
 				current_state, expected_transition[test_count], actual_transistion);
 			test_passed = false;
 		}
@@ -257,14 +306,34 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 		return false;
 	}
 
-	for (size_t state = (size_t)START_STATE; state <= (size_t)ERROR_STATE; state++)
+	if (log_data->stand_alone)
 	{
-		unit_test_punctuation_transition(log_data, (Syntax_State)state);
+		sprintf(buffer, "STARTING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)");
+		log_generic_message(buffer);
 	}
 
-	sprintf(buffer, "%s not Completely Implemented", log_data->function_name);
+	for (size_t state = (size_t)START_STATE; state <= (size_t)ERROR_STATE; state++)
+	{
+		if (!unit_test_punctuation_transition(log_data, (Syntax_State)state))
+		{
+			test_passed = log_data->status;
+		}
+
+		if (!unit_test_alpha_transition(log_data, state))
+		{
+			test_passed = log_data->status;
+		}
+	}
+
+	sprintf(buffer, "%s not Completely Implemented\n\n", log_data->function_name);
 	test_passed = false;
 	log_generic_message(buffer);
+
+	if (log_data->stand_alone)
+	{
+		sprintf(buffer, "\nENDING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)\n");
+		log_generic_message(buffer);
+	}
 
 	free(log_data);
 
@@ -469,7 +538,7 @@ bool internal_tests_on_all_state_transitions(unsigned test_step)
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
+		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n", test_count + 1 + test_step, unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
 		log_generic_message(buffer);
 		// if one test already failed we are good
 		if (all_tests_passed)
