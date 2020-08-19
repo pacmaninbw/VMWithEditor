@@ -147,7 +147,7 @@ static State_Transition_Characters get_expected_alpha_transition_character_type(
 }
 
 typedef State_Transition_Characters(*STFfunct)(unsigned char input, Syntax_State current_state);
-static bool core_character_transition_unit_test(Test_Log_Data* log_data, Syntax_State current_state, STFfunct transition_function)
+static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];
@@ -191,6 +191,45 @@ static bool core_character_transition_unit_test(Test_Log_Data* log_data, Syntax_
 	return test_passed;
 }
 
+static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_data,
+	Syntax_State current_state, unsigned char* input, State_Transition_Characters expected_transition[],
+	size_t positive_path_count, char *local_func_name)
+{
+	bool test_passed = true;
+	char* keep_old_path = log_data->path;
+
+	log_data->path = "Positive";
+	size_t test_count = 0;
+	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+	{
+		if (positive_path_count == test_count)
+		{
+			log_end_positive_path(local_func_name);
+			log_start_negative_path(local_func_name);
+			log_data->path = "Negative";
+		}
+
+		log_data->status = true;
+		State_Transition_Characters actual_transistion = get_transition_character_type(*test_input, current_state);
+		log_data->status = actual_transistion == expected_transition[test_count];
+		if (!log_data->status)
+		{
+			log_unit_test_get_transition_character_type_failure(log_data, *test_input,
+				current_state, expected_transition[test_count], actual_transistion);
+			test_passed = false;
+		}
+		else
+		{
+			log_test_status_each_step2(log_data);
+		}
+	}
+
+	log_data->status = test_passed;
+	log_data->path = keep_old_path;
+	
+	return test_passed;
+}
+
 /*
  * Tests limited number of states where alpha is important calls the lower level
  * function get_alpha_input_transition_character_type().
@@ -209,13 +248,47 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 
 	for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
 	{
-		test_passed = core_character_transition_unit_test(&log_data, state, get_alpha_input_transition_character_type);
+		test_passed = core_alpha_character_transition_unit_test(&log_data, state, get_alpha_input_transition_character_type);
 	}
 
 	if (log_data.stand_alone)
 	{
 		log_end_positive_path(log_data.function_name);
 	}
+
+	return test_passed;
+}
+
+static bool unit_test_whitespace_transition(Test_Log_Data* log_data, Syntax_State current_state)
+{
+	bool test_passed = true;
+	unsigned char input[] = " \t\n\r\v\f";
+
+	State_Transition_Characters expected_transition[] =
+	{
+		// Positive test path
+		WHITESPACE_STATE_TRANSITION, WHITESPACE_STATE_TRANSITION, EOL_STATE_TRANSITION,
+		// Test the negatvie path as well.
+		EOL_STATE_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION
+	};
+	size_t positive_path_count = 4;		// Change this if more positive path tests are added.
+
+	char buffer[BUFSIZ];
+	sprintf(buffer, "%s whitespace transition test", log_data->function_name);
+	char* local_func_name = _strdup(buffer);
+
+	log_start_positive_path(local_func_name);
+
+	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+		input, expected_transition, positive_path_count, local_func_name))
+	{
+		test_passed = log_data->status;
+	}
+
+	log_end_negative_path(local_func_name);
+	free(local_func_name);
+
+	log_data->status = test_passed;
 
 	return test_passed;
 }
@@ -267,29 +340,10 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, Syntax_State cur
 		log_start_positive_path(local_func_name);
 	}
 
-	size_t test_count = 0;
-	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+		input, expected_transition, positive_path_count, local_func_name))
 	{
-		if (positive_path_count == test_count)
-		{
-			log_end_positive_path(local_func_name);
-			log_start_negative_path(local_func_name);
-		}
-
-		log_data->status = true;
-		State_Transition_Characters actual_transistion = get_transition_character_type(*test_input, current_state);
-		log_data->status = actual_transistion == expected_transition[test_count];
-		if (!log_data->status)
-		{
-			log_unit_test_get_transition_character_type_failure(log_data, *test_input,
-				current_state, expected_transition[test_count], actual_transistion);
-			test_passed = false;
-		}
-		else
-		{
-			log_test_status_each_step2(log_data);
-		}
-
+		test_passed = log_data->status;
 	}
 
 	if (log_data->stand_alone)
@@ -327,7 +381,7 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State cur
 		log_start_positive_path(local_func_name);
 	}
 
-	test_passed = core_character_transition_unit_test(log_data, current_state, get_transition_character_type);
+	test_passed = core_alpha_character_transition_unit_test(log_data, current_state, get_transition_character_type);
 
 	if (log_data->stand_alone)
 	{
@@ -358,29 +412,10 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_Sta
 
 	log_start_positive_path(local_func_name);
 
-	size_t test_count = 0;
-	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+		input, expected_transition, positive_path_count, local_func_name))
 	{
-		if (positive_path_count == test_count)
-		{
-			log_end_positive_path(local_func_name);
-			log_start_negative_path(local_func_name);
-		}
-
-		log_data->status = true;
-		State_Transition_Characters actual_transistion = get_transition_character_type(*test_input, current_state);
-		log_data->status = actual_transistion == expected_transition[test_count];
-		if (!log_data->status)
-		{
-			log_unit_test_get_transition_character_type_failure(log_data, *test_input,
-				current_state, expected_transition[test_count], actual_transistion);
-			test_passed = false;
-		}
-		else
-		{
-			log_test_status_each_step2(log_data);
-		}
-
+		test_passed = log_data->status;
 	}
 
 	log_end_negative_path(local_func_name);
@@ -425,11 +460,12 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 		{
 			test_passed = log_data->status;
 		}
-	}
 
-	sprintf(buffer, "%s not Completely Implemented\n\n", log_data->function_name);
-	test_passed = false;
-	log_generic_message(buffer);
+		if (!unit_test_whitespace_transition(log_data, state))
+		{
+			test_passed = log_data->status;
+		}
+	}
 
 	if (log_data->stand_alone)
 	{

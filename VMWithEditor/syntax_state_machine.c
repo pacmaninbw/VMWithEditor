@@ -225,13 +225,24 @@ State_Transition_Characters get_transition_character_type(unsigned char input, S
 	{
 		character_type = DIGIT_STATE_TRANSITION;
 	}
-	else if (input == '\n')	// needs to be before white space to give correct output
-	{
-		character_type = EOL_STATE_TRANSITION;
-	}
 	else if (isspace(input))
 	{
-		character_type = WHITESPACE_STATE_TRANSITION;
+		switch (input)
+		{
+			case ' ' :
+			case '\t' :
+				character_type = WHITESPACE_STATE_TRANSITION;
+				break;
+
+			case '\n' :
+			case '\r' :
+				character_type = EOL_STATE_TRANSITION;
+				break;
+
+			default:
+				character_type = ILLEGAL_CHAR_TRANSITION;
+				break;
+		}
 	}
 	else
 	{
