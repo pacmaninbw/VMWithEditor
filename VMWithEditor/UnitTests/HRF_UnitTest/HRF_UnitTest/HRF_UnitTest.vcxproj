@@ -143,7 +143,7 @@
     <ClCompile Include="..\..\..\file_io_vm.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\opcode.c" />
-    <ClCompile Include="..\..\..\syntax_state_machine.c" />
+    <ClCompile Include="..\..\..\lexical_analyzer.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="hrf_unit_test_main.c">

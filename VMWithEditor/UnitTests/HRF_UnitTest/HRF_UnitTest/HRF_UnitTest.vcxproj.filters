@@ -33,7 +33,7 @@
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\syntax_state_machine.c">
+    <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
