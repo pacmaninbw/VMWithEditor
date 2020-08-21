@@ -311,10 +311,11 @@ Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned c
 	unsigned char* current_character = text_line;
 	while (*current_character)
 	{
-		Syntax_State new_state = state_transition_collect_parser_error_data(current_state, current_character, syntax_check_list);
+		Syntax_State new_state = get_state_transition_collect_parser_error_data(current_state, *current_character, syntax_check_list);
 		if (new_state != current_state)
 		{
-			if (syntax_check_list[(size_t)OPENBRACE] && !syntax_check_list[(size_t)COMMA] && isalpha(*current_character))
+			 TODO Correct state transition testing
+			if (current_state == ENTER_OPCODE_STATE && isalpha(*current_character))
 			{
 				legal.opcode = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPCODE);
 			}

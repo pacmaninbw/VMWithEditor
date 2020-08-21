@@ -1,6 +1,6 @@
 #ifndef SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H
 #define SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H
 
-extern bool run_all_syntax_state_machine_unit_tests(void);
+extern bool run_all_syntax_state_machine_unit_tests(unsigned test_step);
 
 #endif	// SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H

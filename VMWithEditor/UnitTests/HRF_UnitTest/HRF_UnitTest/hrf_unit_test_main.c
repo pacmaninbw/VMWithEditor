@@ -79,6 +79,8 @@ bool run_all_hrf_unit_tests(void)
 		all_unit_tests_passed = false;
 	}
 
+	deactivate_lexical_analizer();
+
 	return all_unit_tests_passed;
 }
 

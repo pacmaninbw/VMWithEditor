@@ -1,5 +1,3 @@
-Unit Test 0: Starting Lexical Analizer Unit Tests 
-
 current_state = START_STATE
 	transition character = Transition on {		new state ENTER_OPCODE_STATE
 	transition character = Transition on }		new state ERROR_STATE
@@ -1813,22 +1811,6 @@ ENDING internal unit test for get_transition_character_type(unsigned char input,
 
 Syntax Machine Internal Unit Test 3: unit_test_get_transition_character_type : Passed
 
-STARTING internal unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
 
-unit_test_collect_error_reporting_data NOT IMPLEMENTED 
-
-ENDING internal unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
-
-
-Syntax Machine Internal Unit Test 4: unit_test_collect_error_reporting_data : Failed
-
-STARTING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
-
-unit_test_get_state_transition_collect_parser_error_data NOT IMPLEMENTED 
-
-ENDING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
-
-Unit Test 0: run_all_syntax_state_machine_unit_tests(unsigned test_step) : Failed
-
-Unit Test 0: Ending Lexical Analizer Unit Tests 
+Syntax Machine Internal Unit Test 4: unit_test_collect_error_reporting_data : Passed
 

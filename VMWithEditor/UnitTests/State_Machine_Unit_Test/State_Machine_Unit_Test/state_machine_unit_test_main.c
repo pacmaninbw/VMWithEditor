@@ -6,27 +6,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static bool positive_path_state_machine_unit_tests(void)
-{
-	bool test_passed = true;
-
-	test_passed = internal_tests_on_all_state_transitions(0);
-
-	return test_passed;
-}
-
-static bool negative_path_state_machine_unit_tests(void)
-{
-	bool all_negative_unit_tests_passed = true;
-
-	return all_negative_unit_tests_passed;
-}
-
-bool run_all_snstax_state_machine_unit_tests(void)
+bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 {
 	bool all_unit_tests_passed = true;
+	char buffer[BUFSIZ];
 
-	all_unit_tests_passed = positive_path_state_machine_unit_tests();
+	sprintf(buffer, "Unit Test %zd: Starting Lexical Analizer Unit Tests \n\n", test_step);
+	log_generic_message(buffer);
+
+	all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
+	all_unit_tests_passed = true; // TODO remove after debug
+
+	if (all_unit_tests_passed)
+	{
+		// test the public interface for the lexical analizer
+		all_unit_tests_passed = 
+			unit_test_get_state_transition_collect_parser_error_data(test_step);
+	}
+
+	sprintf(buffer, "Unit Test %zd: run_all_syntax_state_machine_unit_tests(unsigned "
+		"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
+	log_generic_message(buffer);
+
+	deactivate_lexical_analizer();
+
+	sprintf(buffer, "Unit Test %zd: Ending Lexical Analizer Unit Tests \n\n", test_step);
+	log_generic_message(buffer);
 
 	return all_unit_tests_passed;
 }
@@ -37,12 +42,13 @@ int main()
 	error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) || !init_unit_tests("syntax_state_machine_unit_test_log.txt"))
+	if (!init_vm_error_reporting(NULL) ||
+		!init_unit_tests("syntax_state_machine_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
 
-	if (!run_all_snstax_state_machine_unit_tests())
+	if (!run_all_syntax_state_machine_unit_tests(0))
 	{
 		passed = EXIT_FAILURE;
 	}

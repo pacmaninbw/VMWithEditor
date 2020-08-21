@@ -68,6 +68,7 @@ typedef struct syntax_state_transition
 #define MAX_CLOSE_BRACE 1
 #define MAX_WHITE_SPACE	200
 
-extern Syntax_State state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[]);
+extern Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
+extern void deactivate_lexical_analizer(void);
 
 #endif	//	SYNTAX_STATE_MACHINE_H

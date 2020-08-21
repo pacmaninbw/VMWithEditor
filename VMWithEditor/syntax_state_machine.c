@@ -26,7 +26,8 @@
 /*
  * This function returns the table that represents the current syntactic state
  * and the new state that each possible legal into can go to from the current
- * state.
+ * state. If this function is successful the function deallocate_next_states()
+ * should be called when the lexical analisys is done.
  *
  * To allow the parser to report as many errors as possible per statement
  * not all errors result in ERROR_STATE, missing required items are reported
@@ -55,78 +56,50 @@
  *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
  *	ERROR_STATE = 9
  */
-static Syntax_State_Transition* create_next_states(void)
+static Syntax_State_Transition* allocate_next_states_once = NULL;
+static Syntax_State_Transition* get_or_create_next_states(void)
 {
-	Syntax_State_Transition *next_states = calloc(((size_t)ERROR_STATE) + 1, sizeof(*next_states));
-	if (!next_states)
+	if (allocate_next_states_once)
+	{
+		return allocate_next_states_once;
+	}
+
+	allocate_next_states_once = calloc(((size_t)ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
+	if (!allocate_next_states_once)
 	{
 		report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
-		return next_states;
+		return allocate_next_states_once;
 	}
 
-	next_states[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE, 
+	allocate_next_states_once[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE,
 		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE, ERROR_STATE} };
-	next_states[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
+	allocate_next_states_once[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
 		END_STATEMENT_STATE, ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, ENTER_OPCODE_STATE,
 		ERROR_STATE, ERROR_STATE} };
-	next_states[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+	allocate_next_states_once[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
 		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE, ERROR_STATE} };
-	next_states[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
+	allocate_next_states_once[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, ENTER_OPERAND_STATE, ERROR_STATE, OPERAND_STATE, END_OPCODE_STATE,
 		ERROR_STATE, ERROR_STATE} };
-	next_states[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
+	allocate_next_states_once[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, OPERAND_STATE, ENTER_OPERAND_STATE, ERROR_STATE} };
-	next_states[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+	allocate_next_states_once[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
 		DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
-	next_states[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
+	allocate_next_states_once[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
-	next_states[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
+	allocate_next_states_once[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
 		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE, ERROR_STATE} };
-	next_states[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
+	allocate_next_states_once[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
 		DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE, ERROR_STATE} };
-	next_states[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
+	allocate_next_states_once[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
 		ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
 
-	return next_states;
+	return allocate_next_states_once;
 }
 
-static Syntax_State state_transition_on_closebrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
+void deactivate_lexical_analizer(void)
 {
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[CLOSEBRACE_STATE_TRANSITION];
-
-	syntax_check_list[CLOSEBRACE]++;
-	if (syntax_check_list[CLOSEBRACE] > MAX_CLOSE_BRACE)
-	{
-		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
-	}
-
-	return new_state;
-}
-
-static Syntax_State state_transition_on_comma(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
-{
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[COMMA_STATE_TRANSITION];
-
-	syntax_check_list[COMMA]++;
-	if (syntax_check_list[COMMA] > MAX_COMMA)
-	{
-		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
-	}
-
-	return new_state;
-}
-
-static Syntax_State state_transition_on_openbrace(Syntax_State current_state, Syntax_State_Transition *next_states, unsigned syntax_check_list[])
-{
-	Syntax_State new_state = (current_state == ERROR_STATE) ? ERROR_STATE : next_states[current_state].transition_on_char_type[OPENBRACE_STATE_TRANSITION];
-
-	syntax_check_list[OPENBRACE]++;
-	if (syntax_check_list[OPENBRACE] > MAX_CLOSE_BRACE)
-	{
-		syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
-	}
-
-	return new_state;
+	free(allocate_next_states_once);
 }
 
 static bool is_legal_in_hex_number(unsigned char input)
@@ -210,11 +183,39 @@ static State_Transition_Characters get_puctuation_transition_character_type(unsi
 }
 
 /*
+ * The calling function has already gone through several filter so it is assured
+ * that the input character is not an alpha, digit, white space or end of line.
+ */
+static State_Transition_Characters get_whitespace_transition_character_type(unsigned char input)
+{
+	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+
+	switch (input)
+	{
+		case ' ':
+		case '\t':
+			character_type = WHITESPACE_STATE_TRANSITION;
+			break;
+
+		case '\n':
+		case '\r':
+			character_type = EOL_STATE_TRANSITION;
+			break;
+
+		default:
+			character_type = ILLEGAL_CHAR_TRANSITION;
+			break;
+	}
+
+	return character_type;
+}
+
+/*
  * Rather than create a table indexed by each and every character in the character
  * set save space using ctype functions for large ranges. Also save time on
  * implementation and debugging.
  */
-State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
+static State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
 {
 	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 	if (isalpha(input))
@@ -227,22 +228,7 @@ State_Transition_Characters get_transition_character_type(unsigned char input, S
 	}
 	else if (isspace(input))
 	{
-		switch (input)
-		{
-			case ' ' :
-			case '\t' :
-				character_type = WHITESPACE_STATE_TRANSITION;
-				break;
-
-			case '\n' :
-			case '\r' :
-				character_type = EOL_STATE_TRANSITION;
-				break;
-
-			default:
-				character_type = ILLEGAL_CHAR_TRANSITION;
-				break;
-		}
+		character_type = get_whitespace_transition_character_type(input);
 	}
 	else
 	{
@@ -268,9 +254,9 @@ static void collect_error_reporting_data(Syntax_State current_state,
 		case OPENBRACE_STATE_TRANSITION:		// every line
 		case CLOSEBRACE_STATE_TRANSITION:
 		{
-			unsigned maximum_allow[] = { MAX_OPEN_BRACE, MAX_CLOSE_BRACE, MAX_COMMA };
+			unsigned maximum_allowed[] = { MAX_OPEN_BRACE, MAX_CLOSE_BRACE, MAX_COMMA };
 			syntax_check_list[character_type]++;
-			if (syntax_check_list[character_type] > maximum_allow[character_type])
+			if (syntax_check_list[character_type] > maximum_allowed[character_type])
 			{
 				syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
 			}
@@ -284,23 +270,28 @@ static void collect_error_reporting_data(Syntax_State current_state,
 	}
 }
 
-Syntax_State state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
+/*
+ * A design decision was made to allocate next_states only once to save overhead in
+ * this function and to not force the parser to allocate the memory.
+ * 
+ * This function performs the lexical analysis for the parser, it uses a state machine
+ * implemented as a table to do this. That table is the next_states variable.
+ */
+Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[])
 {
-	State_Transition_Characters character_type = get_transition_character_type(*input, current_state);
-
-	collect_error_reporting_data(current_state, character_type, syntax_check_list);
-
-	Syntax_State new_state = ERROR_STATE;
-	Syntax_State_Transition* next_states = create_next_states();
-	if (next_states)
+	Syntax_State_Transition* next_states = get_or_create_next_states();
+	if (!next_states)
 	{
-		new_state = next_states[current_state].transition_on_char_type[character_type];
-		free(next_states);
+		fprintf(error_out_file, "In %s: Memory allocation error in get_or_create_next_states()\n", "get_state_transition_collect_parser_error_data");
+		fprintf(error_out_file, "Unable to perform lexical analisys! Exiting program.");
+		exit(EXIT_FAILURE);
 	}
 
-	return new_state;
-}
+	State_Transition_Characters character_type = get_transition_character_type(input, current_state);
+	collect_error_reporting_data(current_state, character_type, syntax_check_list);
 
+	return next_states[current_state].transition_on_char_type[character_type];
+}
 
 #ifdef UNIT_TESTING
 #include "internal_sytax_state_tests.c"

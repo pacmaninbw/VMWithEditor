@@ -1,10 +1,11 @@
 /* 
  * internal_sytax_state_tests.c
  *
- * This file contains internal syntax state machine unit tests, these test functions test
- * the very basic functions that are the building blocks of the public interface, they are
- * declared static so these tests must be included in the syntax_state_machine.c file rather
- * externally.
+ * This file contains both internal syntax state machine unit tests, and unit tests
+ * for the public interface of the lexitcal analizer these test functions test the
+ * very basic functions that are the building blocks of the public interface, they are
+ * declared static so these tests must be included in the syntax_state_machine.c file
+ * rather than externally.
  */
 
 #include "internal_sytax_state_tests.h"
@@ -14,12 +15,11 @@ typedef struct state_test_data
 	Syntax_State current_state;
 	Syntax_State expected_state;
 	Syntax_Check_List_Items check_list_item_to_update;
+	char input;
 	unsigned check_list_item_prestate;
 	unsigned expected_check_list_item_value;
 	unsigned check_list_item_max_value;
 } State_Test_Data;
-
-typedef Syntax_State(*Function_Under_Test_3_args)(Syntax_State current_state, Syntax_State_Transition* next_states, unsigned syntax_check_list[]);
 
 static char *state_name_for_printing(Syntax_State state)
 {
@@ -58,10 +58,10 @@ static bool unit_test_syntax_states(size_t test_step)
 	bool test_passed = true;
 	bool stand_alone = test_step == 0;
 
-	Syntax_State_Transition* test_transitions = create_next_states();
+	Syntax_State_Transition* test_transitions = get_or_create_next_states();
 	if (!test_transitions)
 	{
-		fprintf(error_out_file, "Memory allocation error in create_next_states()\n");
+		fprintf(error_out_file, "Memory allocation error in get_create_next_states()\n");
 		return false;
 	}
 
@@ -70,16 +70,20 @@ static bool unit_test_syntax_states(size_t test_step)
 		char out_buffer[BUFSIZ];
 		if (stand_alone)
 		{
-			sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(test_transitions[state].current_state));
+			sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(
+				test_transitions[state].current_state));
 			log_generic_message(out_buffer);
 		}
 
 		if (stand_alone)
 		{
-			for (size_t character_index = 0; character_index < TRANSITION_ARRAY_SIZE; character_index++)
+			for (size_t character_index = 0; character_index < TRANSITION_ARRAY_SIZE;
+				character_index++)
 			{
-				sprintf(out_buffer, "\ttransition character = %s\t\tnew state %s\n", transition_character[character_index],
-					state_name_for_printing(test_transitions[state].transition_on_char_type[character_index]));
+				sprintf(out_buffer, "\ttransition character = %s\t\tnew state %s\n",
+					transition_character[character_index],
+					state_name_for_printing(
+						test_transitions[state].transition_on_char_type[character_index]));
 				log_generic_message(out_buffer);
 			}
 			log_generic_message("\n");
@@ -117,7 +121,8 @@ typedef enum test_character_case
 	UPPER_CASE = 1
 } TEST_CHARACTER_CASE;
 
-static State_Transition_Characters get_expected_alpha_transition_character_type(unsigned char input, Syntax_State current_state)
+static State_Transition_Characters get_expected_alpha_transition_character_type(
+	unsigned char input, Syntax_State current_state)
 {
 	input = (unsigned char)toupper(input);
 
@@ -130,7 +135,8 @@ static State_Transition_Characters get_expected_alpha_transition_character_type(
 		case 'E':
 		case 'F':
 		case 'X':
-			if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE || current_state == END_OPERAND_STATE)
+			if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE
+				|| current_state == END_OPERAND_STATE)
 			{
 				return DIGIT_STATE_TRANSITION;
 			}
@@ -182,8 +188,10 @@ static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, S
 
 		if (log_data->stand_alone)
 		{
-			sprintf(buffer, "\n\tEnd Positive test path current_state = %s input character = %s\n\n",
-				state_name_for_printing(current_state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
+			sprintf(buffer,
+				"\n\tEnd Positive test path current_state = %s input character = %s\n\n",
+				state_name_for_printing(current_state),
+				(alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
 			log_generic_message(buffer);
 		}
 	}
@@ -210,7 +218,8 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
 		}
 
 		log_data->status = true;
-		State_Transition_Characters actual_transistion = get_transition_character_type(*test_input, current_state);
+		State_Transition_Characters actual_transistion = get_transition_character_type(
+			*test_input, current_state);
 		log_data->status = actual_transistion == expected_transition[test_count];
 		if (!log_data->status)
 		{
@@ -239,7 +248,8 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 	bool test_passed = true;
 	Test_Log_Data log_data;
 
-	init_test_log_data(&log_data, "unit_test_get_alpha_input_transition_character_type", test_passed, "Positive", test_step == 0);
+	init_test_log_data(&log_data, "unit_test_get_alpha_input_transition_character_type",
+		test_passed, "Positive", test_step == 0);
 
 	if (log_data.stand_alone)
 	{
@@ -248,7 +258,8 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 
 	for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
 	{
-		test_passed = core_alpha_character_transition_unit_test(&log_data, state, get_alpha_input_transition_character_type);
+		test_passed = core_alpha_character_transition_unit_test(&log_data, state,
+			get_alpha_input_transition_character_type);
 	}
 
 	if (log_data.stand_alone)
@@ -381,7 +392,8 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State cur
 		log_start_positive_path(local_func_name);
 	}
 
-	test_passed = core_alpha_character_transition_unit_test(log_data, current_state, get_transition_character_type);
+	test_passed = core_alpha_character_transition_unit_test(log_data, current_state,
+		get_transition_character_type);
 
 	if (log_data->stand_alone)
 	{
@@ -431,16 +443,20 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 //State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
 	bool test_passed = true;
 	char buffer[BUFSIZ];
-	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_get_transition_character_type", test_passed, "Positive", test_step == 0);
+	Test_Log_Data *log_data = create_and_init_test_log_data(
+		"unit_test_get_transition_character_type", test_passed, "Positive",
+		test_step == 0);
 	if (!log_data)
 	{
-		report_create_and_init_test_log_data_memory_failure("unit_test_get_transition_character_type");
+		report_create_and_init_test_log_data_memory_failure(
+			"unit_test_get_transition_character_type");
 		return false;
 	}
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)");
+		sprintf(buffer, "STARTING internal unit test for get_transition_character_type("
+			"unsigned char input, Syntax_State current_state)");
 		log_generic_message(buffer);
 	}
 
@@ -469,7 +485,8 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)\n");
+		sprintf(buffer, "\nENDING internal unit test for get_transition_character_type("
+			"unsigned char input, Syntax_State current_state)\n");
 		log_generic_message(buffer);
 	}
 
@@ -498,15 +515,15 @@ static void log_all_failure_data_for_unit_test_execute_transitions_all_states_sp
 	log_generic_message(out_buffer);
 }
 
-static bool unit_test_execute_transitions_all_states_special_characters(Function_Under_Test_3_args test_function,
+static bool unit_test_execute_transitions_all_states_special_characters(
 	Test_Log_Data log_data, size_t positive_path_test_count, State_Test_Data test_data[], size_t test_runs)
 {
 	bool test_passed = true;
 
-	Syntax_State_Transition* next_states = create_next_states();
+	Syntax_State_Transition* next_states = get_or_create_next_states();
 	if (!next_states)
 	{
-		fprintf(error_out_file, "In %s create_next_states(), failed, exiting function.\n", log_data.function_name);
+		fprintf(error_out_file, "In %s Memory allocation error in get_create_next_states()\n", log_data.function_name);
 		return false;
 	}
 
@@ -551,98 +568,83 @@ static bool unit_test_execute_transitions_all_states_special_characters(Function
 
 	log_end_negative_path(log_data.function_name);
 
-	free(next_states);
-
 	return test_passed;
 }
 
-static bool unit_test_state_transition_on_closebrace(unsigned test_step)
+static State_Test_Data static_global_test_data[] =
+{
+	// Start with positive test path data
+	{START_STATE, ENTER_OPCODE_STATE, '{', OPENBRACE, 0, MAX_OPEN_BRACE, MAX_OPEN_BRACE},
+	{END_STATEMENT_STATE, DONE_STATE, ',', COMMA, 1, 2, MAX_COMMA},
+	{OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
+	{END_OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
+	{OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
+	// Negative test path data
+	{START_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
+	{ENTER_OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
+	{ENTER_OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
+	{OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
+	{END_OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
+	{ERROR_STATE, ERROR_STATE, ',', COMMA, 0, 1, MAX_COMMA},
+	{END_STATEMENT_STATE, DONE_STATE, ',', COMMA, 2, 3, MAX_COMMA},	// too many commas
+	{DONE_STATE, DONE_STATE, ',', COMMA, 2, 3, MAX_COMMA},	// too many commas
+	{ENTER_OPCODE_STATE, ENTER_OPCODE_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{OPCODE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{END_OPCODE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{ENTER_OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{END_OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{END_STATEMENT_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{DONE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{ERROR_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
+	{START_STATE, ERROR_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
+	{ENTER_OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
+	{OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
+	{END_OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
+	{ENTER_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
+	{END_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
+	{END_STATEMENT_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
+	{DONE_STATE, ERROR_STATE, '}', CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
+	{END_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE + 1, MAX_CLOSE_BRACE}		// Positive, except for 2 close braces so negative
+};
+static size_t static_global_test_data_size = (sizeof(static_global_test_data) /sizeof(State_Test_Data) );
+size_t static_global_positive_path_test_count = 5;		// Count the lines of test_data above between the comments.
+
+static bool unit_test_collect_error_reporting_data(unsigned test_step)
 {
 	bool test_passed = true;
-	State_Test_Data test_data[] =
+	char buffer[BUFSIZ];
+	Test_Log_Data* log_data = create_and_init_test_log_data(
+		"unit_test_collect_error_reporting_data", test_passed, "Positive",
+		test_step == 0);
+	if (!log_data)
 	{
-		// Start with positive test path data
-		{OPERAND_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-		// Negative test path data
-		{START_STATE, ERROR_STATE, CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-		{ENTER_OPCODE_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-		{OPCODE_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-		{END_OPCODE_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-		{ENTER_OPERAND_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-		{END_OPERAND_STATE, END_STATEMENT_STATE, CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-		{END_STATEMENT_STATE, END_STATEMENT_STATE, CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
-		{DONE_STATE, ERROR_STATE, CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
-		{END_OPERAND_STATE, END_STATEMENT_STATE, CLOSEBRACE, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE + 1, MAX_CLOSE_BRACE}		// Positive, except for 2 close braces so negative
-	};
+		report_create_and_init_test_log_data_memory_failure(
+			"unit_test_collect_error_reporting_data");
+		return false;
+	}
 
-	size_t positive_path_test_count = 1;
-
-	Test_Log_Data log_data;
-	init_test_log_data(&log_data, "unit_test_state_transition_on_closebrace", test_passed, "Positive", test_step == 0);
-
-	test_passed = unit_test_execute_transitions_all_states_special_characters(state_transition_on_closebrace, log_data, positive_path_test_count, test_data,
-		sizeof(test_data)/sizeof(*test_data));
-
-	return test_passed;
-}
-
-static bool unit_test_state_transition_on_openbrace(unsigned test_step)
-{
-	bool test_passed = true;
-	State_Test_Data test_data[] =
+	if (log_data->stand_alone)
 	{
-		// Start with positive test path data
-		{START_STATE, ENTER_OPCODE_STATE, OPENBRACE, 0, MAX_OPEN_BRACE, MAX_OPEN_BRACE},
-		// Negative test path data
-		{ENTER_OPCODE_STATE, ENTER_OPCODE_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{OPCODE_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{END_OPCODE_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{ENTER_OPERAND_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{OPERAND_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{END_OPERAND_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{END_STATEMENT_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{DONE_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-		{ERROR_STATE, ERROR_STATE, OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	};
+		sprintf(buffer, "STARTING internal unit test for collect_error_reporting_data("
+			"Syntax_State current_state, State_Transition_Characters character_type, "
+			"unsigned syntax_check_list[])\n\n");
+		log_generic_message(buffer);
+	}
 
-	size_t positive_path_test_count = 1;
+	sprintf(buffer, "%s NOT IMPLEMENTED \n", log_data->function_name);
+	log_generic_message(buffer);
+	test_passed = false;
 
-	Test_Log_Data log_data;
-	init_test_log_data(&log_data, "unit_test_state_transition_on_openbrace", test_passed, "Positive", test_step == 0);
-
-	test_passed = unit_test_execute_transitions_all_states_special_characters(state_transition_on_openbrace, log_data, positive_path_test_count, test_data,
-		sizeof(test_data) / sizeof(*test_data));
-
-	return test_passed;
-}
-
-static bool unit_test_state_transition_on_comma(unsigned test_step)
-{
-	bool test_passed = true;
-	State_Test_Data test_data[] =
+	if (log_data->stand_alone)
 	{
-		// Start with positive test path data
-		{END_STATEMENT_STATE, DONE_STATE, COMMA, 1, 2, MAX_COMMA},
-		{OPCODE_STATE, ENTER_OPERAND_STATE, COMMA, 0, 1, MAX_COMMA},
-		{END_OPCODE_STATE, ENTER_OPERAND_STATE, COMMA, 0, 1, MAX_COMMA},
-		// Negative test path data
-		{START_STATE, ENTER_OPERAND_STATE, COMMA, 0, 1, MAX_COMMA},
-		{ENTER_OPCODE_STATE, ENTER_OPERAND_STATE, COMMA, 0, 1, MAX_COMMA},
-		{ENTER_OPERAND_STATE, DONE_STATE, COMMA, 1, MAX_COMMA, MAX_COMMA},
-		{OPERAND_STATE, DONE_STATE, COMMA, 1, MAX_COMMA, MAX_COMMA},
-		{END_OPERAND_STATE, DONE_STATE, COMMA, 1, MAX_COMMA, MAX_COMMA},
-		{ERROR_STATE, ERROR_STATE, COMMA, 0, 1, MAX_COMMA},
-		{END_STATEMENT_STATE, DONE_STATE, COMMA, 2, 3, MAX_COMMA},	// too many commas
-		{DONE_STATE, DONE_STATE, COMMA, 2, 3, MAX_COMMA},	// too many commas
-	};
+		sprintf(buffer, "\nENDING internal unit test for collect_error_reporting_data("
+			"Syntax_State current_state, State_Transition_Characters character_type, "
+			"unsigned syntax_check_list[])\n\n");
+		log_generic_message(buffer);
+	}
 
-	size_t positive_path_test_count = 3;
-
-	Test_Log_Data log_data;
-	init_test_log_data(&log_data, "unit_test_state_transition_on_comma", test_passed, "Positive", test_step == 0);
-
-	test_passed = unit_test_execute_transitions_all_states_special_characters(state_transition_on_comma, log_data, positive_path_test_count, test_data,
-		sizeof(test_data) / sizeof(*test_data));
+	free(log_data);
 
 	return test_passed;
 }
@@ -655,6 +657,12 @@ typedef struct unit_test_functions_and_args
 	state_machine_unit_test_function func;
 } State_Machine_Unit_Test_Functions;
 
+/*
+ * This function unit tests all the internal functions that support the
+ * function get_state_transition_collect_parser_error_data(). If any of
+ * these unit tests fail the unit test for
+ * get_state_transition_collect_parser_error_data() will not execute.
+ */
 bool internal_tests_on_all_state_transitions(unsigned test_step)
 {
 	bool all_tests_passed = true;
@@ -665,26 +673,75 @@ bool internal_tests_on_all_state_transitions(unsigned test_step)
 #ifdef UNIT_TEST_DEBUG
 		{"unit_test_syntax_states", unit_test_syntax_states},
 #endif
-		{"unit_test_get_alpha_input_transition_character_type", unit_test_get_alpha_input_transition_character_type},
-		{"unit_test_state_transition_on_closebrace", unit_test_state_transition_on_closebrace},
-		{"unit_test_state_transition_on_openbrace", unit_test_state_transition_on_openbrace},
-		{"unit_test_state_transition_on_comma", unit_test_state_transition_on_comma},
-		{"unit_test_get_transition_character_type", unit_test_get_transition_character_type},
+		{"unit_test_get_alpha_input_transition_character_type",
+			unit_test_get_alpha_input_transition_character_type},
+		{"unit_test_get_transition_character_type",
+			unit_test_get_transition_character_type},
+		{"unit_test_collect_error_reporting_data",
+			unit_test_collect_error_reporting_data},
 	};
 	size_t test_max = (sizeof(unit_tests) / sizeof(*unit_tests));
 
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
+		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n",
+			test_count + 1, unit_tests[test_count].test_name,
+			(test_passed) ? "Passed" : "Failed");
 		log_generic_message(buffer);
 		// if one test already failed we are good
 		if (all_tests_passed)
 		{
 			all_tests_passed = test_passed;
 		}
-
 	}	
 
 	return all_tests_passed;
+}
+
+/* 
+ * Unit test the public interface in syntax_state_machine.c. This function
+ * assumes that internal_tests_on_all_state_transitions has been previously
+ * called and that all component functions have been unit tested first. The 
+ * public interface is tested in 2 ways, first with test data and then
+ * parsing statements as the parser will.
+ */
+bool unit_test_get_state_transition_collect_parser_error_data(unsigned test_step)
+{
+	//Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
+	bool test_passed = true;
+	char buffer[BUFSIZ];
+	Test_Log_Data* log_data = create_and_init_test_log_data(
+		"unit_test_get_state_transition_collect_parser_error_data", test_passed, "Positive",
+		test_step == 0);
+	if (!log_data)
+	{
+		report_create_and_init_test_log_data_memory_failure(
+			"unit_test_collect_error_reporting_data");
+		return false;
+	}
+
+	if (log_data->stand_alone)
+	{
+		sprintf(buffer, "STARTING unit test for collect_error_reporting_data("
+			"Syntax_State current_state, State_Transition_Characters character_type, "
+			"unsigned syntax_check_list[])\n\n");
+		log_generic_message(buffer);
+	}
+
+	sprintf(buffer, "%s NOT IMPLEMENTED \n", log_data->function_name);
+	log_generic_message(buffer);
+	test_passed = false;
+
+	if (log_data->stand_alone)
+	{
+		sprintf(buffer, "\nENDING unit test for collect_error_reporting_data("
+			"Syntax_State current_state, State_Transition_Characters character_type, "
+			"unsigned syntax_check_list[])\n\n");
+		log_generic_message(buffer);
+	}
+
+	free(log_data);
+
+	return test_passed;
 }
