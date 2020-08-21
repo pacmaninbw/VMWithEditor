@@ -2,7 +2,7 @@
  * internal_sytax_state_tests.c
  *
  * This file contains both internal syntax state machine unit tests, and unit tests
- * for the public interface of the lexitcal analizer these test functions test the
+ * for the public interface of the lexitcal analyzer these test functions test the
  * very basic functions that are the building blocks of the public interface, they are
  * declared static so these tests must be included in the syntax_state_machine.c file
  * rather than externally.

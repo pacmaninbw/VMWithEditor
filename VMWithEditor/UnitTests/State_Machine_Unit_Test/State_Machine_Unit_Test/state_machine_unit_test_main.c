@@ -1,7 +1,7 @@
-// State_Machine_Unit_Test.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// state_machine_unit_test.c : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include "common_unit_test_logic.h"
-#include "syntax_state_machine.h"
+#include "lexical_analyzer.h"
 #include "internal_sytax_state_tests.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +19,7 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 
 	if (all_unit_tests_passed)
 	{
-		// test the public interface for the lexical analizer
+		// test the public interface for the lexical analyzer
 		all_unit_tests_passed = 
 			unit_test_get_state_transition_collect_parser_error_data(test_step);
 	}
@@ -28,7 +28,7 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 		"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
 	log_generic_message(buffer);
 
-	deactivate_lexical_analizer();
+	deactivate_lexical_analyzer();
 
 	sprintf(buffer, "Unit Test %zd: Ending Lexical Analizer Unit Tests \n\n", test_step);
 	log_generic_message(buffer);

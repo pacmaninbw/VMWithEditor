@@ -18,10 +18,10 @@
     <ClCompile Include="state_machine_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\syntax_state_machine.c">
+    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
+    <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

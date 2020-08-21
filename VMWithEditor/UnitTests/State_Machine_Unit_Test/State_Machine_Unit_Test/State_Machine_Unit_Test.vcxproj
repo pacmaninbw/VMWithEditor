@@ -140,7 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\syntax_state_machine.c" />
+    <ClCompile Include="..\..\..\lexical_analyzer.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="state_machine_unit_test_main.c" />
   </ItemGroup>
