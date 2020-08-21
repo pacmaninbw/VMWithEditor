@@ -74,7 +74,7 @@
     <ClInclude Include="virtual_machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="syntax_state_machine.h">
+    <ClInclude Include="lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
