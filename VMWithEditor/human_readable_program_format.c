@@ -13,7 +13,7 @@
  */
 
 #include "human_readable_program_format.h"
-#include "syntax_state_machine.h"
+#include "lexical_analyzer.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
@@ -311,10 +311,10 @@ Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned c
 	unsigned char* current_character = text_line;
 	while (*current_character)
 	{
-		Syntax_State new_state = get_state_transition_collect_parser_error_data(current_state, *current_character, syntax_check_list);
+		Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
 		if (new_state != current_state)
 		{
-			 TODO Correct state transition testing
+			 //TODO Correct state transition testing
 			if (current_state == ENTER_OPCODE_STATE && isalpha(*current_character))
 			{
 				legal.opcode = get_legal_opcode_or_oparand(&current_character, syntax_check_list, LEGALOPCODE);
