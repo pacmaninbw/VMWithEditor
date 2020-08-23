@@ -45,7 +45,10 @@
     <ClCompile Include="virtual_machine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="syntax_state_machine.c">
+    <ClCompile Include="lexical_analyzer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parser.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lexical_analyzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

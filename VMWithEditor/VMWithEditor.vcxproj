@@ -148,6 +148,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="opcode.c" />
     <ClCompile Include="lexical_analyzer.c" />
+    <ClCompile Include="parser.c" />
     <ClCompile Include="text_editor_console.c" />
     <ClCompile Include="virtual_machine.c" />
   </ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="human_readable_program_format.h" />
     <ClInclude Include="opcode.h" />
     <ClInclude Include="lexical_analyzer.h" />
+    <ClInclude Include="parser.h" />
     <ClInclude Include="text_editor_console.h" />
     <ClInclude Include="virtual_machine.h" />
   </ItemGroup>
