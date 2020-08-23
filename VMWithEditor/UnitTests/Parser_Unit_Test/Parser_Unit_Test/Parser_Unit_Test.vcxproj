@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{449e5c4f-2eae-4cdb-a80e-6a3cc5b7c7a6}</ProjectGuid>
-    <RootNamespace>HRFUnitTest</RootNamespace>
+    <ProjectGuid>{7fcbca09-510f-481e-a2fb-ba4ce62d433a}</ProjectGuid>
+    <RootNamespace>ParserUnitTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,8 +86,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;REDUCED_VM_AND_HRF_DEPENDENCIES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Parser_Unit_Test\Parser_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,9 +115,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\CommonUnitTestCode;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,21 +141,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
+    <ClCompile Include="..\..\..\lexical_analyzer.c" />
     <ClCompile Include="..\..\..\opcode.c" />
+    <ClCompile Include="..\..\..\parser.c" />
+    <ClCompile Include="..\..\..\virtual_machine.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
-    <ClCompile Include="hrf_unit_test_main.c">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level4</WarningLevel>
-    </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_test_data.c" />
+    <ClCompile Include="parsert_unit_test_main.c" />
+    <ClCompile Include="parser_unit_test.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\common_console_functions.h" />
-    <ClInclude Include="..\..\..\file_io_vm.h" />
-    <ClInclude Include="..\..\..\human_readable_program_format.h" />
-    <ClInclude Include="..\..\..\opcode.h" />
-    <ClInclude Include="..\..\..\virtual_machine.h" />
-    <ClInclude Include="hrf_unit_test_main.h" />
-    <ClInclude Include="unit_test_human_readable_program_format.h" />
+    <ClInclude Include="..\..\..\lexical_analyzer.h" />
+    <ClInclude Include="..\..\..\parser.h" />
+    <ClInclude Include="parser_unit_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

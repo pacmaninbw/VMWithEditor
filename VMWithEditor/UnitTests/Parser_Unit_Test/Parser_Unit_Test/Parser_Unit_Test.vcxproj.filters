@@ -15,39 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\human_readable_program_format.c">
+    <ClCompile Include="parsert_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\opcode.c">
+    <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hrf_unit_test_main.c">
+    <ClCompile Include="..\..\..\parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_unit_test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_test_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\opcode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\human_readable_program_format.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\virtual_machine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="unit_test_human_readable_program_format.h">
+    <ClInclude Include="..\..\..\lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\common_console_functions.h">
+    <ClInclude Include="..\..\..\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\file_io_vm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\human_readable_program_format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\opcode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\virtual_machine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hrf_unit_test_main.h">
+    <ClInclude Include="parser_unit_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
