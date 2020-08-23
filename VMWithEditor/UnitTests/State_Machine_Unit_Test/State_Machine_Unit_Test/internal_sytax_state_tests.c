@@ -9,6 +9,7 @@
  */
 
 #include "internal_sytax_state_tests.h"
+#include "lexical_analyzer_test_data.h"
 
 typedef struct state_test_data
 {
@@ -699,6 +700,192 @@ bool internal_tests_on_all_state_transitions(unsigned test_step)
 	return all_tests_passed;
 }
 
+static void report_syntax_errors(unsigned necessary_items[])
+{
+	char* error_strings[SYNTAX_CHECK_COUNT];
+	error_strings[OPENBRACE] = "Missing the opening brace.";
+	error_strings[CLOSEBRACE] = "Missing the closing brace.";
+	error_strings[COMMA] = "Missing comma(s)";
+	error_strings[LEGALOPCODE] = "Missing or unknow opcode";
+	error_strings[LEGALOPERAND] = "Missing operand or operand out of range";
+	error_strings[ILLEGALOPCODE] = "Unknown Opcode.";
+	error_strings[ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
+	error_strings[MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
+	error_strings[ILLEGALCHAR] = "Illegal Character";
+
+	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	{
+		char buffer[BUFSIZ];
+		if (i >= ILLEGALOPCODE && necessary_items[i])
+		{
+			sprintf(buffer, "\t%s\n", error_strings[i]);
+			log_generic_message(buffer);
+		}
+		else if (i < ILLEGALOPCODE && !necessary_items[i])
+		{
+			sprintf(buffer, "\t%s\n", error_strings[i]);
+			log_generic_message(buffer);
+		}
+	}
+
+}
+
+static bool check_syntax_check_list_and_report_errors_as_parser_would(
+	unsigned syntax_check_list[], Syntax_State state, unsigned char* text_line,
+	size_t statement_number, Expected_Syntax_Errors* expected_errors)
+{
+	unsigned error_count = 0;
+	bool syntax_check_list_in_sync = true;
+
+	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	{
+		error_count += (!syntax_check_list[i] && i < ILLEGALOPCODE) ? 1 : ((i >= ILLEGALOPCODE && syntax_check_list[i]) ? 1 : 0);
+		if (syntax_check_list[i] != expected_errors->syntax_check_list[i])
+		{
+			syntax_check_list_in_sync = false;
+		}
+	}
+
+	if (error_count != expected_errors->error_count)
+	{
+		syntax_check_list_in_sync = false;
+	}
+
+	if (state == ERROR_STATE || error_count)
+	{
+		char buffer[BUFSIZ];
+		sprintf(buffer, "\n\nStatement %d (%s) has the following syntax_errors\n", statement_number, text_line);
+		log_generic_message(buffer);
+		report_syntax_errors(syntax_check_list);
+	}
+
+	return syntax_check_list_in_sync;
+}
+
+static bool unit_test_final_lexical_check_line_syntax(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
+{
+	bool test_passed = true;
+
+	unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
+	Syntax_State current_state = START_STATE;
+	unsigned char* opcode_start = NULL;
+	unsigned char* opcode_end = NULL;
+	unsigned char* operand_start = NULL;
+	unsigned char* operand_end = NULL;
+
+	unsigned char* current_character = text_line;
+	while (*current_character && current_state != DONE_STATE && current_state != ERROR_STATE)
+	{
+		Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
+		if (new_state != current_state)
+		{
+			switch (new_state)
+			{
+			case OPCODE_STATE:
+				opcode_start = current_character;
+				syntax_check_list[LEGALOPCODE]++;
+				break;
+
+			case END_OPCODE_STATE:
+				opcode_end = current_character;
+				break;
+
+			case OPERAND_STATE:
+				operand_start = current_character;
+				syntax_check_list[LEGALOPERAND]++;
+				break;
+
+			case END_OPERAND_STATE:
+				opcode_end = current_character;
+				break;
+
+			default:
+				break;
+			}
+
+			current_state = new_state;
+		}
+
+		current_character++;
+	}
+
+	bool syntax_check_list_in_sync = check_syntax_check_list_and_report_errors_as_parser_would(
+		syntax_check_list, current_state, text_line, statement_number, expected_errors);
+
+	if (!syntax_check_list_in_sync)
+	{
+ 		test_passed = false;
+		log_data->status = false;
+	}
+	log_test_status_each_step2(log_data);
+
+	return test_passed;
+}
+
+bool run_syntax_check_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
+{
+	bool test_passed = true;
+
+	unsigned char** test_program = test_data->test_program;
+	Expected_Syntax_Errors* expected_errors = test_data->expected_errors;
+
+	for (size_t test_count = 0; test_count < test_data->test_program_size; test_count++)
+	{
+		log_data->status = true;
+		if (!unit_test_final_lexical_check_line_syntax(test_program[test_count], test_count, log_data, &expected_errors[test_count]))
+		{
+			test_passed = log_data->status;
+		}
+	}
+
+	return test_passed;
+}
+/*
+ * This final test imitates the parser and parses an entire program.
+ */
+bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
+{
+	bool test_passed = true;
+	Test_Log_Data* log_data = create_and_init_test_log_data(
+		"final_lexical_analysis_test", test_passed, "Positive",
+		test_step == 0);
+
+	Lexical_Analyzer_Test_Data* positive_path_data = init_positive_path_data_for_lexical_analysis(log_data);
+	if (!positive_path_data)
+	{
+		return false;
+	}
+
+	log_start_positive_path(log_data->function_name);
+	if (!run_syntax_check_loop(log_data, positive_path_data))
+	{
+		test_passed = log_data->status;
+	}
+	log_end_positive_path(log_data->function_name);
+
+
+	Lexical_Analyzer_Test_Data* negative_path_data = init_negative_path_data_for_lexical_analysis(log_data);
+	if (!negative_path_data)
+	{
+		return false;
+	}
+
+	log_data->path = "Negative";
+	log_start_negative_path(log_data->function_name);
+	if (!run_syntax_check_loop(log_data, negative_path_data))
+	{
+		test_passed = log_data->status;
+	}
+	log_end_negative_path(log_data->function_name);
+
+	deallocate_lexical_test_data(positive_path_data);
+	deallocate_lexical_test_data(negative_path_data);
+	free(log_data);
+
+	return test_passed;
+}
+
 /* 
  * Unit test the public interface in syntax_state_machine.c. This function
  * assumes that internal_tests_on_all_state_transitions has been previously
@@ -728,6 +915,8 @@ bool unit_test_get_state_transition_collect_parser_error_data(unsigned test_step
 			"unsigned syntax_check_list[])\n\n");
 		log_generic_message(buffer);
 	}
+
+	test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
 
 	sprintf(buffer, "%s NOT IMPLEMENTED \n", log_data->function_name);
 	log_generic_message(buffer);
