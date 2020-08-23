@@ -53,8 +53,6 @@ bool run_all_hrf_unit_tests(void)
 		{1, "unit_test_hrf_create_program_step", unit_test_hrf_create_program_step},
 		{1, "unit_test_hrf_convert_array_program_to_linked_list", unit_test_hrf_convert_array_program_to_linked_list},
 		{1, "unit_test_hrf_convert_link_list_program_to_array", unit_test_hrf_convert_link_list_program_to_array},
-		{2, "unit_test_hrf_writing_to_file", unit_test_hrf_writing_to_file},
-		{2, "unit_test_hrf_reading_from_file", unit_test_hrf_reading_from_file}
 	};
 
 	size_t test_count = (sizeof(unit_tests) / sizeof(*unit_tests));
@@ -78,8 +76,6 @@ bool run_all_hrf_unit_tests(void)
 	{
 		all_unit_tests_passed = false;
 	}
-
-	deactivate_lexical_analyzer();
 
 	return all_unit_tests_passed;
 }

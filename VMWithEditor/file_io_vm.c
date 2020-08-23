@@ -62,7 +62,7 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 			{
 				if (!program_linked_list)
 				{
-					list_tail = hrf_check_line_syntax_return_program_step_if_valid(input_buffer, &prog_size, file_name);
+					list_tail = parser(input_buffer, &prog_size, file_name);
 					if (!list_tail)
 					{
 						errors++;
@@ -77,7 +77,7 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 					}
 					else
 					{
-						list_tail->next_step = hrf_check_line_syntax_return_program_step_if_valid(input_buffer, &prog_size, file_name);
+						list_tail->next_step = parser(input_buffer, &prog_size, file_name);
 						list_tail = list_tail->next_step;
 					}
 				}

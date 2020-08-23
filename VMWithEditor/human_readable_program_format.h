@@ -10,8 +10,6 @@
 #define HUMAN_READABLE_PROGRAM_FORMAT_H
 
 #include "opcode.h"
-#include <stdbool.h>
-#include <stdio.h>
 #include <stdint.h>
 
 typedef uint32_t OperandType;
@@ -32,7 +30,6 @@ extern Program_Step_Node* create_program_step(Human_Readable_Program_Format* use
 extern Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_Node* linked_program, size_t program_size);
 extern Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size);
 extern void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_program_steps);
-extern Program_Step_Node* hrf_check_line_syntax_return_program_step_if_valid(unsigned char* text_line, size_t* line_number, char* file_name);
 
 #ifdef UNIT_TESTING
 #ifdef HRF_UNIT_TESTING
