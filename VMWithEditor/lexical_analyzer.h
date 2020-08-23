@@ -24,8 +24,9 @@ typedef enum syntax_checks_list_items
 	ILLEGALOPCODE = 5,
 	ILLEGALOPERAND = 6,
 	ILLEGALFIRSTCHAR = 7,
-	MULTIPLESTATEMENTSONELINE = 8
-#define SYNTAX_CHECK_COUNT 9
+	MULTIPLESTATEMENTSONELINE = 8,
+	ILLEGALCHAR = 9
+#define SYNTAX_CHECK_COUNT 10
 } Syntax_Check_List_Items;
 
 typedef enum syntax_state_enum
@@ -66,6 +67,8 @@ typedef struct syntax_state_transition
 #define MAX_COMMA 2
 #define MAX_OPEN_BRACE 1
 #define MAX_CLOSE_BRACE 1
+#define MAX_OPCODE 1
+#define MAX_OPERAND 1
 #define MAX_WHITE_SPACE	200
 
 extern Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);

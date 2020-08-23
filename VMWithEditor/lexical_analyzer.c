@@ -246,6 +246,7 @@ static void collect_error_reporting_data(Syntax_State current_state,
 {
 	switch (character_type)
 	{
+
 		case WHITESPACE_STATE_TRANSITION:		// This section is for character types that
 		case EOL_STATE_TRANSITION:				// are a legal first character on a line
 			break;
