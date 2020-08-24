@@ -265,7 +265,7 @@ static bool unit_test_get_alpha_input_transition_character_type(unsigned test_st
 
 	if (log_data.stand_alone)
 	{
-		log_end_positive_path(log_data.function_name);
+		log_end_test_path(&log_data);
 	}
 
 	return test_passed;
@@ -528,16 +528,16 @@ static bool unit_test_execute_transitions_all_states_special_characters(
 		return false;
 	}
 
-	log_start_positive_path(log_data.function_name);
+	log_start_test_path(&log_data);
 
 	for (size_t test_count = 0; test_count < test_runs; test_count++)
 	{
 		log_data.status = true;
 		if (test_count == positive_path_test_count)
 		{
-			log_end_positive_path(log_data.function_name);
-			log_start_negative_path(log_data.function_name);
+			log_end_test_path(&log_data);
 			log_data.path = "Negative";
+			log_start_test_path(&log_data);
 		}
 
 		unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
@@ -567,7 +567,7 @@ static bool unit_test_execute_transitions_all_states_special_characters(
 		}
 	}
 
-	log_end_negative_path(log_data.function_name);
+	log_end_test_path(&log_data);
 
 	return test_passed;
 }
@@ -857,12 +857,12 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 		return false;
 	}
 
-	log_start_positive_path(log_data->function_name);
+	log_start_test_path(log_data);
 	if (!run_syntax_check_loop(log_data, positive_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	log_end_positive_path(log_data->function_name);
+	log_end_test_path(log_data);
 
 
 	Lexical_Analyzer_Test_Data* negative_path_data = init_negative_path_data_for_lexical_analysis(log_data);
@@ -872,12 +872,12 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 	}
 
 	log_data->path = "Negative";
-	log_start_negative_path(log_data->function_name);
+	log_start_test_path(log_data);
 	if (!run_syntax_check_loop(log_data, negative_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	log_end_negative_path(log_data->function_name);
+	log_end_test_path(log_data);
 
 	deallocate_lexical_test_data(positive_path_data);
 	deallocate_lexical_test_data(negative_path_data);
