@@ -2,9 +2,11 @@
 #ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
 #include "virtual_machine.h"
 #endif
+#include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <string.h>
 
 FILE* error_out_file = NULL;
 FILE* unit_test_log_file = NULL;
@@ -106,11 +108,42 @@ void close_unit_tests(void)
 	}
 }
 
+static bool log_test_is_positive_path(Test_Log_Data* log_data)
+{
+	bool is_positive = true;
+
+	if (!log_data->path)
+	{
+		fprintf(error_out_file, "Programmer error: log_data->path is NULL in log_test_is_positive_path()\n");
+		return false;
+	}
+
+	char* string_to_test = _strdup(log_data->path);
+	if (!string_to_test)
+	{
+		fprintf(error_out_file, "Memory Allocation error: _strdup() failed in log_test_is_positive_path()\n");
+		fprintf(error_out_file, "Exiting program.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	char* stt_ptr = string_to_test;
+	while (*stt_ptr)
+	{
+		*stt_ptr = (char) toupper(*stt_ptr);
+		stt_ptr++;
+	}
+
+	is_positive = (strcmp(string_to_test, "POSITIVE") == 0);
+
+	return is_positive;
+}
+
 void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone)
 {
 	if (stand_alone)
 	{
-		fprintf(unit_test_log_file, "%s(): %s Path %s\n", function_name, path, (status) ? "Passed" : "Failed");
+		fprintf(unit_test_log_file, "%s(): %s Path %s\n", function_name, path,
+			(status) ? "Passed" : "Failed");
 	}
 }
 
@@ -118,18 +151,32 @@ void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
 {
 	if (test_data_to_log->stand_alone)
 	{
-		fprintf(unit_test_log_file, "%s(): %s Path %s\n", test_data_to_log->function_name, test_data_to_log->path, (test_data_to_log->status) ? "Passed" : "Failed");
+		fprintf(unit_test_log_file, "%s(): %s Path %s\n", test_data_to_log->function_name,
+			test_data_to_log->path, (test_data_to_log->status) ? "Passed" : "Failed");
 	}
 }
 
 void log_start_positive_path(char* function_name)
 {
-	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n", function_name);
+	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
+		function_name);
+}
+
+void log_start_positive_path2(Test_Log_Data *log_data)
+{
+	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
+		log_data->function_name);
 }
 
 void log_end_positive_path(char* function_name)
 {
 	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s\n", function_name);
+}
+
+void log_end_positive_path2(Test_Log_Data* log_data)
+{
+	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s, POSITIVE PATH  %s \n",
+		log_data->function_name, log_data->status? "PASSED" : "FAILED");
 }
 
 void log_start_negative_path(char* function_name)
@@ -141,6 +188,28 @@ void log_end_negative_path(char* function_name)
 {
 	fprintf(unit_test_log_file, "\nEnding NEGATIVE PATH testing for %s\n", function_name);
 	fflush(unit_test_log_file);		// Current unit test is done flush the output.
+}
+
+void log_start_test_path(Test_Log_Data* log_data)
+{
+	bool is_positive = log_test_is_positive_path(log_data);
+
+	fprintf(unit_test_log_file, "\nStarting %s PATH testing for %s\n",
+		is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name);
+}
+
+void log_end_test_path(Test_Log_Data *log_data)
+{
+	bool is_positive = log_test_is_positive_path(log_data);
+
+	fprintf(unit_test_log_file, "\nEnding %s PATH testing for %s, Path %s\n",
+		is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name,
+		log_data->status ? "PASSED" : "FAILED");
+
+	if (!is_positive)
+	{
+		fflush(unit_test_log_file);		// Current unit test is done flush the output.
+	}
 }
 
 void log_generic_message(char* log_message)

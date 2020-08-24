@@ -30,7 +30,11 @@ extern void init_test_log_data(Test_Log_Data* log_data, char* function_name, boo
 extern Test_Log_Data* create_and_init_test_log_data(char* function_name, bool status, char* path, bool stand_alone);
 extern void log_test_status_each_step2(Test_Log_Data* test_data_to_log);
 extern void log_start_positive_path(char* function_name);
+extern void log_start_positive_path2(Test_Log_Data* log_data);
+extern void log_start_test_path(Test_Log_Data* log_data);
+extern void log_end_test_path(Test_Log_Data* log_data);
 extern void log_end_positive_path(char* function_name);
+extern void log_end_positive_path2(Test_Log_Data* log_data);
 extern void log_start_negative_path(char* function_name);
 extern void log_end_negative_path(char* function_name);
 extern void log_generic_message(char *log_message);
