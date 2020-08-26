@@ -1,5 +1,5 @@
 /*
- * syntax_state_machine.c
+ * lexical_analyzer.c
  *
  * The Syntax State Machine is a simple lexical analyzer. Given the current syntax
  * state and the new input character what is the new syntax state. State machines
