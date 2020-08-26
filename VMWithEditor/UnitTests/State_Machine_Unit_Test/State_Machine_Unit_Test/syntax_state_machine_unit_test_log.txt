@@ -1,108 +1,5 @@
 Unit Test 0: Starting Lexical Analizer Unit Tests 
 
-current_state = START_STATE
-	transition character = Transition on {		new state ENTER_OPCODE_STATE
-	transition character = Transition on }		new state ERROR_STATE
-	transition character = Transition on ,		new state ENTER_OPERAND_STATE
-	transition character = Transition on Alpha		new state OPCODE_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state START_STATE
-	transition character = Transition on EOL		new state DONE_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = ENTER_OPCODE_STATE
-	transition character = Transition on {		new state ENTER_OPCODE_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state ENTER_OPERAND_STATE
-	transition character = Transition on Alpha		new state OPCODE_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state ENTER_OPCODE_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = OPCODE_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state ENTER_OPERAND_STATE
-	transition character = Transition on Alpha		new state OPCODE_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state END_OPCODE_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = END_OPCODE_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state ENTER_OPERAND_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state END_OPCODE_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = ENTER_OPERAND_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state DONE_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state ENTER_OPERAND_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state START_STATE
-
-current_state = OPERAND_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state DONE_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state OPERAND_STATE
-	transition character = Transition on White Space		new state END_OPERAND_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = END_OPERAND_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state DONE_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state ERROR_STATE
-	transition character = Transition on White Space		new state END_OPERAND_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = END_STATEMENT_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state END_STATEMENT_STATE
-	transition character = Transition on ,		new state DONE_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state ERROR_STATE
-	transition character = Transition on White Space		new state END_STATEMENT_STATE
-	transition character = Transition on EOL		new state DONE_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = DONE_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state ERROR_STATE
-	transition character = Transition on ,		new state DONE_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state ERROR_STATE
-	transition character = Transition on White Space		new state DONE_STATE
-	transition character = Transition on EOL		new state DONE_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-current_state = ERROR_STATE
-	transition character = Transition on {		new state ERROR_STATE
-	transition character = Transition on }		new state ERROR_STATE
-	transition character = Transition on ,		new state ERROR_STATE
-	transition character = Transition on Alpha		new state ERROR_STATE
-	transition character = Transition on Digit		new state ERROR_STATE
-	transition character = Transition on White Space		new state ERROR_STATE
-	transition character = Transition on EOL		new state ERROR_STATE
-	transition character = Transition on Illegal Character		new state ERROR_STATE
-
-
-Syntax Machine Internal Unit Test 1: unit_test_syntax_states : Passed
-
 
 Starting POSITIVE PATH testing for unit_test_get_alpha_input_transition_character_type
 
@@ -481,7 +378,7 @@ unit_test_get_alpha_input_transition_character_type(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_get_alpha_input_transition_character_type, Path PASSED
 
-Syntax Machine Internal Unit Test 2: unit_test_get_alpha_input_transition_character_type : Passed
+Syntax Machine Internal Unit Test 1: unit_test_get_alpha_input_transition_character_type : Passed
 
 STARTING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
@@ -1811,7 +1708,7 @@ Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitesp
 
 ENDING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)
 
-Syntax Machine Internal Unit Test 3: unit_test_get_transition_character_type : Passed
+Syntax Machine Internal Unit Test 2: unit_test_get_transition_character_type : Passed
 
 STARTING internal unit test for collect_error_reporting_data()
 
@@ -1845,7 +1742,7 @@ Ending NEGATIVE PATH testing for unit_test_collect_error_reporting_data, Path PA
 ENDING internal unit test for collect_error_reporting_data(
 
 
-Syntax Machine Internal Unit Test 4: unit_test_collect_error_reporting_data : Passed
+Syntax Machine Internal Unit Test 3: unit_test_collect_error_reporting_data : Passed
 
 STARTING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
 
@@ -1854,53 +1751,43 @@ Starting POSITIVE PATH testing for final_lexical_analysis_test
 
 
 
-Statement 1 (    {PUSH, 0x0A},
-)
+Statement 1 (    {PUSH, 0x0A},)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 2 (    {PUSH, 0x43},
-)
+Statement 2 (    {PUSH, 0x43},)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 3 ({ PUSH, 0x42 },
-)
+Statement 3 ({ PUSH, 0x42 },)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 4 ({ PUSH, 0x41 },
-)
+Statement 4 ({ PUSH, 0x41 },)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 5 ({ OUTPUTCHAR, 0x00 },    
-)
+Statement 5 ({ OUTPUTCHAR, 0x00 },    )
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 6 ({ POP, 0x00 },    
-)
+Statement 6 ({ POP, 0x00 },    )
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 7 ({ OUTPUTCHAR, 0x00 },
-)
+Statement 7 ({ OUTPUTCHAR, 0x00 },)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 8 ({    POP, 0x00  },
-)
+Statement 8 ({    POP, 0x00  },)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 9 ({OUTPUTCHAR, 0x00},
-)
+Statement 9 ({OUTPUTCHAR, 0x00},)
 final_lexical_analysis_test(): Positive Path Passed
 
 
-Statement 10 ({POP, 0x00},
-)
+Statement 10 ({POP, 0x00},)
 final_lexical_analysis_test(): Positive Path Passed
 
 
@@ -1913,40 +1800,35 @@ Starting NEGATIVE PATH testing for final_lexical_analysis_test
 
 
 
-Statement 1 (    {PUSH, 0x0A},
-)
+Statement 1 (    {PUSH, 0x0A},)
 final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 2 (    PUSH, 0x43},
-) has the following syntax errors
+Statement 2 (    PUSH, 0x43},) has the following syntax errors
 	Missing the opening brace.
 	Illegal character in column 1 (are you missing the opening brace { )
 final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 3 ({ PUSH, 0x42 ,
-) has the following syntax errors
+Statement 3 ({ PUSH, 0x42 ,) has the following syntax errors
 	Missing the closing brace.
 final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 4 ( { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },    
-)
-Expected syntax errors were:
+Statement 4 ( { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },    ) has the following syntax errors
+Syntax Error line 4  { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },     column 17 unexpected character '{' : skipping rest of line.
 	Only one program step per line
-final_lexical_analysis_test(): Negative Path Failed
+final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 5 ({ , 0x00 },    
-) has the following syntax errors
+Statement 5 ({ , 0x00 },    ) has the following syntax errors
 	Missing or unknow opcode
 final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 6 ({ OUTPUTCHAR 0x00 },)
-Expected syntax errors were:
-final_lexical_analysis_test(): Negative Path Failed
+Statement 6 ({ OUTPUTCHAR 0x00 },) has the following syntax errors
+	Missing comma(s)
+final_lexical_analysis_test(): Negative Path Passed
 
 
 Statement 7 ({    POP,  },) has the following syntax errors
@@ -1954,16 +1836,14 @@ Statement 7 ({    POP,  },) has the following syntax errors
 final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 8 ({OUTPUTCHAR, 0x00}
-)
-Expected syntax errors were:
-final_lexical_analysis_test(): Negative Path Failed
+Statement 8 ({OUTPUTCHAR, 0x00})
+final_lexical_analysis_test(): Negative Path Passed
 
 
-Statement 9 ({POP, 0x00 POP},
-) has the following syntax errors
+Statement 9 ({POP, 0x00 POP},) has the following syntax errors
+Syntax Error line 9 {POP, 0x00 POP}, column 11 unexpected character 'P' : skipping rest of line.
 	Missing the closing brace.
-final_lexical_analysis_test(): Negative Path Failed
+final_lexical_analysis_test(): Negative Path Passed
 
 
 Statement 10 (HALT) has the following syntax errors
@@ -1972,9 +1852,9 @@ Statement 10 (HALT) has the following syntax errors
 	Missing comma(s)
 	Missing operand or operand out of range
 	Illegal character in column 1 (are you missing the opening brace { )
-final_lexical_analysis_test(): Negative Path Failed
+final_lexical_analysis_test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for final_lexical_analysis_test, Path FAILED
+Ending NEGATIVE PATH testing for final_lexical_analysis_test, Path PASSED
 unit_test_get_state_transition_collect_parser_error_data NOT IMPLEMENTED 
 
 ENDING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
