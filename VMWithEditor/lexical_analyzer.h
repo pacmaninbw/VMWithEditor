@@ -25,8 +25,9 @@ typedef enum syntax_checks_list_items
 	ILLEGALOPERAND = 6,
 	ILLEGALFIRSTCHAR = 7,
 	MULTIPLESTATEMENTSONELINE = 8,
-	ILLEGALCHAR = 9
-#define SYNTAX_CHECK_COUNT 10
+	ILLEGALCHAR = 9,
+	MISSINGCOMMA = 10
+#define SYNTAX_CHECK_COUNT 11
 } Syntax_Check_List_Items;
 
 typedef enum syntax_state_enum
