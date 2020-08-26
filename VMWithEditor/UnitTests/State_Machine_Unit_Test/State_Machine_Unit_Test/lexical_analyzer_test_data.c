@@ -135,7 +135,7 @@ Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Lo
 		return NULL;
 	}
 
-	Expected_Syntax_Errors sample_expect_data = { 0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0} };
+	Expected_Syntax_Errors sample_expect_data = { 0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0} };
 	for (size_t test = 0; test < test_size; test++)
 	{
 		expected_errors[test].error_count = sample_expect_data.error_count;
@@ -156,7 +156,7 @@ Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Lo
 {
 	unsigned char* test_program[] =
 	{
-		 (unsigned char*)"    {PUSH, 0x0A},\n",							// No problem
+		(unsigned char*)"    {PUSH, 0x0A},\n",							// No problem
 		(unsigned char*)"    PUSH, 0x43},\n",							// Missing open brace
 		(unsigned char*)"{ PUSH, 0x42 ,\n",								// Missing close brace
 		(unsigned char*)" { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },    \n",	// Multiple statements on one line missing comma in second statement
@@ -171,16 +171,16 @@ Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Lo
 		;
 	Expected_Syntax_Errors expected_errors[] =
 	{
-		{0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0}},			// {PUSH, 0x0A}, No problem
-		{2, {0, 1, 2, 1, 1, 0, 0, 1, 0, 0}},			// PUSH, 0x43}, Missing open brace and Illegal character in first column
-		{1, {1, 0, 2, 1, 1, 0, 0, 0, 0, 0}},			// { PUSH, 0x42 , Missing close brace
-		{1, {2, 2, 4, 1, 1, 0, 0, 0, 1, 0}},			// { PUSH, 0x41 }, { OUTPUTCHAR 0x00 }, Multiple statements on one line missing comma in second statement
-		{1, {1, 1, 2, 0, 1, 0, 0, 0, 0, 0}},			// { , 0x00 }, Missibg opcode
-		{1, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}},			// { OUTPUTCHAR 0x00 }, Missing comma between opcode and operand
-		{1, {1, 1, 2, 1, 0, 0, 0, 0, 0, 0}},			// {    POP,  }, Missing OPERAND
-		{1, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}},			// {OUTPUTCHAR, 0x00}, Missing last comma
-		{1, {1, 1, 2, 1, 1, 0, 0, 0, 0, 1}},			// {POP, 0x00 POP}, Illegal characters after operand
-		{4, {0, 0, 0, 1, 0, 0, 0, 0, 0, 0}}			// HALT Missing open brace, commas, operand, close brace
+		{0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0}},			// {PUSH, 0x0A}, No problem
+		{2, {0, 1, 2, 1, 1, 0, 0, 1, 0, 0, 0}},			// PUSH, 0x43}, Missing open brace and Illegal character in first column
+		{1, {1, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0}},			// { PUSH, 0x42 , Missing close brace
+		{1, {2, 1, 2, 1, 1, 0, 0, 0, 1, 0, 0}},			// { PUSH, 0x41 }, { OUTPUTCHAR 0x00 }, Multiple statements on one line missing comma in second statement
+		{1, {1, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0}},			// { , 0x00 }, Missibg opcode
+		{1, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1}},			// { OUTPUTCHAR 0x00 }, Missing comma between opcode and operand
+		{1, {1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0}},			// {    POP,  }, Missing OPERAND
+		{0, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}},			// {OUTPUTCHAR, 0x00}, Missing last comma
+		{1, {1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0}},			// {POP, 0x00 POP}, Illegal characters after operand
+		{5, {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}}			// HALT Missing open brace, commas, operand, close brace
 	};
 
 	Lexical_Analyzer_Test_Data* negative_test_data = create_and_init_lexical_test_data(

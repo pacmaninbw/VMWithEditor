@@ -191,23 +191,23 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 	Error_Reporting_Test_Data static_global_test_data[] =
 	{
 		// Start with positive test path data
-		{START_STATE, OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_STATEMENT_STATE, COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{START_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{START_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{START_STATE, OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPERAND_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_STATEMENT_STATE, COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{START_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPERAND_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{START_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPERAND_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
 		// Negative test path data
-		{DONE_STATE, OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0}}},
-		{DONE_STATE, COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0}}},
-		{DONE_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0}}},
+		{DONE_STATE, OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		{DONE_STATE, COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		{DONE_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
 	};
 	*test_data_size = (sizeof(static_global_test_data) / sizeof(Error_Reporting_Test_Data));
 	*positive_path_test_count = 13;		// Count the lines of test_data above between the comments above.
@@ -328,6 +328,7 @@ static void report_syntax_errors(unsigned necessary_items[])
 	error_strings[ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
 	error_strings[MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
 	error_strings[ILLEGALCHAR] = "Illegal Character";
+	error_strings[MISSINGCOMMA] = "Missing comma(s)";
 
 	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
 	{
@@ -348,7 +349,8 @@ static void report_syntax_errors(unsigned necessary_items[])
 
 static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	unsigned syntax_check_list[], Syntax_State state, unsigned char* text_line,
-	size_t statement_number, Expected_Syntax_Errors* expected_errors)
+	size_t statement_number, Expected_Syntax_Errors* expected_errors,
+	char *parser_generated_error)
 {
 	unsigned error_count = 0;
 	bool syntax_check_list_in_sync = true;
@@ -356,7 +358,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
 	{
 		error_count += (!syntax_check_list[i] && i < ILLEGALOPCODE) ? 1 : ((i >= ILLEGALOPCODE && syntax_check_list[i]) ? 1 : 0);
-		if (syntax_check_list[i] != expected_errors->syntax_check_list[i])
+		if (syntax_check_list[i] != expected_errors->syntax_check_list[i] && i != MULTIPLESTATEMENTSONELINE)
 		{
 			syntax_check_list_in_sync = false;
 		}
@@ -367,11 +369,20 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 		syntax_check_list_in_sync = false;
 	}
 
+	char* eol_p = strrchr((const char *)text_line, '\n');
+	if (eol_p)
+	{
+		*eol_p = '\0';
+	}
 	char buffer[BUFSIZ];
 	if (state == ERROR_STATE || error_count)
 	{
 		sprintf(buffer, "\n\nStatement %d (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		log_generic_message(buffer);
+		if (parser_generated_error)
+		{
+			log_generic_message(parser_generated_error);
+		}
 		report_syntax_errors(syntax_check_list);
 	}
 	else
@@ -389,7 +400,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	return syntax_check_list_in_sync;
 }
 
-static bool unit_test_final_lexical_check_line_syntax(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
+static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
 {
 	bool test_passed = true;
 
@@ -399,16 +410,32 @@ static bool unit_test_final_lexical_check_line_syntax(unsigned char* text_line, 
 	unsigned char* opcode_start = NULL;
 	unsigned char* opcode_end = NULL;
 	unsigned char* operand_start = NULL;
-	unsigned char* operand_end = NULL;
+	char* parser_generated_error = NULL;
 
 	unsigned char* current_character = text_line;
-	while (*current_character && current_state != DONE_STATE && current_state != ERROR_STATE)
+	while (*current_character && current_state != ERROR_STATE)
 	{
 		Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
 		if (new_state != current_state)
 		{
 			switch (new_state)
 			{
+			case ERROR_STATE:
+			{
+				char buffer[BUFSIZ];
+				char* eol_p = strrchr((const char *)text_line, '\n');
+				if (eol_p)
+				{
+					*eol_p = '\0';
+				}
+				sprintf(buffer,
+					"Syntax Error line %zd %s column %d unexpected character '%c' : skipping rest of line.\n",
+					statement_number + 1, text_line, (int)(current_character - text_line),
+					*current_character);
+				parser_generated_error = _strdup(buffer);
+			};
+				break;
+
 			case OPCODE_STATE:
 				opcode_start = current_character;
 				syntax_check_list[LEGALOPCODE]++;
@@ -421,6 +448,10 @@ static bool unit_test_final_lexical_check_line_syntax(unsigned char* text_line, 
 			case OPERAND_STATE:
 				operand_start = current_character;
 				syntax_check_list[LEGALOPERAND]++;
+				if (!syntax_check_list[COMMA])
+				{
+					syntax_check_list[MISSINGCOMMA]++;
+				}
 				break;
 
 			case END_OPERAND_STATE:
@@ -438,19 +469,28 @@ static bool unit_test_final_lexical_check_line_syntax(unsigned char* text_line, 
 	}
 
 	bool syntax_check_list_in_sync = check_syntax_check_list_and_report_errors_as_parser_would(
-		syntax_check_list, current_state, text_line, statement_number, expected_errors);
+		syntax_check_list, current_state, text_line, statement_number, expected_errors, parser_generated_error);
 
 	if (!syntax_check_list_in_sync)
 	{
- 		test_passed = false;
+		char out_buffer[BUFSIZ];
+		sprintf(out_buffer, "\tcurrent_state = %s expected error count = %d ", state_name_for_printing(current_state), expected_errors->error_count);
+		strcat(out_buffer, "expected Checklist Values {");
+		print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
+		strcat(out_buffer, "new checklist values {");
+		print_syntax_error_checklist(syntax_check_list, out_buffer);
+		strcat(out_buffer, "\n");
+		log_generic_message(out_buffer);
+		test_passed = false;
 		log_data->status = false;
 	}
 	log_test_status_each_step2(log_data);
+	free(parser_generated_error);
 
 	return test_passed;
 }
 
-bool run_syntax_check_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
+bool run_parse_program_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
 {
 	bool test_passed = true;
 
@@ -460,7 +500,8 @@ bool run_syntax_check_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* 
 	for (size_t test_count = 0; test_count < test_data->test_program_size; test_count++)
 	{
 		log_data->status = true;
-		if (!unit_test_final_lexical_check_line_syntax(test_program[test_count], test_count, log_data, &expected_errors[test_count]))
+		if (!unit_test_final_lexical_parse_statement(test_program[test_count], test_count,
+			log_data, &expected_errors[test_count]))
 		{
 			test_passed = log_data->status;
 		}
@@ -469,7 +510,10 @@ bool run_syntax_check_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* 
 	return test_passed;
 }
 /*
- * This final test imitates the parser and parses an entire program.
+ * This final test imitates the parser and parses an entire program. There are
+ * 2 programs, one without syntax errors and one with syntax errors. The positive
+ * test path is the one without syntax errors and the negative path is the one
+ * with syntax errors.
  */
 bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 {
@@ -485,7 +529,7 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 	}
 
 	log_start_test_path(log_data);
-	if (!run_syntax_check_loop(log_data, positive_path_data))
+	if (!run_parse_program_loop(log_data, positive_path_data))
 	{
 		test_passed = log_data->status;
 	}
@@ -500,7 +544,7 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 
 	log_data->path = "Negative";
 	log_start_test_path(log_data);
-	if (!run_syntax_check_loop(log_data, negative_path_data))
+	if (!run_parse_program_loop(log_data, negative_path_data))
 	{
 		test_passed = log_data->status;
 	}

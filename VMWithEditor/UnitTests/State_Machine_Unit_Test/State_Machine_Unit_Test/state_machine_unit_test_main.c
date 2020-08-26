@@ -35,7 +35,7 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 	return all_unit_tests_passed;
 }
 
-#ifndef ALL_UNIT_TESTING
+#ifdef LEXICAL_UNIT_TEST_ONLY
 int main()
 {
 	error_out_file = stderr;
