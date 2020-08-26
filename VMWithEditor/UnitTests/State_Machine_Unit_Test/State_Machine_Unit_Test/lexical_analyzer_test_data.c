@@ -172,7 +172,7 @@ Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Lo
 	Expected_Syntax_Errors expected_errors[] =
 	{
 		{0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0}},			// {PUSH, 0x0A}, No problem
-		{1, {0, 1, 2, 1, 1, 0, 0, 1, 0, 0}},			// PUSH, 0x43}, Missing open brace
+		{2, {0, 1, 2, 1, 1, 0, 0, 1, 0, 0}},			// PUSH, 0x43}, Missing open brace and Illegal character in first column
 		{1, {1, 0, 2, 1, 1, 0, 0, 0, 0, 0}},			// { PUSH, 0x42 , Missing close brace
 		{1, {2, 2, 4, 1, 1, 0, 0, 0, 1, 0}},			// { PUSH, 0x41 }, { OUTPUTCHAR 0x00 }, Multiple statements on one line missing comma in second statement
 		{1, {1, 1, 2, 0, 1, 0, 0, 0, 0, 0}},			// { , 0x00 }, Missibg opcode

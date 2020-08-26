@@ -11,17 +11,6 @@
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_test_data.h"
 
-typedef struct state_test_data
-{
-	Syntax_State current_state;
-	Syntax_State expected_state;
-	Syntax_Check_List_Items check_list_item_to_update;
-	char input;
-	unsigned check_list_item_prestate;
-	unsigned expected_check_list_item_value;
-	unsigned check_list_item_max_value;
-} State_Test_Data;
-
 static char *state_name_for_printing(Syntax_State state)
 {
 	char* state_names[SYNTAX_STATE_ARRAY_SIZE] =
@@ -496,120 +485,133 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 	return test_passed;
 }
 
-static void log_all_failure_data_for_unit_test_execute_transitions_all_states_special_characters(
-	Test_Log_Data *log_data, State_Test_Data test_data[], unsigned syntax_check_list[],
-	Syntax_State current_state, Syntax_State new_state, size_t test_count)
+typedef struct state_test_data
+{
+	Syntax_State current_state;
+	State_Transition_Characters input_character_state;
+	unsigned syntax_items_checklist[SYNTAX_CHECK_COUNT];
+	Expected_Syntax_Errors expected_data;
+} Error_Reporting_Test_Data;
+
+static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_buffer)
+{
+	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	{
+		char num_buff[8];
+		if (i < SYNTAX_CHECK_COUNT - 1)
+		{
+			sprintf(num_buff, "%d ,", syntax_checklist[i]);
+			strcat(out_buffer, num_buff);
+		}
+		else
+		{
+			sprintf(num_buff, "%d} ", syntax_checklist[i]);
+			strcat(out_buffer, num_buff);
+		}
+	}
+}
+static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
+	Test_Log_Data* log_data, Error_Reporting_Test_Data test_data, unsigned syntax_check_list[])
 {
 	log_test_status_each_step2(log_data);
 
 	char out_buffer[BUFSIZ];
-	sprintf(out_buffer, "\tcurrent_state = %s new_state = %s expected state = %s\n",
-		state_name_for_printing(current_state),
-		state_name_for_printing(new_state),
-		state_name_for_printing(test_data[test_count].expected_state));
-	log_generic_message(out_buffer);
-
-	sprintf(out_buffer, "\tExpected Checklist Value %d new checklist value %d syntax_check_list[MULTIPLESTATEMENTSONELINE] %d\n\n",
-		test_data[test_count].expected_check_list_item_value,
-		syntax_check_list[test_data[test_count].check_list_item_to_update],
-		syntax_check_list[MULTIPLESTATEMENTSONELINE]);
+	sprintf(out_buffer, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
+	strcat(out_buffer, "expected Checklist Values {");
+	print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer);
+	strcat(out_buffer, "new checklist value {");
+	print_syntax_error_checklist(syntax_check_list, out_buffer);
+	strcat(out_buffer, "\n");
 	log_generic_message(out_buffer);
 }
 
-static bool unit_test_execute_transitions_all_states_special_characters(
-	Test_Log_Data log_data, size_t positive_path_test_count, State_Test_Data test_data[], size_t test_runs)
+static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors expected_errors)
+{
+	bool syntax_check_list_in_sync = true;
+
+	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	{
+		if (syntax_check_list[i] != expected_errors.syntax_check_list[i])
+		{
+			syntax_check_list_in_sync = false;
+		}
+	}
+
+	return syntax_check_list_in_sync;
+}
+
+static bool run_error_checking_unit_tests(
+	Test_Log_Data *log_data, size_t positive_path_test_count,
+	Error_Reporting_Test_Data test_data[], size_t test_runs)
 {
 	bool test_passed = true;
 
-	Syntax_State_Transition* next_states = get_or_create_next_states();
-	if (!next_states)
-	{
-		fprintf(error_out_file, "In %s Memory allocation error in get_create_next_states()\n", log_data.function_name);
-		return false;
-	}
-
-	log_start_test_path(&log_data);
+	log_start_test_path(log_data);
 
 	for (size_t test_count = 0; test_count < test_runs; test_count++)
 	{
-		log_data.status = true;
+		log_data->status = true;
 		if (test_count == positive_path_test_count)
 		{
-			log_end_test_path(&log_data);
-			log_data.path = "Negative";
-			log_start_test_path(&log_data);
+			log_end_test_path(log_data);
+			log_data->path = "Negative";
+			log_start_test_path(log_data);
 		}
 
 		unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
-		memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
-		syntax_check_list[test_data[test_count].check_list_item_to_update] = test_data[test_count].check_list_item_prestate;
+		memcpy(&syntax_check_list[0], &test_data[test_count].syntax_items_checklist[0], sizeof(syntax_check_list));
 
-		Syntax_State current_state = test_data[test_count].current_state;
-		Syntax_State new_state = test_function(current_state, next_states, syntax_check_list);
-
-		if (new_state != test_data[test_count].expected_state
-			|| syntax_check_list[test_data[test_count].check_list_item_to_update] != test_data[test_count].expected_check_list_item_value
-			|| (test_data[test_count].expected_check_list_item_value > test_data[test_count].check_list_item_max_value && !syntax_check_list[MULTIPLESTATEMENTSONELINE])
-			|| (test_data[test_count].expected_check_list_item_value <= test_data[test_count].check_list_item_max_value && syntax_check_list[MULTIPLESTATEMENTSONELINE]))
+		collect_error_reporting_data(test_data[test_count].current_state,
+			test_data[test_count].input_character_state, syntax_check_list);
+		if (!errors_in_sync(syntax_check_list, test_data[test_count].expected_data))
 		{
-			log_data.status = false;
-			log_all_failure_data_for_unit_test_execute_transitions_all_states_special_characters(
-				&log_data, test_data, syntax_check_list, current_state, new_state, test_count);
+			log_data->status = false;
+			log_all_failure_data_for_unit_test_collect_error_reporting_data(
+				log_data, test_data[test_count], syntax_check_list);
 		}
 		else
 		{
-			log_test_status_each_step2(&log_data);
+			log_test_status_each_step2(log_data);
 		}
 
-		if (!log_data.status && log_data.status != test_passed)
+		if (!log_data->status && test_passed)
 		{
-			test_passed = log_data.status;
+			test_passed = log_data->status;
 		}
 	}
 
-	log_end_test_path(&log_data);
+	log_end_test_path(log_data);
 
 	return test_passed;
 }
 
-static State_Test_Data static_global_test_data[] =
+static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_test_count, size_t *test_data_size)
 {
-	// Start with positive test path data
-	{START_STATE, ENTER_OPCODE_STATE, '{', OPENBRACE, 0, MAX_OPEN_BRACE, MAX_OPEN_BRACE},
-	{END_STATEMENT_STATE, DONE_STATE, ',', COMMA, 1, 2, MAX_COMMA},
-	{OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
-	{END_OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
-	{OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-	// Negative test path data
-	{START_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
-	{ENTER_OPCODE_STATE, ENTER_OPERAND_STATE, ',', COMMA, 0, 1, MAX_COMMA},
-	{ENTER_OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
-	{OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
-	{END_OPERAND_STATE, DONE_STATE, ',', COMMA, 1, MAX_COMMA, MAX_COMMA},
-	{ERROR_STATE, ERROR_STATE, ',', COMMA, 0, 1, MAX_COMMA},
-	{END_STATEMENT_STATE, DONE_STATE, ',', COMMA, 2, 3, MAX_COMMA},	// too many commas
-	{DONE_STATE, DONE_STATE, ',', COMMA, 2, 3, MAX_COMMA},	// too many commas
-	{ENTER_OPCODE_STATE, ENTER_OPCODE_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{OPCODE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{END_OPCODE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{ENTER_OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{END_OPERAND_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{END_STATEMENT_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{DONE_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{ERROR_STATE, ERROR_STATE, '{', OPENBRACE, 1, 2, MAX_OPEN_BRACE},
-	{START_STATE, ERROR_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-	{ENTER_OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-	{OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-	{END_OPCODE_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, 1, MAX_CLOSE_BRACE},
-	{ENTER_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-	{END_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 0, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE},
-	{END_STATEMENT_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
-	{DONE_STATE, ERROR_STATE, '}', CLOSEBRACE, 1, 2, MAX_CLOSE_BRACE},
-	{END_OPERAND_STATE, END_STATEMENT_STATE, '}', CLOSEBRACE, MAX_CLOSE_BRACE, MAX_CLOSE_BRACE + 1, MAX_CLOSE_BRACE}		// Positive, except for 2 close braces so negative
-};
-static size_t static_global_test_data_size = (sizeof(static_global_test_data) /sizeof(State_Test_Data) );
-size_t static_global_positive_path_test_count = 5;		// Count the lines of test_data above between the comments.
+	Error_Reporting_Test_Data static_global_test_data[] =
+	{
+		// Start with positive test path data
+		{START_STATE, OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPERAND_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_STATEMENT_STATE, COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0}}},
+		{OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}}},
+		{END_OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}}},
+		// Negative test path data
+		{DONE_STATE, OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0}}},
+		{DONE_STATE, COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0}}},
+		{DONE_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0}}},
+	};
+	*test_data_size = (sizeof(static_global_test_data) / sizeof(Error_Reporting_Test_Data));
+	*positive_path_test_count = 5;		// Count the lines of test_data above between the comments.
+
+	Error_Reporting_Test_Data* test_data = calloc(*test_data_size, sizeof(*test_data));
+
+	for (size_t i = 0; i < *test_data_size; i++)
+	{
+		memcpy(&test_data[i], &static_global_test_data[i], sizeof(*test_data));
+	}
+
+	return test_data;
+}
 
 static bool unit_test_collect_error_reporting_data(unsigned test_step)
 {
@@ -625,26 +627,31 @@ static bool unit_test_collect_error_reporting_data(unsigned test_step)
 		return false;
 	}
 
+	size_t positivie_path_count = 0;
+	size_t test_count = 0;
+	Error_Reporting_Test_Data* test_data = init_error_report_data(&positivie_path_count, &test_count);
+	if (!test_data)
+	{
+		fprintf(error_out_file, "Memory allocation of test_data failed in %s",
+			log_data->function_name);
+		return false;
+	}
+
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING internal unit test for collect_error_reporting_data("
-			"Syntax_State current_state, State_Transition_Characters character_type, "
-			"unsigned syntax_check_list[])\n\n");
+		sprintf(buffer, "STARTING internal unit test for %s()\n\n", "collect_error_reporting_data");
 		log_generic_message(buffer);
 	}
 
-	sprintf(buffer, "%s NOT IMPLEMENTED \n", log_data->function_name);
-	log_generic_message(buffer);
-	test_passed = false;
+	test_passed = run_error_checking_unit_tests(log_data, positivie_path_count, test_data, test_count);
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING internal unit test for collect_error_reporting_data("
-			"Syntax_State current_state, State_Transition_Characters character_type, "
-			"unsigned syntax_check_list[])\n\n");
+		sprintf(buffer, "\nENDING internal unit test for %s(\n\n", "collect_error_reporting_data");
 		log_generic_message(buffer);
 	}
 
+	free(test_data);
 	free(log_data);
 
 	return test_passed;
@@ -751,12 +758,23 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 		syntax_check_list_in_sync = false;
 	}
 
+	char buffer[BUFSIZ];
 	if (state == ERROR_STATE || error_count)
 	{
-		char buffer[BUFSIZ];
-		sprintf(buffer, "\n\nStatement %d (%s) has the following syntax_errors\n", statement_number, text_line);
+		sprintf(buffer, "\n\nStatement %d (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		log_generic_message(buffer);
 		report_syntax_errors(syntax_check_list);
+	}
+	else
+	{
+		sprintf(buffer, "\n\nStatement %d (%s)\n", statement_number + 1, text_line);
+		log_generic_message(buffer);
+		if (expected_errors->error_count)
+		{
+			sprintf(buffer, "Expected syntax errors were:\n");
+			log_generic_message(buffer);
+			report_syntax_errors(expected_errors->syntax_check_list);
+		}
 	}
 
 	return syntax_check_list_in_sync;
@@ -904,7 +922,7 @@ bool unit_test_get_state_transition_collect_parser_error_data(unsigned test_step
 	if (!log_data)
 	{
 		report_create_and_init_test_log_data_memory_failure(
-			"unit_test_collect_error_reporting_data");
+			"unit_test_get_state_transition_collect_parser_error_data");
 		return false;
 	}
 

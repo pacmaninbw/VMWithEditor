@@ -15,7 +15,6 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 	log_generic_message(buffer);
 
 	all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
-	all_unit_tests_passed = true; // TODO remove after debug
 
 	if (all_unit_tests_passed)
 	{
