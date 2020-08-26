@@ -1823,6 +1823,14 @@ unit_test_collect_error_reporting_data(): Positive Path Passed
 unit_test_collect_error_reporting_data(): Positive Path Passed
 unit_test_collect_error_reporting_data(): Positive Path Passed
 unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
+unit_test_collect_error_reporting_data(): Positive Path Passed
 
 Ending POSITIVE PATH testing for unit_test_collect_error_reporting_data, Path PASSED
 
