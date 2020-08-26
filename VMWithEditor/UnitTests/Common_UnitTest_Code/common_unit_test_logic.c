@@ -194,7 +194,7 @@ void log_start_test_path(Test_Log_Data* log_data)
 {
 	bool is_positive = log_test_is_positive_path(log_data);
 
-	fprintf(unit_test_log_file, "\nStarting %s PATH testing for %s\n",
+	fprintf(unit_test_log_file, "\nStarting %s PATH testing for %s\n\n",
 		is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name);
 }
 
