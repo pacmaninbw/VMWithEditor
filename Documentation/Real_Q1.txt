@@ -1,0 +1,2086 @@
+Lexical Analyzer Unit Test
+
+## Background  
+Back in June I provided this [answer][1] to a question here on code review. I advised the person that asked the question to use enums rather than numbers to represent the opcodes, but upon further consideration I thought that the virtual machine really needed an editor as the front end and I have been working on that. An editor will require a translator to convert text into the numbers the virtual machine uses for opcodes and operands. The translator is composed of a parser and a lexical analyzer. The lexical analyzer is complete, unit tested and debugged so I am presenting it here for code review with the unit tests.
+
+This program is written in C because the original question was written in C. I tried to stick to the C90 standard as much as possible, but I did include _strdup() which is in the latest standard (perhaps it is strdup() in the latest standard, but Visual Studio suggested _strdup()).  
+
+## Why did I write unit tests for the lexical analyzer?  
+ 1. It is a best practice at many companies that do software development.  
+ 2. The code was very complex, at the time it was not a state machine (unit testing convinced me to go that route). It was over 450 lines of un-commented code in the parser module and growing.  
+ 3. I had gotten to the point where I wanted to test/debug the lexical analyzer and the parser wasn't working so I wanted a program that ran only the lexical analyzer.  
+ 4. I wanted to test/debug the code in a bottom up manner to make sure the lowest level functions were working correctly before testing the higher level functions.  
+
+The benefits of unit testing were that it forced me to create a more modular design and to redesign the lexical analyzer to use a state machine rather another method. The results are less code and a better working lexical analyzer. It will also force a redesign of the parser, but that is for another question.  
+
+## The Language
+The language is fairly simple. 
+
+{OPCODE, OPERAND},
+{OPCODE, OPERAND}
+
+Here is a working program (it is the example program in the original question):  
+
+    {PUSH, 0x0A},
+    {PUSH, 0x43},
+    {PUSH, 0x42},
+    {PUSH, 0x41},
+    {OUTPUTCHAR, 0x00},
+    {POP, 0x00},    
+    {OUTPUTCHAR, 0x00},
+    {POP, 0x00},
+    {OUTPUTCHAR, 0x00},
+    {POP, 0x00},
+    {HALT, 0x00}
+
+## Questions
+I learned C a long time ago from K&R “The C Programming Language” Version 1 (pre C89/C90).  
+ 1. Other than compiling this –O3 what can I do to optimize this code?  
+ 2. Are there any features in the more modern versions of C that could reduce the amount of code? There are currently more 1300 lines of commented code to test the 376 lines of commented code in lexical_analyzer.c and lexical_analyzer.h.  
+ 3. Is there archaic C usage that is not customary to use anymore?  
+ 4. Are the unit tests missing any test cases, especially edge cases?  
+ 5. Are there any memory leaks?  
+ 6. Is the code readable?  
+ 7. I don’t like the fact that I need to include the unit test files in lexical_analyzer.c do you see any way around this?  
+ 8. Is the language too complex?  
+
+## Code Available:  
+Rather than copy and pasting this code it is available in my [GitHub Repository][2].  
+
+The unit test ouput is always saved to a `.txt` file, a comparison text file is the [unit test folder][3] in the repository. The unit test output is 1827 lines so it is not included here in the question.
+
+## The code being tested  
+
+**lexical_analyzer.h**  
+
+	/*
+	 * lexical_analyzer.h
+	 *
+	 * The Syntax State Machine is a simple lexical analiser. Given the current syntax
+	 * state and the new input character what is the new syntax state. State machines
+	 * can be represented as tables. Table implementation of a state machine uses
+	 * more memory but performs faster, the lexical analyser programs Flex and LEX
+	 * generate tables to implement lexical analysis.
+	 *
+	 * This module uses enums to make the states and transitions easier to understand.
+	 *
+	 */
+	#ifndef SYNTAX_STATE_MACHINE_H
+	#define SYNTAX_STATE_MACHINE_H
+
+	typedef enum syntax_checks_list_items
+	{
+		OPENBRACE = 0,
+		CLOSEBRACE = 1,
+		COMMA = 2,
+		LEGALOPCODE = 3,
+		LEGALOPERAND = 4,
+		ILLEGALOPCODE = 5,
+		ILLEGALOPERAND = 6,
+		ILLEGALFIRSTCHAR = 7,
+		MULTIPLESTATEMENTSONELINE = 8,
+		ILLEGALCHAR = 9,
+		MISSINGCOMMA = 10
+	#define SYNTAX_CHECK_COUNT 11
+	} Syntax_Check_List_Items;
+
+	typedef enum syntax_state_enum
+	{
+		START_STATE = 0,				// Start of a new line, only white space or open brace is really expected
+		ENTER_OPCODE_STATE = 1,				// Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+		OPCODE_STATE = 2,				// Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+		END_OPCODE_STATE = 3,				// White space has been encountered only white space or comma expected
+		ENTER_OPERAND_STATE = 4,			// Comma has been encountered, waiting for first digit of operand white space allowed
+		OPERAND_STATE = 5,				// First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+		END_OPERAND_STATE = 6,				// White space has been encountered, waiting for close brace to end statement
+		END_STATEMENT_STATE = 7,			// Close brace has been encountered, comma or new line expected
+		DONE_STATE = 8,					// Comma has been encountered only legal input is white space or new line
+		ERROR_STATE = 9
+	} Syntax_State;
+
+	#define SYNTAX_STATE_ARRAY_SIZE	9 + 1	// (size_t) ERROR_STATE + 1
+
+	typedef enum legal_characters_that_cause_transitions
+	{
+		OPENBRACE_STATE_TRANSITION = 0,			// This needs to be the same as OPENBRACE in Syntax_Check_List_Items
+		CLOSEBRACE_STATE_TRANSITION = 1,		// This needs to be the same as CLOSEBRACE in Syntax_Check_List_Items
+		COMMA_STATE_TRANSITION = 2,			// This needs to be the same as COMMA in Syntax_Check_List_Items
+		ALPHA_STATE_TRANSITION = 3,
+		DIGIT_STATE_TRANSITION = 4,
+		WHITESPACE_STATE_TRANSITION = 5,
+		EOL_STATE_TRANSITION = 6,			// End of Line
+		ILLEGAL_CHAR_TRANSITION = 7
+	} State_Transition_Characters;
+	#define TRANSITION_ARRAY_SIZE 7 + 1			// ILLEGAL_CHAR_TRANSITION + 1
+
+	typedef struct syntax_state_transition
+	{
+		Syntax_State current_state;
+		Syntax_State transition_on_char_type[TRANSITION_ARRAY_SIZE];
+	} Syntax_State_Transition;
+
+	#define MAX_COMMA 2
+	#define MAX_OPEN_BRACE 1
+	#define MAX_CLOSE_BRACE 1
+	#define MAX_OPCODE 1
+	#define MAX_OPERAND 1
+	#define MAX_WHITE_SPACE	200
+
+	extern Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
+	extern void deactivate_lexical_analyzer(void);
+
+	#endif	//	SYNTAX_STATE_MACHINE_H
+
+
+**lexical_analyzer.c**  
+
+	/*
+	 * lexical_analyzer.c
+	 *
+	 * The Syntax State Machine is a simple lexical analyzer. Given the current syntax
+	 * state and the new input character what is the new syntax state. State machines
+	 * can be represented as tables. Table implementation of a state machine uses
+	 * more memory but performs faster, the lexical analyser programs Flex and LEX
+	 * generate tables to implement lexical analysis.
+	 *
+	 * This module uses enums to make the states and transitions easier to understand.
+	 *
+	 */
+	#include "lexical_analyzer.h"
+	#ifdef UNIT_TESTING
+	#include "common_unit_test_logic.h"
+	#else
+	#include "common_program_logic.h"
+	#endif
+	#include <ctype.h>
+	#include <stdbool.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+
+	/*
+	 * This function returns the table that represents the current syntactic state
+	 * and the new state that each possible legal into can go to from the current
+	 * state. If this function is successful the function deallocate_next_states()
+	 * should be called when the lexical analisys is done.
+	 *
+	 * To allow the parser to report as many errors as possible per statement
+	 * not all errors result in ERROR_STATE, missing required items are reported
+	 * in a separate data structure. The decision to report the error is made
+	 * at the parser level.
+	 *
+	 * Columns in table below
+	 *	OPENBRACE_STATE_TRANSITION = 0,
+	 *	CLOSEBRACE_STATE_TRANSITION = 1,
+	 *	COMMA_STATE_TRANSITION = 2,
+	 *	ALPHA_STATE_TRANSITION = 3,
+	 *	DIGIT_STATE_TRANSITION = 4,
+	 *	WHITESPACE_STATE_TRANSITION = 5,
+	 *	EOL_STATE_TRANSITION = 6		// End of Line
+	 *  ILLEGAL_CHAR_TRANSITION = 7
+	 *
+	 * Rows in table below
+	 *	START_STATE = 0,			Start of a new line, only white space or open brace is really expected
+	 *	ENTER_OPCODE_STATE = 1,		Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+	 *	OPCODE_STATE = 2,			Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+	 *	END_OPCODE_STATE = 3,		White space has been encountered only white space or comma expected
+	 *	ENTER_OPERAND_STATE = 4,	Comma has been encountered, waiting for first digit of operand white space allowed
+	 *	OPERAND_STATE = 5,			First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+	 *	END_OPERAND_STATE = 6,		White space has been encountered, waiting for close brace to end statement
+	 *	END_STATEMENT_STATE = 7,	Close brace has been encountered, comma or new line expected
+	 *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
+	 *	ERROR_STATE = 9
+	 */
+	static Syntax_State_Transition* allocate_next_states_once = NULL;
+	static Syntax_State_Transition* get_or_create_next_states(void)
+	{
+		if (allocate_next_states_once)
+		{
+			return allocate_next_states_once;
+		}
+
+		allocate_next_states_once = calloc(((size_t)ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
+		if (!allocate_next_states_once)
+		{
+			report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
+			return allocate_next_states_once;
+		}
+
+		allocate_next_states_once[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE,
+			ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE, ERROR_STATE} };
+		allocate_next_states_once[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
+			END_STATEMENT_STATE, ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, ENTER_OPCODE_STATE,
+			ERROR_STATE, ERROR_STATE} };
+		allocate_next_states_once[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+			ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE, ERROR_STATE} };
+		allocate_next_states_once[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
+			END_STATEMENT_STATE, ENTER_OPERAND_STATE, ERROR_STATE, OPERAND_STATE, END_OPCODE_STATE,
+			ERROR_STATE, ERROR_STATE} };
+		allocate_next_states_once[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
+			END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, OPERAND_STATE, ENTER_OPERAND_STATE, ERROR_STATE} };
+		allocate_next_states_once[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
+			DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
+		allocate_next_states_once[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
+			END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
+		allocate_next_states_once[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
+			END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE, ERROR_STATE} };
+		allocate_next_states_once[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
+			DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE, ERROR_STATE} };
+		allocate_next_states_once[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
+			ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
+
+		return allocate_next_states_once;
+	}
+
+	void deactivate_lexical_analyzer(void)
+	{
+		free(allocate_next_states_once);
+	}
+
+	static bool is_legal_in_hex_number(unsigned char input)
+	{
+		bool is_legal = false;
+
+		switch (toupper(input))
+		{
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'X':
+				is_legal = true;
+				break;
+
+			default:
+				is_legal = false;
+				break;
+		}
+
+
+		return is_legal;
+	}
+
+	/*
+	 * The calling function has already gone through one filter so it is assured that
+	 * the input character is an alpha and not some other type of character.
+	 */
+	static State_Transition_Characters get_alpha_input_transition_character_type(unsigned char input, Syntax_State current_state)
+	{
+		State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+
+		switch (current_state)
+		{
+			case ENTER_OPERAND_STATE:
+			case OPERAND_STATE:
+			case END_OPERAND_STATE:
+				character_type = (is_legal_in_hex_number(input)) ? DIGIT_STATE_TRANSITION :
+					ALPHA_STATE_TRANSITION;
+				break;
+
+			default:
+				character_type = ALPHA_STATE_TRANSITION;
+				break;
+		}
+
+		return character_type;
+	}
+
+	/*
+	 * The calling function has already gone through several filter so it is assured
+	 * that the input character is not an alpha, digit, white space or end of line.
+	 */
+	static State_Transition_Characters get_puctuation_transition_character_type(unsigned char input)
+	{
+		State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+
+		switch (input)
+		{
+			case ',':
+				character_type = COMMA_STATE_TRANSITION;
+				break;
+
+			case '{':
+				character_type = OPENBRACE_STATE_TRANSITION;
+				break;
+
+			case '}':
+				character_type = CLOSEBRACE_STATE_TRANSITION;
+				break;
+
+			default:
+				character_type = ILLEGAL_CHAR_TRANSITION;
+				break;
+		}
+
+		return character_type;
+	}
+
+	/*
+	 * The calling function has already gone through several filter so it is assured
+	 * that the input character is not an alpha, digit, white space or end of line.
+	 */
+	static State_Transition_Characters get_whitespace_transition_character_type(unsigned char input)
+	{
+		State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+
+		switch (input)
+		{
+			case ' ':
+			case '\t':
+				character_type = WHITESPACE_STATE_TRANSITION;
+				break;
+
+			case '\n':
+			case '\r':
+				character_type = EOL_STATE_TRANSITION;
+				break;
+
+			default:
+				character_type = ILLEGAL_CHAR_TRANSITION;
+				break;
+		}
+
+		return character_type;
+	}
+
+	/*
+	 * Rather than create a table indexed by each and every character in the character
+	 * set save space using ctype functions for large ranges. Also save time on
+	 * implementation and debugging.
+	 */
+	static State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
+	{
+		State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+		if (isalpha(input))
+		{
+			character_type = get_alpha_input_transition_character_type(input, current_state);
+		}
+		else if (isdigit(input))
+		{
+			character_type = DIGIT_STATE_TRANSITION;
+		}
+		else if (isspace(input))
+		{
+			character_type = get_whitespace_transition_character_type(input);
+		}
+		else
+		{
+			character_type = get_puctuation_transition_character_type(input);
+		}
+
+		return character_type;
+	}
+
+	/*
+	 * syntax_check_list provides additional error information for the parser.
+	 */
+	static void collect_error_reporting_data(Syntax_State current_state,
+		State_Transition_Characters character_type, unsigned syntax_check_list[])
+	{
+		switch (character_type)
+		{
+
+			case WHITESPACE_STATE_TRANSITION:		// This section is for character types that
+			case EOL_STATE_TRANSITION:				// are a legal first character on a line
+				break;
+
+			case COMMA_STATE_TRANSITION:			// Punctuation required by grammer on
+			case OPENBRACE_STATE_TRANSITION:		// every line
+			case CLOSEBRACE_STATE_TRANSITION:
+			{
+				unsigned maximum_allowed[] = { MAX_OPEN_BRACE, MAX_CLOSE_BRACE, MAX_COMMA };
+				syntax_check_list[character_type]++;
+				if (syntax_check_list[character_type] > maximum_allowed[character_type])
+				{
+					syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
+				}
+			}	// flow through so that punctuation is handeled like all other character
+			default:
+				if (current_state == START_STATE && character_type != OPENBRACE_STATE_TRANSITION)
+				{
+					syntax_check_list[ILLEGALFIRSTCHAR]++;
+				}
+				break;
+		}
+	}
+
+	/*
+	 * A design decision was made to allocate next_states only once to save overhead in
+	 * this function and to not force the parser to allocate the memory.
+	 * 
+	 * This function performs the lexical analysis for the parser, it uses a state machine
+	 * implemented as a table to do this. That table is the next_states variable.
+	 */
+	Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[])
+	{
+		Syntax_State_Transition* next_states = get_or_create_next_states();
+		if (!next_states)
+		{
+			fprintf(error_out_file, "In %s: Memory allocation error in get_or_create_next_states()\n", "get_state_transition_collect_parser_error_data");
+			fprintf(error_out_file, "Unable to perform lexical analisys! Exiting program.");
+			exit(EXIT_FAILURE);
+		}
+
+		State_Transition_Characters character_type = get_transition_character_type(input, current_state);
+		collect_error_reporting_data(current_state, character_type, syntax_check_list);
+
+		return next_states[current_state].transition_on_char_type[character_type];
+	}
+
+	#ifdef UNIT_TESTING
+	#include "internal_sytax_state_tests.c"
+	#endif
+
+## Unit Testing Code  
+
+**common_unit_test_logic.h**  
+
+	#ifndef COMMON_UNIT_TEST_LOGIC_H
+	#define COMMON_UNIT_TEST_LOGIC_H
+	#include <stdio.h>
+	#include <stdbool.h>
+	#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
+	#include "human_readable_program_format.h"
+	#endif
+
+	typedef struct test_log_data
+	{
+		char* function_name;
+		bool status;
+		char* path;
+		bool stand_alone;
+	} Test_Log_Data;
+
+	extern FILE* error_out_file;
+	extern FILE* unit_test_log_file;
+
+	extern bool init_vm_error_reporting(char* error_log_file_name);
+	#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
+	extern Human_Readable_Program_Format* default_program(size_t* program_size);
+	#endif
+	extern void disengage_error_reporting(void);
+	extern bool init_unit_tests(char* log_file_name);
+	extern void report_error_generic(char* error_message);
+	extern void report_create_and_init_test_log_data_memory_failure(char* function_name);
+	extern void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone);
+	extern void init_test_log_data(Test_Log_Data* log_data, char* function_name, bool status, char* path, bool stand_alone);
+	extern Test_Log_Data* create_and_init_test_log_data(char* function_name, bool status, char* path, bool stand_alone);
+	extern void log_test_status_each_step2(Test_Log_Data* test_data_to_log);
+	extern void log_start_positive_path(char* function_name);
+	extern void log_start_positive_path2(Test_Log_Data* log_data);
+	extern void log_start_test_path(Test_Log_Data* log_data);
+	extern void log_end_test_path(Test_Log_Data* log_data);
+	extern void log_end_positive_path(char* function_name);
+	extern void log_end_positive_path2(Test_Log_Data* log_data);
+	extern void log_start_negative_path(char* function_name);
+	extern void log_end_negative_path(char* function_name);
+	extern void log_generic_message(char *log_message);
+	extern void close_unit_tests(void);
+
+	#endif // !COMMON_UNIT_TEST_LOGIC_H
+
+**common_unit_test_logic.c**  
+
+	#include "common_unit_test_logic.h"
+	#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
+	#include "virtual_machine.h"
+	#endif
+	#include <ctype.h>
+	#include <stdbool.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+
+	FILE* error_out_file = NULL;
+	FILE* unit_test_log_file = NULL;
+
+	bool init_vm_error_reporting(char* error_log_file_name)
+	{
+		bool status_is_good = true;
+
+		if (error_log_file_name)
+		{
+			error_out_file = fopen(error_log_file_name, "w");
+			if (!error_out_file)
+			{
+				error_out_file = stderr;
+				fprintf(error_out_file, "Can't open error output file, %s", "error_log_file_name");
+				status_is_good = false;
+			}
+		}
+		else
+		{
+			error_out_file = stderr;
+		}
+
+		return status_is_good;
+	}
+
+	void disengage_error_reporting(void)
+	{
+		if (error_out_file != stderr)
+		{
+			fclose(error_out_file);
+		}
+	}
+
+	#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
+	/*
+	 * Allow unit tests that don't require virtual_machine.c and human_readable_program_format.c.
+	 */
+	Human_Readable_Program_Format* default_program(size_t* program_size)
+	{
+		Human_Readable_Program_Format program[] =
+		{
+			{PUSH, 0x0A},
+			{PUSH, 0x43},
+			{PUSH, 0x42},
+			{PUSH, 0x41},
+			{OUTPUTCHAR, 0x00},
+			{POP, 0x00},
+			{OUTPUTCHAR, 0x00},
+			{POP, 0x00},
+			{OUTPUTCHAR, 0x00},
+			{POP, 0x00},
+			{HALT, 0x00}
+		};
+
+		size_t progsize = sizeof(program) / sizeof(*program);
+
+		Human_Readable_Program_Format* copy_of_program = duplicate_program(program, progsize);
+		if (copy_of_program)
+		{
+			*program_size = progsize;
+		}
+
+		return copy_of_program;
+	}
+	#endif
+
+	bool init_unit_tests(char* log_file_name)
+	{
+		if (log_file_name)
+		{
+			unit_test_log_file = fopen(log_file_name, "w");
+			if (!unit_test_log_file)
+			{
+				fprintf(error_out_file, "Can't open %s for output\n", log_file_name);
+				return false;
+			}
+			error_out_file = unit_test_log_file;
+		}
+		else
+		{
+			unit_test_log_file = stdout;
+			error_out_file = stderr;
+		}
+
+		return true;
+	}
+
+	void report_error_generic(char *error_message)
+	{
+		fprintf(error_out_file, "%s\n", error_message);
+	}
+
+	void close_unit_tests(void)
+	{
+		if (unit_test_log_file != stdout)
+		{
+			fclose(unit_test_log_file);
+		}
+	}
+
+	static bool log_test_is_positive_path(Test_Log_Data* log_data)
+	{
+		bool is_positive = true;
+
+		if (!log_data->path)
+		{
+			fprintf(error_out_file, "Programmer error: log_data->path is NULL in log_test_is_positive_path()\n");
+			return false;
+		}
+
+		char* string_to_test = _strdup(log_data->path);
+		if (!string_to_test)
+		{
+			fprintf(error_out_file, "Memory Allocation error: _strdup() failed in log_test_is_positive_path()\n");
+			fprintf(error_out_file, "Exiting program.\n");
+			exit(EXIT_FAILURE);
+		}
+
+		char* stt_ptr = string_to_test;
+		while (*stt_ptr)
+		{
+			*stt_ptr = (char) toupper(*stt_ptr);
+			stt_ptr++;
+		}
+
+		is_positive = (strcmp(string_to_test, "POSITIVE") == 0);
+
+		return is_positive;
+	}
+
+	void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone)
+	{
+		if (stand_alone)
+		{
+			fprintf(unit_test_log_file, "%s(): %s Path %s\n", function_name, path,
+				(status) ? "Passed" : "Failed");
+		}
+	}
+
+	void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
+	{
+		if (test_data_to_log->stand_alone)
+		{
+			fprintf(unit_test_log_file, "%s(): %s Path %s\n", test_data_to_log->function_name,
+				test_data_to_log->path, (test_data_to_log->status) ? "Passed" : "Failed");
+		}
+	}
+
+	void log_start_positive_path(char* function_name)
+	{
+		fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
+			function_name);
+	}
+
+	void log_start_positive_path2(Test_Log_Data *log_data)
+	{
+		fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
+			log_data->function_name);
+	}
+
+	void log_end_positive_path(char* function_name)
+	{
+		fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s\n", function_name);
+	}
+
+	void log_end_positive_path2(Test_Log_Data* log_data)
+	{
+		fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s, POSITIVE PATH  %s \n",
+			log_data->function_name, log_data->status? "PASSED" : "FAILED");
+	}
+
+	void log_start_negative_path(char* function_name)
+	{
+		fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for %s\n\n", function_name);
+	}
+
+	void log_end_negative_path(char* function_name)
+	{
+		fprintf(unit_test_log_file, "\nEnding NEGATIVE PATH testing for %s\n", function_name);
+		fflush(unit_test_log_file);		// Current unit test is done flush the output.
+	}
+
+	void log_start_test_path(Test_Log_Data* log_data)
+	{
+		bool is_positive = log_test_is_positive_path(log_data);
+
+		fprintf(unit_test_log_file, "\nStarting %s PATH testing for %s\n\n",
+			is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name);
+	}
+
+	void log_end_test_path(Test_Log_Data *log_data)
+	{
+		bool is_positive = log_test_is_positive_path(log_data);
+
+		fprintf(unit_test_log_file, "\nEnding %s PATH testing for %s, Path %s\n",
+			is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name,
+			log_data->status ? "PASSED" : "FAILED");
+
+		if (!is_positive)
+		{
+			fflush(unit_test_log_file);		// Current unit test is done flush the output.
+		}
+	}
+
+	void log_generic_message(char* log_message)
+	{
+		fprintf(unit_test_log_file, log_message);
+	}
+
+	void init_test_log_data(Test_Log_Data* log_data, char *function_name, bool status, char *path, bool stand_alone)
+	{
+		log_data->function_name = function_name;
+		log_data->status = status;
+		log_data->path = path;
+		log_data->stand_alone = stand_alone;
+	}
+
+	Test_Log_Data *create_and_init_test_log_data(char* function_name, bool status, char* path, bool stand_alone)
+	{
+		Test_Log_Data* log_data = calloc(1, sizeof(*log_data));
+		if (log_data)
+		{
+			init_test_log_data(log_data, function_name, status, path, stand_alone);
+		}
+		else
+		{
+			fprintf(error_out_file, "In %s calloc() failed\n", "create_and_init_test_log_data");
+		}
+
+		return log_data;
+	}
+
+	// provides common error report for memory allocation error.
+	void report_create_and_init_test_log_data_memory_failure(char *function_name)
+	{
+		fprintf(error_out_file, "In function %s, Memory allocation failed in create_and_init_test_log_data\n", function_name);
+	}
+
+
+**internal_sytax_state_tests.h**  
+
+	#ifndef INTERNAL_SYNTAX_STATE_TEST_H
+	#define INTERNAL_SYNTAX_STATE_TEST_H
+
+	#include <stdbool.h>
+
+	extern bool internal_tests_on_all_state_transitions(unsigned test_step);
+	extern bool unit_test_lexical_analyzer(unsigned test_step);
+
+	#endif	// INTERNAL_SYNTAX_STATE_TEST_H
+
+**internal_character_transition_unit_tests.c**  
+
+	/*
+	 * internal_character_transition_unit_tests.c
+	 *
+	 * This file contains the lowest level of unit testing for the lexical analyzer.
+	 * It tests the lexical state transitions for particular characters. While it
+	 * is a C source file rather than a header file it is included by static functions
+	 * internal_sytax_state_tests.c because it is testing within lexical_analyzer.c.
+	 * The file internal_sytax_state_tests.c is included by lexical_analyzer.c. as
+	 * well. This file was separated out of internal_sytax_state_tests.c because at
+	 * some point that file became too large and complex.
+	 */
+
+	static void log_unit_test_get_transition_character_type_failure(
+		Test_Log_Data* log_data, unsigned char candidate, Syntax_State current_state,
+		State_Transition_Characters expected_type, State_Transition_Characters actual_type)
+	{
+		// Force failures to be reported
+		bool stand_alone = log_data->stand_alone;
+
+		log_test_status_each_step2(log_data);
+
+		char out_buffer[BUFSIZ];
+		sprintf(out_buffer, "\tcurrent_state = %s input character = %c\n",
+			state_name_for_printing(current_state), candidate);
+		log_generic_message(out_buffer);
+
+		sprintf(out_buffer, "\tExpected Transitiion %s Actual Transition %s\n\n",
+			transition_character[expected_type], transition_character[actual_type]);
+		log_generic_message(out_buffer);
+
+		log_data->stand_alone = stand_alone;
+	}
+
+	typedef enum test_character_case
+	{
+		LOWER_CASE = 0,
+		UPPER_CASE = 1
+	} TEST_CHARACTER_CASE;
+
+	static State_Transition_Characters get_expected_alpha_transition_character_type(
+		unsigned char input, Syntax_State current_state)
+	{
+		input = (unsigned char)toupper(input);
+
+		switch (input)
+		{
+		case 'A':
+		case 'B':
+		case 'C':
+		case 'D':
+		case 'E':
+		case 'F':
+		case 'X':
+			if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE
+				|| current_state == END_OPERAND_STATE)
+			{
+				return DIGIT_STATE_TRANSITION;
+			}
+			else
+			{
+				return ALPHA_STATE_TRANSITION;
+			}
+			break;
+
+		default:
+			return ALPHA_STATE_TRANSITION;
+			break;
+		}
+	}
+
+	typedef State_Transition_Characters(*STFfunct)(unsigned char input, Syntax_State current_state);
+	static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, Syntax_State current_state, STFfunct transition_function)
+	{
+		bool test_passed = true;
+		char buffer[BUFSIZ];
+
+		for (size_t alphabet = (size_t)LOWER_CASE; alphabet <= (size_t)UPPER_CASE; alphabet++)
+		{
+			if (log_data->stand_alone)
+			{
+				sprintf(buffer, "\tBegin Positive test path current_state = %s input character = %s\n\n",
+					state_name_for_printing(current_state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
+				log_generic_message(buffer);
+			}
+
+			unsigned char fist_character_to_test = (alphabet == LOWER_CASE) ? 'a' : 'A';
+			unsigned char last_character_to_test = (alphabet == LOWER_CASE) ? 'z' : 'Z';
+			for (unsigned char candidate_character = fist_character_to_test; candidate_character <= last_character_to_test; candidate_character++)
+			{
+				log_data->status = true;
+				State_Transition_Characters expected_type = get_expected_alpha_transition_character_type(candidate_character, current_state);
+				State_Transition_Characters actual_type = transition_function(candidate_character, current_state);
+				if (expected_type != actual_type)
+				{
+					log_data->status = false;
+					test_passed = log_data->status;
+					log_unit_test_get_transition_character_type_failure(log_data, candidate_character, current_state, expected_type, actual_type);
+				}
+				else
+				{
+					log_test_status_each_step2(log_data);
+				}
+			}
+
+			if (log_data->stand_alone)
+			{
+				sprintf(buffer,
+					"\n\tEnd Positive test path current_state = %s input character = %s\n\n",
+					state_name_for_printing(current_state),
+					(alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
+				log_generic_message(buffer);
+			}
+		}
+
+		return test_passed;
+	}
+
+	static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_data,
+		Syntax_State current_state, unsigned char* input, State_Transition_Characters expected_transition[],
+		size_t positive_path_count, char* local_func_name)
+	{
+		bool test_passed = true;
+		char* keep_old_path = log_data->path;
+
+		log_data->path = "Positive";
+		size_t test_count = 0;
+		for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+		{
+			if (positive_path_count == test_count)
+			{
+				log_end_positive_path(local_func_name);
+				log_start_negative_path(local_func_name);
+				log_data->path = "Negative";
+			}
+
+			log_data->status = true;
+			State_Transition_Characters actual_transistion = get_transition_character_type(
+				*test_input, current_state);
+			log_data->status = actual_transistion == expected_transition[test_count];
+			if (!log_data->status)
+			{
+				log_unit_test_get_transition_character_type_failure(log_data, *test_input,
+					current_state, expected_transition[test_count], actual_transistion);
+				test_passed = false;
+			}
+			else
+			{
+				log_test_status_each_step2(log_data);
+			}
+		}
+
+		log_data->status = test_passed;
+		log_data->path = keep_old_path;
+
+		return test_passed;
+	}
+
+	/*
+	 * Tests limited number of states where alpha is important calls the lower level
+	 * function get_alpha_input_transition_character_type().
+	 */
+	static bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
+	{
+		bool test_passed = true;
+		Test_Log_Data log_data;
+
+		init_test_log_data(&log_data, "unit_test_get_alpha_input_transition_character_type",
+			test_passed, "Positive", test_step == 0);
+
+		if (log_data.stand_alone)
+		{
+			log_start_positive_path(log_data.function_name);
+		}
+
+		for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
+		{
+			test_passed = core_alpha_character_transition_unit_test(&log_data, state,
+				get_alpha_input_transition_character_type);
+		}
+
+		if (log_data.stand_alone)
+		{
+			log_end_test_path(&log_data);
+		}
+
+		return test_passed;
+	}
+
+	static bool unit_test_whitespace_transition(Test_Log_Data* log_data, Syntax_State current_state)
+	{
+		bool test_passed = true;
+		unsigned char input[] = " \t\n\r\v\f";
+
+		State_Transition_Characters expected_transition[] =
+		{
+			// Positive test path
+			WHITESPACE_STATE_TRANSITION, WHITESPACE_STATE_TRANSITION, EOL_STATE_TRANSITION,
+			// Test the negatvie path as well.
+			EOL_STATE_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION
+		};
+		size_t positive_path_count = 4;		// Change this if more positive path tests are added.
+
+		char buffer[BUFSIZ];
+		sprintf(buffer, "%s whitespace transition test", log_data->function_name);
+		char* local_func_name = _strdup(buffer);
+
+		log_start_positive_path(local_func_name);
+
+		if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+			input, expected_transition, positive_path_count, local_func_name))
+		{
+			test_passed = log_data->status;
+		}
+
+		log_end_negative_path(local_func_name);
+		free(local_func_name);
+
+		log_data->status = test_passed;
+
+		return test_passed;
+	}
+
+	static void init_digit_test_data(unsigned char* input, State_Transition_Characters
+		expected_transition[], size_t* positive_test_path, Syntax_State current_state)
+	{
+		State_Transition_Characters* expected_ptr = expected_transition;
+		if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE || current_state == END_OPERAND_STATE)
+		{
+			for (; *input; input++, expected_ptr++)
+			{
+				*expected_ptr = DIGIT_STATE_TRANSITION;
+			}
+			*positive_test_path = strlen((const char*)input);
+		}
+		else
+		{
+			for (; *input; input++, expected_ptr++)
+			{
+				if (isdigit(*input))
+				{
+					*expected_ptr = DIGIT_STATE_TRANSITION;
+					(*positive_test_path)++;
+				}
+				else
+				{
+					*expected_ptr = ALPHA_STATE_TRANSITION;		// to force failures use this instead *expected_ptr = DIGIT_STATE_TRANSITION;
+				}
+			}
+		}
+	}
+
+	static bool unit_test_digit_transition(Test_Log_Data* log_data, Syntax_State current_state)
+	{
+		bool test_passed = true;
+		unsigned char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
+	#define MAX_INPUT_CHARACTERS	24
+		State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
+		size_t positive_path_count;								// Change this if more positive path tests are added.
+		init_digit_test_data(input, expected_transition, &positive_path_count, current_state);
+
+		char* local_func_name = NULL;
+		if (log_data->stand_alone)
+		{
+			char buffer[BUFSIZ];
+			sprintf(buffer, "%s digit transition test", log_data->function_name);
+			local_func_name = _strdup(buffer);
+			log_start_positive_path(local_func_name);
+		}
+
+		if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+			input, expected_transition, positive_path_count, local_func_name))
+		{
+			test_passed = log_data->status;
+		}
+
+		if (log_data->stand_alone)
+		{
+			if (positive_path_count > 10)
+			{
+				log_end_positive_path(local_func_name);
+			}
+			else
+			{
+				log_end_negative_path(local_func_name);
+			}
+		}
+
+	#undef MAX_INPUT_CHARACTERS
+
+		log_data->status = test_passed;
+		return test_passed;
+	}
+
+	/*
+	 * test the state specified by the caller function. Calls the higher level function
+	 * get_transition_character_type().
+	 */
+	static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State current_state)
+	{
+		bool test_passed = true;
+		char* local_func_name = NULL;
+
+		if (log_data->stand_alone)
+		{
+			char buffer[BUFSIZ];
+			sprintf(buffer, "%s alpha transition test", log_data->function_name);
+			local_func_name = _strdup(buffer);
+			log_start_positive_path(local_func_name);
+		}
+
+		test_passed = core_alpha_character_transition_unit_test(log_data, current_state,
+			get_transition_character_type);
+
+		if (log_data->stand_alone)
+		{
+			log_end_positive_path(local_func_name);
+		}
+
+		return test_passed;
+	}
+
+	static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_State current_state)
+	{
+		bool test_passed = true;
+		unsigned char input[] = "{},+-/*=&";
+
+		State_Transition_Characters expected_transition[] =
+		{
+			// Positive test path
+			OPENBRACE_STATE_TRANSITION, CLOSEBRACE_STATE_TRANSITION, COMMA_STATE_TRANSITION,
+			// Test the negatvie path as well.
+			ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION,
+			ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION
+		};
+		size_t positive_path_count = 3;		// Change this if more positive path tests are added.
+
+		char buffer[BUFSIZ];
+		sprintf(buffer, "%s punctuation transition test", log_data->function_name);
+		char* local_func_name = _strdup(buffer);
+
+		log_start_positive_path(local_func_name);
+
+		if (core_non_alpha_character_transition_unit_test(log_data, current_state,
+			input, expected_transition, positive_path_count, local_func_name))
+		{
+			test_passed = log_data->status;
+		}
+
+		log_end_negative_path(local_func_name);
+		free(local_func_name);
+
+		log_data->status = test_passed;
+
+		return test_passed;
+	}
+
+	typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, Syntax_State state);
+
+	static bool unit_test_get_transition_character_type(size_t test_step)
+	{
+		bool test_passed = true;
+		char buffer[BUFSIZ];
+
+		Test_Log_Data* log_data = create_and_init_test_log_data(
+			"unit_test_get_transition_character_type", test_passed, "Positive",
+			test_step == 0);
+		if (!log_data)
+		{
+			report_create_and_init_test_log_data_memory_failure(
+				"unit_test_get_transition_character_type");
+			return false;
+		}
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "STARTING internal unit test for get_transition_character_type("
+				"unsigned char input, Syntax_State current_state)");
+			log_generic_message(buffer);
+		}
+
+		character_transition_test_function test_function[] =
+		{
+			unit_test_punctuation_transition,
+			unit_test_alpha_transition,
+			unit_test_digit_transition,
+			unit_test_whitespace_transition
+		};
+		for (size_t state = (size_t)START_STATE; state <= (size_t)ERROR_STATE; state++)
+		{
+			for (size_t unit_test_count = 0; unit_test_count < sizeof(test_function) /
+				sizeof(*test_function); unit_test_count++)
+			{
+				if (!test_function[unit_test_count](log_data, (Syntax_State)state))
+				{
+					test_passed = log_data->status;
+				}
+			}
+		}
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "\nENDING internal unit test for get_transition_character_type("
+				"unsigned char input, Syntax_State current_state)\n");
+			log_generic_message(buffer);
+		}
+
+		free(log_data);
+
+		return test_passed;
+	}
+
+**lexical_analyzer_test_data.h**  
+
+	#ifndef LEXICAL_ANALYZER_TEST_DATA_H
+	#define LEXICAL_ANALYZER_TEST_DATA_H
+
+	#include "lexical_analyzer.h"
+
+	typedef struct expected_syntax_errors
+	{
+		unsigned error_count;
+		unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+	} Expected_Syntax_Errors;
+
+	typedef struct lexical_analyzer_test_data
+	{
+		unsigned char** test_program;
+		size_t test_program_size;
+		Expected_Syntax_Errors* expected_errors;
+	} Lexical_Analyzer_Test_Data;
+
+	extern void deallocate_lexical_test_data(Lexical_Analyzer_Test_Data* deletee);
+	extern void lexical_analyzer_test_data_allocation_failed(Test_Log_Data* log_data, char* allocating_function,
+		char* allocation_function);
+	extern Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Log_Data* log_data);
+	extern Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Log_Data* log_data);
+
+	#endif	// LEXICAL_ANALYZER_TEST_DATA_H
+
+**lexical_analyzer_test_data.c**  
+
+#include "common_unit_test_logic.h"
+#include "lexical_analyzer_test_data.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static void deallocate_test_program(size_t test_program_size, unsigned char **test_program)
+{
+	if (!test_program)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < test_program_size; i++)
+	{
+		free(test_program[i]);
+	}
+
+	free(test_program);
+}
+
+static void deallocate_expected_data(Expected_Syntax_Errors* expected_errors)
+{
+	if (!expected_errors)
+	{
+		return;
+	}
+
+	free(expected_errors);
+}
+
+void deallocate_lexical_test_data(Lexical_Analyzer_Test_Data* deletee)
+{
+	if (!deletee)
+	{
+		return;
+	}
+
+	if (deletee->expected_errors)
+	{
+		deallocate_expected_data(deletee->expected_errors);
+		deletee->expected_errors = NULL;
+	}
+
+	if (deletee->test_program)
+	{
+		deallocate_test_program(deletee->test_program_size, deletee->test_program);
+		deletee->test_program = NULL;
+	}
+
+	free(deletee);
+}
+
+void lexical_analyzer_test_data_allocation_failed(Test_Log_Data* log_data, char* allocating_function,
+	char* allocation_function)
+{
+	fprintf(error_out_file, "Memory Allocation Error in %s\n", allocating_function);
+	fprintf(error_out_file, "\t%s failed for allocation of test data\n", allocation_function);
+	fprintf(error_out_file, "\t Unable to continue %s\n", log_data->function_name);
+}
+
+static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned char** test_program,
+	size_t test_program_size, Expected_Syntax_Errors* expected_data,
+	Test_Log_Data* log_data, char* allocating_function)
+{
+	Expected_Syntax_Errors* expected_errors_dup = calloc(test_program_size, sizeof(*expected_errors_dup));
+	if (!expected_errors_dup)
+	{
+		lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "calloc");
+		return NULL;
+	}
+
+	for (size_t step_count = 0; step_count < test_program_size; step_count++)
+	{
+		expected_errors_dup[step_count].error_count = expected_data[step_count].error_count;
+		for (size_t checklist_item = 0; checklist_item < SYNTAX_CHECK_COUNT; checklist_item++)
+		{
+			expected_errors_dup[step_count].syntax_check_list[checklist_item] = expected_data[step_count].syntax_check_list[checklist_item];
+		}
+	}
+
+	unsigned char** test_program_dupe = calloc(test_program_size, sizeof(*test_program_dupe));
+	if (!test_program_dupe)
+	{
+		lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "calloc");
+		deallocate_expected_data(expected_errors_dup);
+		return NULL;
+	}
+
+	for (size_t step_count = 0; step_count < test_program_size; step_count++)
+	{
+		test_program_dupe[step_count] = (unsigned char*) _strdup((char *)test_program[step_count]);
+		if (!test_program_dupe[step_count])
+		{
+			lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "_strdup");
+			deallocate_test_program(step_count, test_program_dupe);
+			deallocate_expected_data(expected_errors_dup);
+			return NULL;
+		}
+	}
+
+	Lexical_Analyzer_Test_Data* new_lexical_test_data = calloc(1, sizeof(*new_lexical_test_data));
+	if (!new_lexical_test_data)
+	{
+		lexical_analyzer_test_data_allocation_failed(log_data, allocating_function, "calloc");
+		return NULL;
+	}
+
+	new_lexical_test_data->test_program_size = test_program_size;
+	new_lexical_test_data->test_program = test_program_dupe;
+	new_lexical_test_data->expected_errors = expected_errors_dup;
+
+	return new_lexical_test_data;
+}
+
+Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Log_Data* log_data)
+{
+
+	unsigned char* test_program[] = {
+	(unsigned char*)"    {PUSH, 0x0A},\n", (unsigned char*)"    {PUSH, 0x43},\n",
+	(unsigned char*)"{ PUSH, 0x42 },\n", (unsigned char*)"{ PUSH, 0x41 },\n",
+	(unsigned char*)"{ OUTPUTCHAR, 0x00 },    \n", (unsigned char*)"{ POP, 0x00 },    \n",
+	(unsigned char*)"{ OUTPUTCHAR, 0x00 },\n", (unsigned char*)"{    POP, 0x00  },\n",
+	(unsigned char*)"{OUTPUTCHAR, 0x00},\n", (unsigned char*)"{POP, 0x00},\n",
+	(unsigned char*)"{HALT, 0x00}"
+	};
+	size_t test_size = sizeof(test_program) / sizeof(*test_program);
+
+
+	Expected_Syntax_Errors* expected_errors = calloc(test_size, sizeof(*expected_errors));
+	if (!expected_errors)
+	{
+		lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "calloc");
+		return NULL;
+	}
+
+	Expected_Syntax_Errors sample_expect_data = { 0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0} };
+	for (size_t test = 0; test < test_size; test++)
+	{
+		expected_errors[test].error_count = sample_expect_data.error_count;
+		for (size_t checklist_item = 0; checklist_item < SYNTAX_CHECK_COUNT; checklist_item++)
+		{
+			expected_errors[test].syntax_check_list[checklist_item] = sample_expect_data.syntax_check_list[checklist_item];
+		}
+	}
+	expected_errors[test_size - 1].syntax_check_list[COMMA] = 1;
+
+	Lexical_Analyzer_Test_Data* positive_test_data = create_and_init_lexical_test_data(
+		test_program, test_size, expected_errors, log_data, "init_positive_path_data_for_lexical_analysis");
+
+	return positive_test_data;
+}
+
+Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Log_Data* log_data)
+{
+	unsigned char* test_program[] =
+	{
+		(unsigned char*)"    {PUSH, 0x0A},\n",							// No problem
+		(unsigned char*)"    PUSH, 0x43},\n",							// Missing open brace
+		(unsigned char*)"{ PUSH, 0x42 ,\n",								// Missing close brace
+		(unsigned char*)" { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },    \n",	// Multiple statements on one line missing comma in second statement
+		(unsigned char*)"{ , 0x00 },    \n",							// Missibg opcode
+		(unsigned char*)"{ OUTPUTCHAR 0x00 },",							// Missing comma between opcode and operand
+		(unsigned char*)"{    POP,  },",								// Missing OPERAND
+		(unsigned char*)"{OUTPUTCHAR, 0x00}\n",							// Missing last comma
+		(unsigned char*)"{POP, 0x00 POP},\n",							// Illegal characters after operand
+		(unsigned char*)"HALT"											// Missing open brace, commas, operand, close brace
+	};
+	size_t test_size = sizeof(test_program) / sizeof(*test_program)
+		;
+	Expected_Syntax_Errors expected_errors[] =
+	{
+		{0, {1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0}},			// {PUSH, 0x0A}, No problem
+		{2, {0, 1, 2, 1, 1, 0, 0, 1, 0, 0, 0}},			// PUSH, 0x43}, Missing open brace and Illegal character in first column
+		{1, {1, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0}},			// { PUSH, 0x42 , Missing close brace
+		{1, {2, 1, 2, 1, 1, 0, 0, 0, 1, 0, 0}},			// { PUSH, 0x41 }, { OUTPUTCHAR 0x00 }, Multiple statements on one line missing comma in second statement
+		{1, {1, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0}},			// { , 0x00 }, Missibg opcode
+		{1, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1}},			// { OUTPUTCHAR 0x00 }, Missing comma between opcode and operand
+		{1, {1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0}},			// {    POP,  }, Missing OPERAND
+		{0, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}},			// {OUTPUTCHAR, 0x00}, Missing last comma
+		{1, {1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0}},			// {POP, 0x00 POP}, Illegal characters after operand
+		{5, {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}}			// HALT Missing open brace, commas, operand, close brace
+	};
+
+	Lexical_Analyzer_Test_Data* negative_test_data = create_and_init_lexical_test_data(
+		test_program, test_size, expected_errors, log_data, "init_negative_path_data_for_lexical_analysis");
+
+	return negative_test_data;
+}
+
+**internal_sytax_state_tests.c**  
+
+	/* 
+	 * internal_sytax_state_tests.c
+	 *
+	 * This file contains both internal syntax state machine unit tests, and unit tests
+	 * for the public interface of the lexitcal analyzer these test functions test the
+	 * very basic functions that are the building blocks of the public interface, they are
+	 * declared static so these tests must be included in the syntax_state_machine.c file
+	 * rather than externally.
+	 */
+
+	#include "internal_sytax_state_tests.h"
+	#include "lexical_analyzer_test_data.h"
+
+	static char *state_name_for_printing(Syntax_State state)
+	{
+		char* state_names[SYNTAX_STATE_ARRAY_SIZE] =
+		{
+			"START_STATE",
+			"ENTER_OPCODE_STATE",
+			"OPCODE_STATE",
+			"END_OPCODE_STATE",
+			"ENTER_OPERAND_STATE",
+			"OPERAND_STATE",
+			"END_OPERAND_STATE",
+			"END_STATEMENT_STATE",
+			"DONE_STATE",
+			"ERROR_STATE"
+		};
+
+		return state_names[(size_t)state];
+	}
+
+	static char* transition_character[TRANSITION_ARRAY_SIZE] =
+	{
+		"Transition on {",
+		"Transition on }",
+		"Transition on ,",
+		"Transition on Alpha",
+		"Transition on Digit",
+		"Transition on White Space",
+		"Transition on EOL",
+		"Transition on Illegal Character",
+	};
+
+	#ifdef UNIT_TEST_DEBUG
+	static bool unit_test_syntax_states(size_t test_step)
+	{
+		bool test_passed = true;
+		bool stand_alone = test_step == 0;
+
+		Syntax_State_Transition* test_transitions = get_or_create_next_states();
+		if (!test_transitions)
+		{
+			fprintf(error_out_file, "Memory allocation error in get_create_next_states()\n");
+			return false;
+		}
+
+		for (size_t state = 0; state < SYNTAX_STATE_ARRAY_SIZE; state++)
+		{
+			char out_buffer[BUFSIZ];
+			if (stand_alone)
+			{
+				sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(
+					test_transitions[state].current_state));
+				log_generic_message(out_buffer);
+			}
+
+			if (stand_alone)
+			{
+				for (size_t character_index = 0; character_index < TRANSITION_ARRAY_SIZE;
+					character_index++)
+				{
+					sprintf(out_buffer, "\ttransition character = %s\t\tnew state %s\n",
+						transition_character[character_index],
+						state_name_for_printing(
+							test_transitions[state].transition_on_char_type[character_index]));
+					log_generic_message(out_buffer);
+				}
+				log_generic_message("\n");
+			}
+		}
+
+		return test_passed;
+	}
+	#endif
+
+	#include "internal_character_transition_unit_tests.c"
+
+	typedef struct state_test_data
+	{
+		Syntax_State current_state;
+		State_Transition_Characters input_character_state;
+		unsigned syntax_items_checklist[SYNTAX_CHECK_COUNT];
+		Expected_Syntax_Errors expected_data;
+	} Error_Reporting_Test_Data;
+
+	static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_buffer)
+	{
+		for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+		{
+			char num_buff[8];
+			if (i < SYNTAX_CHECK_COUNT - 1)
+			{
+				sprintf(num_buff, "%d ,", syntax_checklist[i]);
+				strcat(out_buffer, num_buff);
+			}
+			else
+			{
+				sprintf(num_buff, "%d} ", syntax_checklist[i]);
+				strcat(out_buffer, num_buff);
+			}
+		}
+	}
+	static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
+		Test_Log_Data* log_data, Error_Reporting_Test_Data test_data, unsigned syntax_check_list[])
+	{
+		log_test_status_each_step2(log_data);
+
+		char out_buffer[BUFSIZ];
+		sprintf(out_buffer, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
+		strcat(out_buffer, "expected Checklist Values {");
+		print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer);
+		strcat(out_buffer, "new checklist value {");
+		print_syntax_error_checklist(syntax_check_list, out_buffer);
+		strcat(out_buffer, "\n");
+		log_generic_message(out_buffer);
+	}
+
+	static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors expected_errors)
+	{
+		bool syntax_check_list_in_sync = true;
+
+		for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+		{
+			if (syntax_check_list[i] != expected_errors.syntax_check_list[i])
+			{
+				syntax_check_list_in_sync = false;
+			}
+		}
+
+		return syntax_check_list_in_sync;
+	}
+
+	static bool run_error_checking_unit_tests(
+		Test_Log_Data *log_data, size_t positive_path_test_count,
+		Error_Reporting_Test_Data test_data[], size_t test_runs)
+	{
+		bool test_passed = true;
+
+		log_start_test_path(log_data);
+
+		for (size_t test_count = 0; test_count < test_runs; test_count++)
+		{
+			log_data->status = true;
+			if (test_count == positive_path_test_count)
+			{
+				log_end_test_path(log_data);
+				log_data->path = "Negative";
+				log_start_test_path(log_data);
+			}
+
+			unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+			memcpy(&syntax_check_list[0], &test_data[test_count].syntax_items_checklist[0], sizeof(syntax_check_list));
+
+			collect_error_reporting_data(test_data[test_count].current_state,
+				test_data[test_count].input_character_state, syntax_check_list);
+			if (!errors_in_sync(syntax_check_list, test_data[test_count].expected_data))
+			{
+				log_data->status = false;
+				log_all_failure_data_for_unit_test_collect_error_reporting_data(
+					log_data, test_data[test_count], syntax_check_list);
+			}
+			else
+			{
+				log_test_status_each_step2(log_data);
+			}
+
+			if (!log_data->status && test_passed)
+			{
+				test_passed = log_data->status;
+			}
+		}
+
+		log_end_test_path(log_data);
+
+		return test_passed;
+	}
+
+	static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_test_count, size_t *test_data_size)
+	{
+		Error_Reporting_Test_Data static_global_test_data[] =
+		{
+			// Start with positive test path data
+			{START_STATE, OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPERAND_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{END_STATEMENT_STATE, COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{END_OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{END_OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{START_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPERAND_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{END_OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{START_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPERAND_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			{OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+			// Negative test path data
+			{DONE_STATE, OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
+			{DONE_STATE, COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0}}},
+			{DONE_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		};
+		*test_data_size = (sizeof(static_global_test_data) / sizeof(Error_Reporting_Test_Data));
+		*positive_path_test_count = 13;		// Count the lines of test_data above between the comments above.
+
+		Error_Reporting_Test_Data* test_data = calloc(*test_data_size, sizeof(*test_data));
+
+		for (size_t i = 0; i < *test_data_size; i++)
+		{
+			memcpy(&test_data[i], &static_global_test_data[i], sizeof(*test_data));
+		}
+
+		return test_data;
+	}
+
+	static bool unit_test_collect_error_reporting_data(unsigned test_step)
+	{
+		bool test_passed = true;
+		char buffer[BUFSIZ];
+		Test_Log_Data* log_data = create_and_init_test_log_data(
+			"unit_test_collect_error_reporting_data", test_passed, "Positive",
+			test_step == 0);
+		if (!log_data)
+		{
+			report_create_and_init_test_log_data_memory_failure(
+				"unit_test_collect_error_reporting_data");
+			return false;
+		}
+
+		size_t positivie_path_count = 0;
+		size_t test_count = 0;
+		Error_Reporting_Test_Data* test_data = init_error_report_data(&positivie_path_count, &test_count);
+		if (!test_data)
+		{
+			fprintf(error_out_file, "Memory allocation of test_data failed in %s",
+				log_data->function_name);
+			return false;
+		}
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "STARTING internal unit test for %s()\n\n", "collect_error_reporting_data");
+			log_generic_message(buffer);
+		}
+
+		test_passed = run_error_checking_unit_tests(log_data, positivie_path_count, test_data, test_count);
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "\nENDING internal unit test for %s(\n\n", "collect_error_reporting_data");
+			log_generic_message(buffer);
+		}
+
+		free(test_data);
+		free(log_data);
+
+		return test_passed;
+	}
+
+	typedef bool (*state_machine_unit_test_function)(size_t test_step);
+
+	typedef struct unit_test_functions_and_args
+	{
+		char* test_name;
+		state_machine_unit_test_function func;
+	} State_Machine_Unit_Test_Functions;
+
+	/*
+	 * This function unit tests all the internal functions that support the
+	 * function get_state_transition_collect_parser_error_data(). If any of
+	 * these unit tests fail the unit test for lexical_analyzer() will not
+	 * execute.
+	 */
+	bool internal_tests_on_all_state_transitions(unsigned test_step)
+	{
+		bool all_tests_passed = true;
+		char buffer[BUFSIZ];
+
+		State_Machine_Unit_Test_Functions unit_tests[] =
+		{
+	#ifdef UNIT_TEST_DEBUG
+			{"unit_test_syntax_states", unit_test_syntax_states},
+	#endif
+			{"unit_test_get_alpha_input_transition_character_type",
+				unit_test_get_alpha_input_transition_character_type},
+			{"unit_test_get_transition_character_type",
+				unit_test_get_transition_character_type},
+			{"unit_test_collect_error_reporting_data",
+				unit_test_collect_error_reporting_data},
+		};
+		size_t test_max = (sizeof(unit_tests) / sizeof(*unit_tests));
+
+		for (size_t test_count = 0; test_count < test_max; test_count++)
+		{
+			bool test_passed = unit_tests[test_count].func(test_step);
+			sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n",
+				test_count + 1, unit_tests[test_count].test_name,
+				(test_passed) ? "Passed" : "Failed");
+			log_generic_message(buffer);
+			// if one test already failed we are good
+			if (all_tests_passed)
+			{
+				all_tests_passed = test_passed;
+			}
+		}	
+
+		return all_tests_passed;
+	}
+
+	static void report_syntax_errors(unsigned necessary_items[])
+	{
+		char* error_strings[SYNTAX_CHECK_COUNT];
+		error_strings[OPENBRACE] = "Missing the opening brace.";
+		error_strings[CLOSEBRACE] = "Missing the closing brace.";
+		error_strings[COMMA] = "Missing comma(s)";
+		error_strings[LEGALOPCODE] = "Missing or unknow opcode";
+		error_strings[LEGALOPERAND] = "Missing operand or operand out of range";
+		error_strings[ILLEGALOPCODE] = "Unknown Opcode.";
+		error_strings[ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
+		error_strings[MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
+		error_strings[ILLEGALCHAR] = "Illegal Character";
+		error_strings[MISSINGCOMMA] = "Missing comma(s)";
+
+		for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+		{
+			char buffer[BUFSIZ];
+			if (i >= ILLEGALOPCODE && necessary_items[i])
+			{
+				sprintf(buffer, "\t%s\n", error_strings[i]);
+				log_generic_message(buffer);
+			}
+			else if (i < ILLEGALOPCODE && !necessary_items[i])
+			{
+				sprintf(buffer, "\t%s\n", error_strings[i]);
+				log_generic_message(buffer);
+			}
+		}
+
+	}
+
+	static bool check_syntax_check_list_and_report_errors_as_parser_would(
+		unsigned syntax_check_list[], Syntax_State state, unsigned char* text_line,
+		size_t statement_number, Expected_Syntax_Errors* expected_errors,
+		char *parser_generated_error)
+	{
+		unsigned error_count = 0;
+		bool syntax_check_list_in_sync = true;
+
+		for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+		{
+			error_count += (!syntax_check_list[i] && i < ILLEGALOPCODE) ? 1 : ((i >= ILLEGALOPCODE && syntax_check_list[i]) ? 1 : 0);
+			if (syntax_check_list[i] != expected_errors->syntax_check_list[i] && i != MULTIPLESTATEMENTSONELINE)
+			{
+				syntax_check_list_in_sync = false;
+			}
+		}
+
+		if (error_count != expected_errors->error_count)
+		{
+			syntax_check_list_in_sync = false;
+		}
+
+		char* eol_p = strrchr((const char *)text_line, '\n');
+		if (eol_p)
+		{
+			*eol_p = '\0';
+		}
+		char buffer[BUFSIZ];
+		if (state == ERROR_STATE || error_count)
+		{
+			sprintf(buffer, "\n\nStatement %d (%s) has the following syntax errors\n", statement_number + 1, text_line);
+			log_generic_message(buffer);
+			if (parser_generated_error)
+			{
+				log_generic_message(parser_generated_error);
+			}
+			report_syntax_errors(syntax_check_list);
+		}
+		else
+		{
+			if (expected_errors->error_count)
+			{
+				sprintf(buffer, "\n\nStatement %d (%s)\n", statement_number + 1, text_line);
+				log_generic_message(buffer);
+				sprintf(buffer, "Expected syntax errors were:\n");
+				log_generic_message(buffer);
+				report_syntax_errors(expected_errors->syntax_check_list);
+			}
+		}
+
+		return syntax_check_list_in_sync;
+	}
+
+	static char* error_state(unsigned char* text_line, size_t statement_number, unsigned char* current_character)
+	{
+		char* parser_generated_error;
+
+		char buffer[BUFSIZ];
+		char* eol_p = strrchr((const char*)text_line, '\n');
+		if (eol_p)
+		{
+			*eol_p = '\0';
+		}
+		sprintf(buffer,
+			"Syntax Error line %zd %s column %d unexpected character '%c' : skipping rest of line.\n",
+			statement_number + 1, text_line, (int)(current_character - text_line),
+			*current_character);
+		parser_generated_error = _strdup(buffer);
+
+		return parser_generated_error;
+	}
+
+	/*
+	 * Provides debug data when a unit test fails.
+	 */
+	static void report_lexical_analyzer_test_failure(Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
+	{
+		char out_buffer[BUFSIZ];
+		sprintf(out_buffer, "\tcurrent_state = %s expected error count = %d ",
+			state_name_for_printing(current_state), expected_errors->error_count);
+		strcat(out_buffer, "expected Checklist Values {");
+		print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
+		strcat(out_buffer, "new checklist values {");
+		print_syntax_error_checklist(syntax_check_list, out_buffer);
+		strcat(out_buffer, "\n");
+		log_generic_message(out_buffer);
+	}
+
+	/*
+	 * This test parses a signle statement as the parser would. It directly calls
+	 * the lexical analiyzer for each character.
+	 */
+	static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
+	{
+		bool test_passed = true;
+
+		unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+		memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
+		Syntax_State current_state = START_STATE;
+		unsigned char* opcode_start = NULL;
+		unsigned char* opcode_end = NULL;
+		unsigned char* operand_start = NULL;
+		char* parser_generated_error = NULL;
+
+		unsigned char* current_character = text_line;
+		while (*current_character && current_state != ERROR_STATE)
+		{
+			Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
+			if (new_state != current_state)
+			{
+				switch (new_state)
+				{
+					case ERROR_STATE:
+					{
+						parser_generated_error = error_state(text_line, statement_number, current_character);
+					};
+						break;
+
+					case OPCODE_STATE:
+						opcode_start = current_character;
+						syntax_check_list[LEGALOPCODE]++;
+						break;
+
+					case END_OPCODE_STATE:
+						opcode_end = current_character;
+						break;
+
+					case OPERAND_STATE:
+						operand_start = current_character;
+						syntax_check_list[LEGALOPERAND]++;
+						if (!syntax_check_list[COMMA])
+						{
+							syntax_check_list[MISSINGCOMMA]++;
+						}
+						break;
+
+					case END_OPERAND_STATE:
+						opcode_end = current_character;
+						break;
+
+					default:
+						break;
+				}
+
+				current_state = new_state;
+			}
+
+			current_character++;
+		}
+
+		bool syntax_check_list_in_sync = check_syntax_check_list_and_report_errors_as_parser_would(
+			syntax_check_list, current_state, text_line, statement_number, expected_errors, parser_generated_error);
+
+		if (!syntax_check_list_in_sync)
+		{
+			report_lexical_analyzer_test_failure(current_state, syntax_check_list, expected_errors);
+			test_passed = false;
+			log_data->status = false;
+		}
+
+		log_test_status_each_step2(log_data);
+		free(parser_generated_error);
+
+		return test_passed;
+	}
+
+	bool run_parse_program_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
+	{
+		bool test_passed = true;
+
+		unsigned char** test_program = test_data->test_program;
+		Expected_Syntax_Errors* expected_errors = test_data->expected_errors;
+
+		for (size_t test_count = 0; test_count < test_data->test_program_size; test_count++)
+		{
+			log_data->status = true;
+			if (!unit_test_final_lexical_parse_statement(test_program[test_count], test_count,
+				log_data, &expected_errors[test_count]))
+			{
+				test_passed = log_data->status;
+			}
+		}
+
+		return test_passed;
+	}
+	/*
+	 * This final test imitates the parser and parses an entire program. There are
+	 * 2 programs, one without syntax errors and one with syntax errors. The positive
+	 * test path is the one without syntax errors and the negative path is the one
+	 * with syntax errors.
+	 */
+	bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
+	{
+		bool test_passed = true;
+		Test_Log_Data* log_data = create_and_init_test_log_data(
+			"unit_test_parse_statements_for_lexical_analysis", test_passed, "Positive",
+			test_step == 0);
+
+		Lexical_Analyzer_Test_Data* positive_path_data = init_positive_path_data_for_lexical_analysis(log_data);
+		if (!positive_path_data)
+		{
+			return false;
+		}
+
+		log_start_test_path(log_data);
+		if (!run_parse_program_loop(log_data, positive_path_data))
+		{
+			test_passed = log_data->status;
+		}
+		log_end_test_path(log_data);
+
+
+		Lexical_Analyzer_Test_Data* negative_path_data = init_negative_path_data_for_lexical_analysis(log_data);
+		if (!negative_path_data)
+		{
+			return false;
+		}
+
+		log_data->path = "Negative";
+		log_start_test_path(log_data);
+		char* explanation = "Only statements with syntax errors are printed"
+			" Statement 1 and statement 8 do not contain syntax errors\n\n";
+		log_generic_message(explanation);
+		if (!run_parse_program_loop(log_data, negative_path_data))
+		{
+			test_passed = log_data->status;
+		}
+		log_end_test_path(log_data);
+
+		deallocate_lexical_test_data(positive_path_data);
+		deallocate_lexical_test_data(negative_path_data);
+		free(log_data);
+
+		return test_passed;
+	}
+
+	/* 
+	 * Unit test the public interface in syntax_state_machine.c. This function
+	 * assumes that internal_tests_on_all_state_transitions has been previously
+	 * called and that all component functions have been unit tested first. The 
+	 * public interface is tested in 2 ways, first with test data and then
+	 * parsing statements as the parser will.
+	 */
+	bool unit_test_lexical_analyzer(unsigned test_step)
+	{
+		//Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
+		bool test_passed = true;
+		char buffer[BUFSIZ];
+
+		Test_Log_Data* log_data = create_and_init_test_log_data(
+			"unit_test_lexical_analyzer", test_passed, "Positive",
+			test_step == 0);
+		if (!log_data)
+		{
+			report_create_and_init_test_log_data_memory_failure("unit_test_lexical_analyzer");
+			return false;
+		}
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "STARTING unit test for %s\n\n", log_data->function_name);
+			log_generic_message(buffer);
+		}
+
+		test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
+
+		if (log_data->stand_alone)
+		{
+			sprintf(buffer, "\nENDING unit test for %s\n\n", log_data->function_name);
+			log_generic_message(buffer);
+		}
+
+		free(log_data);
+
+		return test_passed;
+	}
+
+**state_machine_unit_test_main.h**
+
+	#ifndef SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H
+	#define SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H
+
+	extern bool run_all_syntax_state_machine_unit_tests(unsigned test_step);
+
+	#endif	// SYNTAX_STATE_MACHINE_UNIT_TEST_MAIN_H
+
+Since this program is designed to be part of larger unit tests `main()` is contained within ifdef/endif. It will only be compiled if this is a stand alone test.
+
+**state_machine_unit_test_main.c**
+
+	// state_machine_unit_test.c : This file contains the 'main' function. Program execution begins and ends there.
+	//
+	#include "common_unit_test_logic.h"
+	#include "lexical_analyzer.h"
+	#include "internal_sytax_state_tests.h"
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
+	{
+		bool all_unit_tests_passed = true;
+		char buffer[BUFSIZ];
+
+		sprintf(buffer, "Unit Test %zd: Starting Lexical Analizer Unit Tests \n\n", test_step);
+		log_generic_message(buffer);
+
+		all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
+
+		if (all_unit_tests_passed)
+		{
+			// test the public interface for the lexical analyzer
+			all_unit_tests_passed = 
+				unit_test_lexical_analyzer(test_step);
+		}
+
+		sprintf(buffer, "Unit Test %zd: run_all_syntax_state_machine_unit_tests(unsigned "
+			"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
+		log_generic_message(buffer);
+
+		deactivate_lexical_analyzer();
+
+		sprintf(buffer, "Unit Test %zd: Ending Lexical Analizer Unit Tests \n\n", test_step);
+		log_generic_message(buffer);
+
+		return all_unit_tests_passed;
+	}
+
+	#ifdef LEXICAL_UNIT_TEST_ONLY
+	int main()
+	{
+		error_out_file = stderr;
+		int passed = EXIT_SUCCESS;
+
+		if (!init_vm_error_reporting(NULL) ||
+			!init_unit_tests("syntax_state_machine_unit_test_log.txt"))
+		{
+			return EXIT_FAILURE;
+		}
+
+		if (!run_all_syntax_state_machine_unit_tests(0))
+		{
+			passed = EXIT_FAILURE;
+		}
+
+		close_unit_tests();
+		disengage_error_reporting();
+
+		return passed;
+	}
+	#endif
+
+
+[1]: https://codereview.stackexchange.com/questions/244566/an-attempt-at-a-toy-vm/244573#244573
+[2]: https://github.com/pacmaninbw/VMWithEditor
+[3]: https://github.com/pacmaninbw/VMWithEditor/tree/master/VMWithEditor/UnitTests/State_Machine_Unit_Test/State_Machine_Unit_Test
