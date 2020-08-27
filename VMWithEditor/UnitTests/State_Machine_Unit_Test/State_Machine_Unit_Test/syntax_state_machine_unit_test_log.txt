@@ -1744,106 +1744,69 @@ ENDING internal unit test for collect_error_reporting_data(
 
 Syntax Machine Internal Unit Test 3: unit_test_collect_error_reporting_data : Passed
 
-STARTING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
+STARTING unit test for unit_test_lexical_analyzer
 
 
-Starting POSITIVE PATH testing for final_lexical_analysis_test
+Starting POSITIVE PATH testing for unit_test_parse_statements_for_lexical_analysis
 
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
 
+Ending POSITIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, Path PASSED
 
-Statement 1 (    {PUSH, 0x0A},)
-final_lexical_analysis_test(): Positive Path Passed
+Starting NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis
 
+Only statements with syntax errors are printed Statement 1 and statement 8 do not contain syntax errors
 
-Statement 2 (    {PUSH, 0x43},)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 3 ({ PUSH, 0x42 },)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 4 ({ PUSH, 0x41 },)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 5 ({ OUTPUTCHAR, 0x00 },    )
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 6 ({ POP, 0x00 },    )
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 7 ({ OUTPUTCHAR, 0x00 },)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 8 ({    POP, 0x00  },)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 9 ({OUTPUTCHAR, 0x00},)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 10 ({POP, 0x00},)
-final_lexical_analysis_test(): Positive Path Passed
-
-
-Statement 11 ({HALT, 0x00})
-final_lexical_analysis_test(): Positive Path Passed
-
-Ending POSITIVE PATH testing for final_lexical_analysis_test, Path PASSED
-
-Starting NEGATIVE PATH testing for final_lexical_analysis_test
-
-
-
-Statement 1 (    {PUSH, 0x0A},)
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 2 (    PUSH, 0x43},) has the following syntax errors
 	Missing the opening brace.
 	Illegal character in column 1 (are you missing the opening brace { )
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 3 ({ PUSH, 0x42 ,) has the following syntax errors
 	Missing the closing brace.
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 4 ( { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },    ) has the following syntax errors
 Syntax Error line 4  { PUSH, 0x41 }, { OUTPUTCHAR 0x00 },     column 17 unexpected character '{' : skipping rest of line.
 	Only one program step per line
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 5 ({ , 0x00 },    ) has the following syntax errors
 	Missing or unknow opcode
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 6 ({ OUTPUTCHAR 0x00 },) has the following syntax errors
 	Missing comma(s)
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 7 ({    POP,  },) has the following syntax errors
 	Missing operand or operand out of range
-final_lexical_analysis_test(): Negative Path Passed
-
-
-Statement 8 ({OUTPUTCHAR, 0x00})
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 9 ({POP, 0x00 POP},) has the following syntax errors
 Syntax Error line 9 {POP, 0x00 POP}, column 11 unexpected character 'P' : skipping rest of line.
 	Missing the closing brace.
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 
 Statement 10 (HALT) has the following syntax errors
@@ -1852,14 +1815,13 @@ Statement 10 (HALT) has the following syntax errors
 	Missing comma(s)
 	Missing operand or operand out of range
 	Illegal character in column 1 (are you missing the opening brace { )
-final_lexical_analysis_test(): Negative Path Passed
+unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for final_lexical_analysis_test, Path PASSED
-unit_test_get_state_transition_collect_parser_error_data NOT IMPLEMENTED 
+Ending NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, Path PASSED
 
-ENDING unit test for collect_error_reporting_data(Syntax_State current_state, State_Transition_Characters character_type, unsigned syntax_check_list[])
+ENDING unit test for unit_test_lexical_analyzer
 
-Unit Test 0: run_all_syntax_state_machine_unit_tests(unsigned test_step) : Failed
+Unit Test 0: run_all_syntax_state_machine_unit_tests(unsigned test_step) : Passed
 
 Unit Test 0: Ending Lexical Analizer Unit Tests 
 
