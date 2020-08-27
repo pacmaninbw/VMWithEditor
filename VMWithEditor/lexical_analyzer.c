@@ -11,7 +11,6 @@
  *
  */
 #include "lexical_analyzer.h"
-#include "virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
 #else
