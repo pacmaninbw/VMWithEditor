@@ -277,8 +277,8 @@ typedef struct unit_test_functions_and_args
 /*
  * This function unit tests all the internal functions that support the
  * function get_state_transition_collect_parser_error_data(). If any of
- * these unit tests fail the unit test for
- * get_state_transition_collect_parser_error_data() will not execute.
+ * these unit tests fail the unit test for lexical_analyzer() will not
+ * execute.
  */
 bool internal_tests_on_all_state_transitions(unsigned test_step)
 {
@@ -387,10 +387,10 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	}
 	else
 	{
-		sprintf(buffer, "\n\nStatement %d (%s)\n", statement_number + 1, text_line);
-		log_generic_message(buffer);
 		if (expected_errors->error_count)
 		{
+			sprintf(buffer, "\n\nStatement %d (%s)\n", statement_number + 1, text_line);
+			log_generic_message(buffer);
 			sprintf(buffer, "Expected syntax errors were:\n");
 			log_generic_message(buffer);
 			report_syntax_errors(expected_errors->syntax_check_list);
@@ -400,6 +400,45 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	return syntax_check_list_in_sync;
 }
 
+static char* error_state(unsigned char* text_line, size_t statement_number, unsigned char* current_character)
+{
+	char* parser_generated_error;
+
+	char buffer[BUFSIZ];
+	char* eol_p = strrchr((const char*)text_line, '\n');
+	if (eol_p)
+	{
+		*eol_p = '\0';
+	}
+	sprintf(buffer,
+		"Syntax Error line %zd %s column %d unexpected character '%c' : skipping rest of line.\n",
+		statement_number + 1, text_line, (int)(current_character - text_line),
+		*current_character);
+	parser_generated_error = _strdup(buffer);
+
+	return parser_generated_error;
+}
+
+/*
+ * Provides debug data when a unit test fails.
+ */
+static void report_lexical_analyzer_test_failure(Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
+{
+	char out_buffer[BUFSIZ];
+	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %d ",
+		state_name_for_printing(current_state), expected_errors->error_count);
+	strcat(out_buffer, "expected Checklist Values {");
+	print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
+	strcat(out_buffer, "new checklist values {");
+	print_syntax_error_checklist(syntax_check_list, out_buffer);
+	strcat(out_buffer, "\n");
+	log_generic_message(out_buffer);
+}
+
+/*
+ * This test parses a signle statement as the parser would. It directly calls
+ * the lexical analiyzer for each character.
+ */
 static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
 {
 	bool test_passed = true;
@@ -420,46 +459,36 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 		{
 			switch (new_state)
 			{
-			case ERROR_STATE:
-			{
-				char buffer[BUFSIZ];
-				char* eol_p = strrchr((const char *)text_line, '\n');
-				if (eol_p)
+				case ERROR_STATE:
 				{
-					*eol_p = '\0';
-				}
-				sprintf(buffer,
-					"Syntax Error line %zd %s column %d unexpected character '%c' : skipping rest of line.\n",
-					statement_number + 1, text_line, (int)(current_character - text_line),
-					*current_character);
-				parser_generated_error = _strdup(buffer);
-			};
-				break;
+					parser_generated_error = error_state(text_line, statement_number, current_character);
+				};
+					break;
 
-			case OPCODE_STATE:
-				opcode_start = current_character;
-				syntax_check_list[LEGALOPCODE]++;
-				break;
+				case OPCODE_STATE:
+					opcode_start = current_character;
+					syntax_check_list[LEGALOPCODE]++;
+					break;
 
-			case END_OPCODE_STATE:
-				opcode_end = current_character;
-				break;
+				case END_OPCODE_STATE:
+					opcode_end = current_character;
+					break;
 
-			case OPERAND_STATE:
-				operand_start = current_character;
-				syntax_check_list[LEGALOPERAND]++;
-				if (!syntax_check_list[COMMA])
-				{
-					syntax_check_list[MISSINGCOMMA]++;
-				}
-				break;
+				case OPERAND_STATE:
+					operand_start = current_character;
+					syntax_check_list[LEGALOPERAND]++;
+					if (!syntax_check_list[COMMA])
+					{
+						syntax_check_list[MISSINGCOMMA]++;
+					}
+					break;
 
-			case END_OPERAND_STATE:
-				opcode_end = current_character;
-				break;
+				case END_OPERAND_STATE:
+					opcode_end = current_character;
+					break;
 
-			default:
-				break;
+				default:
+					break;
 			}
 
 			current_state = new_state;
@@ -473,17 +502,11 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 
 	if (!syntax_check_list_in_sync)
 	{
-		char out_buffer[BUFSIZ];
-		sprintf(out_buffer, "\tcurrent_state = %s expected error count = %d ", state_name_for_printing(current_state), expected_errors->error_count);
-		strcat(out_buffer, "expected Checklist Values {");
-		print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
-		strcat(out_buffer, "new checklist values {");
-		print_syntax_error_checklist(syntax_check_list, out_buffer);
-		strcat(out_buffer, "\n");
-		log_generic_message(out_buffer);
+		report_lexical_analyzer_test_failure(current_state, syntax_check_list, expected_errors);
 		test_passed = false;
 		log_data->status = false;
 	}
+
 	log_test_status_each_step2(log_data);
 	free(parser_generated_error);
 
@@ -519,7 +542,7 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"final_lexical_analysis_test", test_passed, "Positive",
+		"unit_test_parse_statements_for_lexical_analysis", test_passed, "Positive",
 		test_step == 0);
 
 	Lexical_Analyzer_Test_Data* positive_path_data = init_positive_path_data_for_lexical_analysis(log_data);
@@ -544,6 +567,9 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 
 	log_data->path = "Negative";
 	log_start_test_path(log_data);
+	char* explanation = "Only statements with syntax errors are printed"
+		" Statement 1 and statement 8 do not contain syntax errors\n\n";
+	log_generic_message(explanation);
 	if (!run_parse_program_loop(log_data, negative_path_data))
 	{
 		test_passed = log_data->status;
@@ -564,40 +590,32 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
  * public interface is tested in 2 ways, first with test data and then
  * parsing statements as the parser will.
  */
-bool unit_test_get_state_transition_collect_parser_error_data(unsigned test_step)
+bool unit_test_lexical_analyzer(unsigned test_step)
 {
 	//Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
 	bool test_passed = true;
 	char buffer[BUFSIZ];
+
 	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"unit_test_get_state_transition_collect_parser_error_data", test_passed, "Positive",
+		"unit_test_lexical_analyzer", test_passed, "Positive",
 		test_step == 0);
 	if (!log_data)
 	{
-		report_create_and_init_test_log_data_memory_failure(
-			"unit_test_get_state_transition_collect_parser_error_data");
+		report_create_and_init_test_log_data_memory_failure("unit_test_lexical_analyzer");
 		return false;
 	}
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING unit test for collect_error_reporting_data("
-			"Syntax_State current_state, State_Transition_Characters character_type, "
-			"unsigned syntax_check_list[])\n\n");
+		sprintf(buffer, "STARTING unit test for %s\n\n", log_data->function_name);
 		log_generic_message(buffer);
 	}
 
 	test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
 
-	sprintf(buffer, "%s NOT IMPLEMENTED \n", log_data->function_name);
-	log_generic_message(buffer);
-	test_passed = false;
-
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING unit test for collect_error_reporting_data("
-			"Syntax_State current_state, State_Transition_Characters character_type, "
-			"unsigned syntax_check_list[])\n\n");
+		sprintf(buffer, "\nENDING unit test for %s\n\n", log_data->function_name);
 		log_generic_message(buffer);
 	}
 

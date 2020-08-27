@@ -20,7 +20,7 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 	{
 		// test the public interface for the lexical analyzer
 		all_unit_tests_passed = 
-			unit_test_get_state_transition_collect_parser_error_data(test_step);
+			unit_test_lexical_analyzer(test_step);
 	}
 
 	sprintf(buffer, "Unit Test %zd: run_all_syntax_state_machine_unit_tests(unsigned "
