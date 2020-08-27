@@ -10,6 +10,9 @@
  * some point that file became too large and complex.
  */
 
+#ifndef INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
+#define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
+
 static void log_unit_test_get_transition_character_type_failure(
 	Test_Log_Data* log_data, unsigned char candidate, Syntax_State current_state,
 	State_Transition_Characters expected_type, State_Transition_Characters actual_type)
@@ -408,3 +411,4 @@ static bool unit_test_get_transition_character_type(size_t test_step)
 
 	return test_passed;
 }
+#endif	// INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C

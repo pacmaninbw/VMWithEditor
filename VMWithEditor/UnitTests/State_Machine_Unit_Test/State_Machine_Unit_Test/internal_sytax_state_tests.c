@@ -8,6 +8,9 @@
  * rather than externally.
  */
 
+#ifndef INTERNAL_SYNTAX_STATE_TESTS_C
+#define INTERNAL_SYNTAX_STATE_TESTS_C
+
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_test_data.h"
 
@@ -623,3 +626,4 @@ bool unit_test_lexical_analyzer(unsigned test_step)
 
 	return test_passed;
 }
+#endif	// INTERNAL_SYNTAX_STATE_TESTS_C
