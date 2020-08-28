@@ -1,4 +1,4 @@
-Lexical Analyzer Unit Test
+Hand Coded State Driven Lexical Analyzer Unit Test
 
 ## Background  
 Back in June I provided this [answer][1] to a question here on code review. I advised the person that asked the question to use enums rather than numbers to represent the opcodes, but upon further consideration I thought that the virtual machine really needed an editor as the front end and I have been working on that. An editor will require a translator to convert text into the numbers the virtual machine uses for opcodes and operands. The translator is composed of a parser and a lexical analyzer. The lexical analyzer is complete, unit tested and debugged so I am presenting it here for code review with the unit tests.
