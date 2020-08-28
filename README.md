@@ -10,6 +10,8 @@ The code in this repository is the basis for several up coming question on [Code
  - Either command line arguments need to be allowed for input, output and other essential items or a command interface such as a command console needs to be added.
  - The entire program was really a unit test.
 
+The unit test for the lexical analyzer (state machine) is now being reviewed on [code review](https://codereview.stackexchange.com/questions/248559/hand-coded-state-driven-lexical-analyzer-in-c-with-unit-test-part-a).
+
 ## Additions to the Original Program  
 This program adds:  
  - A menu driven Command Interface Console (text based although a GUI could be provided).  
