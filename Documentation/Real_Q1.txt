@@ -49,6 +49,8 @@ Rather than copy and pasting this code it is available in my [GitHub Repository]
 
 The unit test ouput is always saved to a `.txt` file, a comparison text file is the [unit test folder][3] in the repository. The unit test output is 1827 lines so it is not included here in the question.
 
+There is a CMakeLists.txt file in the unit test directory, but I'm not sure it works so it isn't posted here. If anyone would like to test it, let me know what to do or how to fix it. I could give you permission to update it in GitHub.
+
 ## The code being tested  
 
 **lexical_analyzer.h**  
