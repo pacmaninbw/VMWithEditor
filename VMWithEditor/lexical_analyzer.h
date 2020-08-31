@@ -11,8 +11,8 @@
  * This module uses enums to make the states and transitions easier to understand.
  *
  */
-#ifndef SYNTAX_STATE_MACHINE_H
-#define SYNTAX_STATE_MACHINE_H
+#ifndef LEXICAL_ANALYZER_H
+#define LEXICAL_ANALYZER_H
 
 typedef enum syntax_checks_list_items
 {
@@ -75,4 +75,4 @@ typedef struct syntax_state_transition
 extern Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
 extern void deactivate_lexical_analyzer(void);
 
-#endif	//	SYNTAX_STATE_MACHINE_H
+#endif	//	LEXICAL_ANALYZER_H
