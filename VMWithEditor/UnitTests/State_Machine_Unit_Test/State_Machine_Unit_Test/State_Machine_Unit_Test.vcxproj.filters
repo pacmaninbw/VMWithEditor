@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="state_machine_unit_test_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,15 +24,18 @@
     <ClCompile Include="lexical_analyzer_test_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lexical_analyzer_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="state_machine_unit_test_main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="internal_sytax_state_tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lexical_analyzer_test_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lexical_analyzer_unit_test_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

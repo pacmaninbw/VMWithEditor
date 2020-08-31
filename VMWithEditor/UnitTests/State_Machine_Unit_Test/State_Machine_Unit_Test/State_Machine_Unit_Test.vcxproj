@@ -144,12 +144,12 @@
     <ClCompile Include="..\..\..\lexical_analyzer.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
     <ClCompile Include="lexical_analyzer_test_data.c" />
-    <ClCompile Include="state_machine_unit_test_main.c" />
+    <ClCompile Include="lexical_analyzer_unit_test_main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="internal_sytax_state_tests.h" />
     <ClInclude Include="lexical_analyzer_test_data.h" />
-    <ClInclude Include="state_machine_unit_test_main.h" />
+    <ClInclude Include="lexical_analyzer_unit_test_main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
