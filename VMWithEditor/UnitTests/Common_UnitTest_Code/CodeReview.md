@@ -1,3 +1,5 @@
+Copy of [this code review](https://codereview.stackexchange.com/questions/248561/hand-coded-state-driven-lexical-analyzer-in-c-with-unit-test-part-c/248611#248611) for the record.
+
 # `typedef struct` can reuse the name of struct
 
 I see you often do something like:
