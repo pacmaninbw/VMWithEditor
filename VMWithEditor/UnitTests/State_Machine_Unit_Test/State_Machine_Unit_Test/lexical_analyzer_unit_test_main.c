@@ -43,7 +43,7 @@ int main()
 	int passed = EXIT_SUCCESS;
 
 	if (!init_vm_error_reporting(NULL) ||
-		!init_unit_tests("syntax_state_machine_unit_test_log.txt"))
+		!init_unit_tests("lexical_analyzer_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
