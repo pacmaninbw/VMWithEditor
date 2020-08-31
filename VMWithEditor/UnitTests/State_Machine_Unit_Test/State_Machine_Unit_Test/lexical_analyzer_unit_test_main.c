@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
+bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {
 	bool all_unit_tests_passed = true;
 	char buffer[BUFSIZ];
@@ -24,7 +24,7 @@ bool run_all_syntax_state_machine_unit_tests(unsigned test_step)
 			unit_test_lexical_analyzer(test_step);
 	}
 
-	sprintf(buffer, "Unit Test %u: run_all_syntax_state_machine_unit_tests(unsigned "
+	sprintf(buffer, "Unit Test %u: run_all_lexical_analyzer_unit_tests(unsigned "
 		"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
 	log_generic_message(buffer);
 
@@ -48,7 +48,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	if (!run_all_syntax_state_machine_unit_tests(0))
+	if (!run_all_lexical_analyzer_unit_tests(0))
 	{
 		passed = EXIT_FAILURE;
 	}

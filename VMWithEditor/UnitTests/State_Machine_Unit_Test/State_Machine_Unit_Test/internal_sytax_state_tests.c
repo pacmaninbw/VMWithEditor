@@ -4,7 +4,7 @@
  * This file contains both internal syntax state machine unit tests, and unit tests
  * for the public interface of the lexitcal analyzer these test functions test the
  * very basic functions that are the building blocks of the public interface, they are
- * declared static so these tests must be included in the syntax_state_machine.c file
+ * declared static so these tests must be included in the lexical_analyzer.c file
  * rather than externally.
  */
 
@@ -587,7 +587,7 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
 }
 
 /* 
- * Unit test the public interface in syntax_state_machine.c. This function
+ * Unit test the public interface in lexical_analyzer.c. This function
  * assumes that internal_tests_on_all_state_transitions has been previously
  * called and that all component functions have been unit tested first. The 
  * public interface is tested in 2 ways, first with test data and then
