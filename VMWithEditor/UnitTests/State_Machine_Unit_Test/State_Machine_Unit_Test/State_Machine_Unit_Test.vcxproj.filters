@@ -41,5 +41,8 @@
     <ClInclude Include="..\..\..\lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -101,7 +101,7 @@ void deactivate_lexical_analyzer(void)
 	free(allocate_next_states_once);
 }
 
-static bool is_legal_in_hex_number(unsigned char input)
+static bool is_legal_in_hex_number(const unsigned char input)
 {
 	bool is_legal = false;
 
@@ -130,7 +130,7 @@ static bool is_legal_in_hex_number(unsigned char input)
  * The calling function has already gone through one filter so it is assured that
  * the input character is an alpha and not some other type of character.
  */
-static State_Transition_Characters get_alpha_input_transition_character_type(unsigned char input, Syntax_State current_state)
+static State_Transition_Characters get_alpha_input_transition_character_type(const unsigned char input, Syntax_State current_state)
 {
 	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 
@@ -155,7 +155,7 @@ static State_Transition_Characters get_alpha_input_transition_character_type(uns
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static State_Transition_Characters get_puctuation_transition_character_type(unsigned char input)
+static State_Transition_Characters get_puctuation_transition_character_type(const unsigned char input)
 {
 	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 
@@ -185,7 +185,7 @@ static State_Transition_Characters get_puctuation_transition_character_type(unsi
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static State_Transition_Characters get_whitespace_transition_character_type(unsigned char input)
+static State_Transition_Characters get_whitespace_transition_character_type(const unsigned char input)
 {
 	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 
@@ -214,7 +214,7 @@ static State_Transition_Characters get_whitespace_transition_character_type(unsi
  * set save space using ctype functions for large ranges. Also save time on
  * implementation and debugging.
  */
-static State_Transition_Characters get_transition_character_type(unsigned char input, Syntax_State current_state)
+static State_Transition_Characters get_transition_character_type(const unsigned char input, Syntax_State current_state)
 {
 	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
 	if (isalpha(input))
@@ -240,8 +240,8 @@ static State_Transition_Characters get_transition_character_type(unsigned char i
 /*
  * syntax_check_list provides additional error information for the parser.
  */
-static void collect_error_reporting_data(Syntax_State current_state,
-	State_Transition_Characters character_type, unsigned syntax_check_list[])
+static void collect_error_reporting_data(const Syntax_State current_state,
+	const State_Transition_Characters character_type, unsigned syntax_check_list[])
 {
 	switch (character_type)
 	{
@@ -277,7 +277,7 @@ static void collect_error_reporting_data(Syntax_State current_state,
  * This function performs the lexical analysis for the parser, it uses a state machine
  * implemented as a table to do this. That table is the next_states variable.
  */
-Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[])
+Syntax_State lexical_analyzer(Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[])
 {
 	Syntax_State_Transition* next_states = get_or_create_next_states();
 	if (!next_states)

@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lexical_analyzer.h" />
+    <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h" />
     <ClInclude Include="internal_sytax_state_tests.h" />
     <ClInclude Include="lexical_analyzer_test_data.h" />
     <ClInclude Include="lexical_analyzer_unit_test_main.h" />

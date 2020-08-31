@@ -11,6 +11,37 @@
 FILE* error_out_file = NULL;
 FILE* unit_test_log_file = NULL;
 
+
+char* mystrdup(const char* string_to_copy)
+{
+	char* return_string = NULL;
+	int length = strlen(string_to_copy);
+	++length;
+
+	return_string = calloc(length, sizeof(*return_string));
+	if (return_string)
+	{
+		memcpy(return_string, string_to_copy, length - 1);
+	}
+
+	return return_string;
+}
+
+unsigned char* ucstrdup(const unsigned char* string_to_copy)
+{
+	unsigned char* return_string = NULL;
+	int length = strlen((const char *)string_to_copy);
+	++length;
+
+	return_string = calloc(length, sizeof(*return_string));
+	if (return_string)
+	{
+		memcpy(return_string, string_to_copy, length - 1);
+	}
+
+	return return_string;
+}
+
 bool init_vm_error_reporting(char* error_log_file_name)
 {
 	bool status_is_good = true;
@@ -118,10 +149,10 @@ static bool log_test_is_positive_path(Test_Log_Data* log_data)
 		return false;
 	}
 
-	char* string_to_test = _strdup(log_data->path);
+	char* string_to_test = strdup(log_data->path);
 	if (!string_to_test)
 	{
-		fprintf(error_out_file, "Memory Allocation error: _strdup() failed in log_test_is_positive_path()\n");
+		fprintf(error_out_file, "Memory Allocation error: strdup() failed in log_test_is_positive_path()\n");
 		fprintf(error_out_file, "Exiting program.\n");
 		exit(EXIT_FAILURE);
 	}

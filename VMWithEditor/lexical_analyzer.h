@@ -72,7 +72,7 @@ typedef struct syntax_state_transition
 #define MAX_OPERAND 1
 #define MAX_WHITE_SPACE	200
 
-extern Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
-extern void deactivate_lexical_analyzer(void);
+Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
+void deactivate_lexical_analyzer(void);
 
 #endif	//	LEXICAL_ANALYZER_H

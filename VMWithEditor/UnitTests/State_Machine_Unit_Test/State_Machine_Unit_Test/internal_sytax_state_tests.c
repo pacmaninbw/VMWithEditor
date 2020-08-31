@@ -104,12 +104,12 @@ static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_
 		char num_buff[8];
 		if (i < SYNTAX_CHECK_COUNT - 1)
 		{
-			sprintf(num_buff, "%d ,", syntax_checklist[i]);
+			sprintf(num_buff, "%u, ", syntax_checklist[i]);
 			strcat(out_buffer, num_buff);
 		}
 		else
 		{
-			sprintf(num_buff, "%d} ", syntax_checklist[i]);
+			sprintf(num_buff, "%u} ", syntax_checklist[i]);
 			strcat(out_buffer, num_buff);
 		}
 	}
@@ -380,7 +380,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	char buffer[BUFSIZ];
 	if (state == ERROR_STATE || error_count)
 	{
-		sprintf(buffer, "\n\nStatement %d (%s) has the following syntax errors\n", statement_number + 1, text_line);
+		sprintf(buffer, "\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		log_generic_message(buffer);
 		if (parser_generated_error)
 		{
@@ -392,7 +392,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	{
 		if (expected_errors->error_count)
 		{
-			sprintf(buffer, "\n\nStatement %d (%s)\n", statement_number + 1, text_line);
+			sprintf(buffer, "\n\nStatement %zu (%s)\n", statement_number + 1, text_line);
 			log_generic_message(buffer);
 			sprintf(buffer, "Expected syntax errors were:\n");
 			log_generic_message(buffer);
@@ -414,10 +414,10 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 		*eol_p = '\0';
 	}
 	sprintf(buffer,
-		"Syntax Error line %zd %s column %d unexpected character '%c' : skipping rest of line.\n",
+		"Syntax Error line %zd %s column %zu unexpected character '%c' : skipping rest of line.\n",
 		statement_number + 1, text_line, (int)(current_character - text_line),
 		*current_character);
-	parser_generated_error = _strdup(buffer);
+	parser_generated_error = strdup(buffer);
 
 	return parser_generated_error;
 }
@@ -428,7 +428,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 static void report_lexical_analyzer_test_failure(Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
 {
 	char out_buffer[BUFSIZ];
-	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %d ",
+	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %u ",
 		state_name_for_printing(current_state), expected_errors->error_count);
 	strcat(out_buffer, "expected Checklist Values {");
 	print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
