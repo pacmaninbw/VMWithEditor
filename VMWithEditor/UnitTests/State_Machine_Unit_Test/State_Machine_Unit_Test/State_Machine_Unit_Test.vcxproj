@@ -147,6 +147,7 @@
     <ClCompile Include="lexical_analyzer_unit_test_main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\lexical_analyzer.h" />
     <ClInclude Include="internal_sytax_state_tests.h" />
     <ClInclude Include="lexical_analyzer_test_data.h" />
     <ClInclude Include="lexical_analyzer_unit_test_main.h" />
