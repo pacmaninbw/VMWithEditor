@@ -15,7 +15,7 @@ FILE* unit_test_log_file = NULL;
 char* mystrdup(const char* string_to_copy)
 {
 	char* return_string = NULL;
-	int length = strlen(string_to_copy);
+	size_t length = strlen(string_to_copy);
 	++length;
 
 	return_string = calloc(length, sizeof(*return_string));
@@ -30,7 +30,7 @@ char* mystrdup(const char* string_to_copy)
 unsigned char* ucstrdup(const unsigned char* string_to_copy)
 {
 	unsigned char* return_string = NULL;
-	int length = strlen((const char *)string_to_copy);
+	size_t length = strlen((const char *)string_to_copy);
 	++length;
 
 	return_string = calloc(length, sizeof(*return_string));
