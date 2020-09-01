@@ -18,13 +18,22 @@
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\lexical_analyzer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lexical_analyzer_test_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lexical_analyzer_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lexical_analyzer_unit_test_utilities.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="internal_sytax_state_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="internal_character_transition_unit_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lexical_analyzer_unit_test_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="internal_character_transition_unit_tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

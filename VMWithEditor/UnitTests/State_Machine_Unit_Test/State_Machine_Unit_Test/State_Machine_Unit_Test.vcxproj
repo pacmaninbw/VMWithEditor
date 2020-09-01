@@ -143,15 +143,20 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\lexical_analyzer.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
+    <ClCompile Include="internal_character_transition_unit_tests.c" />
+    <ClCompile Include="internal_sytax_state_tests.c" />
     <ClCompile Include="lexical_analyzer_test_data.c" />
     <ClCompile Include="lexical_analyzer_unit_test_main.c" />
+    <ClCompile Include="lexical_analyzer_unit_test_utilities.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lexical_analyzer.h" />
     <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h" />
+    <ClInclude Include="internal_character_transition_unit_tests.h" />
     <ClInclude Include="internal_sytax_state_tests.h" />
     <ClInclude Include="lexical_analyzer_test_data.h" />
     <ClInclude Include="lexical_analyzer_unit_test_main.h" />
+    <ClInclude Include="lexical_analyzer_unit_test_utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

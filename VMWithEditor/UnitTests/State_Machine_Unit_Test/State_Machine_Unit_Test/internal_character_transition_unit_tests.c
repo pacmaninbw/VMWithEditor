@@ -2,16 +2,18 @@
  * internal_character_transition_unit_tests.c
  *
  * This file contains the lowest level of unit testing for the lexical analyzer.
- * It tests the lexical state transitions for particular characters. While it
- * is a C source file rather than a header file it is included by static functions
- * internal_sytax_state_tests.c because it is testing within lexical_analyzer.c.
- * The file internal_sytax_state_tests.c is included by lexical_analyzer.c. as
- * well. This file was separated out of internal_sytax_state_tests.c because at
- * some point that file became too large and complex.
+ * It tests the lexical state transitions for particular characters.
+ * The functions being tested are declared static in lexical_analyzer.c so
+ * lexical_analyzer.c is included by this file to get access to these functions.
  */
 
 #ifndef INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
 #define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
+#define INCLUDED_IN_UNIT_TEST
+
+#include <lexical_analyzer.c>
+#include "lexical_analyzer_unit_test_utilities.h"
+#include "internal_character_transition_unit_tests.h"
 
 static void log_unit_test_get_transition_character_type_failure(
 	Test_Log_Data* log_data, unsigned char candidate, Syntax_State current_state,
@@ -28,7 +30,7 @@ static void log_unit_test_get_transition_character_type_failure(
 	log_generic_message(out_buffer);
 
 	sprintf(out_buffer, "\tExpected Transitiion %s Actual Transition %s\n\n",
-		transition_character[expected_type], transition_character[actual_type]);
+		transition_names(expected_type), transition_names(actual_type));
 	log_generic_message(out_buffer);
 
 	log_data->stand_alone = stand_alone;
@@ -162,7 +164,7 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
  * Tests limited number of states where alpha is important calls the lower level
  * function get_alpha_input_transition_character_type().
  */
-static bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
+bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data log_data;
@@ -359,7 +361,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_Sta
 
 typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, Syntax_State state);
 
-static bool unit_test_get_transition_character_type(size_t test_step)
+bool unit_test_get_transition_character_type(size_t test_step)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];

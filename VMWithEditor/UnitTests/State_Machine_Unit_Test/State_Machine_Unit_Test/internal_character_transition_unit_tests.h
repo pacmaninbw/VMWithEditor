@@ -1,0 +1,7 @@
+#ifndef INTERNAL_CHARACTER_TRANSITION_UNIT_TESTS_H
+#define INTERNAL_CHARACTER_TRANSITION_UNIT_TESTS_H
+
+bool unit_test_get_alpha_input_transition_character_type(unsigned test_step);
+bool unit_test_get_transition_character_type(size_t test_step);
+
+#endif

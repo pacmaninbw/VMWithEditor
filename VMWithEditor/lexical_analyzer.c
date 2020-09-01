@@ -1,3 +1,5 @@
+#ifndef LEXICAL_ANALYZER_C
+#define LEXICAL_ANALYZER_C
 /*
  * lexical_analyzer.c
  *
@@ -96,10 +98,12 @@ static Syntax_State_Transition* get_or_create_next_states(void)
 	return allocate_next_states_once;
 }
 
+#ifndef INCLUDED_IN_UNIT_TEST
 void deactivate_lexical_analyzer(void)
 {
 	free(allocate_next_states_once);
 }
+#endif	// INCLUDED_IN_UNIT_TEST
 
 static bool is_legal_in_hex_number(const unsigned char input)
 {
@@ -277,6 +281,7 @@ static void collect_error_reporting_data(const Syntax_State current_state,
  * This function performs the lexical analysis for the parser, it uses a state machine
  * implemented as a table to do this. That table is the next_states variable.
  */
+#ifndef INCLUDED_IN_UNIT_TEST
 Syntax_State lexical_analyzer(Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[])
 {
 	Syntax_State_Transition* next_states = get_or_create_next_states();
@@ -292,7 +297,6 @@ Syntax_State lexical_analyzer(Syntax_State current_state, const unsigned char in
 
 	return next_states[current_state].transition_on_char_type[character_type];
 }
+#endif	// INCLUDED_IN_UNIT_TEST
 
-#ifdef UNIT_TESTING
-#include "internal_sytax_state_tests.c"
-#endif
+#endif	// LEXICAL_ANALYZER_C
