@@ -39,7 +39,7 @@ unsigned char* ucstrdup(const unsigned char* string_to_copy)
 	return return_string;
 }
 
-bool init_vm_error_reporting(char* error_log_file_name)
+bool init_vm_error_reporting(const char* error_log_file_name)
 {
 	bool status_is_good = true;
 

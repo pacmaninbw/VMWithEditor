@@ -3,7 +3,7 @@
 
 #include "human_readable_program_format.h"
 
-extern bool write_program_to_file(Human_Readable_Program_Format* program, size_t program_size, FILE* out_file);
-extern Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, char* file_name);
+bool write_program_to_file(Human_Readable_Program_Format* program, size_t program_size, FILE* out_file);
+Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, char* file_name);
 
 #endif

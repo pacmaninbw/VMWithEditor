@@ -4,6 +4,6 @@
 #include "human_readable_program_format.h"
 #include <stdint.h>
 
-extern Program_Step_Node* parser(unsigned char* text_line, size_t* line_number, char* file_name);
+Program_Step_Node* parser(unsigned char* text_line, size_t* line_number, char* file_name);
 
 #endif

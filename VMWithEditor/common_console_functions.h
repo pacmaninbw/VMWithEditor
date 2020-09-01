@@ -3,6 +3,6 @@
 
 #include <stdlib.h>
 
-extern size_t get_user_selection(size_t menu_minimum, size_t menu_maximum);
+size_t get_user_selection(size_t menu_minimum, size_t menu_maximum);
 
 #endif

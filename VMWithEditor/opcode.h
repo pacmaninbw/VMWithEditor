@@ -31,8 +31,8 @@ extern OPCODE_TRANSLATION_UNIT opcode_translator[];
 
 #define OPCODE_TRANSLATOR_COUNT 11 // sizeof(opcode_translator) / sizeof(*opcode_translator)
 
-extern void initialize_opcode_translater(void);
-extern char* translate_opcode_to_string(OPCODE opcode);
-extern OPCODE translate_string_to_opcode(unsigned char* string_opcode);
+void initialize_opcode_translater(void);
+char* translate_opcode_to_string(OPCODE opcode);
+OPCODE translate_string_to_opcode(unsigned char* string_opcode);
 
 #endif

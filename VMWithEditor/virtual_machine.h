@@ -6,13 +6,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-extern bool initialize_virtual_machine(void);
-extern void reset_vm(void);
-extern void run_vm(void);
-extern bool load_and_run_program(Human_Readable_Program_Format* program, size_t program_size);
-extern bool program_fits_in_memory(size_t program_size);
-extern size_t get_maximum_operand_value(void);
-extern bool is_legal_operand(unsigned operand);
-extern long translate_text_to_operand_and_validate(char* string_operand);
+bool initialize_virtual_machine(void);
+void reset_vm(void);
+void run_vm(void);
+bool load_and_run_program(Human_Readable_Program_Format* program, size_t program_size);
+bool program_fits_in_memory(size_t program_size);
+size_t get_maximum_operand_value(void);
+bool is_legal_operand(unsigned operand);
+long translate_text_to_operand_and_validate(char* string_operand);
 
 #endif
