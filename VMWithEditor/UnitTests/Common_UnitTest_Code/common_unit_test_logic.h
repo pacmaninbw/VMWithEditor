@@ -10,8 +10,8 @@
 typedef struct test_log_data
 {
 	char* function_name;
-	bool status;
 	char* path;
+	bool status;
 	bool stand_alone;
 } Test_Log_Data;
 
