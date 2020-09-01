@@ -9,6 +9,36 @@
 
 FILE* error_out_file = NULL;
 
+char* mystrdup(const char* string_to_copy)
+{
+	char* return_string = NULL;
+	size_t length = strlen(string_to_copy);
+	++length;
+
+	return_string = calloc(length, sizeof(*return_string));
+	if (return_string)
+	{
+		memcpy(return_string, string_to_copy, length - 1);
+	}
+
+	return return_string;
+}
+
+unsigned char* ucstrdup(const unsigned char* string_to_copy)
+{
+	unsigned char* return_string = NULL;
+	size_t length = strlen((const char*)string_to_copy);
+	++length;
+
+	return_string = calloc(length, sizeof(*return_string));
+	if (return_string)
+	{
+		memcpy(return_string, string_to_copy, length - 1);
+	}
+
+	return return_string;
+}
+
 bool init_vm_error_reporting(char* error_log_file_name)
 {
 	bool status_is_good = true;

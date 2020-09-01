@@ -78,7 +78,7 @@ static bool print_syntax_errors(unsigned* necessary_items, size_t* line_number, 
 
 static unsigned char* get_opcode_or_operand_string(char* original)
 {
-	char* local_copy = _strdup(original);
+	char* local_copy = strdup(original);
 	if (!local_copy)
 	{
 		return (unsigned char*)local_copy;
@@ -93,7 +93,7 @@ static unsigned char* get_opcode_or_operand_string(char* original)
 
 	*current_char = '\0';
 
-	return_string = (unsigned char*)_strdup((char*)local_copy);
+	return_string = ucstrdup(local_copy);
 	free(local_copy);
 
 	return return_string;
