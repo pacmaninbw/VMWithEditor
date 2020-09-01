@@ -42,7 +42,7 @@ unsigned char* ucstrdup(const unsigned char* string_to_copy)
 	return return_string;
 }
 
-bool init_vm_error_reporting(char* error_log_file_name)
+bool init_vm_error_reporting(const char* error_log_file_name)
 {
 	bool status_is_good = true;
 
@@ -105,7 +105,7 @@ Human_Readable_Program_Format* default_program(size_t* program_size)
 }
 #endif
 
-bool init_unit_tests(char* log_file_name)
+bool init_unit_tests(const char* log_file_name)
 {
 	if (log_file_name)
 	{
@@ -126,7 +126,7 @@ bool init_unit_tests(char* log_file_name)
 	return true;
 }
 
-void report_error_generic(char *error_message)
+void report_error_generic(const char *error_message)
 {
 	fprintf(error_out_file, "%s\n", error_message);
 }
@@ -139,7 +139,7 @@ void close_unit_tests(void)
 	}
 }
 
-static bool log_test_is_positive_path(Test_Log_Data* log_data)
+static bool log_test_is_positive_path(const Test_Log_Data* log_data)
 {
 	bool is_positive = true;
 
@@ -165,11 +165,12 @@ static bool log_test_is_positive_path(Test_Log_Data* log_data)
 	}
 
 	is_positive = (strcmp(string_to_test, "POSITIVE") == 0);
+	free(string_to_test);
 
 	return is_positive;
 }
 
-void log_test_status_each_step(char* function_name, bool status, char* path, bool stand_alone)
+void log_test_status_each_step(const char* function_name, const bool status, const char* path, const bool stand_alone)
 {
 	if (stand_alone)
 	{
@@ -178,7 +179,7 @@ void log_test_status_each_step(char* function_name, bool status, char* path, boo
 	}
 }
 
-void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
+void log_test_status_each_step2(const Test_Log_Data *test_data_to_log)
 {
 	if (test_data_to_log->stand_alone)
 	{
@@ -187,41 +188,41 @@ void log_test_status_each_step2(Test_Log_Data *test_data_to_log)
 	}
 }
 
-void log_start_positive_path(char* function_name)
+void log_start_positive_path(const char* function_name)
 {
 	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
 		function_name);
 }
 
-void log_start_positive_path2(Test_Log_Data *log_data)
+void log_start_positive_path2(const Test_Log_Data *log_data)
 {
 	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for %s\n\n",
 		log_data->function_name);
 }
 
-void log_end_positive_path(char* function_name)
+void log_end_positive_path(const char* function_name)
 {
 	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s\n", function_name);
 }
 
-void log_end_positive_path2(Test_Log_Data* log_data)
+void log_end_positive_path2(const Test_Log_Data* log_data)
 {
 	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for %s, POSITIVE PATH  %s \n",
 		log_data->function_name, log_data->status? "PASSED" : "FAILED");
 }
 
-void log_start_negative_path(char* function_name)
+void log_start_negative_path(const char* function_name)
 {
 	fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for %s\n\n", function_name);
 }
 
-void log_end_negative_path(char* function_name)
+void log_end_negative_path(const char* function_name)
 {
 	fprintf(unit_test_log_file, "\nEnding NEGATIVE PATH testing for %s\n", function_name);
 	fflush(unit_test_log_file);		// Current unit test is done flush the output.
 }
 
-void log_start_test_path(Test_Log_Data* log_data)
+void log_start_test_path(const Test_Log_Data* log_data)
 {
 	bool is_positive = log_test_is_positive_path(log_data);
 
@@ -229,7 +230,7 @@ void log_start_test_path(Test_Log_Data* log_data)
 		is_positive ? "POSITIVE" : "NEGATIVE", log_data->function_name);
 }
 
-void log_end_test_path(Test_Log_Data *log_data)
+void log_end_test_path(const Test_Log_Data *log_data)
 {
 	bool is_positive = log_test_is_positive_path(log_data);
 
@@ -243,12 +244,12 @@ void log_end_test_path(Test_Log_Data *log_data)
 	}
 }
 
-void log_generic_message(char* log_message)
+void log_generic_message(const char* log_message)
 {
 	fprintf(unit_test_log_file, log_message);
 }
 
-void init_test_log_data(Test_Log_Data* log_data, char *function_name, bool status, char *path, bool stand_alone)
+void init_test_log_data(Test_Log_Data* log_data, const char *function_name, const bool status, char *path, bool stand_alone)
 {
 	log_data->function_name = function_name;
 	log_data->status = status;
@@ -256,7 +257,7 @@ void init_test_log_data(Test_Log_Data* log_data, char *function_name, bool statu
 	log_data->stand_alone = stand_alone;
 }
 
-Test_Log_Data *create_and_init_test_log_data(char* function_name, bool status, char* path, bool stand_alone)
+Test_Log_Data *create_and_init_test_log_data(const char* function_name, const bool status, char* path, const bool stand_alone)
 {
 	Test_Log_Data* log_data = calloc(1, sizeof(*log_data));
 	if (log_data)
@@ -272,7 +273,7 @@ Test_Log_Data *create_and_init_test_log_data(char* function_name, bool status, c
 }
 
 // provides common error report for memory allocation error.
-void report_create_and_init_test_log_data_memory_failure(char *function_name)
+void report_create_and_init_test_log_data_memory_failure(const char *function_name)
 {
 	fprintf(error_out_file, "In function %s, Memory allocation failed in create_and_init_test_log_data\n", function_name);
 }
