@@ -57,43 +57,43 @@
  *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
  *	ERROR_STATE = 9
  */
-static Syntax_State_Transition* allocate_next_states_once = NULL;
-static Syntax_State_Transition* get_or_create_next_states(void)
+static LAH_Syntax_State_Transition* allocate_next_states_once = NULL;
+static LAH_Syntax_State_Transition* get_or_create_next_states(void)
 {
 	if (allocate_next_states_once)
 	{
 		return allocate_next_states_once;
 	}
 
-	allocate_next_states_once = calloc(((size_t)ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
+	allocate_next_states_once = calloc(((size_t)LAH_ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
 	if (!allocate_next_states_once)
 	{
 		report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
 		return allocate_next_states_once;
 	}
 
-	allocate_next_states_once[START_STATE] = (Syntax_State_Transition){ START_STATE, {ENTER_OPCODE_STATE, ERROR_STATE,
-		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, START_STATE, DONE_STATE, ERROR_STATE} };
-	allocate_next_states_once[ENTER_OPCODE_STATE] = (Syntax_State_Transition){ ENTER_OPCODE_STATE, {ENTER_OPCODE_STATE,
-		END_STATEMENT_STATE, ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, ENTER_OPCODE_STATE,
-		ERROR_STATE, ERROR_STATE} };
-	allocate_next_states_once[OPCODE_STATE] = (Syntax_State_Transition){OPCODE_STATE, {ERROR_STATE, END_STATEMENT_STATE,
-		ENTER_OPERAND_STATE, OPCODE_STATE, OPERAND_STATE, END_OPCODE_STATE, ERROR_STATE, ERROR_STATE} };
-	allocate_next_states_once[END_OPCODE_STATE] = (Syntax_State_Transition){ END_OPCODE_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, ENTER_OPERAND_STATE, ERROR_STATE, OPERAND_STATE, END_OPCODE_STATE,
-		ERROR_STATE, ERROR_STATE} };
-	allocate_next_states_once[ENTER_OPERAND_STATE] = (Syntax_State_Transition){ ENTER_OPERAND_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, OPERAND_STATE, ENTER_OPERAND_STATE, ERROR_STATE} };
-	allocate_next_states_once[OPERAND_STATE] = (Syntax_State_Transition){ OPERAND_STATE, {ERROR_STATE, END_STATEMENT_STATE,
-		DONE_STATE, ERROR_STATE, OPERAND_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
-	allocate_next_states_once[END_OPERAND_STATE] = (Syntax_State_Transition){ END_OPERAND_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_OPERAND_STATE, ERROR_STATE, ERROR_STATE} };
-	allocate_next_states_once[END_STATEMENT_STATE] = (Syntax_State_Transition){ END_STATEMENT_STATE, {ERROR_STATE,
-		END_STATEMENT_STATE, DONE_STATE, ERROR_STATE, ERROR_STATE, END_STATEMENT_STATE, DONE_STATE, ERROR_STATE} };
-	allocate_next_states_once[DONE_STATE] = (Syntax_State_Transition){ DONE_STATE, {ERROR_STATE, ERROR_STATE,
-		DONE_STATE, ERROR_STATE, ERROR_STATE, DONE_STATE, DONE_STATE, ERROR_STATE} };
-	allocate_next_states_once[ERROR_STATE] = (Syntax_State_Transition){ ERROR_STATE, {ERROR_STATE, ERROR_STATE,
-		ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE, ERROR_STATE} };
+	allocate_next_states_once[LAH_START_STATE] = (LAH_Syntax_State_Transition){ LAH_START_STATE, {LAH_ENTER_OPCODE_STATE, LAH_ERROR_STATE,
+		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_START_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ENTER_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPCODE_STATE, {LAH_ENTER_OPCODE_STATE,
+		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPCODE_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_OPCODE_STATE] = (LAH_Syntax_State_Transition){LAH_OPCODE_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
+		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPCODE_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ENTER_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPERAND_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_OPERAND_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
+		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPERAND_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_STATEMENT_STATE] = (LAH_Syntax_State_Transition){ LAH_END_STATEMENT_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_DONE_STATE] = (LAH_Syntax_State_Transition){ LAH_DONE_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
+		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_DONE_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ERROR_STATE] = (LAH_Syntax_State_Transition){ LAH_ERROR_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
 
 	return allocate_next_states_once;
 }
@@ -105,50 +105,25 @@ void deactivate_lexical_analyzer(void)
 }
 #endif	// INCLUDED_IN_UNIT_TEST
 
-static bool is_legal_in_hex_number(const unsigned char input)
-{
-	bool is_legal = false;
-
-	switch (toupper(input))
-	{
-		case 'A':
-		case 'B':
-		case 'C':
-		case 'D':
-		case 'E':
-		case 'F':
-		case 'X':
-			is_legal = true;
-			break;
-
-		default:
-			is_legal = false;
-			break;
-	}
-
-
-	return is_legal;
-}
-
 /*
  * The calling function has already gone through one filter so it is assured that
  * the input character is an alpha and not some other type of character.
  */
-static State_Transition_Characters get_alpha_input_transition_character_type(const unsigned char input, Syntax_State current_state)
+static LAH_State_Transition_Characters get_alpha_input_transition_character_type(const unsigned char input, const LAH_Syntax_State current_state)
 {
-	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
 	switch (current_state)
 	{
-		case ENTER_OPERAND_STATE:
-		case OPERAND_STATE:
-		case END_OPERAND_STATE:
-			character_type = (is_legal_in_hex_number(input)) ? DIGIT_STATE_TRANSITION :
-				ALPHA_STATE_TRANSITION;
+		case LAH_ENTER_OPERAND_STATE:
+		case LAH_OPERAND_STATE:
+		case LAH_END_OPERAND_STATE:
+			character_type = (isxdigit(input) || (input == 'x' || input == 'X')) ?
+				LAH_DIGIT_STATE_TRANSITION : LAH_ALPHA_STATE_TRANSITION;
 			break;
 
 		default:
-			character_type = ALPHA_STATE_TRANSITION;
+			character_type = LAH_ALPHA_STATE_TRANSITION;
 			break;
 	}
 
@@ -159,26 +134,26 @@ static State_Transition_Characters get_alpha_input_transition_character_type(con
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static State_Transition_Characters get_puctuation_transition_character_type(const unsigned char input)
+static LAH_State_Transition_Characters get_puctuation_transition_character_type(const unsigned char input)
 {
-	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
 	switch (input)
 	{
 		case ',':
-			character_type = COMMA_STATE_TRANSITION;
+			character_type = LAH_COMMA_STATE_TRANSITION;
 			break;
 
 		case '{':
-			character_type = OPENBRACE_STATE_TRANSITION;
+			character_type = LAH_OPENBRACE_STATE_TRANSITION;
 			break;
 
 		case '}':
-			character_type = CLOSEBRACE_STATE_TRANSITION;
+			character_type = LAH_CLOSEBRACE_STATE_TRANSITION;
 			break;
 
 		default:
-			character_type = ILLEGAL_CHAR_TRANSITION;
+			character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 			break;
 	}
 
@@ -189,24 +164,24 @@ static State_Transition_Characters get_puctuation_transition_character_type(cons
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static State_Transition_Characters get_whitespace_transition_character_type(const unsigned char input)
+static LAH_State_Transition_Characters get_whitespace_transition_character_type(const unsigned char input)
 {
-	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
 	switch (input)
 	{
 		case ' ':
 		case '\t':
-			character_type = WHITESPACE_STATE_TRANSITION;
+			character_type = LAH_WHITESPACE_STATE_TRANSITION;
 			break;
 
 		case '\n':
 		case '\r':
-			character_type = EOL_STATE_TRANSITION;
+			character_type = LAH_EOL_STATE_TRANSITION;
 			break;
 
 		default:
-			character_type = ILLEGAL_CHAR_TRANSITION;
+			character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 			break;
 	}
 
@@ -218,16 +193,16 @@ static State_Transition_Characters get_whitespace_transition_character_type(cons
  * set save space using ctype functions for large ranges. Also save time on
  * implementation and debugging.
  */
-static State_Transition_Characters get_transition_character_type(const unsigned char input, Syntax_State current_state)
+static LAH_State_Transition_Characters get_transition_character_type(const unsigned char input, const LAH_Syntax_State current_state)
 {
-	State_Transition_Characters character_type = ILLEGAL_CHAR_TRANSITION;
+	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 	if (isalpha(input))
 	{
 		character_type = get_alpha_input_transition_character_type(input, current_state);
 	}
 	else if (isdigit(input))
 	{
-		character_type = DIGIT_STATE_TRANSITION;
+		character_type = LAH_DIGIT_STATE_TRANSITION;
 	}
 	else if (isspace(input))
 	{
@@ -244,31 +219,31 @@ static State_Transition_Characters get_transition_character_type(const unsigned 
 /*
  * syntax_check_list provides additional error information for the parser.
  */
-static void collect_error_reporting_data(const Syntax_State current_state,
-	const State_Transition_Characters character_type, unsigned syntax_check_list[])
+static void collect_error_reporting_data(const LAH_Syntax_State current_state,
+	const LAH_State_Transition_Characters character_type, unsigned syntax_check_list[])
 {
 	switch (character_type)
 	{
 
-		case WHITESPACE_STATE_TRANSITION:		// This section is for character types that
-		case EOL_STATE_TRANSITION:				// are a legal first character on a line
+		case LAH_WHITESPACE_STATE_TRANSITION:		// This section is for character types that
+		case LAH_EOL_STATE_TRANSITION:				// are a legal first character on a line
 			break;
 
-		case COMMA_STATE_TRANSITION:			// Punctuation required by grammer on
-		case OPENBRACE_STATE_TRANSITION:		// every line
-		case CLOSEBRACE_STATE_TRANSITION:
+		case LAH_COMMA_STATE_TRANSITION:			// Punctuation required by grammer on
+		case LAH_OPENBRACE_STATE_TRANSITION:		// every line
+		case LAH_CLOSEBRACE_STATE_TRANSITION:
 		{
-			unsigned maximum_allowed[] = { MAX_OPEN_BRACE, MAX_CLOSE_BRACE, MAX_COMMA };
+			unsigned maximum_allowed[] = { LAH_MAX_OPEN_BRACE, LAH_MAX_CLOSE_BRACE, LAH_MAX_COMMA };
 			syntax_check_list[character_type]++;
 			if (syntax_check_list[character_type] > maximum_allowed[character_type])
 			{
-				syntax_check_list[MULTIPLESTATEMENTSONELINE]++;
+				syntax_check_list[LAH_MULTIPLESTATEMENTSONELINE]++;
 			}
 		}	// flow through so that punctuation is handeled like all other character
 		default:
-			if (current_state == START_STATE && character_type != OPENBRACE_STATE_TRANSITION)
+			if (current_state == LAH_START_STATE && character_type != LAH_OPENBRACE_STATE_TRANSITION)
 			{
-				syntax_check_list[ILLEGALFIRSTCHAR]++;
+				syntax_check_list[LAH_ILLEGALFIRSTCHAR]++;
 			}
 			break;
 	}
@@ -282,9 +257,9 @@ static void collect_error_reporting_data(const Syntax_State current_state,
  * implemented as a table to do this. That table is the next_states variable.
  */
 #ifndef INCLUDED_IN_UNIT_TEST
-Syntax_State lexical_analyzer(Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[])
+LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[])
 {
-	Syntax_State_Transition* next_states = get_or_create_next_states();
+	LAH_Syntax_State_Transition* next_states = get_or_create_next_states();
 	if (!next_states)
 	{
 		fprintf(error_out_file, "In %s: Memory allocation error in get_or_create_next_states()\n", "get_state_transition_collect_parser_error_data");
@@ -292,7 +267,7 @@ Syntax_State lexical_analyzer(Syntax_State current_state, const unsigned char in
 		exit(EXIT_FAILURE);
 	}
 
-	State_Transition_Characters character_type = get_transition_character_type(input, current_state);
+	LAH_State_Transition_Characters character_type = get_transition_character_type(input, current_state);
 	collect_error_reporting_data(current_state, character_type, syntax_check_list);
 
 	return next_states[current_state].transition_on_char_type[character_type];

@@ -9,70 +9,72 @@
  * generate tables to implement lexical analysis.
  *
  * This module uses enums to make the states and transitions easier to understand.
+ * All Macros and enums are prefaced with LAH_ to indicate they come from
+ * lexical_analyzer.h.
  *
  */
 #ifndef LEXICAL_ANALYZER_H
 #define LEXICAL_ANALYZER_H
 
-typedef enum syntax_checks_list_items
+typedef enum syntax_check_list_items
 {
-	OPENBRACE = 0,
-	CLOSEBRACE = 1,
-	COMMA = 2,
-	LEGALOPCODE = 3,
-	LEGALOPERAND = 4,
-	ILLEGALOPCODE = 5,
-	ILLEGALOPERAND = 6,
-	ILLEGALFIRSTCHAR = 7,
-	MULTIPLESTATEMENTSONELINE = 8,
-	ILLEGALCHAR = 9,
-	MISSINGCOMMA = 10
-#define SYNTAX_CHECK_COUNT 11
-} Syntax_Check_List_Items;
+	LAH_OPENBRACE = 0,
+	LAH_CLOSEBRACE = 1,
+	LAH_COMMA = 2,
+	LAH_LEGALOPCODE = 3,
+	LAH_LEGALOPERAND = 4,
+	LAH_ILLEGALOPCODE = 5,
+	LAH_ILLEGALOPERAND = 6,
+	LAH_ILLEGALFIRSTCHAR = 7,
+	LAH_MULTIPLESTATEMENTSONELINE = 8,
+	LAH_ILLEGALCHAR = 9,
+	LAH_MISSINGCOMMA = 10
+#define LAH_SYNTAX_CHECK_ARRAY_SIZE (10 + 1)
+} LAH_Syntax_Check_List_Items;
 
 typedef enum syntax_state_enum
 {
-	START_STATE = 0,				// Start of a new line, only white space or open brace is really expected
-	ENTER_OPCODE_STATE = 1,			// Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
-	OPCODE_STATE = 2,				// Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
-	END_OPCODE_STATE = 3,			// White space has been encountered only white space or comma expected
-	ENTER_OPERAND_STATE = 4,		// Comma has been encountered, waiting for first digit of operand white space allowed
-	OPERAND_STATE = 5,				// First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
-	END_OPERAND_STATE = 6,			// White space has been encountered, waiting for close brace to end statement
-	END_STATEMENT_STATE = 7,		// Close brace has been encountered, comma or new line expected
-	DONE_STATE = 8,					// Comma has been encountered only legal input is white space or new line
-	ERROR_STATE = 9
-} Syntax_State;
+	LAH_START_STATE = 0,				// Start of a new line, only white space or open brace is really expected
+	LAH_ENTER_OPCODE_STATE = 1,			// Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+	LAH_OPCODE_STATE = 2,				// Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+	LAH_END_OPCODE_STATE = 3,			// White space has been encountered only white space or comma expected
+	LAH_ENTER_OPERAND_STATE = 4,		// Comma has been encountered, waiting for first digit of operand white space allowed
+	LAH_OPERAND_STATE = 5,				// First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+	LAH_END_OPERAND_STATE = 6,			// White space has been encountered, waiting for close brace to end statement
+	LAH_END_STATEMENT_STATE = 7,		// Close brace has been encountered, comma or new line expected
+	LAH_DONE_STATE = 8,					// Comma has been encountered only legal input is white space or new line
+	LAH_ERROR_STATE = 9
+} LAH_Syntax_State;
 
-#define SYNTAX_STATE_ARRAY_SIZE	9 + 1	// (size_t) ERROR_STATE + 1
+#define LAH_SYNTAX_STATE_ARRAY_SIZE	(9 + 1)	// (size_t) ERROR_STATE + 1
 
 typedef enum legal_characters_that_cause_transitions
 {
-	OPENBRACE_STATE_TRANSITION = 0,			// This needs to be the same as OPENBRACE in Syntax_Check_List_Items
-	CLOSEBRACE_STATE_TRANSITION = 1,		// This needs to be the same as CLOSEBRACE in Syntax_Check_List_Items
-	COMMA_STATE_TRANSITION = 2,				// This needs to be the same as COMMA in Syntax_Check_List_Items
-	ALPHA_STATE_TRANSITION = 3,
-	DIGIT_STATE_TRANSITION = 4,
-	WHITESPACE_STATE_TRANSITION = 5,
-	EOL_STATE_TRANSITION = 6,		// End of Line
-	ILLEGAL_CHAR_TRANSITION = 7
-} State_Transition_Characters;
-#define TRANSITION_ARRAY_SIZE 7 + 1		// ILLEGAL_CHAR_TRANSITION + 1
+	LAH_OPENBRACE_STATE_TRANSITION = 0,			// This needs to be the same as OPENBRACE in Syntax_Check_List_Items
+	LAH_CLOSEBRACE_STATE_TRANSITION = 1,		// This needs to be the same as CLOSEBRACE in Syntax_Check_List_Items
+	LAH_COMMA_STATE_TRANSITION = 2,				// This needs to be the same as COMMA in Syntax_Check_List_Items
+	LAH_ALPHA_STATE_TRANSITION = 3,
+	LAH_DIGIT_STATE_TRANSITION = 4,
+	LAH_WHITESPACE_STATE_TRANSITION = 5,
+	LAH_EOL_STATE_TRANSITION = 6,				// End of Line
+	LAH_ILLEGAL_CHAR_TRANSITION = 7
+} LAH_State_Transition_Characters;
+#define LAH_TRANSITION_ARRAY_SIZE (7 + 1)		// ILLEGAL_CHAR_TRANSITION + 1
 
 typedef struct syntax_state_transition
 {
-	Syntax_State current_state;
-	Syntax_State transition_on_char_type[TRANSITION_ARRAY_SIZE];
-} Syntax_State_Transition;
+	LAH_Syntax_State current_state;
+	LAH_Syntax_State transition_on_char_type[LAH_TRANSITION_ARRAY_SIZE];
+} LAH_Syntax_State_Transition;
 
-#define MAX_COMMA 2
-#define MAX_OPEN_BRACE 1
-#define MAX_CLOSE_BRACE 1
-#define MAX_OPCODE 1
-#define MAX_OPERAND 1
-#define MAX_WHITE_SPACE	200
+#define LAH_MAX_COMMA 2
+#define LAH_MAX_OPEN_BRACE 1
+#define LAH_MAX_CLOSE_BRACE 1
+#define LAH_MAX_OPCODE 1
+#define LAH_MAX_OPERAND 1
+#define LAH_MAX_WHITE_SPACE	200
 
-Syntax_State lexical_analyzer(Syntax_State current_state, unsigned char input, unsigned syntax_check_list[]);
+LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[]);
 void deactivate_lexical_analyzer(void);
 
 #endif	//	LEXICAL_ANALYZER_H
