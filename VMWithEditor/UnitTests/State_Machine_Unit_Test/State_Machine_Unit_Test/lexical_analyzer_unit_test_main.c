@@ -4,6 +4,7 @@
 #include "lexical_analyzer.h"
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_unit_test_main.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 

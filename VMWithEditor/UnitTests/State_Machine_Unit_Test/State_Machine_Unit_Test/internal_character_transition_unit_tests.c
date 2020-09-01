@@ -16,8 +16,8 @@
 #include "internal_character_transition_unit_tests.h"
 
 static void log_unit_test_get_transition_character_type_failure(
-	Test_Log_Data* log_data, unsigned char candidate, Syntax_State current_state,
-	State_Transition_Characters expected_type, State_Transition_Characters actual_type)
+	Test_Log_Data* log_data, unsigned char candidate, LAH_Syntax_State current_state,
+	LAH_State_Transition_Characters expected_type, LAH_State_Transition_Characters actual_type)
 {
 	// Force failures to be reported
 	bool stand_alone = log_data->stand_alone;
@@ -42,8 +42,8 @@ typedef enum test_character_case
 	UPPER_CASE = 1
 } TEST_CHARACTER_CASE;
 
-static State_Transition_Characters get_expected_alpha_transition_character_type(
-	unsigned char input, Syntax_State current_state)
+static LAH_State_Transition_Characters get_expected_alpha_transition_character_type(
+	unsigned char input, LAH_Syntax_State current_state)
 {
 	input = (unsigned char)toupper(input);
 
@@ -56,25 +56,25 @@ static State_Transition_Characters get_expected_alpha_transition_character_type(
 	case 'E':
 	case 'F':
 	case 'X':
-		if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE
-			|| current_state == END_OPERAND_STATE)
+		if (current_state == LAH_ENTER_OPERAND_STATE || current_state == LAH_OPERAND_STATE
+			|| current_state == LAH_END_OPERAND_STATE)
 		{
-			return DIGIT_STATE_TRANSITION;
+			return LAH_DIGIT_STATE_TRANSITION;
 		}
 		else
 		{
-			return ALPHA_STATE_TRANSITION;
+			return LAH_ALPHA_STATE_TRANSITION;
 		}
 		break;
 
 	default:
-		return ALPHA_STATE_TRANSITION;
+		return LAH_ALPHA_STATE_TRANSITION;
 		break;
 	}
 }
 
-typedef State_Transition_Characters(*STFfunct)(unsigned char input, Syntax_State current_state);
-static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, Syntax_State current_state, STFfunct transition_function)
+typedef LAH_State_Transition_Characters(*STFfunct)(unsigned char input, LAH_Syntax_State current_state);
+static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, LAH_Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];
@@ -93,8 +93,8 @@ static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, S
 		for (unsigned char candidate_character = fist_character_to_test; candidate_character <= last_character_to_test; candidate_character++)
 		{
 			log_data->status = true;
-			State_Transition_Characters expected_type = get_expected_alpha_transition_character_type(candidate_character, current_state);
-			State_Transition_Characters actual_type = transition_function(candidate_character, current_state);
+			LAH_State_Transition_Characters expected_type = get_expected_alpha_transition_character_type(candidate_character, current_state);
+			LAH_State_Transition_Characters actual_type = transition_function(candidate_character, current_state);
 			if (expected_type != actual_type)
 			{
 				log_data->status = false;
@@ -121,7 +121,7 @@ static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, S
 }
 
 static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_data,
-	Syntax_State current_state, unsigned char* input, State_Transition_Characters expected_transition[],
+	LAH_Syntax_State current_state, unsigned char* input, LAH_State_Transition_Characters expected_transition[],
 	size_t positive_path_count, char* local_func_name)
 {
 	bool test_passed = true;
@@ -139,7 +139,7 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
 		}
 
 		log_data->status = true;
-		State_Transition_Characters actual_transistion = get_transition_character_type(
+		LAH_State_Transition_Characters actual_transistion = get_transition_character_type(
 			*test_input, current_state);
 		log_data->status = actual_transistion == expected_transition[test_count];
 		if (!log_data->status)
@@ -177,7 +177,7 @@ bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 		log_start_positive_path(log_data.function_name);
 	}
 
-	for (size_t state = (size_t)ENTER_OPCODE_STATE; state <= (size_t)END_OPERAND_STATE; state++)
+	for (size_t state = (size_t)LAH_ENTER_OPCODE_STATE; state <= (size_t)LAH_END_OPERAND_STATE; state++)
 	{
 		test_passed = core_alpha_character_transition_unit_test(&log_data, state,
 			get_alpha_input_transition_character_type);
@@ -191,17 +191,17 @@ bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 	return test_passed;
 }
 
-static bool unit_test_whitespace_transition(Test_Log_Data* log_data, Syntax_State current_state)
+static bool unit_test_whitespace_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = " \t\n\r\v\f";
 
-	State_Transition_Characters expected_transition[] =
+	LAH_State_Transition_Characters expected_transition[] =
 	{
 		// Positive test path
-		WHITESPACE_STATE_TRANSITION, WHITESPACE_STATE_TRANSITION, EOL_STATE_TRANSITION,
+		LAH_WHITESPACE_STATE_TRANSITION, LAH_WHITESPACE_STATE_TRANSITION, LAH_EOL_STATE_TRANSITION,
 		// Test the negatvie path as well.
-		EOL_STATE_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION
+		LAH_EOL_STATE_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION
 	};
 	size_t positive_path_count = 4;		// Change this if more positive path tests are added.
 
@@ -225,15 +225,15 @@ static bool unit_test_whitespace_transition(Test_Log_Data* log_data, Syntax_Stat
 	return test_passed;
 }
 
-static void init_digit_test_data(unsigned char* input, State_Transition_Characters
-	expected_transition[], size_t* positive_test_path, Syntax_State current_state)
+static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Characters
+	expected_transition[], size_t* positive_test_path, LAH_Syntax_State current_state)
 {
-	State_Transition_Characters* expected_ptr = expected_transition;
-	if (current_state == ENTER_OPERAND_STATE || current_state == OPERAND_STATE || current_state == END_OPERAND_STATE)
+	LAH_State_Transition_Characters* expected_ptr = expected_transition;
+	if (current_state == LAH_ENTER_OPERAND_STATE || current_state == LAH_OPERAND_STATE || current_state == LAH_END_OPERAND_STATE)
 	{
 		for (; *input; input++, expected_ptr++)
 		{
-			*expected_ptr = DIGIT_STATE_TRANSITION;
+			*expected_ptr = LAH_DIGIT_STATE_TRANSITION;
 		}
 		*positive_test_path = strlen((const char*)input);
 	}
@@ -243,23 +243,23 @@ static void init_digit_test_data(unsigned char* input, State_Transition_Characte
 		{
 			if (isdigit(*input))
 			{
-				*expected_ptr = DIGIT_STATE_TRANSITION;
+				*expected_ptr = LAH_DIGIT_STATE_TRANSITION;
 				(*positive_test_path)++;
 			}
 			else
 			{
-				*expected_ptr = ALPHA_STATE_TRANSITION;		// to force failures use this instead *expected_ptr = DIGIT_STATE_TRANSITION;
+				*expected_ptr = LAH_ALPHA_STATE_TRANSITION;		// to force failures use this instead *expected_ptr = DIGIT_STATE_TRANSITION;
 			}
 		}
 	}
 }
 
-static bool unit_test_digit_transition(Test_Log_Data* log_data, Syntax_State current_state)
+static bool unit_test_digit_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
 #define MAX_INPUT_CHARACTERS	24
-	State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
+	LAH_State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
 	size_t positive_path_count;								// Change this if more positive path tests are added.
 	init_digit_test_data(input, expected_transition, &positive_path_count, current_state);
 
@@ -300,7 +300,7 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, Syntax_State cur
  * test the state specified by the caller function. Calls the higher level function
  * get_transition_character_type().
  */
-static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State current_state)
+static bool unit_test_alpha_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	char* local_func_name = NULL;
@@ -324,18 +324,18 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, Syntax_State cur
 	return test_passed;
 }
 
-static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_State current_state)
+static bool unit_test_punctuation_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = "{},+-/*=&";
 
-	State_Transition_Characters expected_transition[] =
+	LAH_State_Transition_Characters expected_transition[] =
 	{
 		// Positive test path
-		OPENBRACE_STATE_TRANSITION, CLOSEBRACE_STATE_TRANSITION, COMMA_STATE_TRANSITION,
+		LAH_OPENBRACE_STATE_TRANSITION, LAH_CLOSEBRACE_STATE_TRANSITION, LAH_COMMA_STATE_TRANSITION,
 		// Test the negatvie path as well.
-		ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION,
-		ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION, ILLEGAL_CHAR_TRANSITION
+		LAH_ILLEGAL_CHAR_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION,
+		LAH_ILLEGAL_CHAR_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION, LAH_ILLEGAL_CHAR_TRANSITION
 	};
 	size_t positive_path_count = 3;		// Change this if more positive path tests are added.
 
@@ -359,7 +359,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, Syntax_Sta
 	return test_passed;
 }
 
-typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, Syntax_State state);
+typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, LAH_Syntax_State state);
 
 bool unit_test_get_transition_character_type(size_t test_step)
 {
@@ -390,12 +390,12 @@ bool unit_test_get_transition_character_type(size_t test_step)
 		unit_test_digit_transition,
 		unit_test_whitespace_transition
 	};
-	for (size_t state = (size_t)START_STATE; state <= (size_t)ERROR_STATE; state++)
+	for (size_t state = (size_t)LAH_START_STATE; state <= (size_t)LAH_ERROR_STATE; state++)
 	{
 		for (size_t unit_test_count = 0; unit_test_count < sizeof(test_function) /
 			sizeof(*test_function); unit_test_count++)
 		{
-			if (!test_function[unit_test_count](log_data, (Syntax_State)state))
+			if (!test_function[unit_test_count](log_data, (LAH_Syntax_State)state))
 			{
 				test_passed = log_data->status;
 			}

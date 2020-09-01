@@ -22,18 +22,60 @@
 
 typedef struct state_test_data
 {
-	Syntax_State current_state;
-	State_Transition_Characters input_character_state;
-	unsigned syntax_items_checklist[SYNTAX_CHECK_COUNT];
+	LAH_Syntax_State current_state;
+	LAH_State_Transition_Characters input_character_state;
+	unsigned syntax_items_checklist[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	Expected_Syntax_Errors expected_data;
 } Error_Reporting_Test_Data;
 
+#ifdef UNIT_TEST_DEBUG
+static bool unit_test_syntax_states(size_t test_step)
+{
+	bool test_passed = true;
+	bool stand_alone = test_step == 0;
+
+	LAH_Syntax_State_Transition* test_transitions = get_or_create_next_states();
+	if (!test_transitions)
+	{
+		fprintf(error_out_file, "Memory allocation error in get_create_next_states()\n");
+		return false;
+	}
+
+	for (size_t state = 0; state < LAH_SYNTAX_STATE_ARRAY_SIZE; state++)
+	{
+		char out_buffer[BUFSIZ];
+		if (stand_alone)
+		{
+			sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(
+				test_transitions[state].current_state));
+			log_generic_message(out_buffer);
+		}
+
+		if (stand_alone)
+		{
+			for (size_t character_index = 0; character_index < LAH_TRANSITION_ARRAY_SIZE;
+				character_index++)
+			{
+				sprintf(out_buffer, "\ttransition character = %s\t\tnew state %s\n",
+					transition_names(character_index),
+					state_name_for_printing(
+						test_transitions[state].transition_on_char_type[character_index]));
+				log_generic_message(out_buffer);
+			}
+			log_generic_message("\n");
+		}
+	}
+
+	return test_passed;
+}
+#endif
+
 static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_buffer)
 {
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
 		char num_buff[8];
-		if (i < SYNTAX_CHECK_COUNT - 1)
+		if (i < LAH_SYNTAX_CHECK_ARRAY_SIZE - 1)
 		{
 			sprintf(num_buff, "%u, ", syntax_checklist[i]);
 			strcat(out_buffer, num_buff);
@@ -64,7 +106,7 @@ static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors 
 {
 	bool syntax_check_list_in_sync = true;
 
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
 		if (syntax_check_list[i] != expected_errors.syntax_check_list[i])
 		{
@@ -93,7 +135,7 @@ static bool run_error_checking_unit_tests(
 			log_start_test_path(log_data);
 		}
 
-		unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+		unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 		memcpy(&syntax_check_list[0], &test_data[test_count].syntax_items_checklist[0], sizeof(syntax_check_list));
 
 		collect_error_reporting_data(test_data[test_count].current_state,
@@ -125,23 +167,23 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 	Error_Reporting_Test_Data static_global_test_data[] =
 	{
 		// Start with positive test path data
-		{START_STATE, OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_STATEMENT_STATE, COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{START_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{END_OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{START_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPERAND_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
-		{OPCODE_STATE, EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_START_STATE, LAH_OPENBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPERAND_STATE, LAH_CLOSEBRACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_END_STATEMENT_STATE, LAH_COMMA_STATE_TRANSITION, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPCODE_STATE, LAH_COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_END_OPCODE_STATE, LAH_COMMA_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_END_OPCODE_STATE, LAH_WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_START_STATE, LAH_WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPERAND_STATE, LAH_WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPCODE_STATE, LAH_WHITESPACE_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_END_OPCODE_STATE, LAH_EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_START_STATE, LAH_EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPERAND_STATE, LAH_EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
+		{LAH_OPCODE_STATE, LAH_EOL_STATE_TRANSITION, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}},
 		// Negative test path data
-		{DONE_STATE, OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
-		{DONE_STATE, COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0}}},
-		{DONE_STATE, CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		{LAH_DONE_STATE, LAH_OPENBRACE_STATE_TRANSITION, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		{LAH_DONE_STATE, LAH_COMMA_STATE_TRANSITION,  {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0}}},
+		{LAH_DONE_STATE, LAH_CLOSEBRACE_STATE_TRANSITION, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, {0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0}}},
 	};
 	*test_data_size = (sizeof(static_global_test_data) / sizeof(Error_Reporting_Test_Data));
 	*positive_path_test_count = 13;		// Count the lines of test_data above between the comments above.
@@ -252,27 +294,27 @@ bool internal_tests_on_all_state_transitions(unsigned test_step)
 
 static void report_syntax_errors(unsigned necessary_items[])
 {
-	char* error_strings[SYNTAX_CHECK_COUNT];
-	error_strings[OPENBRACE] = "Missing the opening brace.";
-	error_strings[CLOSEBRACE] = "Missing the closing brace.";
-	error_strings[COMMA] = "Missing comma(s)";
-	error_strings[LEGALOPCODE] = "Missing or unknow opcode";
-	error_strings[LEGALOPERAND] = "Missing operand or operand out of range";
-	error_strings[ILLEGALOPCODE] = "Unknown Opcode.";
-	error_strings[ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
-	error_strings[MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
-	error_strings[ILLEGALCHAR] = "Illegal Character";
-	error_strings[MISSINGCOMMA] = "Missing comma(s)";
+	char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
+	error_strings[LAH_OPENBRACE] = "Missing the opening brace.";
+	error_strings[LAH_CLOSEBRACE] = "Missing the closing brace.";
+	error_strings[LAH_COMMA] = "Missing comma(s)";
+	error_strings[LAH_LEGALOPCODE] = "Missing or unknow opcode";
+	error_strings[LAH_LEGALOPERAND] = "Missing operand or operand out of range";
+	error_strings[LAH_ILLEGALOPCODE] = "Unknown Opcode.";
+	error_strings[LAH_ILLEGALFIRSTCHAR] = "Illegal character in column 1 (are you missing the opening brace { )";
+	error_strings[LAH_MULTIPLESTATEMENTSONELINE] = "Only one program step per line";
+	error_strings[LAH_ILLEGALCHAR] = "Illegal Character";
+	error_strings[LAH_MISSINGCOMMA] = "Missing comma(s)";
 
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
 		char buffer[BUFSIZ];
-		if (i >= ILLEGALOPCODE && necessary_items[i])
+		if (i >= LAH_ILLEGALOPCODE && necessary_items[i])
 		{
 			sprintf(buffer, "\t%s\n", error_strings[i]);
 			log_generic_message(buffer);
 		}
-		else if (i < ILLEGALOPCODE && !necessary_items[i])
+		else if (i < LAH_ILLEGALOPCODE && !necessary_items[i])
 		{
 			sprintf(buffer, "\t%s\n", error_strings[i]);
 			log_generic_message(buffer);
@@ -282,17 +324,17 @@ static void report_syntax_errors(unsigned necessary_items[])
 }
 
 static bool check_syntax_check_list_and_report_errors_as_parser_would(
-	unsigned syntax_check_list[], Syntax_State state, unsigned char* text_line,
+	unsigned syntax_check_list[], LAH_Syntax_State state, unsigned char* text_line,
 	size_t statement_number, Expected_Syntax_Errors* expected_errors,
 	char *parser_generated_error)
 {
 	unsigned error_count = 0;
 	bool syntax_check_list_in_sync = true;
 
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
-		error_count += (!syntax_check_list[i] && i < ILLEGALOPCODE) ? 1 : ((i >= ILLEGALOPCODE && syntax_check_list[i]) ? 1 : 0);
-		if (syntax_check_list[i] != expected_errors->syntax_check_list[i] && i != MULTIPLESTATEMENTSONELINE)
+		error_count += (!syntax_check_list[i] && i < LAH_ILLEGALOPCODE) ? 1 : ((i >= LAH_ILLEGALOPCODE && syntax_check_list[i]) ? 1 : 0);
+		if (syntax_check_list[i] != expected_errors->syntax_check_list[i] && i != LAH_MULTIPLESTATEMENTSONELINE)
 		{
 			syntax_check_list_in_sync = false;
 		}
@@ -309,7 +351,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 		*eol_p = '\0';
 	}
 	char buffer[BUFSIZ];
-	if (state == ERROR_STATE || error_count)
+	if (state == LAH_ERROR_STATE || error_count)
 	{
 		sprintf(buffer, "\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		log_generic_message(buffer);
@@ -356,7 +398,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 /*
  * Provides debug data when a unit test fails.
  */
-static void report_lexical_analyzer_test_failure(Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
+static void report_lexical_analyzer_test_failure(LAH_Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
 {
 	char out_buffer[BUFSIZ];
 	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %u ",
@@ -377,47 +419,47 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 {
 	bool test_passed = true;
 
-	unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
-	Syntax_State current_state = START_STATE;
+	LAH_Syntax_State current_state = LAH_START_STATE;
 	unsigned char* opcode_start = NULL;
 	unsigned char* opcode_end = NULL;
 	unsigned char* operand_start = NULL;
 	char* parser_generated_error = NULL;
 
 	unsigned char* current_character = text_line;
-	while (*current_character && current_state != ERROR_STATE)
+	while (*current_character && current_state != LAH_ERROR_STATE)
 	{
-		Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
+		LAH_Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);
 		if (new_state != current_state)
 		{
 			switch (new_state)
 			{
-				case ERROR_STATE:
+				case LAH_ERROR_STATE:
 				{
 					parser_generated_error = error_state(text_line, statement_number, current_character);
 				};
 					break;
 
-				case OPCODE_STATE:
+				case LAH_OPCODE_STATE:
 					opcode_start = current_character;
-					syntax_check_list[LEGALOPCODE]++;
+					syntax_check_list[LAH_LEGALOPCODE]++;
 					break;
 
-				case END_OPCODE_STATE:
+				case LAH_END_OPCODE_STATE:
 					opcode_end = current_character;
 					break;
 
-				case OPERAND_STATE:
+				case LAH_OPERAND_STATE:
 					operand_start = current_character;
-					syntax_check_list[LEGALOPERAND]++;
-					if (!syntax_check_list[COMMA])
+					syntax_check_list[LAH_LEGALOPERAND]++;
+					if (!syntax_check_list[LAH_COMMA])
 					{
-						syntax_check_list[MISSINGCOMMA]++;
+						syntax_check_list[LAH_MISSINGCOMMA]++;
 					}
 					break;
 
-				case END_OPERAND_STATE:
+				case LAH_END_OPERAND_STATE:
 					opcode_end = current_character;
 					break;
 

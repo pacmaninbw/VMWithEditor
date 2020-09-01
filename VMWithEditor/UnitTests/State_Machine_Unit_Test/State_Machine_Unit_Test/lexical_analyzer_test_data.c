@@ -74,7 +74,7 @@ static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned ch
 	for (size_t step_count = 0; step_count < test_program_size; step_count++)
 	{
 		expected_errors_dup[step_count].error_count = expected_data[step_count].error_count;
-		for (size_t checklist_item = 0; checklist_item < SYNTAX_CHECK_COUNT; checklist_item++)
+		for (size_t checklist_item = 0; checklist_item < LAH_SYNTAX_CHECK_ARRAY_SIZE; checklist_item++)
 		{
 			expected_errors_dup[step_count].syntax_check_list[checklist_item] = expected_data[step_count].syntax_check_list[checklist_item];
 		}
@@ -139,12 +139,12 @@ Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Lo
 	for (size_t test = 0; test < test_size; test++)
 	{
 		expected_errors[test].error_count = sample_expect_data.error_count;
-		for (size_t checklist_item = 0; checklist_item < SYNTAX_CHECK_COUNT; checklist_item++)
+		for (size_t checklist_item = 0; checklist_item < LAH_SYNTAX_CHECK_ARRAY_SIZE; checklist_item++)
 		{
 			expected_errors[test].syntax_check_list[checklist_item] = sample_expect_data.syntax_check_list[checklist_item];
 		}
 	}
-	expected_errors[test_size - 1].syntax_check_list[COMMA] = 1;
+	expected_errors[test_size - 1].syntax_check_list[LAH_COMMA] = 1;
 
 	Lexical_Analyzer_Test_Data* positive_test_data = create_and_init_lexical_test_data(
 		test_program, test_size, expected_errors, log_data, "init_positive_path_data_for_lexical_analysis");
