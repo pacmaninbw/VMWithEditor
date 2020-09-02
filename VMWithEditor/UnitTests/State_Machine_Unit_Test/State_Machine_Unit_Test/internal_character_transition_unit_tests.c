@@ -16,8 +16,8 @@
 #include "internal_character_transition_unit_tests.h"
 
 static void log_unit_test_get_transition_character_type_failure(
-	Test_Log_Data* log_data, unsigned char candidate, LAH_Syntax_State current_state,
-	LAH_State_Transition_Characters expected_type, LAH_State_Transition_Characters actual_type)
+	Test_Log_Data* log_data, const unsigned char candidate, const LAH_Syntax_State current_state,
+	const LAH_State_Transition_Characters expected_type, const LAH_State_Transition_Characters actual_type)
 {
 	// Force failures to be reported
 	bool stand_alone = log_data->stand_alone;
@@ -43,38 +43,23 @@ typedef enum test_character_case
 } TEST_CHARACTER_CASE;
 
 static LAH_State_Transition_Characters get_expected_alpha_transition_character_type(
-	unsigned char input, LAH_Syntax_State current_state)
+	const unsigned char input, const LAH_Syntax_State current_state)
 {
-	input = (unsigned char)toupper(input);
-
-	switch (input)
+	LAH_State_Transition_Characters expected_transition = LAH_ALPHA_STATE_TRANSITION;
+	if (isxdigit(input) || (input == 'x' || input == 'X'))
 	{
-	case 'A':
-	case 'B':
-	case 'C':
-	case 'D':
-	case 'E':
-	case 'F':
-	case 'X':
 		if (current_state == LAH_ENTER_OPERAND_STATE || current_state == LAH_OPERAND_STATE
 			|| current_state == LAH_END_OPERAND_STATE)
 		{
-			return LAH_DIGIT_STATE_TRANSITION;
+			expected_transition = LAH_DIGIT_STATE_TRANSITION;
 		}
-		else
-		{
-			return LAH_ALPHA_STATE_TRANSITION;
-		}
-		break;
-
-	default:
-		return LAH_ALPHA_STATE_TRANSITION;
-		break;
 	}
+
+	return expected_transition;
 }
 
-typedef LAH_State_Transition_Characters(*STFfunct)(unsigned char input, LAH_Syntax_State current_state);
-static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, LAH_Syntax_State current_state, STFfunct transition_function)
+typedef LAH_State_Transition_Characters(*STFfunct)(const unsigned char input, const LAH_Syntax_State current_state);
+static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, const LAH_Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];
@@ -121,8 +106,9 @@ static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, L
 }
 
 static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_data,
-	LAH_Syntax_State current_state, unsigned char* input, LAH_State_Transition_Characters expected_transition[],
-	size_t positive_path_count, char* local_func_name)
+	const LAH_Syntax_State current_state, unsigned char* input,
+	LAH_State_Transition_Characters expected_transition[],
+	size_t positive_path_count, const char* local_func_name)
 {
 	bool test_passed = true;
 	char* keep_old_path = log_data->path;
@@ -164,7 +150,7 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
  * Tests limited number of states where alpha is important calls the lower level
  * function get_alpha_input_transition_character_type().
  */
-bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
+bool unit_test_get_alpha_input_transition_character_type(const unsigned test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data log_data;
@@ -191,7 +177,7 @@ bool unit_test_get_alpha_input_transition_character_type(unsigned test_step)
 	return test_passed;
 }
 
-static bool unit_test_whitespace_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
+static bool unit_test_whitespace_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = " \t\n\r\v\f";
@@ -226,7 +212,7 @@ static bool unit_test_whitespace_transition(Test_Log_Data* log_data, LAH_Syntax_
 }
 
 static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Characters
-	expected_transition[], size_t* positive_test_path, LAH_Syntax_State current_state)
+	expected_transition[], size_t* positive_test_path, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters* expected_ptr = expected_transition;
 	if (current_state == LAH_ENTER_OPERAND_STATE || current_state == LAH_OPERAND_STATE || current_state == LAH_END_OPERAND_STATE)
@@ -254,7 +240,7 @@ static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Char
 	}
 }
 
-static bool unit_test_digit_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
+static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
@@ -300,7 +286,7 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, LAH_Syntax_State
  * test the state specified by the caller function. Calls the higher level function
  * get_transition_character_type().
  */
-static bool unit_test_alpha_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
+static bool unit_test_alpha_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	char* local_func_name = NULL;
@@ -324,7 +310,7 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, LAH_Syntax_State
 	return test_passed;
 }
 
-static bool unit_test_punctuation_transition(Test_Log_Data* log_data, LAH_Syntax_State current_state)
+static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = "{},+-/*=&";
@@ -359,9 +345,9 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, LAH_Syntax
 	return test_passed;
 }
 
-typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, LAH_Syntax_State state);
+typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, const LAH_Syntax_State state);
 
-bool unit_test_get_transition_character_type(size_t test_step)
+bool unit_test_get_transition_character_type(const size_t test_step)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];
