@@ -1,13 +1,14 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
+#include "error_reporting.h"
 #include "file_io_vm.h"
+#include "parser.h"
 
-bool write_program_to_file(Human_Readable_Program_Format* program, size_t program_size, FILE* out_file)
+bool write_program_to_file(Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
 {
 	bool successful = true;
 
@@ -34,7 +35,7 @@ bool write_program_to_file(Human_Readable_Program_Format* program, size_t progra
 	return successful;
 }
 
-Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, char* file_name)
+Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, const char* file_name)
 {
 	Human_Readable_Program_Format* program_image = NULL;
 	if (!input_file)

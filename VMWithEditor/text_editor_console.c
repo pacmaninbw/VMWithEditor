@@ -1,9 +1,8 @@
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
 #include "common_console_functions.h"
+#include "error_reporting.h"
 #include "text_editor_console.h"
 #include "virtual_machine.h"
 #include <ctype.h>
@@ -58,8 +57,6 @@ static Program_Step_Node* add_program_step(void)
 bool initialize_text_editor(ARG_FLAGS_PTR command_line_arguments)
 {
 	bool successful = true;
-
-	initialize_opcode_translater();
 
 	return successful;
 }

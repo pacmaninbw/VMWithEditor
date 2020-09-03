@@ -3,9 +3,8 @@
 #include <string.h>
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
+#include "error_reporting.h"
 #include "virtual_machine.h"
 
 static const size_t STACK_TOP = 1024;
@@ -62,7 +61,7 @@ void reset_vm(void)
 
 typedef void (*Executable_Opcode_Function)() ;
 
-static Executable_Opcode_Function executable_opcodes[OPCODE_TRANSLATOR_COUNT];
+static Executable_Opcode_Function executable_opcodes[OPCODE_TRANSLATOR_ARRAY_SIZE];
 
 /*
  * Public interfaces

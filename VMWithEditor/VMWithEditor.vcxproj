@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="arg_flags.c" />
     <ClCompile Include="common_console_functions.c" />
-    <ClCompile Include="common_program_logic.c" />
     <ClCompile Include="control_console.c" />
+    <ClCompile Include="default_program.c" />
+    <ClCompile Include="error_reporting.c" />
     <ClCompile Include="file_io_vm.c" />
     <ClCompile Include="human_readable_program_format.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="my_strdup.c" />
     <ClCompile Include="opcode.c" />
     <ClCompile Include="lexical_analyzer.c" />
     <ClCompile Include="parser.c" />
@@ -154,10 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_console_functions.h" />
-    <ClInclude Include="common_program_logic.h" />
     <ClInclude Include="control_console.h" />
+    <ClInclude Include="default_program.h" />
+    <ClInclude Include="error_reporting.h" />
     <ClInclude Include="file_io_vm.h" />
     <ClInclude Include="human_readable_program_format.h" />
+    <ClInclude Include="my_strdup.h" />
     <ClInclude Include="opcode.h" />
     <ClInclude Include="lexical_analyzer.h" />
     <ClInclude Include="parser.h" />

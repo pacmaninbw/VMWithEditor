@@ -1,11 +1,13 @@
+#ifndef ARG_FLAGS_C
+#define ARG_FLAGS_C
+
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
 #include "arg_flags.h"
+#include "error_reporting.h"
 
 static ARG_FLAGS_PTR construct_arguments()
 {
@@ -18,12 +20,12 @@ static ARG_FLAGS_PTR construct_arguments()
 	return arguments;
 }
 
-static void parse_command_line(ARG_FLAGS_PTR arguments, int argc, char **argv)
+static void parse_command_line(ARG_FLAGS_PTR arguments, int argc, const char **argv)
 {
 
 }
 
-ARG_FLAGS_PTR parse_argc_argv(int argc, char **argv)
+ARG_FLAGS_PTR parse_argc_argv(const int argc, const char **argv)
 {
 	ARG_FLAGS_PTR arguments = construct_arguments();
 	if (arguments)
@@ -47,3 +49,5 @@ ARG_FLAGS_PTR delete_arguments(ARG_FLAGS_PTR arguments)
 	free(arguments);
 	return NULL;
 }
+
+#endif	// ARG_FLAGS_C

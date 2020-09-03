@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;LEXICAL_UNIT_TEST_ONLY;REDUCED_VM_AND_HRF_DEPENDENCIES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;LEXICAL_UNIT_TEST_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UNIT_TESTING;LEXICAL_UNIT_TEST_ONLY;REDUCED_VM_AND_HRF_DEPENDENCIES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UNIT_TESTING;LEXICAL_UNIT_TEST_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../..;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -141,8 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\error_reporting.c" />
     <ClCompile Include="..\..\..\lexical_analyzer.c" />
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
+    <ClCompile Include="..\..\..\my_strdup.c" />
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
     <ClCompile Include="internal_character_transition_unit_tests.c" />
     <ClCompile Include="internal_sytax_state_tests.c" />
     <ClCompile Include="lexical_analyzer_test_data.c" />
@@ -150,8 +152,10 @@
     <ClCompile Include="lexical_analyzer_unit_test_utilities.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\error_reporting.h" />
     <ClInclude Include="..\..\..\lexical_analyzer.h" />
-    <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h" />
+    <ClInclude Include="..\..\..\my_strdup.h" />
+    <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h" />
     <ClInclude Include="internal_character_transition_unit_tests.h" />
     <ClInclude Include="internal_sytax_state_tests.h" />
     <ClInclude Include="lexical_analyzer_test_data.h" />

@@ -1,10 +1,10 @@
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
 #include "common_console_functions.h"
 #include "control_console.h"
+#include "error_reporting.h"
+#include "file_io_vm.h"
 #include "virtual_machine.h"
 #include <ctype.h>
 #include <stdbool.h>

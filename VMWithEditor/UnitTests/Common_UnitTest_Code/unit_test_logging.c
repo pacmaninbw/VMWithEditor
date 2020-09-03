@@ -1,109 +1,14 @@
-#include "common_unit_test_logic.h"
-#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
-#include "virtual_machine.h"
-#endif
+#include "my_strdup.h"
+#include "unit_test_logging.h"
+#include "error_reporting.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-FILE* error_out_file = NULL;
 FILE* unit_test_log_file = NULL;
 
-
-char* mystrdup(const char* string_to_copy)
-{
-	char* return_string = NULL;
-	size_t length = strlen(string_to_copy);
-	++length;
-
-	return_string = calloc(length, sizeof(*return_string));
-	if (return_string)
-	{
-		memcpy(return_string, string_to_copy, length - 1);
-	}
-
-	return return_string;
-}
-
-unsigned char* ucstrdup(const unsigned char* string_to_copy)
-{
-	unsigned char* return_string = NULL;
-	size_t length = strlen((const char *)string_to_copy);
-	++length;
-
-	return_string = calloc(length, sizeof(*return_string));
-	if (return_string)
-	{
-		memcpy(return_string, string_to_copy, length - 1);
-	}
-
-	return return_string;
-}
-
-bool init_vm_error_reporting(const char* error_log_file_name)
-{
-	bool status_is_good = true;
-
-	if (error_log_file_name)
-	{
-		error_out_file = fopen(error_log_file_name, "w");
-		if (!error_out_file)
-		{
-			error_out_file = stderr;
-			fprintf(error_out_file, "Can't open error output file, %s", "error_log_file_name");
-			status_is_good = false;
-		}
-	}
-	else
-	{
-		error_out_file = stderr;
-	}
-
-	return status_is_good;
-}
-
-void disengage_error_reporting(void)
-{
-	if (error_out_file != stderr)
-	{
-		fclose(error_out_file);
-	}
-}
-
-#ifndef REDUCED_VM_AND_HRF_DEPENDENCIES
-/*
- * Allow unit tests that don't require virtual_machine.c and human_readable_program_format.c.
- */
-Human_Readable_Program_Format* default_program(size_t* program_size)
-{
-	Human_Readable_Program_Format program[] =
-	{
-		{PUSH, 0x0A},
-		{PUSH, 0x43},
-		{PUSH, 0x42},
-		{PUSH, 0x41},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{HALT, 0x00}
-	};
-
-	size_t progsize = sizeof(program) / sizeof(*program);
-
-	Human_Readable_Program_Format* copy_of_program = duplicate_program(program, progsize);
-	if (copy_of_program)
-	{
-		*program_size = progsize;
-	}
-
-	return copy_of_program;
-}
-#endif
 
 bool init_unit_tests(const char* log_file_name)
 {
@@ -124,11 +29,6 @@ bool init_unit_tests(const char* log_file_name)
 	}
 
 	return true;
-}
-
-void report_error_generic(const char *error_message)
-{
-	fprintf(error_out_file, "%s\n", error_message);
 }
 
 void close_unit_tests(void)

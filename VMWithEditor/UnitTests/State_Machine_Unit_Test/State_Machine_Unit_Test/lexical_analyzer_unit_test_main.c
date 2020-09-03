@@ -1,9 +1,10 @@
 // lexical_analyzer_unit_test_main.c : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include "common_unit_test_logic.h"
 #include "lexical_analyzer.h"
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_unit_test_main.h"
+#include "error_reporting.h"
+#include "unit_test_logging.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

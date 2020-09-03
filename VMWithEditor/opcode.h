@@ -27,12 +27,28 @@ typedef struct opcode_translation_unit
 	char* opcode_string_translation;
 } OPCODE_TRANSLATION_UNIT;
 
+#ifdef OPCODE_C
+OPCODE_TRANSLATION_UNIT opcode_translator[] =
+{
+	{HALT, "HALT"},
+	{PUSH, "PUSH"},
+	{POP, "POP"},
+	{STORE, "STORE"},
+	{LOAD, "LOAD"},
+	{ADD, "ADD"},
+	{SUBTRACT, "SUBTRACT"},
+	{MULTIPLY, "MULTIPLY"},
+	{DIVIDE, "DIVIDE"},
+	{OUTPUTCHAR, "OUTPUTCHAR"},
+	{INPUTCHAR, "INPUTCHAR"}
+};
+#else
 extern OPCODE_TRANSLATION_UNIT opcode_translator[];
+#endif
 
-#define OPCODE_TRANSLATOR_COUNT 11 // sizeof(opcode_translator) / sizeof(*opcode_translator)
+#define OPCODE_TRANSLATOR_ARRAY_SIZE (10 + 1) // sizeof(opcode_translator) / sizeof(*opcode_translator)
 
-void initialize_opcode_translater(void);
-char* translate_opcode_to_string(OPCODE opcode);
-OPCODE translate_string_to_opcode(unsigned char* string_opcode);
+char* translate_opcode_to_string(const OPCODE opcode);
+OPCODE translate_string_to_opcode(const unsigned char* string_opcode);
 
 #endif

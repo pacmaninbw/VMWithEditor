@@ -11,7 +11,10 @@
 #define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
 #define INCLUDED_IN_UNIT_TEST
 
-#include <lexical_analyzer.c>
+#include "unit_test_logging.h"
+#include "error_reporting.h"
+
+#include "lexical_analyzer.c"
 #include "lexical_analyzer_unit_test_utilities.h"
 #include "internal_character_transition_unit_tests.h"
 

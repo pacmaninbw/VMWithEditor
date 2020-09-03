@@ -12,13 +12,12 @@
  *
  */
 
+#include "error_reporting.h"
 #include "human_readable_program_format.h"
 #include "lexical_analyzer.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
-#else
-#include "common_program_logic.h"
 #endif
 #include <ctype.h>
 #include <stdbool.h>

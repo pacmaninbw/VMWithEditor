@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lexical_analyzer_test_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,6 +33,15 @@
     <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\my_strdup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\error_reporting.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="internal_sytax_state_tests.h">
@@ -50,13 +56,19 @@
     <ClInclude Include="..\..\..\lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lexical_analyzer_unit_test_utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal_character_transition_unit_tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\my_strdup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\error_reporting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

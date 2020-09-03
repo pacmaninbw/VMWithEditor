@@ -1,16 +1,16 @@
 #ifdef UNIT_TESTING
 #include "common_unit_test_logic.h"
 #else
-#include "common_program_logic.h"
 #endif
 #include "common_console_functions.h"
+#include "error_reporting.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-size_t get_user_selection(size_t menu_minimum, size_t menu_maximum)
+size_t get_user_selection(const size_t menu_minimum, const size_t menu_maximum)
 {
 	size_t user_selection = 0;
 	size_t selection_size = 0;

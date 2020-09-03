@@ -24,9 +24,6 @@
     <ClCompile Include="common_console_functions.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common_program_logic.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="control_console.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,12 +48,18 @@
     <ClCompile Include="parser.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="my_strdup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="default_program.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error_reporting.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_console_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common_program_logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="control_console.h">
@@ -81,6 +84,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_strdup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="default_program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error_reporting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

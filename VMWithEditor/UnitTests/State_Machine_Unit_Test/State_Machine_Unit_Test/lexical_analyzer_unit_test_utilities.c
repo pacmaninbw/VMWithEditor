@@ -1,5 +1,7 @@
+#ifndef LEXICAL_ANALYZER_UNIT_TEST_UTILITIES_C
+#define LEXICAL_ANALYZER_UNIT_TEST_UTILITIES_C
+
 #include "lexical_analyzer_unit_test_utilities.h"
-#include "common_unit_test_logic.h"
 #include <stdio.h>
 
 const char* state_name_for_printing(const LAH_Syntax_State state)
@@ -38,4 +40,4 @@ const char* transition_names(const LAH_State_Transition_Characters transition)
 	return transition_character[(size_t)transition];
 }
 
-
+#endif	// !LEXICAL_ANALYZER_UNIT_TEST_UTILITIES_C

@@ -1,4 +1,6 @@
-#include "common_unit_test_logic.h"
+#include "my_strdup.h"
+#include "error_reporting.h"
+#include "unit_test_logging.h"
 #include "lexical_analyzer_test_data.h"
 #include <stdbool.h>
 #include <stdio.h>
