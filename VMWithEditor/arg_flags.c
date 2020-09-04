@@ -20,7 +20,7 @@ static ARG_FLAGS_PTR construct_arguments()
 	return arguments;
 }
 
-static void parse_command_line(ARG_FLAGS_PTR arguments, int argc, const char **argv)
+static void parse_command_line(ARG_FLAGS_PTR arguments, const int argc, const char **argv)
 {
 
 }

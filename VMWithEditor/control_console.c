@@ -31,7 +31,7 @@ bool console_edit_and_run_program_file(const char* file_name)
 	return successful;
 }
 
-bool save_program_to_file(Human_Readable_Program_Format* program, size_t program_size, const char* file_name)
+bool save_program_to_file(const Human_Readable_Program_Format* program, const size_t program_size, const char* file_name)
 {
 	bool successful = true;
 
@@ -42,6 +42,7 @@ bool save_program_to_file(Human_Readable_Program_Format* program, size_t program
 		{
 			fprintf(error_out_file, "There is no program to save to file %s.\n", file_name);
 		}
+
 		if (program_size < 1)
 		{
 			fprintf(error_out_file, "There is no program contents to save to file %s.\n", file_name);

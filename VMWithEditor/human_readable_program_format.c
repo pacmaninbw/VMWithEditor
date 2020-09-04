@@ -17,7 +17,7 @@
 #include "lexical_analyzer.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
+#include "unit_test_logging.h"
 #endif
 #include <ctype.h>
 #include <stdbool.h>
@@ -25,13 +25,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-Human_Readable_Program_Format* duplicate_program(Human_Readable_Program_Format* program, size_t program_size)
+Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Format*
+	program, const size_t program_size)
 {
-	Human_Readable_Program_Format* copy_of_program = calloc(sizeof(*copy_of_program), program_size);
+	Human_Readable_Program_Format* copy_of_program = calloc(sizeof(*copy_of_program),
+		program_size);
 	if (copy_of_program)
 	{
-		register Human_Readable_Program_Format* copy_current_ptr = copy_of_program;
-		register Human_Readable_Program_Format* prog_current_ptr = program;
+		register Human_Readable_Program_Format* copy_current_ptr =
+			(Human_Readable_Program_Format*)copy_of_program;
+		register Human_Readable_Program_Format* prog_current_ptr =
+			(Human_Readable_Program_Format*)program;
 
 		// tried memcpy, it doesn't work properly.
 		for (size_t i = 0; i < program_size; i++, copy_current_ptr++, prog_current_ptr++)
@@ -47,12 +51,13 @@ Human_Readable_Program_Format* duplicate_program(Human_Readable_Program_Format* 
 	return copy_of_program;
 }
 
-Program_Step_Node* create_program_step(Human_Readable_Program_Format *user_input)
+Program_Step_Node* create_program_step(const Human_Readable_Program_Format *user_input)
 {
 	Program_Step_Node* program_step = calloc(1, sizeof(*program_step));
 	if (!program_step)
 	{
-		fprintf(error_out_file, "In create_program_step(), memory allocation for next_step failed\n");
+		fprintf(error_out_file,
+			"In create_program_step(), memory allocation for next_step failed\n");
 	}
 	else
 	{
@@ -64,7 +69,8 @@ Program_Step_Node* create_program_step(Human_Readable_Program_Format *user_input
 	return program_step;
 }
 
-static bool conversion_function_has_required_parameters(void *program, size_t program_size, char * error_function_name)
+static bool conversion_function_has_required_parameters(void *program,
+	size_t program_size, char * error_function_name)
 {
 	bool has_required_parameters = true;
 
@@ -72,12 +78,14 @@ static bool conversion_function_has_required_parameters(void *program, size_t pr
 	{
 		if (!program)
 		{
-			fprintf(error_out_file, "In %s, linked_program is NULL\n", error_function_name);
+			fprintf(error_out_file, "In %s, linked_program is NULL\n",
+				error_function_name);
 		}
 
 		if (!program_size)
 		{
-			fprintf(error_out_file, "In %s, program_size is zero.\n", error_function_name);
+			fprintf(error_out_file, "In %s, program_size is zero.\n",
+				error_function_name);
 		}
 		has_required_parameters = false;
 	}
@@ -85,9 +93,12 @@ static bool conversion_function_has_required_parameters(void *program, size_t pr
 	return has_required_parameters;
 }
 
-Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_Node *linked_program, size_t program_size)
+Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_Step_Node
+	*linked_program, const size_t program_size)
 {
-	if (!conversion_function_has_required_parameters((void *)linked_program, program_size, "convert_link_list_program_to_array(Program_Step_Node *linked_program, size_t program_size)"))
+	if (!conversion_function_has_required_parameters((void *)linked_program, program_size,
+		"convert_link_list_program_to_array(Program_Step_Node "
+		"*linked_program, size_t program_size)"))
 	{
 		return NULL;
 	}
@@ -95,11 +106,12 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_N
 	Human_Readable_Program_Format* array_program = calloc(program_size, sizeof(*array_program));
 	if (!array_program)
 	{
-		fprintf(error_out_file, "In convert_link_list_program_to_array(), memory allocation for array_program failed\n");
+		fprintf(error_out_file, "In convert_link_list_program_to_array(), "
+			"memory allocation for array_program failed\n");
 	}
 	else
 	{
-		register Program_Step_Node* source = linked_program;
+		register Program_Step_Node* source = (Program_Step_Node*)linked_program;
 		register Human_Readable_Program_Format* destination = array_program;
 
 		while (source->next_step)
@@ -113,9 +125,12 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_N
 	return array_program;
 }
 
-Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size)
+Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Program_Format*
+	array_program, const size_t program_size)
 {
-	if (!conversion_function_has_required_parameters((void*)array_program, program_size, "convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size)"))
+	if (!conversion_function_has_required_parameters((void*)array_program, program_size,
+		"convert_array_program_to_linked_list(Human_Readable_Program_Format* "
+		"array_program, size_t program_size)"))
 	{
 		return NULL;
 	}
@@ -124,7 +139,8 @@ Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_F
 	Program_Step_Node* tail = NULL;
 	bool memory_allocation_failed = false;
 
-	for (size_t program_step = 0; program_step < program_size && !memory_allocation_failed; program_step++)
+	for (size_t program_step = 0; program_step < program_size && !memory_allocation_failed;
+		program_step++)
 	{
 		if (!head)
 		{

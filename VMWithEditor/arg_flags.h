@@ -15,7 +15,7 @@ typedef struct arg_flags
 	bool use_default_program;
 } ARG_FLAGS, *ARG_FLAGS_PTR;
 
-extern ARG_FLAGS_PTR parse_argc_argv(const int argc, const char** argv);
-extern ARG_FLAGS_PTR delete_arguments(ARG_FLAGS_PTR arguments);
+ARG_FLAGS_PTR parse_argc_argv(const int argc, const char** argv);
+ARG_FLAGS_PTR delete_arguments(ARG_FLAGS_PTR arguments);
 
 #endif // !ARG_FLAGS_H

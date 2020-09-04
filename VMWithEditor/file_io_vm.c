@@ -8,7 +8,7 @@
 #include "file_io_vm.h"
 #include "parser.h"
 
-bool write_program_to_file(Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
+bool write_program_to_file(const Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
 {
 	bool successful = true;
 

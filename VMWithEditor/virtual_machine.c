@@ -23,7 +23,7 @@ static OperandType param;
 static size_t last_program_size;
 
 // To place the public interfaces first create function prototypes for the various private functions.
-static bool load_program_into_memory(Human_Readable_Program_Format program[], size_t program_size);
+static bool load_program_into_memory(const Human_Readable_Program_Format program[], const size_t program_size);
 static void fetch(void);
 static void decode(void);
 static void execute(void);
@@ -108,7 +108,8 @@ void run_vm(void)
 	}
 }
 
-bool load_and_run_program(Human_Readable_Program_Format* program, size_t programSize)
+bool load_and_run_program(const Human_Readable_Program_Format program[],
+	const size_t programSize)
 {
 	bool successful = true;
 
@@ -131,12 +132,12 @@ size_t get_maximum_operand_value(void)
 }
 
 // Allows other modules to check if the opcode specified is a legal value
-bool is_legal_operand(unsigned operand)
+bool is_legal_operand(const unsigned operand)
 {
 	return operand <= get_maximum_operand_value();
 }
 
-long translate_text_to_operand_and_validate(char* string_operand)
+long translate_text_to_operand_and_validate(const char* string_operand)
 {
 	long possible_operand = strtol(string_operand, NULL, 0);
 
@@ -153,7 +154,8 @@ long translate_text_to_operand_and_validate(char* string_operand)
 */
 
 // Translate Human_Readable_Program_Format program into virtual machine program and load into memory
-static bool load_program_into_memory(Human_Readable_Program_Format program[], size_t program_size)
+static bool load_program_into_memory(const Human_Readable_Program_Format program[],
+	const size_t program_size)
 {
 	bool successful = true;
 	bool halt_opcode_found = false;
@@ -161,11 +163,13 @@ static bool load_program_into_memory(Human_Readable_Program_Format program[], si
 	if (program_fits_in_memory(program_size))
 	{
 		OperandType* memory_location = &vmachine_memory[STACK_TOP];
-		Human_Readable_Program_Format* program_location = program;
+		Human_Readable_Program_Format* program_location = 
+			(Human_Readable_Program_Format*)program;
 
 		for (size_t i = 0; i < program_size; i++, memory_location++, program_location++)
 		{
-			*memory_location = ((program_location->operand << OPCODE_SHIFT) & OPERAND_MASK) | (program_location->opcode & 0xff);
+			*memory_location = ((program_location->operand << OPCODE_SHIFT) & OPERAND_MASK)
+				| (program_location->opcode & 0xff);
 			if (program_location->opcode == HALT)
 			{
 				halt_opcode_found = true;
@@ -176,7 +180,9 @@ static bool load_program_into_memory(Human_Readable_Program_Format program[], si
 		if (!halt_opcode_found)
 		{
 			successful = false;
-			fprintf(error_out_file, "While loading the program into memory, no halt instruction was found.\nTo prevent unknown errors program will not run, and has been unloaded.\n");
+			fprintf(error_out_file, "While loading the program into memory, no halt "
+				"instruction was found.\nTo prevent unknown errors program will not "
+				"run, and has been unloaded.\n");
 			reset_vm();
 		}
 	}
@@ -234,19 +240,22 @@ static void load(void)
 
 static void add(void)
 {
-	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer] + vmachine_memory[stack_pointer - 1];
+	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer] +
+		vmachine_memory[stack_pointer - 1];
 	++stack_pointer;
 }
 
 static void subtract(void)
 {
-	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer - 1] - vmachine_memory[stack_pointer];
+	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer - 1] -
+		vmachine_memory[stack_pointer];
 	++stack_pointer;
 }
 
 static void multiply(void)
 {
-	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer] * vmachine_memory[stack_pointer - 1];
+	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer] *
+		vmachine_memory[stack_pointer - 1];
 	++stack_pointer;
 }
 
@@ -254,11 +263,13 @@ static void divide(void)
 {
 	if (vmachine_memory[stack_pointer] == 0)
 	{
-		fprintf(error_out_file, "Division by zero attempted at stack location 0x%x, Virtual Program terminated.\n", (unsigned)stack_pointer);
+		fprintf(error_out_file, "Division by zero attempted at stack location 0x%x, "
+			"Virtual Program terminated.\n", (unsigned)stack_pointer);
 		running = false;
 		return;
 	}
-	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer - 1] / vmachine_memory[stack_pointer];
+	vmachine_memory[stack_pointer + 1] = vmachine_memory[stack_pointer - 1] /
+		vmachine_memory[stack_pointer];
 	++stack_pointer;
 }
 
@@ -275,7 +286,9 @@ static void inputchar(void)
 static void execute(void) {
 	if (opcode < FIRST_OPCODE || opcode > LASTOPCODE)
 	{
-		fprintf(error_out_file, "Unknown Opcode in execute(). 0x%x program_count = %d, stack_pointer = %d.\nTerminating Virtual Machine execution.\n", opcode, (unsigned)program_counter, (unsigned)stack_pointer);
+		fprintf(error_out_file, "Unknown Opcode in execute(). 0x%x program_count = %d, "
+			"stack_pointer = %d.\nTerminating Virtual Machine execution.\n",
+			opcode, (unsigned)program_counter, (unsigned)stack_pointer);
 		running = false;
 		return;
 	}

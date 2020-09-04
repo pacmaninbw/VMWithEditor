@@ -25,10 +25,10 @@ typedef struct program_step_node
 	struct program_step_node* next_step;
 } Program_Step_Node;
 
-Human_Readable_Program_Format* duplicate_program(Human_Readable_Program_Format* program, size_t program_size);
-Program_Step_Node* create_program_step(Human_Readable_Program_Format* user_input);
-Human_Readable_Program_Format* convert_link_list_program_to_array(Program_Step_Node* linked_program, size_t program_size);
-Program_Step_Node* convert_array_program_to_linked_list(Human_Readable_Program_Format* array_program, size_t program_size);
+Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Format* program, const size_t program_size);
+Program_Step_Node* create_program_step(const Human_Readable_Program_Format* user_input);
+Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_Step_Node* linked_program, const size_t program_size);
+Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Program_Format* array_program, const size_t program_size);
 void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_program_steps);
 
 #ifdef UNIT_TESTING
