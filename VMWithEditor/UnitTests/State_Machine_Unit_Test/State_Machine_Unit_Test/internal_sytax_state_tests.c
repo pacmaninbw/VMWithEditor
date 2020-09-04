@@ -390,7 +390,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 		"Syntax Error line %zd %s column %zu unexpected character '%c' : skipping rest of line.\n",
 		statement_number + 1, text_line, (int)(current_character - text_line),
 		*current_character);
-	parser_generated_error = strdup(buffer);
+	parser_generated_error = my_strdup(buffer);
 
 	return parser_generated_error;
 }

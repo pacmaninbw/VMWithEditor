@@ -49,7 +49,7 @@ static bool log_test_is_positive_path(const Test_Log_Data* log_data)
 		return false;
 	}
 
-	char* string_to_test = strdup(log_data->path);
+	char* string_to_test = my_strdup(log_data->path);
 	if (!string_to_test)
 	{
 		fprintf(error_out_file, "Memory Allocation error: strdup() failed in log_test_is_positive_path()\n");
