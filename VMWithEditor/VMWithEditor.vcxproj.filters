@@ -95,5 +95,8 @@
     <ClInclude Include="error_reporting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="arg_flags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

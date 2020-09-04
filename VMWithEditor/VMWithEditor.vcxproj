@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -155,6 +155,7 @@
     <ClCompile Include="virtual_machine.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="arg_flags.h" />
     <ClInclude Include="common_console_functions.h" />
     <ClInclude Include="control_console.h" />
     <ClInclude Include="default_program.h" />
