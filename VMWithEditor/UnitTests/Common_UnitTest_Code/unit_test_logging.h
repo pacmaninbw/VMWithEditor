@@ -1,7 +1,7 @@
 #ifndef UNIT_TEST_LOGGING_H
 #define UNIT_TEST_LOGGING_H
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct test_log_data
 {

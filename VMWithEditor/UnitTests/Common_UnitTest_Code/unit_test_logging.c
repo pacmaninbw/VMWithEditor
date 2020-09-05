@@ -1,11 +1,15 @@
-#include "my_strdup.h"
-#include "unit_test_logging.h"
-#include "error_reporting.h"
+#ifndef UNIT_TEST_LOGGING_C
+#define UNIT_TEST_LOGGING_C
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "my_strdup.h"
+#include "unit_test_logging.h"
+#include "error_reporting.h"
 
 FILE* unit_test_log_file = NULL;
 
@@ -177,3 +181,5 @@ void report_create_and_init_test_log_data_memory_failure(const char *function_na
 {
 	fprintf(error_out_file, "In function %s, Memory allocation failed in create_and_init_test_log_data\n", function_name);
 }
+
+#endif	// !UNIT_TEST_LOGGING_C
