@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="parsert_unit_test_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\lexical_analyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -25,9 +22,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parser_unit_test.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_test_data.c">
@@ -42,6 +36,33 @@
     <ClCompile Include="..\..\..\virtual_machine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\error_reporting.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\my_strdup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\internal_character_transition_unit_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\internal_sytax_state_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_unit_test_utilities.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="internal_parser_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lexical_analyzer.h">
@@ -51,6 +72,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser_unit_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\error_reporting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\my_strdup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

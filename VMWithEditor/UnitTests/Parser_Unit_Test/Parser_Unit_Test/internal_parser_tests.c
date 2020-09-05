@@ -3,12 +3,20 @@
  * include files are not necessary.
  */
 
+#ifndef INTERNAL_PARSER_TESTS_C
+#define INTERNAL_PARSER_TESTS_C
+#include <stdbool.h>
+#include "lexical_analyzer.h"
 
+/*
+ * Include parser.c so we can test the internal static functions in the file.
+ */
+#include "parser.c"
 
 static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 {
 	bool passed = true;
-	unsigned syntax_check_list[SYNTAX_CHECK_COUNT];
+	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	char* test_file_name = NULL;
 	char* text_line = "Unit Testing print_syntax_errors()";
 	bool this_test_passed = true;
@@ -18,9 +26,9 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 	test_file_name = (!file_name || !test_step) ? "No File Name" : file_name;
 
 	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for unit_test_print_syntax_errors\n");
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
-		if (i < ILLEGALOPCODE)
+		if (i < LAH_ILLEGALOPCODE)
 		{
 			syntax_check_list[i] = 1;
 		}
@@ -29,6 +37,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 			syntax_check_list[i] = 0;
 		}
 	}
+
 	this_test_passed = print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
 	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Positive", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
@@ -38,9 +47,9 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 	/*
 	 * The Ultimate negative test path, every check should fail.
 	 */
-	for (size_t i = 0; i < SYNTAX_CHECK_COUNT; i++)
+	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
-		if (i < ILLEGALOPCODE)
+		if (i < LAH_ILLEGALOPCODE)
 		{
 			syntax_check_list[i] = 0;
 		}
@@ -49,6 +58,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 			syntax_check_list[i] = 1;
 		}
 	}
+
 	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
 	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
@@ -110,7 +120,7 @@ static bool single_syntax_test(bool stand_alone_test, Syntax_Strings_For_Testing
 	this_test_passed = test_data.path_is_positive ?
 		(test_head && test_head->opcode_and_operand.opcode == HALT) :
 		(!test_head);
-	log_test_status_each_step("unit_test_check_line_syntax_return_program_step_if_valid", this_test_passed, test_path, stand_alone_test);
+	log_test_status_each_step("parser", this_test_passed, test_path, stand_alone_test);
 	free(test_head);
 	fprintf(unit_test_log_file, "\n");
 
@@ -161,3 +171,5 @@ static bool unit_test_parser(char* file_name, unsigned test_step)
 
 	return passed;
 }
+
+#endif // !INTERNAL_PARSER_TESTS_C
