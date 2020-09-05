@@ -12,9 +12,13 @@
 #define INTERNAL_SYNTAX_STATE_TESTS_C
 #define INCLUDED_IN_UNIT_TEST
 
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "lexical_analyzer.h"
 #include "lexical_analyzer.c"
-
 #include "internal_sytax_state_tests.h"
 #include "internal_character_transition_unit_tests.h"
 #include "lexical_analyzer_test_data.h"
@@ -198,7 +202,7 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 	return test_data;
 }
 
-static bool unit_test_collect_error_reporting_data(unsigned test_step)
+static bool unit_test_collect_error_reporting_data(size_t test_step)
 {
 	bool test_passed = true;
 	char buffer[BUFSIZ];
@@ -256,7 +260,7 @@ typedef struct unit_test_functions_and_args
  * these unit tests fail the unit test for lexical_analyzer() will not
  * execute.
  */
-bool internal_tests_on_all_state_transitions(unsigned test_step)
+bool internal_tests_on_all_state_transitions(size_t test_step)
 {
 	bool all_tests_passed = true;
 	char buffer[BUFSIZ];
@@ -328,7 +332,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	size_t statement_number, Expected_Syntax_Errors* expected_errors,
 	char *parser_generated_error)
 {
-	unsigned error_count = 0;
+	size_t error_count = 0;
 	bool syntax_check_list_in_sync = true;
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
@@ -387,8 +391,8 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 		*eol_p = '\0';
 	}
 	sprintf(buffer,
-		"Syntax Error line %zd %s column %zu unexpected character '%c' : skipping rest of line.\n",
-		statement_number + 1, text_line, (int)(current_character - text_line),
+		"Syntax Error line %zu %s column %zu unexpected character '%c' : skipping rest of line.\n",
+		statement_number, text_line, (size_t)(current_character - text_line),
 		*current_character);
 	parser_generated_error = my_strdup(buffer);
 
@@ -514,7 +518,7 @@ bool run_parse_program_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data*
  * test path is the one without syntax errors and the negative path is the one
  * with syntax errors.
  */
-bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
+bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data* log_data = create_and_init_test_log_data(
@@ -566,9 +570,8 @@ bool unit_test_parse_statements_for_lexical_analysis(unsigned test_step)
  * public interface is tested in 2 ways, first with test data and then
  * parsing statements as the parser will.
  */
-bool unit_test_lexical_analyzer(unsigned test_step)
+bool unit_test_lexical_analyzer(size_t test_step)
 {
-	//Syntax_State get_state_transition_collect_parser_error_data(Syntax_State current_state, unsigned char* input, unsigned syntax_check_list[])
 	bool test_passed = true;
 	char buffer[BUFSIZ];
 

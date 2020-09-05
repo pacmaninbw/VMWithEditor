@@ -11,9 +11,13 @@
 #define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
 #define INCLUDED_IN_UNIT_TEST
 
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "unit_test_logging.h"
 #include "error_reporting.h"
-
 #include "lexical_analyzer.c"
 #include "lexical_analyzer_unit_test_utilities.h"
 #include "internal_character_transition_unit_tests.h"
@@ -153,7 +157,7 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
  * Tests limited number of states where alpha is important calls the lower level
  * function get_alpha_input_transition_character_type().
  */
-bool unit_test_get_alpha_input_transition_character_type(const unsigned test_step)
+bool unit_test_get_alpha_input_transition_character_type(const size_t test_step)
 {
 	bool test_passed = true;
 	Test_Log_Data log_data;

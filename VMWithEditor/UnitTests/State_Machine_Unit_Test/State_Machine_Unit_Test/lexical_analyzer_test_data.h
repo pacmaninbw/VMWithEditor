@@ -16,10 +16,12 @@ typedef struct lexical_analyzer_test_data
 	Expected_Syntax_Errors* expected_errors;
 } Lexical_Analyzer_Test_Data;
 
-extern void deallocate_lexical_test_data(Lexical_Analyzer_Test_Data* deletee);
-extern void lexical_analyzer_test_data_allocation_failed(Test_Log_Data* log_data, char* allocating_function,
-	char* allocation_function);
-extern Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Log_Data* log_data);
-extern Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Log_Data* log_data);
+void deallocate_lexical_test_data(Lexical_Analyzer_Test_Data* deletee);
+void lexical_analyzer_test_data_allocation_failed(Test_Log_Data* log_data,
+	char* allocating_function, char* allocation_function);
+Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(
+	Test_Log_Data* log_data);
+Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(
+	Test_Log_Data* log_data);
 
 #endif	// LEXICAL_ANALYZER_TEST_DATA_H

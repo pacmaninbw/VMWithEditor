@@ -1,11 +1,16 @@
+#ifndef LEXICAL_ANALYZER_TEST_DATA_C
+#define LEXICAL_ANALYZER_TEST_DATA_C
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "my_strdup.h"
 #include "error_reporting.h"
 #include "unit_test_logging.h"
 #include "lexical_analyzer_test_data.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 static void deallocate_test_program(size_t test_program_size, unsigned char **test_program)
 {
@@ -190,3 +195,5 @@ Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Lo
 
 	return negative_test_data;
 }
+
+#endif	// !LEXICAL_ANALYZER_TEST_DATA_C

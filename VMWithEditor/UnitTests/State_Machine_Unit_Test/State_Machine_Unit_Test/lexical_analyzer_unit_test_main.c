@@ -1,13 +1,18 @@
-// lexical_analyzer_unit_test_main.c : This file contains the 'main' function. Program execution begins and ends there.
-//
+#ifndef LEXICAL_ANALYZER_UNIT_TEST_MAIN_C
+#define LEXICAL_ANALYZER_UNIT_TEST_MAIN_C
+
+/*
+ * lexical_analyzer_unit_test_main.c : This file contains the 'main' function. Program execution begins and ends there.
+ */
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "lexical_analyzer.h"
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_unit_test_main.h"
 #include "error_reporting.h"
 #include "unit_test_logging.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {
@@ -62,4 +67,4 @@ int main()
 }
 #endif
 
-
+#endif	// !LEXICAL_ANALYZER_UNIT_TEST_MAIN_C
