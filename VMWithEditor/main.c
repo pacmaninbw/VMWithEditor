@@ -1,9 +1,17 @@
+/*
+ * main.c
+ */
+
+#ifndef VIRTUAL_MACHINE_WITH_EDITOR_MAIN_C
+#define VIRTUAL_MACHINE_WITH_EDITOR_MAIN_C
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "control_console.h"
 #include "default_program.h"
 #include "error_reporting.h"
 #include "virtual_machine.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static bool execute_original_program_logic(ARG_FLAGS_PTR command_line_args)
 {
@@ -32,7 +40,7 @@ static bool set_up_command_line_args_and_vm(ARG_FLAGS_PTR* command_line_args, in
 {
 	bool successful = true;
 
-	*command_line_args = parse_argc_argv(argc, argv);
+	*command_line_args = construct_arg_flags_from_argc_argv(argc, argv);
 	if (!command_line_args)
 	{
 		fprintf(error_out_file, "Due to memory allocation error %s is exiting.\n", argv[0]);
@@ -85,3 +93,5 @@ int main(int argc, char *argv[]) {
 
 	return exit_status;
 }
+
+#endif // !VIRTUAL_MACHINE_WITH_EDITOR_MAIN_C

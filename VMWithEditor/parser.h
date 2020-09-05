@@ -1,3 +1,9 @@
+/* parser.h
+ *
+ * The functions in this file are responsible for parsing any files input by
+ * the user that contain virtual memory programs.
+ */
+
 #ifndef PARSER_H
 #define PARSER_H
 

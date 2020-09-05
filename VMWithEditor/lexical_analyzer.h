@@ -1,7 +1,6 @@
 /*
  * lexical_analyzer.h
  *
-*
  * The Syntax State Machine is a simple lexical analiser. Given the current syntax
  * state and the new input character what is the new syntax state. State machines
  * can be represented as tables. Table implementation of a state machine uses

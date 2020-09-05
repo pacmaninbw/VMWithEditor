@@ -1,3 +1,11 @@
+/* parser.c
+ *
+ * The functions in this file are responsible for parsing any files input by
+ * the user that contain virtual memory programs.
+ */
+#ifndef PARSER_C
+#define PARSER_C
+
 #include "error_reporting.h"
 #include "human_readable_program_format.h"
 #include "lexical_analyzer.h"
@@ -5,7 +13,7 @@
 #include "parser.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
+#include "unit_test_logging.h"
 #endif
 #include <ctype.h>
 #include <stdbool.h>
@@ -164,9 +172,13 @@ static void check_for_required_character(const unsigned char current_character,
 
 }
 
-/* Expected syntax
- * {opcode, operand} with possible comma at the end.
+/* Expected syntax:		{opcode, operand} with possible comma at the end.
+ *
+ * To prevent the global function parser from being defined in multiple object
+ * file when this file is included for unit test we check to see if we are in
+ * the internal parser unit test file.
  */
+#ifndef INTERNAL_PARSER_TESTS_C
 Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, const char* file_name)
 {
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
@@ -205,8 +217,7 @@ Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, c
 
 	return next_node;
 }
-
-#ifdef UNIT_TESTING
-#include "internal_parser_tests.c"
 #endif
+
+#endif // !PARSER_C
 

@@ -4,11 +4,12 @@
 #ifndef OPCODE_C
 #define OPCODE_C
 
-#include "error_reporting.h"
-#include "opcode.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+
+#include "error_reporting.h"
+#include "opcode.h"
 
 OPCODE translate_string_to_opcode(const unsigned char* string_opcode)
 {

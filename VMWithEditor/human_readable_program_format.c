@@ -12,6 +12,15 @@
  *
  */
 
+#ifndef HUMAN_READABLE_PROGRAM_FORMAT_C
+#define HUMAN_READABLE_PROGRAM_FORMAT_C
+
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "error_reporting.h"
 #include "human_readable_program_format.h"
 #include "lexical_analyzer.h"
@@ -19,11 +28,6 @@
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Format*
 	program, const size_t program_size)
@@ -193,3 +197,5 @@ void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_progr
 #include "unit_test_human_readable_program_format.c"
 #endif	// HRF_UNIT_TESTiNG
 #endif	// UNIT_TESTING
+
+#endif // !HUMAN_READABLE_PROGRAM_FORMAT_C

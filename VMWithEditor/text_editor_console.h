@@ -1,3 +1,11 @@
+/*
+ * text_editor_console.c
+ *
+ * This file contains the public interfaces to the user interface functions for
+ * the console text editor the allows the user to create and edit virtual
+ * machine programs.
+ */
+
 #ifndef TEXT_EDITOR_CONSOLE_H
 #define TEXT_EDITOR_CONSOLE_H
 

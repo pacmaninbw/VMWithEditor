@@ -1,10 +1,26 @@
+/*
+ * virtual_machine.c
+ *
+ * This file contains an alternate implementation of the virtual machine
+ * presented in the original question on code review
+ * https://codereview.stackexchange.com/questions/244566/an-attempt-at-a-toy-vm/244573
+ * This implementation is an attempt to isolate the code in a more modular form
+ * rather than the public structure that was used in the original question.
+ */
+
+#ifndef VIRTUAL_MACHINE_C
+#define VIRTUAL_MACHINE_C
+
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
-#endif
+
 #include "error_reporting.h"
+#ifdef UNIT_TESTING
+#include "unit_test_logging.h"
+#endif
 #include "virtual_machine.h"
 
 static const size_t STACK_TOP = 1024;
@@ -295,3 +311,5 @@ static void execute(void) {
 
 	executable_opcodes[opcode]();		// Should be faster than using a switch/case statement 
 }
+
+#endif	// !VIRTUAL_MACHINE_C

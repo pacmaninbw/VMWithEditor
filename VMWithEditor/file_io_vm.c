@@ -1,12 +1,24 @@
+/*
+ * file_io_vm.c
+ *
+ * Handles the input and output of text files that contain virtual machine programs.
+ */
+
+#ifndef FILE_IO_VM_C
+#define FILE_IO_VM_C
+
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
-#endif
+
 #include "error_reporting.h"
 #include "file_io_vm.h"
+#include "human_readable_program_format.h"
 #include "parser.h"
+#ifdef UNIT_TESTING
+#include "unit_test_logging.h"
+#endif
 
 bool write_program_to_file(const Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
 {
@@ -108,4 +120,4 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 	return program_image;
 }
 
-
+#endif // !FILE_IO_VM_C

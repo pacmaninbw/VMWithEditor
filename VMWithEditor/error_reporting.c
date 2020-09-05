@@ -1,11 +1,21 @@
+/*
+ * error_reporting.c
+ * 
+ * The code in this file is responsible for reporting all error messages to the
+ * proper place. The user has the option in the flags to redirect the error
+ * messages to a file, the unit testing takes advantage of this to report errors
+ * to the unit test log.
+ */
 #ifndef ERROR_REPORTING_C
 #define ERROR_REPORTING_C
+
+#include <stdbool.h>
+#include <stdio.h>
 
 #include "error_reporting.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif	// UNIT_TESTING
-#include <stdio.h>
 
 FILE* error_out_file = NULL;
 

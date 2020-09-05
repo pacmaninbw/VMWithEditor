@@ -1,14 +1,21 @@
-#ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
-#else
-#endif
-#include "common_console_functions.h"
-#include "error_reporting.h"
+/*
+ * common_console_functions.c
+ */
+#ifndef COMMON_CONSOLE_FUNCTIONS_C
+#define COMMON_CONSOLE_FUNCTIONS_C
+
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "common_console_functions.h"
+#include "error_reporting.h"
+#ifdef UNIT_TESTING
+#include "unit_test_logging.h"
+#endif
 
 size_t get_user_selection(const size_t menu_minimum, const size_t menu_maximum)
 {
@@ -45,3 +52,5 @@ size_t get_user_selection(const size_t menu_minimum, const size_t menu_maximum)
 
 	return selection_size;
 }
+
+#endif // !COMMON_CONSOLE_FUNCTIONS_C

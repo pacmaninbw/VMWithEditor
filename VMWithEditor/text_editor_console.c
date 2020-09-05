@@ -1,15 +1,26 @@
-#ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
-#endif
-#include "common_console_functions.h"
-#include "error_reporting.h"
-#include "text_editor_console.h"
-#include "virtual_machine.h"
+/*
+ * text_editor_console.c
+ *
+ * This file contains the user interface functions for the console text editor
+ * the allows the user to create and edit virtual machine programs.
+ */
+#ifndef TEXT_EDITOR_CONSOLE_C
+#define TEXT_EDITOR_CONSOLE_C
+
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "common_console_functions.h"
+#include "error_reporting.h"
+#include "text_editor_console.h"
+#ifdef UNIT_TESTING
+#include "unit_test_logging.h"
+#endif
+#include "virtual_machine.h"
 
 
 static unsigned get_user_operand_value(size_t operand_minimum, size_t operand_maximum)
@@ -61,3 +72,4 @@ bool initialize_text_editor(const ARG_FLAGS_PTR command_line_arguments)
 	return successful;
 }
 
+#endif	// !TEXT_EDITOR_CONSOLE_C

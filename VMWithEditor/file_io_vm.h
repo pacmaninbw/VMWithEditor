@@ -1,3 +1,9 @@
+/*
+ * file_io_vm.c
+ *
+ * Handles the input and output of text files that contain virtual machine programs.
+ */
+
 #ifndef FILE_IO_VM_H
 #define FILE_IO_VM_H
 

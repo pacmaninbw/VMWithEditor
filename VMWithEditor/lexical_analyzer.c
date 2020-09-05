@@ -1,5 +1,3 @@
-#ifndef LEXICAL_ANALYZER_C
-#define LEXICAL_ANALYZER_C
 /*
  * lexical_analyzer.c
  *
@@ -12,17 +10,22 @@
  * This module uses enums to make the states and transitions easier to understand.
  *
  */
+
+#ifndef LEXICAL_ANALYZER_C
+#define LEXICAL_ANALYZER_C
+
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "error_reporting.h"
 #include "lexical_analyzer.h"
 #include "my_strdup.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /*
  * This function returns the table that represents the current syntactic state

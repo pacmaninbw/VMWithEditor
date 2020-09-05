@@ -1,16 +1,24 @@
-#ifdef UNIT_TESTING
-#include "common_unit_test_logic.h"
-#endif
-#include "common_console_functions.h"
-#include "control_console.h"
-#include "error_reporting.h"
-#include "file_io_vm.h"
-#include "virtual_machine.h"
+/*
+ * control_console.c
+ */
+
+#ifndef CONTROL_CONSOLE_C
+#define CONTROL_CONSOLE_C
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "common_console_functions.h"
+#include "control_console.h"
+#include "error_reporting.h"
+#include "file_io_vm.h"
+#ifdef UNIT_TESTING
+#include "unit_test_logging.h"
+#endif
+#include "virtual_machine.h"
 
 static void show_master_menu(void)
 {
@@ -74,3 +82,5 @@ bool initialize_control_console(ARG_FLAGS_PTR command_line_arguments)
 
 	return successful;
 }
+
+#endif // !CONTROL_CONSOLE_C

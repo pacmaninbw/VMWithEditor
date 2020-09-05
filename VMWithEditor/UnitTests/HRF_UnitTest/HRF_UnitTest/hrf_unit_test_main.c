@@ -1,8 +1,11 @@
+#ifndef HRF_UNIT_TEST_MAIN_C
+#define HRF_UNIT_TEST_MAIN_C
+
 /*
  * Run the unit tests for the Human Readable Program portion of the VM with Editor
  */
 #include "human_readable_program_format.h"
-#include "common_unit_test_logic.h"
+#include "unit_test_logging.h"
 #include "hrf_unit_test_main.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +83,7 @@ bool run_all_hrf_unit_tests(void)
 	return all_unit_tests_passed;
 }
 
-#ifndef ALL_UNIT_TESTING
+#ifdef HRF_UNIT_TESTING_ONLY
 /*
  * All the unit tests can be combined into a single executable, when this is done main should not be in each file.
  */
@@ -106,3 +109,4 @@ int main()
 }
 #endif	// ALL_UNIT_TESTiNG
 
+#endif // !HRF_UNIT_TEST_MAIN_C

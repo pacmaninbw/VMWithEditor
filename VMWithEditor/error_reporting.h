@@ -1,3 +1,7 @@
+/*
+ * error_reporting.c
+ */
+
 #ifndef ERROR_REPORTING_H
 #define ERROR_REPORTING_H
 
