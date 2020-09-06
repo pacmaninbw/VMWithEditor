@@ -188,14 +188,4 @@ void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_progr
 	}
 }
 
-#ifdef UNIT_TESTING
-/*
- * The unit tests need to be able to access static functions and variables in this file.
- * So include the tests rather than compile as a separate unit.
-*/
-#ifdef HRF_UNIT_TESTING
-#include "unit_test_human_readable_program_format.c"
-#endif	// HRF_UNIT_TESTiNG
-#endif	// UNIT_TESTING
-
 #endif // !HUMAN_READABLE_PROGRAM_FORMAT_C
