@@ -31,7 +31,7 @@ static void log_unit_test_get_transition_character_type_failure(
 
 	log_test_status_each_step2(log_data);
 
-	char out_buffer[BUFSIZ];
+	char out_buffer[LOG_BUFFER_SIZE];
 	sprintf(out_buffer, "\tcurrent_state = %s input character = %c\n",
 		state_name_for_printing(current_state), candidate);
 	log_generic_message(out_buffer);
@@ -69,7 +69,7 @@ typedef LAH_State_Transition_Characters(*STFfunct)(const unsigned char input, co
 static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, const LAH_Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	for (size_t alphabet = (size_t)LOWER_CASE; alphabet <= (size_t)UPPER_CASE; alphabet++)
 	{
@@ -198,7 +198,7 @@ static bool unit_test_whitespace_transition(Test_Log_Data* log_data, const LAH_S
 	};
 	size_t positive_path_count = 4;		// Change this if more positive path tests are added.
 
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 	sprintf(buffer, "%s whitespace transition test", log_data->function_name);
 	char* local_func_name = _strdup(buffer);
 
@@ -259,7 +259,7 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax
 	char* local_func_name = NULL;
 	if (log_data->stand_alone)
 	{
-		char buffer[BUFSIZ];
+		char buffer[LOG_BUFFER_SIZE];
 		sprintf(buffer, "%s digit transition test", log_data->function_name);
 		local_func_name = _strdup(buffer);
 		log_start_positive_path(local_func_name);
@@ -300,7 +300,7 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, const LAH_Syntax
 
 	if (log_data->stand_alone)
 	{
-		char buffer[BUFSIZ];
+		char buffer[LOG_BUFFER_SIZE];
 		sprintf(buffer, "%s alpha transition test", log_data->function_name);
 		local_func_name = _strdup(buffer);
 		log_start_positive_path(local_func_name);
@@ -332,7 +332,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_
 	};
 	size_t positive_path_count = 3;		// Change this if more positive path tests are added.
 
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 	sprintf(buffer, "%s punctuation transition test", log_data->function_name);
 	char* local_func_name = _strdup(buffer);
 
@@ -357,7 +357,7 @@ typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, cons
 bool unit_test_get_transition_character_type(const size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	Test_Log_Data* log_data = create_and_init_test_log_data(
 		"unit_test_get_transition_character_type", test_passed, "Positive",

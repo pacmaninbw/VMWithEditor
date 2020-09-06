@@ -17,7 +17,7 @@
 bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {
 	bool all_unit_tests_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	sprintf(buffer, "Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
 	log_generic_message(buffer);

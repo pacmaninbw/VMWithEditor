@@ -47,7 +47,7 @@ static bool unit_test_syntax_states(size_t test_step)
 
 	for (size_t state = 0; state < LAH_SYNTAX_STATE_ARRAY_SIZE; state++)
 	{
-		char out_buffer[BUFSIZ];
+		char out_buffer[LOG_BUFFER_SIZE];
 		if (stand_alone)
 		{
 			sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(
@@ -96,7 +96,7 @@ static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
 {
 	log_test_status_each_step2(log_data);
 
-	char out_buffer[BUFSIZ];
+	char out_buffer[LOG_BUFFER_SIZE];
 	sprintf(out_buffer, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
 	strcat(out_buffer, "expected Checklist Values {");
 	print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer);
@@ -205,7 +205,7 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 static bool unit_test_collect_error_reporting_data(size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 	Test_Log_Data* log_data = create_and_init_test_log_data(
 		"unit_test_collect_error_reporting_data", test_passed, "Positive",
 		test_step == 0);
@@ -263,7 +263,7 @@ typedef struct unit_test_functions_and_args
 bool internal_tests_on_all_state_transitions(size_t test_step)
 {
 	bool all_tests_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	State_Machine_Unit_Test_Functions unit_tests[] =
 	{
@@ -312,7 +312,7 @@ static void report_syntax_errors(unsigned necessary_items[])
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
-		char buffer[BUFSIZ];
+		char buffer[LOG_BUFFER_SIZE];
 		if (i >= LAH_ILLEGALOPCODE && necessary_items[i])
 		{
 			sprintf(buffer, "\t%s\n", error_strings[i]);
@@ -354,7 +354,7 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	{
 		*eol_p = '\0';
 	}
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 	if (state == LAH_ERROR_STATE || error_count)
 	{
 		sprintf(buffer, "\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
@@ -384,7 +384,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 {
 	char* parser_generated_error;
 
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 	char* eol_p = strrchr((const char*)text_line, '\n');
 	if (eol_p)
 	{
@@ -404,7 +404,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
  */
 static void report_lexical_analyzer_test_failure(LAH_Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
 {
-	char out_buffer[BUFSIZ];
+	char out_buffer[LOG_BUFFER_SIZE];
 	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %u ",
 		state_name_for_printing(current_state), expected_errors->error_count);
 	strcat(out_buffer, "expected Checklist Values {");
@@ -573,7 +573,7 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 bool unit_test_lexical_analyzer(size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	Test_Log_Data* log_data = create_and_init_test_log_data(
 		"unit_test_lexical_analyzer", test_passed, "Positive",
