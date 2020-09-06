@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#define LOG_BUFFER_SIZE 2048
+
 typedef struct test_log_data
 {
 	const char* function_name;
