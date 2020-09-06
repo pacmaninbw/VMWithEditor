@@ -15,28 +15,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="command_line_unit_test_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\arg_flags.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\human_readable_program_format.c">
+    <ClCompile Include="..\..\..\error_reporting.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\opcode.c">
+    <ClCompile Include="command_line_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\virtual_machine.c">
+    <ClCompile Include="..\..\..\my_strdup.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="command_line_unit_test_main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
