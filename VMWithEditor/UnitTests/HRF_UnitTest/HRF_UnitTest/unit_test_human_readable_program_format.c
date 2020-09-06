@@ -1,7 +1,16 @@
-/* This file is included by human_readable_program_format.c because there is unit testing of static
- * functions and variables. Because this this file is included by human_readable_program_format.c
- * include files are not necessary.
+/* This file is includes the file human_readable_program_format.c because there
+ * is unit testing of static functions and variables. 
  */
+
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+#include "default_program.h"
+#include "human_readable_program_format.h"
+#include "unit_test_logging.h"
+
+#include "human_readable_program_format.c"
 
 #ifdef UNIT_TEST_TEMPLATE
 static bool unit_test_template(unsigned test_step)
@@ -17,7 +26,7 @@ static bool unit_test_template(unsigned test_step)
 }
 #endif
 
-bool unit_test_hrf_duplicate_program(unsigned test_step)
+bool unit_test_hrf_duplicate_program(size_t test_step)
 {
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
@@ -34,12 +43,12 @@ bool unit_test_hrf_duplicate_program(unsigned test_step)
 	return passed;
 }
 
-bool unit_test_hrf_create_program_step(unsigned test_step)
+bool unit_test_hrf_create_program_step(size_t test_step)
 {
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
 
-	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_state_transition_on_comma", passed, "Positive", test_step == 0);
+	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_state_transition_on_comma", passed, "Positive", stand_alone_test);
 
 	if (log_data->stand_alone)
 	{
@@ -107,7 +116,7 @@ bool unit_test_hrf_create_program_step(unsigned test_step)
 	return passed;
 }
 
-bool unit_test_hrf_convert_array_program_to_linked_list(unsigned test_step)
+bool unit_test_hrf_convert_array_program_to_linked_list(size_t test_step)
 {
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
@@ -124,7 +133,7 @@ bool unit_test_hrf_convert_array_program_to_linked_list(unsigned test_step)
 	return passed;
 }
 
-bool unit_test_hrf_convert_link_list_program_to_array(unsigned test_step)
+bool unit_test_hrf_convert_link_list_program_to_array(size_t test_step)
 {
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
@@ -148,10 +157,5 @@ bool unit_test_all_human_readable_format()
 	fprintf(unit_test_log_file, "\nUnit test: unit_test_all_human_readable_format NOT IMPLEMENTED\n");
 
 	return passed;
-}
-
-void write_to_test_log_file(char *buffer)
-{
-	fprintf(unit_test_log_file, "%s", buffer);
 }
 
