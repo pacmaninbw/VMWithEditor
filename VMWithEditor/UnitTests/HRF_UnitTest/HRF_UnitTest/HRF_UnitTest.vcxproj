@@ -84,10 +84,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;HRF_UNIT_TESTING_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;../../..;../../Common_UnitTest_Code;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,12 +97,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;HRF_UNIT_TESTING_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;../../..;../../Common_UnitTest_Code;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,11 +114,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;HRF_UNIT_TESTING_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\CommonUnitTestCode;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../..;../../Common_UnitTest_Code;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,12 +127,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;UNIT_TESTING;HRF_UNIT_TESTING;HRF_UNIT_TESTING_ONLY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;../../..;../../Common_UnitTest_Code;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,19 +143,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\human_readable_program_format.c" />
+    <ClCompile Include="..\..\..\default_program.c" />
+    <ClCompile Include="..\..\..\error_reporting.c" />
+    <ClCompile Include="..\..\..\my_strdup.c" />
     <ClCompile Include="..\..\..\opcode.c" />
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
     <ClCompile Include="hrf_unit_test_main.c">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level4</WarningLevel>
     </ClCompile>
+    <ClCompile Include="unit_test_human_readable_program_format.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\common_console_functions.h" />
     <ClInclude Include="..\..\..\file_io_vm.h" />
-    <ClInclude Include="..\..\..\human_readable_program_format.h" />
-    <ClInclude Include="..\..\..\opcode.h" />
     <ClInclude Include="..\..\..\virtual_machine.h" />
     <ClInclude Include="hrf_unit_test_main.h" />
     <ClInclude Include="unit_test_human_readable_program_format.h" />
