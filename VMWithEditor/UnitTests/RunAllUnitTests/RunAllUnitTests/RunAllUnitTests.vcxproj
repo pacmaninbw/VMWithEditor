@@ -86,9 +86,9 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>UNIT_TESTING;ALL_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TESTING;ALL_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\RunAllUnitTests_and_CommonUnitTestCode\RunAllUnitTests_and_CommonUnitTestCode;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\HRF_UnitTest\HRF_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\VirtualMachine_UnitTest\VirtualMachine_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\ControlConsole_UnitTest\ControlConsole_UnitTest;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\State_Machine_Unit_Test\State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../../;../../Common_UnitTest_Code;../../HRF_UnitTest/HRF_UnitTest;../../VirtualMachine_UnitTest/VirtualMachine_UnitTest../../ControlConsole_UnitTest/ControlConsole_UnitTest;../../State_Machine_Unit_Test/State_Machine_Unit_Test;../../Parser_Unit_Test/Parser_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -97,12 +97,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;UNIT_TESTING;ALL_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;../../../;../../Common_UnitTest_Code;../../HRF_UnitTest/HRF_UnitTest;../../VirtualMachine_UnitTest/VirtualMachine_UnitTest../../ControlConsole_UnitTest/ControlConsole_UnitTest;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,11 +114,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;UNIT_TESTING;ALL_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProjectsNfwsi\VMWithEditor\VMWithEditor\UnitTests\Common_UnitTest_Code;D:\ProjectsNfwsi\VMWithEditor\VMWithEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../../;../../Common_UnitTest_Code;../../HRF_UnitTest/HRF_UnitTest;../../VirtualMachine_UnitTest/VirtualMachine_UnitTest../../ControlConsole_UnitTest/ControlConsole_UnitTest;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,12 +127,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;UNIT_TESTING;ALL_UNIT_TESTING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;../../../;../../Common_UnitTest_Code;../../HRF_UnitTest/HRF_UnitTest;../../VirtualMachine_UnitTest/VirtualMachine_UnitTest../../ControlConsole_UnitTest/ControlConsole_UnitTest;../../State_Machine_Unit_Test/State_Machine_Unit_Test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,18 +143,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\default_program.c" />
+    <ClCompile Include="..\..\..\error_reporting.c" />
+    <ClCompile Include="..\..\..\file_io_vm.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
+    <ClCompile Include="..\..\..\lexical_analyzer.c" />
+    <ClCompile Include="..\..\..\my_strdup.c" />
     <ClCompile Include="..\..\..\opcode.c" />
-    <ClCompile Include="..\..\..\syntax_state_machine.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c" />
+    <ClCompile Include="..\..\CommandLine_UnitTest\CommandLine_UnitTest\command_line_unit_test_main.c" />
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
+    <ClCompile Include="..\..\Parser_Unit_Test\Parser_Unit_Test\internal_parser_tests.c" />
+    <ClCompile Include="..\..\Parser_Unit_Test\Parser_Unit_Test\parser_unit_test.c" />
+    <ClCompile Include="..\..\Parser_Unit_Test\Parser_Unit_Test\parser_unit_test_main.c" />
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\internal_character_transition_unit_tests.c" />
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\internal_sytax_state_tests.c" />
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_test_data.c" />
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_unit_test_main.c" />
+    <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_unit_test_utilities.c" />
     <ClCompile Include="run_all_unit_tests_main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\human_readable_program_format.h" />
     <ClInclude Include="..\..\..\opcode.h" />
     <ClInclude Include="..\..\..\virtual_machine.h" />
-    <ClInclude Include="..\..\Common_UnitTest_Code\common_unit_test_logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
