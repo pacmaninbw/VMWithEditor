@@ -70,13 +70,17 @@ bool run_all_hrf_unit_tests(void)
 		test_count++;
 		if (!unit_test_all_human_readable_format())
 		{
-			sprintf(buffer, "Unit Test %zd: unit_test_all_human_readable_format() : Failed\n\n", test_count);
+			sprintf(buffer,
+				"Unit Test %zd: unit_test_all_human_readable_format() : Failed\n\n",
+				test_count);
 			log_generic_message(buffer);
 			all_unit_tests_passed = false;
 		}
 		else
 		{
-			sprintf(buffer, "Unit Test %zd: unit_test_all_human_readable_format() : Passed\n\n", test_count);
+			sprintf(buffer,
+				"Unit Test %zd: unit_test_all_human_readable_format() : Passed\n\n",
+				test_count);
 			log_generic_message(buffer);
 		}
 	}

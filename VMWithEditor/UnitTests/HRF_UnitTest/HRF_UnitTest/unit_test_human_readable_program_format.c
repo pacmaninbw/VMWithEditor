@@ -48,7 +48,7 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
 
-	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_state_transition_on_comma", passed, "Positive", stand_alone_test);
+	Test_Log_Data *log_data = create_and_init_test_log_data("unit_test_hrf_create_program_step", passed, "Positive", stand_alone_test);
 
 	if (log_data->stand_alone)
 	{
