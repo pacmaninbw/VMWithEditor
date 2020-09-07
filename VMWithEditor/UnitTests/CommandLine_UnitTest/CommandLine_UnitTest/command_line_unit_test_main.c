@@ -11,10 +11,11 @@
 #include <stdlib.h>
 
 #include "arg_flags.h"
+#include "command_line_unit_test_main.h"
 #include "error_reporting.h"
 #include "unit_test_logging.h"
 
-bool run_all_command_line_unit_tests(void)
+bool run_all_command_line_unit_tests(const size_t test_step)
 {
 	bool all_unit_tests_passed = true;
 
@@ -36,7 +37,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	if (!run_all_command_line_unit_tests())
+	if (!run_all_command_line_unit_tests(0))
 	{
 		passed = EXIT_FAILURE;
 	}
