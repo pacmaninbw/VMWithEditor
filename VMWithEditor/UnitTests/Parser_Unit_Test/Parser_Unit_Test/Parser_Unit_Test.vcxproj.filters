@@ -83,5 +83,8 @@
     <ClInclude Include="..\..\..\my_strdup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="parser_unit_test_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

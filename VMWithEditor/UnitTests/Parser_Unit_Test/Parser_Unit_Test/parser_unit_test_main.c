@@ -1,17 +1,22 @@
 #ifndef PARSER_UNIT_TEST_MAIN_C
 #define PARSER_UNIT_TEST_MAIN_C
 #include <stdbool.h>
-//#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+
+#include "lexical_analyzer.h"
 #include "lexical_analyzer_unit_test_main.h"
 #include "error_reporting.h"
+#include "internal_sytax_state_tests.h"
 #include "unit_test_logging.h"
+#include "parser_unit_test.h"
 
-bool run_all_parser_unit_tests(unsigned test_step)
+bool run_all_parser_unit_tests(size_t test_step)
 {
 	bool all_unit_tests_passed = true;
-	char buffer[BUFSIZ];
+	char buffer[LOG_BUFFER_SIZE];
 
 	sprintf(buffer, "Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
 	log_generic_message(buffer);

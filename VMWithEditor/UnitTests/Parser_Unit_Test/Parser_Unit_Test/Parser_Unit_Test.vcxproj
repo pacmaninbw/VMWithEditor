@@ -171,6 +171,7 @@
     <ClInclude Include="..\..\..\parser.h" />
     <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h" />
     <ClInclude Include="parser_unit_test.h" />
+    <ClInclude Include="parser_unit_test_main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
