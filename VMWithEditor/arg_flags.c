@@ -21,7 +21,7 @@ static ARG_FLAGS_PTR construct_arguments()
 	ARG_FLAGS_PTR arguments = calloc(sizeof(*arguments), 1);
 	if (!arguments)
 	{
-		fprintf(error_out_file, "In construct_arguments() calloc() failed.\n");
+		ERH_va_report_error_fprintf("In construct_arguments() calloc() failed.\n");
 	}
 
 	return arguments;

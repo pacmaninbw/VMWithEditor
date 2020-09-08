@@ -26,7 +26,7 @@ bool write_program_to_file(const Human_Readable_Program_Format* program, const s
 
 	if (!out_file)
 	{
-		fprintf(error_out_file, "File not open\n");
+		ERH_va_report_error_fprintf("File not open\n");
 		successful = false;
 	}
 	else
@@ -52,7 +52,7 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 	Human_Readable_Program_Format* program_image = NULL;
 	if (!input_file)
 	{
-		fprintf(error_out_file, "File not open\n");
+		ERH_va_report_error_fprintf("File not open\n");
 	}
 	else
 	{
@@ -104,7 +104,7 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 
 		if (errors)
 		{
-			fprintf(error_out_file, "check_line_syntax_return_program_step_if_valid encountered errors in read_program_from_file()\n. No program generated\n");
+			ERH_va_report_error_fprintf("check_line_syntax_return_program_step_if_valid encountered errors in read_program_from_file()\n. No program generated\n");
 			delete_linked_list_of_program_steps(program_linked_list);		// no memory leaks
 			program_linked_list = NULL;
 		}

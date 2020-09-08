@@ -22,7 +22,7 @@
 
 #include "error_reporting.h"
 #include "lexical_analyzer.h"
-#include "my_strdup.h"
+#include "safe_string_functions.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif

@@ -54,7 +54,7 @@ static Program_Step_Node* add_program_step(void)
 	Program_Step_Node* next_step = calloc(1, sizeof(*next_step));
 	if (!next_step)
 	{
-		fprintf(error_out_file, "In add_program_step(), memory allocation for next_step failed\n");
+		ERH_va_report_error_fprintf("In add_program_step(), memory allocation for next_step failed\n");
 	}
 	else
 	{

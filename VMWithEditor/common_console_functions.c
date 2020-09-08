@@ -46,7 +46,7 @@ size_t get_user_selection(const size_t menu_minimum, const size_t menu_maximum)
 
 		if (!selection_size)
 		{
-			fprintf(error_out_file, "Please enter a number between %d and %d\n", (int)menu_minimum, (int)menu_maximum);
+			ERH_va_report_error_fprintf("Please enter a number between %d and %d\n", (int)menu_minimum, (int)menu_maximum);
 		}
 	}
 

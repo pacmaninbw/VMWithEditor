@@ -23,7 +23,7 @@ static bool execute_original_program_logic(ARG_FLAGS_PTR command_line_args)
 	{
 		if (!load_and_run_program(program, program_size))
 		{
-			fprintf(error_out_file, "In execute_program_logic() load_and_run_program() failed\n");
+			ERH_va_report_error_fprintf("In execute_program_logic() load_and_run_program() failed\n");
 			successful = false;
 		}
 		free(program);
@@ -43,7 +43,7 @@ static bool set_up_command_line_args_and_vm(ARG_FLAGS_PTR* command_line_args, in
 	*command_line_args = construct_arg_flags_from_argc_argv(argc, argv);
 	if (!command_line_args)
 	{
-		fprintf(error_out_file, "Due to memory allocation error %s is exiting.\n", argv[0]);
+		ERH_va_report_error_fprintf("Due to memory allocation error %s is exiting.\n", argv[0]);
 		successful = false;
 	}
 
@@ -52,7 +52,7 @@ static bool set_up_command_line_args_and_vm(ARG_FLAGS_PTR* command_line_args, in
 		if (!initialize_virtual_machine())
 		{
 			*command_line_args = delete_arguments(*command_line_args);
-			fprintf(error_out_file, "Unable to initialize Virtual Machine, %s is exiting\n", argv[0]);
+			ERH_va_report_error_fprintf("Unable to initialize Virtual Machine, %s is exiting\n", argv[0]);
 			successful = false;
 		}
 	}
@@ -73,7 +73,7 @@ static bool execute_program_logic(ARG_FLAGS_PTR command_line_args)
 }
 
 int main(int argc, char *argv[]) {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int exit_status = EXIT_SUCCESS;
 	ARG_FLAGS_PTR command_line_args = NULL;
 

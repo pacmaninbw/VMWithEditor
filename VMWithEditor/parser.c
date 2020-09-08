@@ -9,7 +9,7 @@
 #include "error_reporting.h"
 #include "human_readable_program_format.h"
 #include "lexical_analyzer.h"
-#include "my_strdup.h"
+#include "safe_string_functions.h"
 #include "parser.h"
 #include "virtual_machine.h"
 #ifdef UNIT_TESTING
@@ -55,16 +55,15 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 
 	if (error_count)
 	{
-		fprintf(error_out_file, "In file %s line %zu there are %u errors: %s\n",
+		ERH_va_report_error_fprintf("In file %s line %zu there are %u errors: %s\n",
 			file_name, *line_number, error_count, line);
-		fprintf(error_out_file, "    The proper format of a program step is { OPCODE , OPERAND }[,]"
+		ERH_va_report_error_fprintf("    The proper format of a program step is { OPCODE , OPERAND }[,]"
 			" the second comma is necessary when the program step is not the last one in the file. ");
-		fprintf(error_out_file, "Only one program step per line\n");
+		ERH_va_report_error_fprintf("Only one program step per line\n");
 		syntax_is_good = false;
 		if (!necessary_items[LAH_OPENBRACE])		// Prevent cascading error messages that may not be correct
 		{
-			fprintf(error_out_file, "\t%s\n\n", error_strings[LAH_OPENBRACE]);
-			fflush(error_out_file);
+			ERH_va_report_error_fprintf("\t%s\n\n", error_strings[LAH_OPENBRACE]);
 			return syntax_is_good;
 		}
 	}
@@ -73,23 +72,22 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 	{
 		if (i >= LAH_ILLEGALOPCODE && necessary_items[i])
 		{
-			fprintf(error_out_file, "\t%s\n", error_strings[i]);
+			ERH_va_report_error_fprintf("\t%s\n", error_strings[i]);
 		}
 		else if (i < LAH_ILLEGALOPCODE && !necessary_items[i])
 		{
-			fprintf(error_out_file, "\t%s\n", error_strings[i]);
+			ERH_va_report_error_fprintf("\t%s\n", error_strings[i]);
 		}
 	}
 
-	fprintf(error_out_file, "\n");
-	fflush(error_out_file);
+	ERH_va_report_error_fprintf("\n");
 
 	return syntax_is_good;
 }
 
 static unsigned char* get_opcode_or_operand_string(const unsigned char* original)
 {
-	unsigned char* local_copy = ucstrdup(original);
+	unsigned char* local_copy = SSF_ucstrdup(original);
 	if (!local_copy)
 	{
 		return (unsigned char*)local_copy;
@@ -104,7 +102,7 @@ static unsigned char* get_opcode_or_operand_string(const unsigned char* original
 
 	*current_char = '\0';
 
-	return_string = ucstrdup(local_copy);
+	return_string = SSF_ucstrdup(local_copy);
 	free(local_copy);
 
 	return return_string;
@@ -115,7 +113,7 @@ static unsigned get_legal_opcode_or_oparand(const unsigned char** current_charac
 {
 	if (prime_index != LAH_LEGALOPCODE && prime_index != LAH_LEGALOPERAND)
 	{
-		fprintf(error_out_file,
+		ERH_va_report_error_fprintf(
 			"\n\n*** Illegal prime_index in get_legal_opcode_or_oparand()\n\n ***");
 		return (unsigned)-1;
 	}

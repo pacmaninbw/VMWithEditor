@@ -22,7 +22,7 @@ OPCODE translate_string_to_opcode(const unsigned char* string_opcode)
 		}
 	}
 
-	fprintf(error_out_file, "Opcode translation error: %s is not a legal opcode name.\n", local_s_opcode);
+	ERH_va_report_error_fprintf("Opcode translation error: %s is not a legal opcode name.\n", local_s_opcode);
 	return (OPCODE)-1;
 }
 

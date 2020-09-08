@@ -48,12 +48,12 @@ bool save_program_to_file(const Human_Readable_Program_Format* program, const si
 		successful = false;
 		if (!program)
 		{
-			fprintf(error_out_file, "There is no program to save to file %s.\n", file_name);
+			ERH_va_report_error_fprintf("There is no program to save to file %s.\n", file_name);
 		}
 
 		if (program_size < 1)
 		{
-			fprintf(error_out_file, "There is no program contents to save to file %s.\n", file_name);
+			ERH_va_report_error_fprintf("There is no program contents to save to file %s.\n", file_name);
 		}
 	}
 
@@ -63,7 +63,7 @@ bool save_program_to_file(const Human_Readable_Program_Format* program, const si
 		if (!out_file)
 		{
 			successful = false;
-			fprintf(error_out_file, "Unable to open file %s for writing\n.", file_name);
+			ERH_va_report_error_fprintf("Unable to open file %s for writing\n.", file_name);
 		}
 		else
 		{

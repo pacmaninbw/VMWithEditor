@@ -49,7 +49,7 @@ Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Fo
 	}
 	else
 	{
-		fprintf(error_out_file, "Memory allocation for copy of program failed.\n");
+		ERH_va_report_error_fprintf("Memory allocation for copy of program failed.\n");
 	}
 
 	return copy_of_program;
@@ -60,7 +60,7 @@ Program_Step_Node* create_program_step(const Human_Readable_Program_Format *user
 	Program_Step_Node* program_step = calloc(1, sizeof(*program_step));
 	if (!program_step)
 	{
-		fprintf(error_out_file,
+		ERH_va_report_error_fprintf(
 			"In create_program_step(), memory allocation for next_step failed\n");
 	}
 	else
@@ -82,13 +82,13 @@ static bool conversion_function_has_required_parameters(void *program,
 	{
 		if (!program)
 		{
-			fprintf(error_out_file, "In %s, linked_program is NULL\n",
+			ERH_va_report_error_fprintf("In %s, linked_program is NULL\n",
 				error_function_name);
 		}
 
 		if (!program_size)
 		{
-			fprintf(error_out_file, "In %s, program_size is zero.\n",
+			ERH_va_report_error_fprintf("In %s, program_size is zero.\n",
 				error_function_name);
 		}
 		has_required_parameters = false;
@@ -110,7 +110,7 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_
 	Human_Readable_Program_Format* array_program = calloc(program_size, sizeof(*array_program));
 	if (!array_program)
 	{
-		fprintf(error_out_file, "In convert_link_list_program_to_array(), "
+		ERH_va_report_error_fprintf("In convert_link_list_program_to_array(), "
 			"memory allocation for array_program failed\n");
 	}
 	else

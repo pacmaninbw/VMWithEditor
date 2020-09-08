@@ -196,7 +196,7 @@ static bool load_program_into_memory(const Human_Readable_Program_Format program
 		if (!halt_opcode_found)
 		{
 			successful = false;
-			fprintf(error_out_file, "While loading the program into memory, no halt "
+			ERH_va_report_error_fprintf("While loading the program into memory, no halt "
 				"instruction was found.\nTo prevent unknown errors program will not "
 				"run, and has been unloaded.\n");
 			reset_vm();
@@ -204,7 +204,7 @@ static bool load_program_into_memory(const Human_Readable_Program_Format program
 	}
 	else
 	{
-		fprintf(error_out_file, "Program too large for virtual machine memory.\n");
+		ERH_va_report_error_fprintf("Program too large for virtual machine memory.\n");
 		successful = false;
 	}
 
@@ -279,7 +279,7 @@ static void divide(void)
 {
 	if (vmachine_memory[stack_pointer] == 0)
 	{
-		fprintf(error_out_file, "Division by zero attempted at stack location 0x%x, "
+		ERH_va_report_error_fprintf("Division by zero attempted at stack location 0x%x, "
 			"Virtual Program terminated.\n", (unsigned)stack_pointer);
 		running = false;
 		return;
@@ -302,7 +302,7 @@ static void inputchar(void)
 static void execute(void) {
 	if (opcode < FIRST_OPCODE || opcode > LASTOPCODE)
 	{
-		fprintf(error_out_file, "Unknown Opcode in execute(). 0x%x program_count = %d, "
+		ERH_va_report_error_fprintf("Unknown Opcode in execute(). 0x%x program_count = %d, "
 			"stack_pointer = %d.\nTerminating Virtual Machine execution.\n",
 			opcode, (unsigned)program_counter, (unsigned)stack_pointer);
 		running = false;
