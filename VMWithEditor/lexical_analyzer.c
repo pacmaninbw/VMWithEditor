@@ -24,7 +24,7 @@
 #include "LAH_lexical_analyzer.h"
 #include "SSF_safe_string_functions.h"
 #ifdef UNIT_TESTING
-#include "unit_test_logging.h"
+#include "UTL_unit_test_logging.h"
 #endif
 
 /*

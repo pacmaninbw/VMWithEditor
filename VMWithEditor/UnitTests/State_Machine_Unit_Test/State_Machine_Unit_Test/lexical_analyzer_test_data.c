@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "my_strdup.h"
-#include "error_reporting.h"
-#include "unit_test_logging.h"
+#include "SSF_safe_string_functions.h"
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 #include "lexical_analyzer_test_data.h"
 
 static void deallocate_test_program(size_t test_program_size, unsigned char **test_program)
@@ -97,7 +97,7 @@ static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned ch
 
 	for (size_t step_count = 0; step_count < test_program_size; step_count++)
 	{
-		test_program_dupe[step_count] = ucstrdup(test_program[step_count]);
+		test_program_dupe[step_count] = SSF_ucstrdup(test_program[step_count]);
 		if (!test_program_dupe[step_count])
 		{
 			lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "ucstrdup");

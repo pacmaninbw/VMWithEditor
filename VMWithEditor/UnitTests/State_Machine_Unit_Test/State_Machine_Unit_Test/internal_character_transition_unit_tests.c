@@ -16,8 +16,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "unit_test_logging.h"
-#include "error_reporting.h"
+#include "UTL_unit_test_logging.h"
+#include "ERH_error_reporting.h"
 #include "lexical_analyzer.c"
 #include "lexical_analyzer_unit_test_utilities.h"
 #include "internal_character_transition_unit_tests.h"

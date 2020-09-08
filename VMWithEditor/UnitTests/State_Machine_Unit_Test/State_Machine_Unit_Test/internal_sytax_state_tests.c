@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "lexical_analyzer.h"
+#include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer.c"
 #include "internal_sytax_state_tests.h"
 #include "internal_character_transition_unit_tests.h"
@@ -83,7 +83,7 @@ static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_
 		else
 		{
 			snprintf(num_buff, sizeof(num_buff), "%u} ", syntax_checklist[i]);
-			UTL_safe_strcat(out_buffer, num_buff, buffer_size);
+			SSF_strcat(out_buffer, num_buff, buffer_size);
 		}
 	}
 }
@@ -95,11 +95,11 @@ static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
 
 	char out_buffer[UTL_LOG_BUFFER_SIZE];
 	snprintf(out_buffer, UTL_LOG_BUFFER_SIZE, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
-	UTL_safe_strcat(out_buffer, "expected Checklist Values {", UTL_LOG_BUFFER_SIZE);
+	SSF_strcat(out_buffer, "expected Checklist Values {", UTL_LOG_BUFFER_SIZE);
 	print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer, sizeof(out_buffer));
-	UTL_safe_strcat(out_buffer, "new checklist value {", UTL_LOG_BUFFER_SIZE);
+	SSF_strcat(out_buffer, "new checklist value {", UTL_LOG_BUFFER_SIZE);
 	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
-	UTL_safe_strcat(out_buffer, "\n", UTL_LOG_BUFFER_SIZE);
+	SSF_strcat(out_buffer, "\n", UTL_LOG_BUFFER_SIZE);
 	UTL_va_log_fprintf(out_buffer);
 }
 
@@ -383,7 +383,7 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 		"Syntax Error line %zu %s column %zu unexpected character '%c' : skipping rest of line.\n",
 		statement_number, text_line, (size_t)(current_character - text_line),
 		*current_character);
-	parser_generated_error = my_strdup(buffer);
+	parser_generated_error = SSF_strdup(buffer);
 
 	return parser_generated_error;
 }
@@ -396,11 +396,11 @@ static void report_lexical_analyzer_test_failure(LAH_Syntax_State current_state,
 	char out_buffer[UTL_LOG_BUFFER_SIZE];
 	snprintf(out_buffer, UTL_LOG_BUFFER_SIZE, "\tcurrent_state = %s expected error count = %u ",
 		state_name_for_printing(current_state), expected_errors->error_count);
-	UTL_safe_strcat(out_buffer, "expected Checklist Values {", sizeof(out_buffer));
+	SSF_strcat(out_buffer, "expected Checklist Values {", sizeof(out_buffer));
 	print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer, sizeof(out_buffer));
-	UTL_safe_strcat(out_buffer, "new checklist values {", sizeof(out_buffer));
+	SSF_strcat(out_buffer, "new checklist values {", sizeof(out_buffer));
 	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
-	UTL_safe_strcat(out_buffer, "\n", sizeof(out_buffer));
+	SSF_strcat(out_buffer, "\n", sizeof(out_buffer));
 	UTL_va_log_fprintf(out_buffer);
 }
 

@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "safe_string_functions.h"
-#include "unit_test_logging.h"
-#include "error_reporting.h"
+#include "SSF_safe_string_functions.h"
+#include "UTL_unit_test_logging.h"
+#include "ERH_error_reporting.h"
 
 FILE* UTL_unit_test_log_file = NULL;
 

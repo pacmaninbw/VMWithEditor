@@ -27,7 +27,7 @@
 #include "LAH_lexical_analyzer.h"
 #include "VMH_virtual_machine.h"
 #ifdef UNIT_TESTING
-#include "unit_test_logging.h"
+#include "UTL_unit_test_logging.h"
 #endif
 
 HRF_Human_Readable_Program_Format* HRF_duplicate_program(const HRF_Human_Readable_Program_Format*

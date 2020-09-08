@@ -8,11 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "lexical_analyzer.h"
+#include "LAH_lexical_analyzer.h"
 #include "internal_sytax_state_tests.h"
 #include "lexical_analyzer_unit_test_main.h"
-#include "error_reporting.h"
-#include "unit_test_logging.h"
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 
 bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {

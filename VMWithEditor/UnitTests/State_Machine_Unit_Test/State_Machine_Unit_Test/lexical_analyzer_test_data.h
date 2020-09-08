@@ -1,7 +1,7 @@
 #ifndef LEXICAL_ANALYZER_TEST_DATA_H
 #define LEXICAL_ANALYZER_TEST_DATA_H
 
-#include "lexical_analyzer.h"
+#include "LAH_lexical_analyzer.h"
 
 typedef struct expected_syntax_errors
 {

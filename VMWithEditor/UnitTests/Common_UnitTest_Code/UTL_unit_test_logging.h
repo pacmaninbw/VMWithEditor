@@ -1,12 +1,12 @@
 /*
- * unit_test_logging.h
+ * UTL_unit_test_logging.h
  * 
  * Common logging functions for all unit tests.
  * All symbolic constants, enums, and functions provided by this module shall
  * start with UTL.
  */
-#ifndef UNIT_TEST_LOGGING_H
-#define UNIT_TEST_LOGGING_H
+#ifndef UTL_UNIT_TEST_LOGGING_H
+#define UTL_UNIT_TEST_LOGGING_H
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -51,5 +51,5 @@ void UTL_va_log_fprintf(const char* format, ...);
 void UTL_va_test_log_fprintf(const UTL_Test_Log_Data* log_data, const char* format, ...);
 void UTL_close_unit_tests(void);
 
-#endif // !UNIT_TEST_LOGGING_H
+#endif // !UTL_UNIT_TEST_LOGGING_H
 
