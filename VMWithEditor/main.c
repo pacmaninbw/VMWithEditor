@@ -13,7 +13,7 @@
 #include "error_reporting.h"
 #include "virtual_machine.h"
 
-static bool execute_original_program_logic(ARG_FLAGS_PTR command_line_args)
+static bool execute_original_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
 {
 	bool successful = true;
 
@@ -36,37 +36,36 @@ static bool execute_original_program_logic(ARG_FLAGS_PTR command_line_args)
 	return successful;
 }
 
-static bool set_up_command_line_args_and_vm(ARG_FLAGS_PTR* command_line_args, int argc, char* argv[])
+static ARGF_ARG_FLAGS_PTR  set_up_command_line_args_and_vm(int argc, char* argv[])
 {
-	bool successful = true;
-
-	*command_line_args = construct_arg_flags_from_argc_argv(argc, argv);
+	ARGF_ARG_FLAGS_PTR command_line_args = ARGF_construct_arg_flags_from_argc_argv(argc, argv);
 	if (!command_line_args)
 	{
 		ERH_va_report_error_fprintf("Due to memory allocation error %s is exiting.\n", argv[0]);
-		successful = false;
 	}
 
-	if (successful)
+	if (command_line_args)
 	{
 		if (!initialize_virtual_machine())
 		{
-			*command_line_args = delete_arguments(*command_line_args);
+			command_line_args = ARGF_delete_arguments(command_line_args);
 			ERH_va_report_error_fprintf("Unable to initialize Virtual Machine, %s is exiting\n", argv[0]);
-			successful = false;
 		}
 	}
 
-	return successful;
+	return command_line_args;
 }
 
-static bool execute_program_logic(ARG_FLAGS_PTR command_line_args)
+static bool execute_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
 {
 	bool successful = true;
 
-	if (command_line_args->use_default_program)
+	if (command_line_args->execute_input_file)
 	{
-		successful = execute_original_program_logic(command_line_args);
+		if (command_line_args->use_default_program)
+		{
+			successful = execute_original_program_logic(command_line_args);
+		}
 	}
 
 	return successful;
@@ -75,16 +74,16 @@ static bool execute_program_logic(ARG_FLAGS_PTR command_line_args)
 int main(int argc, char *argv[]) {
 	ERH_error_out_file = stderr;
 	int exit_status = EXIT_SUCCESS;
-	ARG_FLAGS_PTR command_line_args = NULL;
+	ARGF_ARG_FLAGS_PTR command_line_args = set_up_command_line_args_and_vm(argc, argv);
 
-	if (set_up_command_line_args_and_vm(&command_line_args, argc, argv))
+	if (command_line_args)
 	{
 		if (!execute_program_logic(command_line_args))
 		{
 			exit_status = EXIT_FAILURE;
 		}
 
-		delete_arguments(command_line_args);
+		ARGF_delete_arguments(command_line_args);
 	}
 	else
 	{

@@ -75,7 +75,7 @@ bool save_program_to_file(const Human_Readable_Program_Format* program, const si
 	return successful;
 }
 
-bool initialize_control_console(ARG_FLAGS_PTR command_line_arguments)
+bool initialize_control_console(ARGF_ARG_FLAGS_PTR command_line_arguments)
 {
 	bool successful = true;
 

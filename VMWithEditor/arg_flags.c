@@ -1,7 +1,8 @@
 /*
  * arg_flags.c
  *
- * Parse command line arguments and return a struct with all necessary flags set.
+ * Parse command line arguments and return a struct with all necessary flags
+ * and data variables set.
  */
 
 #ifndef ARG_FLAGS_C
@@ -16,9 +17,9 @@
 #include "unit_test_logging.h"
 #endif
 
-static ARG_FLAGS_PTR construct_arguments()
+static ARGF_ARG_FLAGS_PTR construct_arguments()
 {
-	ARG_FLAGS_PTR arguments = calloc(sizeof(*arguments), 1);
+	ARGF_ARG_FLAGS_PTR arguments = calloc(sizeof(*arguments), 1);
 	if (!arguments)
 	{
 		ERH_va_report_error_fprintf("In construct_arguments() calloc() failed.\n");
@@ -27,14 +28,14 @@ static ARG_FLAGS_PTR construct_arguments()
 	return arguments;
 }
 
-static void parse_command_line(ARG_FLAGS_PTR arguments, const int argc, const char **argv)
+static void parse_command_line(ARGF_ARG_FLAGS_PTR arguments, const int argc, const char **argv)
 {
 
 }
 
-ARG_FLAGS_PTR construct_arg_flags_from_argc_argv(const int argc, const char **argv)
+ARGF_ARG_FLAGS_PTR ARGF_construct_arg_flags_from_argc_argv(const int argc, const char **argv)
 {
-	ARG_FLAGS_PTR arguments = construct_arguments();
+	ARGF_ARG_FLAGS_PTR arguments = construct_arguments();
 	if (arguments)
 	{
 		if (argc == 1)
@@ -51,7 +52,7 @@ ARG_FLAGS_PTR construct_arg_flags_from_argc_argv(const int argc, const char **ar
 	return arguments;
 }
 
-ARG_FLAGS_PTR delete_arguments(ARG_FLAGS_PTR arguments)
+ARGF_ARG_FLAGS_PTR ARGF_delete_arguments(ARGF_ARG_FLAGS_PTR arguments)
 {
 	free(arguments);
 	return NULL;
