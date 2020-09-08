@@ -9,6 +9,7 @@
 #ifndef ERROR_REPORTING_C
 #define ERROR_REPORTING_C
 
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -17,43 +18,68 @@
 #include "unit_test_logging.h"
 #endif	// UNIT_TESTING
 
-FILE* error_out_file = NULL;
+FILE* ERH_error_out_file = NULL;
 
-bool init_vm_error_reporting(const char* error_log_file_name)
+bool ERH_init_vm_error_reporting(const char* error_log_file_name)
 {
 	bool status_is_good = true;
 
 	if (error_log_file_name)
 	{
-		error_out_file = fopen(error_log_file_name, "w");
-		if (!error_out_file)
+		ERH_error_out_file = fopen(error_log_file_name, "w");
+		if (!ERH_error_out_file)
 		{
 #ifdef UNIT_TESTING
-			error_out_file = stderr;
+			// error_out_file is altered in unit_test_logging.c
+			ERH_error_out_file = stderr;
 #endif	// UNIT_TESTING
-			fprintf(error_out_file, "Can't open error output file, %s", "error_log_file_name");
+			ERH_report_error_output_fopen_failed(error_log_file_name);
 			status_is_good = false;
 		}
 	}
 	else
 	{
-		error_out_file = stderr;
+		ERH_error_out_file = stderr;
 	}
 
 	return status_is_good;
 }
 
-void disengage_error_reporting(void)
+void ERH_disengage_error_reporting(void)
 {
-	if (error_out_file != stderr)
+	if (ERH_error_out_file != stderr)
 	{
-		fclose(error_out_file);
+		fclose(ERH_error_out_file);
 	}
 }
 
-void report_error_generic(const char *error_message)
+void ERH_report_error_generic(const char *error_message)
 {
-	fprintf(error_out_file, "%s\n", error_message);
+	fprintf(ERH_error_out_file, "%s\n", error_message);
+}
+
+void ERH_report_error_output_fopen_failed(const char* file_name)
+{
+	char buffer[ERH_ERROR_BUFFER_SIZE];
+	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open output file, %s", (char *)file_name);
+	perror(buffer);
+}
+
+void ERH_report_error_input_fopen_failed(const char* file_name)
+{
+	char buffer[ERH_ERROR_BUFFER_SIZE];
+	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open input file, %s", (char*)file_name);
+	perror(buffer);
+}
+
+void ERH_va_report_error_fprintf(const char *format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	vfprintf(ERH_error_out_file, format, args);
+	va_end(args);
+
+	fflush(ERH_error_out_file);
 }
 
 #endif	// !ERROR_REPORTING_C
