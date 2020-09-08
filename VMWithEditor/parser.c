@@ -45,7 +45,7 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 	char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	init_error_strings(error_strings);
 	char illegal_operand[256];
-	sprintf(illegal_operand, "The operand is out of range [0x0, 0x%zx]", get_maximum_operand_value());
+	snprintf(illegal_operand, sizeof(illegal_operand), "The operand is out of range [0x0, 0x%zx]", get_maximum_operand_value());
 	error_strings[LAH_ILLEGALOPERAND] = illegal_operand;
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
