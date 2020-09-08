@@ -147,7 +147,7 @@
     <ClCompile Include="file_io_vm.c" />
     <ClCompile Include="human_readable_program_format.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="my_strdup.c" />
+    <ClCompile Include="safe_string_functions.c" />
     <ClCompile Include="opcode.c" />
     <ClCompile Include="lexical_analyzer.c" />
     <ClCompile Include="parser.c" />
@@ -162,7 +162,7 @@
     <ClInclude Include="error_reporting.h" />
     <ClInclude Include="file_io_vm.h" />
     <ClInclude Include="human_readable_program_format.h" />
-    <ClInclude Include="my_strdup.h" />
+    <ClInclude Include="safe_string_functions.h" />
     <ClInclude Include="opcode.h" />
     <ClInclude Include="lexical_analyzer.h" />
     <ClInclude Include="parser.h" />
