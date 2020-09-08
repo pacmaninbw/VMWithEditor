@@ -11,29 +11,29 @@
 #define DEFAULT_PROGRAM_C
 
 #include <stdint.h>
-#include "human_readable_program_format.h"
+#include "HRF_human_readable_program_format.h"
 #include "default_program.h"
 
-Human_Readable_Program_Format* default_program(size_t* program_size)
+HRF_Human_Readable_Program_Format* default_program(size_t* program_size)
 {
-	Human_Readable_Program_Format program[] =
+	HRF_Human_Readable_Program_Format program[] =
 	{
-		{PUSH, 0x0A},
-		{PUSH, 0x43},
-		{PUSH, 0x42},
-		{PUSH, 0x41},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{OUTPUTCHAR, 0x00},
-		{POP, 0x00},
-		{HALT, 0x00}
+		{OPC_PUSH, 0x0A},
+		{OPC_PUSH, 0x43},
+		{OPC_PUSH, 0x42},
+		{OPC_PUSH, 0x41},
+		{OPC_OUTPUTCHAR, 0x00},
+		{OPC_POP, 0x00},
+		{OPC_OUTPUTCHAR, 0x00},
+		{OPC_POP, 0x00},
+		{OPC_OUTPUTCHAR, 0x00},
+		{OPC_POP, 0x00},
+		{OPC_HALT, 0x00}
 	};
 
 	size_t progsize = sizeof(program) / sizeof(*program);
 
-	Human_Readable_Program_Format* copy_of_program = duplicate_program(program, progsize);
+	HRF_Human_Readable_Program_Format* copy_of_program = HRF_duplicate_program(program, progsize);
 	if (copy_of_program)
 	{
 		*program_size = progsize;

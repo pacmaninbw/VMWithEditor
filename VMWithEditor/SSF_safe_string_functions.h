@@ -1,5 +1,5 @@
 /*
- * safe_string_functions.h
+ * SSF_safe_string_functions.h
  *
  * Provides safe versions of string functions such as strcat().
  *
@@ -11,8 +11,8 @@
  * source of the functions.
  */
 
-#ifndef SAFE_STRING_FUNCTIONS_H
-#define SAFE_STRING_FUNCTIONS_H
+#ifndef SSF_SAFE_STRING_FUNCTIONS_H
+#define SSF_SAFE_STRING_FUNCTIONS_H
 
 /*
  * Basic strdup function that won't have name space collisions with strdup()
@@ -31,4 +31,4 @@ unsigned char* SSF_ucstrdup(const unsigned char* string_to_copy);
  */
 char* SSF_strcat(char* destination, char* source, size_t destination_size);
 
-#endif	// SAFE_STRING_FUNCTIONS_H
+#endif	// SSF_SAFE_STRING_FUNCTIONS_H

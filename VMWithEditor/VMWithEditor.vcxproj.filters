@@ -68,19 +68,7 @@
     <ClInclude Include="file_io_vm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="human_readable_program_format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="opcode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="text_editor_console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="virtual_machine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser.h">
@@ -89,13 +77,25 @@
     <ClInclude Include="default_program.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="error_reporting.h">
+    <ClInclude Include="VMH_virtual_machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="arg_flags.h">
+    <ClInclude Include="ARGF_arg_flags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="safe_string_functions.h">
+    <ClInclude Include="ERH_error_reporting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LAH_lexical_analyzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSF_safe_string_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HRF_human_readable_program_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPC_opcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

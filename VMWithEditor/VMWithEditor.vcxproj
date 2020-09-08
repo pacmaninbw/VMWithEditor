@@ -155,19 +155,19 @@
     <ClCompile Include="virtual_machine.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arg_flags.h" />
+    <ClInclude Include="ARGF_arg_flags.h" />
     <ClInclude Include="common_console_functions.h" />
     <ClInclude Include="control_console.h" />
     <ClInclude Include="default_program.h" />
-    <ClInclude Include="error_reporting.h" />
+    <ClInclude Include="ERH_error_reporting.h" />
     <ClInclude Include="file_io_vm.h" />
-    <ClInclude Include="human_readable_program_format.h" />
-    <ClInclude Include="safe_string_functions.h" />
-    <ClInclude Include="opcode.h" />
-    <ClInclude Include="lexical_analyzer.h" />
+    <ClInclude Include="HRF_human_readable_program_format.h" />
+    <ClInclude Include="SSF_safe_string_functions.h" />
+    <ClInclude Include="OPC_opcode.h" />
+    <ClInclude Include="LAH_lexical_analyzer.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="text_editor_console.h" />
-    <ClInclude Include="virtual_machine.h" />
+    <ClInclude Include="VMH_virtual_machine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

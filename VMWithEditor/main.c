@@ -8,20 +8,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ARGF_arg_flags.h"
 #include "control_console.h"
 #include "default_program.h"
-#include "error_reporting.h"
-#include "virtual_machine.h"
+#include "ERH_error_reporting.h"
+#include "VMH_virtual_machine.h"
 
 static bool execute_original_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
 {
 	bool successful = true;
 
 	size_t program_size = 0;
-	Human_Readable_Program_Format* program = default_program(&program_size);
+	HRF_Human_Readable_Program_Format* program = default_program(&program_size);
 	if (program)
 	{
-		if (!load_and_run_program(program, program_size))
+		if (!VMH_load_and_run_program(program, program_size))
 		{
 			ERH_va_report_error_fprintf("In execute_program_logic() load_and_run_program() failed\n");
 			successful = false;
@@ -46,7 +47,7 @@ static ARGF_ARG_FLAGS_PTR  set_up_command_line_args_and_vm(int argc, char* argv[
 
 	if (command_line_args)
 	{
-		if (!initialize_virtual_machine())
+		if (!VMH_initialize_virtual_machine())
 		{
 			command_line_args = ARGF_delete_arguments(command_line_args);
 			ERH_va_report_error_fprintf("Unable to initialize Virtual Machine, %s is exiting\n", argv[0]);

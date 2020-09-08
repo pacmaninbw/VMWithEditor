@@ -13,19 +13,19 @@
 
 #include "common_console_functions.h"
 #include "control_console.h"
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #include "file_io_vm.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
-#include "virtual_machine.h"
+#include "VMH_virtual_machine.h"
 
 static void show_master_menu(void)
 {
 
 }
 
-bool console_edit_and_run_program(Human_Readable_Program_Format* program)
+bool console_edit_and_run_program(HRF_Human_Readable_Program_Format* program)
 {
 	bool successful = true;
 
@@ -39,7 +39,7 @@ bool console_edit_and_run_program_file(const char* file_name)
 	return successful;
 }
 
-bool save_program_to_file(const Human_Readable_Program_Format* program, const size_t program_size, const char* file_name)
+bool save_program_to_file(const HRF_Human_Readable_Program_Format* program, const size_t program_size, const char* file_name)
 {
 	bool successful = true;
 

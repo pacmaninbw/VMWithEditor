@@ -1,5 +1,5 @@
 /*
- * lexical_analyzer.h
+ * LAH_lexical_analyzer.h
  *
  * The Syntax State Machine is a simple lexical analiser. Given the current syntax
  * state and the new input character what is the new syntax state. State machines
@@ -9,11 +9,11 @@
  *
  * This module uses enums to make the states and transitions easier to understand.
  * All Macros and enums are prefaced with LAH_ to indicate they come from
- * lexical_analyzer.h.
+ * LAH_lexical_analyzer.h.
  *
  */
-#ifndef LEXICAL_ANALYZER_H
-#define LEXICAL_ANALYZER_H
+#ifndef LAH_LEXICAL_ANALYZER_H
+#define LAH_LEXICAL_ANALYZER_H
 
 typedef enum syntax_check_list_items
 {
@@ -76,4 +76,4 @@ typedef struct syntax_state_transition
 LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[]);
 void deactivate_lexical_analyzer(void);
 
-#endif	//	LEXICAL_ANALYZER_H
+#endif	//	LAH_LEXICAL_ANALYZER_H

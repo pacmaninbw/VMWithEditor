@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif	// UNIT_TESTING

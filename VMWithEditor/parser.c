@@ -6,12 +6,12 @@
 #ifndef PARSER_C
 #define PARSER_C
 
-#include "error_reporting.h"
-#include "human_readable_program_format.h"
-#include "lexical_analyzer.h"
-#include "safe_string_functions.h"
+#include "ERH_error_reporting.h"
+#include "HRF_human_readable_program_format.h"
+#include "LAH_lexical_analyzer.h"
+#include "SSF_safe_string_functions.h"
 #include "parser.h"
-#include "virtual_machine.h"
+#include "VMH_virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
@@ -45,7 +45,7 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 	char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	init_error_strings(error_strings);
 	char illegal_operand[256];
-	snprintf(illegal_operand, sizeof(illegal_operand), "The operand is out of range [0x0, 0x%zx]", get_maximum_operand_value());
+	snprintf(illegal_operand, sizeof(illegal_operand), "The operand is out of range [0x0, 0x%zx]", VMH_get_maximum_operand_value());
 	error_strings[LAH_ILLEGALOPERAND] = illegal_operand;
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
@@ -120,9 +120,9 @@ static unsigned get_legal_opcode_or_oparand(const unsigned char** current_charac
 
 	unsigned char* possible_op = get_opcode_or_operand_string(*current_character);
 
-	int test_value = (prime_index == LAH_LEGALOPCODE) ? translate_string_to_opcode(possible_op) :
-		translate_text_to_operand_and_validate((char*)possible_op);
-	int minimum_value = (prime_index == LAH_LEGALOPCODE) ? (int)HALT : 0;
+	int test_value = (prime_index == LAH_LEGALOPCODE) ? OPC_translate_string_to_opcode(possible_op) :
+		VMH_translate_text_to_operand_and_validate((char*)possible_op);
+	int minimum_value = (prime_index == LAH_LEGALOPCODE) ? (int)OPC_HALT : 0;
 
 	if (test_value < minimum_value)
 	{
@@ -177,11 +177,11 @@ static void check_for_required_character(const unsigned char current_character,
  * the internal parser unit test file.
  */
 #ifndef INTERNAL_PARSER_TESTS_C
-Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, const char* file_name)
+HRF_Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, const char* file_name)
 {
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
-	Human_Readable_Program_Format legal = { OPCODE_TRANSLATOR_ARRAY_SIZE, 0 };
+	HRF_Human_Readable_Program_Format legal = { OPC_OPCODE_TRANSLATOR_ARRAY_SIZE, 0 };
 	LAH_Syntax_State current_state = LAH_START_STATE;
 
 	const unsigned char* current_character = text_line;
@@ -206,10 +206,10 @@ Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, c
 		current_character++;
 	}
 
-	Program_Step_Node* next_node = NULL;
+	HRF_Program_Step_Node* next_node = NULL;
 	if (print_syntax_errors(syntax_check_list, line_number, file_name, text_line))
 	{
-		next_node = create_program_step(&legal);
+		next_node = HRF_create_program_step(&legal);
 		(*line_number)++;
 	}
 

@@ -12,15 +12,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #include "file_io_vm.h"
-#include "human_readable_program_format.h"
+#include "HRF_human_readable_program_format.h"
 #include "parser.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
 
-bool write_program_to_file(const Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
+bool write_program_to_file(const HRF_Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
 {
 	bool successful = true;
 
@@ -36,7 +36,7 @@ bool write_program_to_file(const Human_Readable_Program_Format* program, const s
 		for (size_t step_counter = 0; step_counter < program_size; step_counter++)
 		{
 			char* step_format = (step_counter == program_size - 1) ? "\t{%s, %ox%x}" : "\t{%s, %ox%x},";
-			fprintf(out_file, step_format, translate_opcode_to_string(program->opcode), (unsigned)program->operand);
+			fprintf(out_file, step_format, OPC_translate_opcode_to_string(program->opcode), (unsigned)program->operand);
 		}
 
 		fprintf(out_file, "}\n");
@@ -47,17 +47,17 @@ bool write_program_to_file(const Human_Readable_Program_Format* program, const s
 	return successful;
 }
 
-Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, const char* file_name)
+HRF_Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* program_size, const char* file_name)
 {
-	Human_Readable_Program_Format* program_image = NULL;
+	HRF_Human_Readable_Program_Format* program_image = NULL;
 	if (!input_file)
 	{
 		ERH_va_report_error_fprintf("File not open\n");
 	}
 	else
 	{
-		Program_Step_Node* program_linked_list = NULL;
-		register Program_Step_Node* list_tail = NULL;
+		HRF_Program_Step_Node* program_linked_list = NULL;
+		register HRF_Program_Step_Node* list_tail = NULL;
 		const size_t MINIMUM_LINE_LENGTH = strlen("{");
 		size_t prog_size = 0;
 		unsigned errors = 0;
@@ -105,15 +105,15 @@ Human_Readable_Program_Format* read_program_from_file(FILE* input_file, size_t* 
 		if (errors)
 		{
 			ERH_va_report_error_fprintf("check_line_syntax_return_program_step_if_valid encountered errors in read_program_from_file()\n. No program generated\n");
-			delete_linked_list_of_program_steps(program_linked_list);		// no memory leaks
+			HRF_delete_linked_list_of_program_steps(program_linked_list);		// no memory leaks
 			program_linked_list = NULL;
 		}
 
 		if (program_linked_list)
 		{
-			program_image = convert_link_list_program_to_array(program_linked_list, prog_size);
+			program_image = HRF_convert_link_list_program_to_array(program_linked_list, prog_size);
 			*program_size = prog_size;
-			delete_linked_list_of_program_steps(program_linked_list);		// no memory leaks
+			HRF_delete_linked_list_of_program_steps(program_linked_list);		// no memory leaks
 		}
 	}
 

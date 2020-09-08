@@ -20,9 +20,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "error_reporting.h"
-#include "lexical_analyzer.h"
-#include "safe_string_functions.h"
+#include "ERH_error_reporting.h"
+#include "LAH_lexical_analyzer.h"
+#include "SSF_safe_string_functions.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif

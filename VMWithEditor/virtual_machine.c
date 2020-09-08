@@ -17,29 +17,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
-#include "virtual_machine.h"
+#include "VMH_virtual_machine.h"
 
 static const size_t STACK_TOP = 1024;
-static const OperandType OPERAND_MASK = 0xFFFFFF00;
-static const OperandType OPCODE_SHIFT = 8;
+static const HRF_OperandType OPERAND_MASK = 0xFFFFFF00;
+static const HRF_OperandType OPCODE_SHIFT = 8;
 
 #define MEMORY_SIZE 0x1000					// #define because VC 2019 does not accept const in the array declaration below.
 
-static OperandType vmachine_memory[MEMORY_SIZE];
+static HRF_OperandType vmachine_memory[MEMORY_SIZE];
 static size_t stack_pointer;
 static size_t program_counter;
 static bool running;
-static OperandType raw;
-static OPCODE opcode;
-static OperandType param;
+static HRF_OperandType raw;
+static OPC_OPCODE opcode;
+static HRF_OperandType param;
 static size_t last_program_size;
 
 // To place the public interfaces first create function prototypes for the various private functions.
-static bool load_program_into_memory(const Human_Readable_Program_Format program[], const size_t program_size);
+static bool load_program_into_memory(const HRF_Human_Readable_Program_Format program[], const size_t program_size);
 static void fetch(void);
 static void decode(void);
 static void execute(void);
@@ -55,7 +55,7 @@ static void divide(void);
 static void outputchar(void);
 static void inputchar(void);
 
-void reset_vm(void)
+void VMH_reset_virtual_machine(void)
 {
 	running = false;
 	// In a real computer the memory would not be erased, but to prevent errors it is here.
@@ -77,12 +77,12 @@ void reset_vm(void)
 
 typedef void (*Executable_Opcode_Function)() ;
 
-static Executable_Opcode_Function executable_opcodes[OPCODE_TRANSLATOR_ARRAY_SIZE];
+static Executable_Opcode_Function executable_opcodes[OPC_OPCODE_TRANSLATOR_ARRAY_SIZE];
 
 /*
  * Public interfaces
  */
-bool initialize_virtual_machine(void)
+bool VMH_initialize_virtual_machine(void)
 {
 	bool successful = true;
 
@@ -90,29 +90,29 @@ bool initialize_virtual_machine(void)
 
 	// Since there is no guarantee the opcodes will keep the same values, explicitly add each opcode function rather than initializing at compile time.
 	// This allows the flexibility to change the value of the opcodes.
-	executable_opcodes[HALT] = halt;
-	executable_opcodes[PUSH] = push;
-	executable_opcodes[POP] = pop;
-	executable_opcodes[STORE] = store;
-	executable_opcodes[LOAD] = load;
-	executable_opcodes[ADD] = add;
-	executable_opcodes[SUBTRACT] = subtract;
-	executable_opcodes[MULTIPLY] = multiply;
-	executable_opcodes[DIVIDE] = divide;
-	executable_opcodes[OUTPUTCHAR] = outputchar;
-	executable_opcodes[INPUTCHAR] = inputchar;
+	executable_opcodes[OPC_HALT] = halt;
+	executable_opcodes[OPC_PUSH] = push;
+	executable_opcodes[OPC_POP] = pop;
+	executable_opcodes[OPC_STORE] = store;
+	executable_opcodes[OPC_LOAD] = load;
+	executable_opcodes[OPC_ADD] = add;
+	executable_opcodes[OPC_SUBTRACT] = subtract;
+	executable_opcodes[OPC_MULTIPLY] = multiply;
+	executable_opcodes[OPC_DIVIDE] = divide;
+	executable_opcodes[OPC_OUTPUTCHAR] = outputchar;
+	executable_opcodes[OPC_INPUTCHAR] = inputchar;
 
-	reset_vm();
+	VMH_reset_virtual_machine();
 
 	return successful;
 }
 
-bool program_fits_in_memory(size_t program_size)
+bool VMH_program_fits_in_memory(size_t program_size)
 {
 	return (program_size < (MEMORY_SIZE - STACK_TOP));
 }
 
-void run_vm(void)
+void VMH_run_virtual_machine(void)
 {
 	running = true;
 	while (running)
@@ -124,14 +124,14 @@ void run_vm(void)
 	}
 }
 
-bool load_and_run_program(const Human_Readable_Program_Format program[],
+bool VMH_load_and_run_program(const HRF_Human_Readable_Program_Format program[],
 	const size_t programSize)
 {
 	bool successful = true;
 
 	if (load_program_into_memory(program, programSize))
 	{
-		run_vm();
+		VMH_run_virtual_machine();
 	}
 	else
 	{
@@ -142,22 +142,22 @@ bool load_and_run_program(const Human_Readable_Program_Format program[],
 }
 
 // Allows other modules to get the maximum operand value
-size_t get_maximum_operand_value(void)
+size_t VMH_get_maximum_operand_value(void)
 {
 	return OPERAND_MASK >> OPCODE_SHIFT;
 }
 
 // Allows other modules to check if the opcode specified is a legal value
-bool is_legal_operand(const unsigned operand)
+bool VMH_is_legal_operand(const unsigned operand)
 {
-	return operand <= get_maximum_operand_value();
+	return operand <= VMH_get_maximum_operand_value();
 }
 
-long translate_text_to_operand_and_validate(const char* string_operand)
+long VMH_translate_text_to_operand_and_validate(const char* string_operand)
 {
 	long possible_operand = strtol(string_operand, NULL, 0);
 
-	if (!is_legal_operand(possible_operand))
+	if (!VMH_is_legal_operand(possible_operand))
 	{
 		possible_operand = -1;
 	}
@@ -170,23 +170,23 @@ long translate_text_to_operand_and_validate(const char* string_operand)
 */
 
 // Translate Human_Readable_Program_Format program into virtual machine program and load into memory
-static bool load_program_into_memory(const Human_Readable_Program_Format program[],
+static bool load_program_into_memory(const HRF_Human_Readable_Program_Format program[],
 	const size_t program_size)
 {
 	bool successful = true;
 	bool halt_opcode_found = false;
 
-	if (program_fits_in_memory(program_size))
+	if (VMH_program_fits_in_memory(program_size))
 	{
-		OperandType* memory_location = &vmachine_memory[STACK_TOP];
-		Human_Readable_Program_Format* program_location = 
-			(Human_Readable_Program_Format*)program;
+		HRF_OperandType* memory_location = &vmachine_memory[STACK_TOP];
+		HRF_Human_Readable_Program_Format* program_location = 
+			(HRF_Human_Readable_Program_Format*)program;
 
 		for (size_t i = 0; i < program_size; i++, memory_location++, program_location++)
 		{
 			*memory_location = ((program_location->operand << OPCODE_SHIFT) & OPERAND_MASK)
 				| (program_location->opcode & 0xff);
-			if (program_location->opcode == HALT)
+			if (program_location->opcode == OPC_HALT)
 			{
 				halt_opcode_found = true;
 			}
@@ -199,7 +199,7 @@ static bool load_program_into_memory(const Human_Readable_Program_Format program
 			ERH_va_report_error_fprintf("While loading the program into memory, no halt "
 				"instruction was found.\nTo prevent unknown errors program will not "
 				"run, and has been unloaded.\n");
-			reset_vm();
+			VMH_reset_virtual_machine();
 		}
 	}
 	else
@@ -300,7 +300,7 @@ static void inputchar(void)
 }
 
 static void execute(void) {
-	if (opcode < FIRST_OPCODE || opcode > LASTOPCODE)
+	if (opcode < OPC_FIRST_OPCODE || opcode > OPC_LASTOPCODE)
 	{
 		ERH_va_report_error_fprintf("Unknown Opcode in execute(). 0x%x program_count = %d, "
 			"stack_pointer = %d.\nTerminating Virtual Machine execution.\n",

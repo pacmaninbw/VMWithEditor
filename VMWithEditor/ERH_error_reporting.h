@@ -1,9 +1,9 @@
 /*
- * error_reporting.c
+ * ERH_error_reporting.h
  */
 
-#ifndef ERROR_REPORTING_H
-#define ERROR_REPORTING_H
+#ifndef ERH_ERROR_REPORTING_H
+#define ERH_ERROR_REPORTING_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -19,4 +19,4 @@ void ERH_report_error_output_fopen_failed(const char* file_name);
 void ERH_report_error_input_fopen_failed(const char* file_name);
 void ERH_va_report_error_fprintf(const char* format, ...);
 
-#endif	// !ERROR_REPORTING_H
+#endif	// !ERH_ERROR_REPORTING_H

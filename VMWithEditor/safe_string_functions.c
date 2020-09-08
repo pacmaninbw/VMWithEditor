@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "safe_string_functions.h"
+#include "SSF_safe_string_functions.h"
 
 char* SSF_strdup(const char* string_to_copy)
 {

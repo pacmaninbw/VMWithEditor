@@ -1,5 +1,6 @@
 /*
  * human_readable_program_format.c
+ *
  * Contains the implementation of the Human Readable parser and support code.
  * If generic linked lists were necessary they would be implemented in their own file.
  * The lower level Unit Tests are include because static functions need to be tested.
@@ -21,25 +22,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "error_reporting.h"
-#include "human_readable_program_format.h"
-#include "lexical_analyzer.h"
-#include "virtual_machine.h"
+#include "ERH_error_reporting.h"
+#include "HRF_human_readable_program_format.h"
+#include "LAH_lexical_analyzer.h"
+#include "VMH_virtual_machine.h"
 #ifdef UNIT_TESTING
 #include "unit_test_logging.h"
 #endif
 
-Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Format*
+HRF_Human_Readable_Program_Format* HRF_duplicate_program(const HRF_Human_Readable_Program_Format*
 	program, const size_t program_size)
 {
-	Human_Readable_Program_Format* copy_of_program = calloc(sizeof(*copy_of_program),
+	HRF_Human_Readable_Program_Format* copy_of_program = calloc(sizeof(*copy_of_program),
 		program_size);
 	if (copy_of_program)
 	{
-		register Human_Readable_Program_Format* copy_current_ptr =
-			(Human_Readable_Program_Format*)copy_of_program;
-		register Human_Readable_Program_Format* prog_current_ptr =
-			(Human_Readable_Program_Format*)program;
+		register HRF_Human_Readable_Program_Format* copy_current_ptr =
+			(HRF_Human_Readable_Program_Format*)copy_of_program;
+		register HRF_Human_Readable_Program_Format* prog_current_ptr =
+			(HRF_Human_Readable_Program_Format*)program;
 
 		// tried memcpy, it doesn't work properly.
 		for (size_t i = 0; i < program_size; i++, copy_current_ptr++, prog_current_ptr++)
@@ -55,9 +56,9 @@ Human_Readable_Program_Format* duplicate_program(const Human_Readable_Program_Fo
 	return copy_of_program;
 }
 
-Program_Step_Node* create_program_step(const Human_Readable_Program_Format *user_input)
+HRF_Program_Step_Node* HRF_create_program_step(const HRF_Human_Readable_Program_Format *user_input)
 {
-	Program_Step_Node* program_step = calloc(1, sizeof(*program_step));
+	HRF_Program_Step_Node* program_step = calloc(1, sizeof(*program_step));
 	if (!program_step)
 	{
 		ERH_va_report_error_fprintf(
@@ -97,7 +98,7 @@ static bool conversion_function_has_required_parameters(void *program,
 	return has_required_parameters;
 }
 
-Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_Step_Node
+HRF_Human_Readable_Program_Format* HRF_convert_link_list_program_to_array(const HRF_Program_Step_Node
 	*linked_program, const size_t program_size)
 {
 	if (!conversion_function_has_required_parameters((void *)linked_program, program_size,
@@ -107,7 +108,7 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_
 		return NULL;
 	}
 
-	Human_Readable_Program_Format* array_program = calloc(program_size, sizeof(*array_program));
+	HRF_Human_Readable_Program_Format* array_program = calloc(program_size, sizeof(*array_program));
 	if (!array_program)
 	{
 		ERH_va_report_error_fprintf("In convert_link_list_program_to_array(), "
@@ -115,8 +116,8 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_
 	}
 	else
 	{
-		register Program_Step_Node* source = (Program_Step_Node*)linked_program;
-		register Human_Readable_Program_Format* destination = array_program;
+		register HRF_Program_Step_Node* source = (HRF_Program_Step_Node*)linked_program;
+		register HRF_Human_Readable_Program_Format* destination = array_program;
 
 		while (source->next_step)
 		{
@@ -129,7 +130,7 @@ Human_Readable_Program_Format* convert_link_list_program_to_array(const Program_
 	return array_program;
 }
 
-Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Program_Format*
+HRF_Program_Step_Node* HRF_convert_array_program_to_linked_list(const HRF_Human_Readable_Program_Format*
 	array_program, const size_t program_size)
 {
 	if (!conversion_function_has_required_parameters((void*)array_program, program_size,
@@ -139,8 +140,8 @@ Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Pro
 		return NULL;
 	}
 
-	Program_Step_Node* head = NULL;
-	Program_Step_Node* tail = NULL;
+	HRF_Program_Step_Node* head = NULL;
+	HRF_Program_Step_Node* tail = NULL;
 	bool memory_allocation_failed = false;
 
 	for (size_t program_step = 0; program_step < program_size && !memory_allocation_failed;
@@ -148,7 +149,7 @@ Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Pro
 	{
 		if (!head)
 		{
-			tail = create_program_step(&array_program[program_step]);
+			tail = HRF_create_program_step(&array_program[program_step]);
 			head = tail;
 			if (!tail)
 			{
@@ -157,7 +158,7 @@ Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Pro
 		}
 		else
 		{
-			tail->next_step = create_program_step(&array_program[program_step]);
+			tail->next_step = HRF_create_program_step(&array_program[program_step]);
 			if (!tail->next_step)
 			{
 				memory_allocation_failed = true;
@@ -168,7 +169,7 @@ Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Pro
 
 	if (memory_allocation_failed)
 	{
-		delete_linked_list_of_program_steps(head);
+		HRF_delete_linked_list_of_program_steps(head);
 		head = NULL;
 	}
 
@@ -176,13 +177,13 @@ Program_Step_Node* convert_array_program_to_linked_list(const Human_Readable_Pro
 }
 
 
-void delete_linked_list_of_program_steps(Program_Step_Node* linked_list_of_program_steps)
+void HRF_delete_linked_list_of_program_steps(HRF_Program_Step_Node* linked_list_of_program_steps)
 {
-	Program_Step_Node* current_head_of_list = linked_list_of_program_steps;
+	HRF_Program_Step_Node* current_head_of_list = linked_list_of_program_steps;
 
 	while (current_head_of_list)
 	{
-		Program_Step_Node* next = current_head_of_list->next_step;
+		HRF_Program_Step_Node* next = current_head_of_list->next_step;
 		free(current_head_of_list);
 		current_head_of_list = next;
 	}
