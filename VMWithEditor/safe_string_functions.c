@@ -40,7 +40,7 @@ unsigned char* SSF_ucstrdup(const unsigned char* string_to_copy)
 
 char* SSF_strcat(char* destination, char* source, size_t destination_size)
 {
-	if (strlen(destination) + strlen(source) < destination_size)
+	if ((strlen(destination) + strlen(source) + 1) < destination_size)
 	{
 		strcat(destination, source);
 	}
