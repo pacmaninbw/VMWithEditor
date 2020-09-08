@@ -71,7 +71,7 @@ static LAH_Syntax_State_Transition* get_or_create_next_states(void)
 	allocate_next_states_once = calloc(((size_t)LAH_ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
 	if (!allocate_next_states_once)
 	{
-		report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
+		ERH_report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
 		return allocate_next_states_once;
 	}
 
@@ -265,8 +265,8 @@ LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const un
 	LAH_Syntax_State_Transition* next_states = get_or_create_next_states();
 	if (!next_states)
 	{
-		fprintf(error_out_file, "In %s: Memory allocation error in get_or_create_next_states()\n", "get_state_transition_collect_parser_error_data");
-		fprintf(error_out_file, "Unable to perform lexical analisys! Exiting program.");
+		fprintf(ERH_error_out_file, "In %s: Memory allocation error in get_or_create_next_states()\n", "get_state_transition_collect_parser_error_data");
+		fprintf(ERH_error_out_file, "Unable to perform lexical analisys! Exiting program.");
 		exit(EXIT_FAILURE);
 	}
 
