@@ -1819,7 +1819,7 @@ unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
 Ending NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, Path PASSED
 
-ENDING unit test for unit_test_lexical_analyzer
+ENDING unit test for unit_test_lexical_analyzer: test PASSED
 
 Unit Test 0: run_all_lexical_analyzer_unit_tests(unsigned test_step) : Passed
 
