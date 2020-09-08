@@ -47,12 +47,10 @@ static bool unit_test_syntax_states(size_t test_step)
 
 	for (size_t state = 0; state < LAH_SYNTAX_STATE_ARRAY_SIZE; state++)
 	{
-		char out_buffer[LOG_BUFFER_SIZE];
 		if (stand_alone)
 		{
-			sprintf(out_buffer, "current_state = %s\n", state_name_for_printing(
+			UTL_va_log_fprintf("current_state = %s\n", state_name_for_printing(
 				test_transitions[state].current_state));
-			log_generic_message(out_buffer);
 		}
 
 		if (stand_alone)
@@ -60,13 +58,12 @@ static bool unit_test_syntax_states(size_t test_step)
 			for (size_t character_index = 0; character_index < LAH_TRANSITION_ARRAY_SIZE;
 				character_index++)
 			{
-				sprintf(out_buffer, "\ttransition character = %s\t\tnew state %s\n",
+				UTL_va_log_fprintf("\ttransition character = %s\t\tnew state %s\n",
 					transition_names(character_index),
 					state_name_for_printing(
 						test_transitions[state].transition_on_char_type[character_index]));
-				log_generic_message(out_buffer);
 			}
-			log_generic_message("\n");
+			UTL_va_log_fprintf("\n");
 		}
 	}
 
@@ -74,36 +71,36 @@ static bool unit_test_syntax_states(size_t test_step)
 }
 #endif
 
-static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_buffer)
+static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_buffer, size_t buffer_size)
 {
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
 		char num_buff[8];
 		if (i < LAH_SYNTAX_CHECK_ARRAY_SIZE - 1)
 		{
-			sprintf(num_buff, "%u, ", syntax_checklist[i]);
-			strcat(out_buffer, num_buff);
+			snprintf(num_buff, sizeof(num_buff), "%u, ", syntax_checklist[i]);
 		}
 		else
 		{
-			sprintf(num_buff, "%u} ", syntax_checklist[i]);
-			strcat(out_buffer, num_buff);
+			snprintf(num_buff, sizeof(num_buff), "%u} ", syntax_checklist[i]);
+			UTL_safe_strcat(out_buffer, num_buff, buffer_size);
 		}
 	}
 }
-static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
-	Test_Log_Data* log_data, Error_Reporting_Test_Data test_data, unsigned syntax_check_list[])
-{
-	log_test_status_each_step2(log_data);
 
-	char out_buffer[LOG_BUFFER_SIZE];
-	sprintf(out_buffer, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
-	strcat(out_buffer, "expected Checklist Values {");
-	print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer);
-	strcat(out_buffer, "new checklist value {");
-	print_syntax_error_checklist(syntax_check_list, out_buffer);
-	strcat(out_buffer, "\n");
-	log_generic_message(out_buffer);
+static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
+	UTL_Test_Log_Data* log_data, Error_Reporting_Test_Data test_data, unsigned syntax_check_list[])
+{
+	UTL_log_test_status_each_step2(log_data);
+
+	char out_buffer[UTL_LOG_BUFFER_SIZE];
+	snprintf(out_buffer, UTL_LOG_BUFFER_SIZE, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
+	UTL_safe_strcat(out_buffer, "expected Checklist Values {", UTL_LOG_BUFFER_SIZE);
+	print_syntax_error_checklist(test_data.expected_data.syntax_check_list, out_buffer, sizeof(out_buffer));
+	UTL_safe_strcat(out_buffer, "new checklist value {", UTL_LOG_BUFFER_SIZE);
+	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
+	UTL_safe_strcat(out_buffer, "\n", UTL_LOG_BUFFER_SIZE);
+	UTL_va_log_fprintf(out_buffer);
 }
 
 static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors expected_errors)
@@ -122,21 +119,21 @@ static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors 
 }
 
 static bool run_error_checking_unit_tests(
-	Test_Log_Data *log_data, size_t positive_path_test_count,
+	UTL_Test_Log_Data *log_data, size_t positive_path_test_count,
 	Error_Reporting_Test_Data test_data[], size_t test_runs)
 {
 	bool test_passed = true;
 
-	log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data);
 
 	for (size_t test_count = 0; test_count < test_runs; test_count++)
 	{
 		log_data->status = true;
 		if (test_count == positive_path_test_count)
 		{
-			log_end_test_path(log_data);
-			log_data->path = "Negative";
-			log_start_test_path(log_data);
+			UTL_log_end_test_path(log_data);
+			log_data->path = UTL_NEGATIVE_PATH;
+			UTL_log_start_test_path(log_data);
 		}
 
 		unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
@@ -152,7 +149,7 @@ static bool run_error_checking_unit_tests(
 		}
 		else
 		{
-			log_test_status_each_step2(log_data);
+			UTL_log_test_status_each_step2(log_data);
 		}
 
 		if (!log_data->status && test_passed)
@@ -161,7 +158,7 @@ static bool run_error_checking_unit_tests(
 		}
 	}
 
-	log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data);
 
 	return test_passed;
 }
@@ -205,39 +202,37 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 static bool unit_test_collect_error_reporting_data(size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
-	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"unit_test_collect_error_reporting_data", test_passed, "Positive",
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_collect_error_reporting_data", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0);
 	if (!log_data)
 	{
-		report_create_and_init_test_log_data_memory_failure(
+		UTL_report_create_and_init_test_log_data_memory_failure(
 			"unit_test_collect_error_reporting_data");
 		return false;
 	}
 
 	size_t positivie_path_count = 0;
 	size_t test_count = 0;
-	Error_Reporting_Test_Data* test_data = init_error_report_data(&positivie_path_count, &test_count);
+	Error_Reporting_Test_Data* test_data = init_error_report_data(
+		&positivie_path_count, &test_count);
 	if (!test_data)
 	{
-		fprintf(error_out_file, "Memory allocation of test_data failed in %s",
-			log_data->function_name);
+		UTL_report_create_and_init_test_log_data_memory_failure(
+			"unit_test_collect_error_reporting_data");
 		return false;
 	}
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING internal unit test for %s()\n\n", "collect_error_reporting_data");
-		log_generic_message(buffer);
+		UTL_va_log_fprintf("STARTING internal unit test for %s()\n\n", "collect_error_reporting_data");
 	}
 
 	test_passed = run_error_checking_unit_tests(log_data, positivie_path_count, test_data, test_count);
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING internal unit test for %s(\n\n", "collect_error_reporting_data");
-		log_generic_message(buffer);
+		UTL_va_log_fprintf("\nENDING internal unit test for %s(\n\n", "collect_error_reporting_data");
 	}
 
 	free(test_data);
@@ -263,7 +258,6 @@ typedef struct unit_test_functions_and_args
 bool internal_tests_on_all_state_transitions(size_t test_step)
 {
 	bool all_tests_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
 	State_Machine_Unit_Test_Functions unit_tests[] =
 	{
@@ -282,10 +276,9 @@ bool internal_tests_on_all_state_transitions(size_t test_step)
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		sprintf(buffer, "\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n",
+		UTL_va_log_fprintf("\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n",
 			test_count + 1, unit_tests[test_count].test_name,
 			(test_passed) ? "Passed" : "Failed");
-		log_generic_message(buffer);
 		// if one test already failed we are good
 		if (all_tests_passed)
 		{
@@ -296,7 +289,7 @@ bool internal_tests_on_all_state_transitions(size_t test_step)
 	return all_tests_passed;
 }
 
-static void report_syntax_errors(unsigned necessary_items[])
+static void report_syntax_errors(const unsigned necessary_items[])
 {
 	char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	error_strings[LAH_OPENBRACE] = "Missing the opening brace.";
@@ -312,16 +305,13 @@ static void report_syntax_errors(unsigned necessary_items[])
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
-		char buffer[LOG_BUFFER_SIZE];
 		if (i >= LAH_ILLEGALOPCODE && necessary_items[i])
 		{
-			sprintf(buffer, "\t%s\n", error_strings[i]);
-			log_generic_message(buffer);
+			UTL_va_log_fprintf("\t%s\n", error_strings[i]);
 		}
 		else if (i < LAH_ILLEGALOPCODE && !necessary_items[i])
 		{
-			sprintf(buffer, "\t%s\n", error_strings[i]);
-			log_generic_message(buffer);
+			UTL_va_log_fprintf("\t%s\n", error_strings[i]);
 		}
 	}
 
@@ -354,14 +344,13 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	{
 		*eol_p = '\0';
 	}
-	char buffer[LOG_BUFFER_SIZE];
+
 	if (state == LAH_ERROR_STATE || error_count)
 	{
-		sprintf(buffer, "\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
-		log_generic_message(buffer);
+		UTL_va_log_fprintf("\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		if (parser_generated_error)
 		{
-			log_generic_message(parser_generated_error);
+			UTL_va_log_fprintf(parser_generated_error);
 		}
 		report_syntax_errors(syntax_check_list);
 	}
@@ -369,10 +358,8 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	{
 		if (expected_errors->error_count)
 		{
-			sprintf(buffer, "\n\nStatement %zu (%s)\n", statement_number + 1, text_line);
-			log_generic_message(buffer);
-			sprintf(buffer, "Expected syntax errors were:\n");
-			log_generic_message(buffer);
+			UTL_va_log_fprintf("\n\nStatement %zu (%s)\n", statement_number + 1, text_line);
+			UTL_va_log_fprintf("Expected syntax errors were:\n");
 			report_syntax_errors(expected_errors->syntax_check_list);
 		}
 	}
@@ -383,14 +370,16 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 static char* error_state(unsigned char* text_line, size_t statement_number, unsigned char* current_character)
 {
 	char* parser_generated_error;
+	++statement_number;
 
-	char buffer[LOG_BUFFER_SIZE];
 	char* eol_p = strrchr((const char*)text_line, '\n');
 	if (eol_p)
 	{
 		*eol_p = '\0';
 	}
-	sprintf(buffer,
+
+	char buffer[UTL_LOG_BUFFER_SIZE];
+	snprintf(buffer, UTL_LOG_BUFFER_SIZE,
 		"Syntax Error line %zu %s column %zu unexpected character '%c' : skipping rest of line.\n",
 		statement_number, text_line, (size_t)(current_character - text_line),
 		*current_character);
@@ -404,22 +393,22 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
  */
 static void report_lexical_analyzer_test_failure(LAH_Syntax_State current_state, unsigned syntax_check_list[], Expected_Syntax_Errors* expected_errors)
 {
-	char out_buffer[LOG_BUFFER_SIZE];
-	sprintf(out_buffer, "\tcurrent_state = %s expected error count = %u ",
+	char out_buffer[UTL_LOG_BUFFER_SIZE];
+	snprintf(out_buffer, UTL_LOG_BUFFER_SIZE, "\tcurrent_state = %s expected error count = %u ",
 		state_name_for_printing(current_state), expected_errors->error_count);
-	strcat(out_buffer, "expected Checklist Values {");
-	print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer);
-	strcat(out_buffer, "new checklist values {");
-	print_syntax_error_checklist(syntax_check_list, out_buffer);
-	strcat(out_buffer, "\n");
-	log_generic_message(out_buffer);
+	UTL_safe_strcat(out_buffer, "expected Checklist Values {", sizeof(out_buffer));
+	print_syntax_error_checklist(expected_errors->syntax_check_list, out_buffer, sizeof(out_buffer));
+	UTL_safe_strcat(out_buffer, "new checklist values {", sizeof(out_buffer));
+	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
+	UTL_safe_strcat(out_buffer, "\n", sizeof(out_buffer));
+	UTL_va_log_fprintf(out_buffer);
 }
 
 /*
  * This test parses a signle statement as the parser would. It directly calls
  * the lexical analiyzer for each character.
  */
-static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, size_t statement_number, Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
+static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, size_t statement_number, UTL_Test_Log_Data* log_data, Expected_Syntax_Errors *expected_errors)
 {
 	bool test_passed = true;
 
@@ -487,13 +476,13 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 		log_data->status = false;
 	}
 
-	log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step2(log_data);
 	free(parser_generated_error);
 
 	return test_passed;
 }
 
-bool run_parse_program_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
+bool run_parse_program_loop(UTL_Test_Log_Data* log_data, Lexical_Analyzer_Test_Data* test_data)
 {
 	bool test_passed = true;
 
@@ -521,8 +510,8 @@ bool run_parse_program_loop(Test_Log_Data* log_data, Lexical_Analyzer_Test_Data*
 bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 {
 	bool test_passed = true;
-	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"unit_test_parse_statements_for_lexical_analysis", test_passed, "Positive",
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_parse_statements_for_lexical_analysis", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0);
 
 	Lexical_Analyzer_Test_Data* positive_path_data = init_positive_path_data_for_lexical_analysis(log_data);
@@ -531,12 +520,12 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 		return false;
 	}
 
-	log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data);
 	if (!run_parse_program_loop(log_data, positive_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data);
 
 
 	Lexical_Analyzer_Test_Data* negative_path_data = init_negative_path_data_for_lexical_analysis(log_data);
@@ -545,16 +534,16 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 		return false;
 	}
 
-	log_data->path = "Negative";
-	log_start_test_path(log_data);
+	log_data->path = UTL_NEGATIVE_PATH;
+	UTL_log_start_test_path(log_data);
 	char* explanation = "Only statements with syntax errors are printed"
 		" Statement 1 and statement 8 do not contain syntax errors\n\n";
-	log_generic_message(explanation);
+	UTL_va_log_fprintf(explanation);
 	if (!run_parse_program_loop(log_data, negative_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data);
 
 	deallocate_lexical_test_data(positive_path_data);
 	deallocate_lexical_test_data(negative_path_data);
@@ -573,29 +562,27 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 bool unit_test_lexical_analyzer(size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
-	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"unit_test_lexical_analyzer", test_passed, "Positive",
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_lexical_analyzer", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0);
 	if (!log_data)
 	{
-		report_create_and_init_test_log_data_memory_failure("unit_test_lexical_analyzer");
+		UTL_report_create_and_init_test_log_data_memory_failure("unit_test_lexical_analyzer");
 		return false;
 	}
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING unit test for %s\n\n", log_data->function_name);
-		log_generic_message(buffer);
+		UTL_log_start_unit_test(log_data);
 	}
 
 	test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
+	log_data->status = test_passed;
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING unit test for %s\n\n", log_data->function_name);
-		log_generic_message(buffer);
+		UTL_log_end_unit_test(log_data);
 	}
 
 	free(log_data);

@@ -17,10 +17,8 @@
 bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {
 	bool all_unit_tests_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
-	sprintf(buffer, "Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
-	log_generic_message(buffer);
+	UTL_va_log_fprintf("Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
 
 	all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
 
@@ -31,14 +29,12 @@ bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 			unit_test_lexical_analyzer(test_step);
 	}
 
-	sprintf(buffer, "Unit Test %u: run_all_lexical_analyzer_unit_tests(unsigned "
+	UTL_va_log_fprintf("Unit Test %u: run_all_lexical_analyzer_unit_tests(unsigned "
 		"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
-	log_generic_message(buffer);
 
 	deactivate_lexical_analyzer();
 
-	sprintf(buffer, "Unit Test %u: Ending Lexical Analizer Unit Tests \n\n", test_step);
-	log_generic_message(buffer);
+	UTL_va_log_fprintf("Unit Test %u: Ending Lexical Analizer Unit Tests \n\n", test_step);
 
 	return all_unit_tests_passed;
 }
@@ -46,11 +42,11 @@ bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 #ifdef LEXICAL_UNIT_TEST_ONLY
 int main()
 {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) ||
-		!init_unit_tests("lexical_analyzer_unit_test_log.txt"))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		!UTL_init_unit_tests("lexical_analyzer_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -60,8 +56,8 @@ int main()
 		passed = EXIT_FAILURE;
 	}
 
-	close_unit_tests();
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 }

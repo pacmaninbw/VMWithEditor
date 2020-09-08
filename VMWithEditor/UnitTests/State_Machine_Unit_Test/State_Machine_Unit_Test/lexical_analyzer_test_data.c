@@ -59,17 +59,17 @@ void deallocate_lexical_test_data(Lexical_Analyzer_Test_Data* deletee)
 	free(deletee);
 }
 
-void lexical_analyzer_test_data_allocation_failed(Test_Log_Data* log_data, char* allocating_function,
+void lexical_analyzer_test_data_allocation_failed(UTL_Test_Log_Data* log_data, char* allocating_function,
 	char* allocation_function)
 {
-	fprintf(error_out_file, "Memory Allocation Error in %s\n", allocating_function);
-	fprintf(error_out_file, "\t%s failed for allocation of test data\n", allocation_function);
-	fprintf(error_out_file, "\t Unable to continue %s\n", log_data->function_name);
+	fprintf(ERH_error_out_file, "Memory Allocation Error in %s\n", allocating_function);
+	fprintf(ERH_error_out_file, "\t%s failed for allocation of test data\n", allocation_function);
+	fprintf(ERH_error_out_file, "\t Unable to continue %s\n", log_data->function_name);
 }
 
 static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned char** test_program,
 	size_t test_program_size, Expected_Syntax_Errors* expected_data,
-	Test_Log_Data* log_data, char* allocating_function)
+	UTL_Test_Log_Data* log_data, char* allocating_function)
 {
 	Expected_Syntax_Errors* expected_errors_dup = calloc(test_program_size, sizeof(*expected_errors_dup));
 	if (!expected_errors_dup)
@@ -121,7 +121,7 @@ static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned ch
 	return new_lexical_test_data;
 }
 
-Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Log_Data* log_data)
+Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(UTL_Test_Log_Data* log_data)
 {
 
 	unsigned char* test_program[] = {
@@ -159,7 +159,7 @@ Lexical_Analyzer_Test_Data* init_positive_path_data_for_lexical_analysis(Test_Lo
 	return positive_test_data;
 }
 
-Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(Test_Log_Data* log_data)
+Lexical_Analyzer_Test_Data* init_negative_path_data_for_lexical_analysis(UTL_Test_Log_Data* log_data)
 {
 	unsigned char* test_program[] =
 	{

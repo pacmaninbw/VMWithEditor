@@ -23,22 +23,20 @@
 #include "internal_character_transition_unit_tests.h"
 
 static void log_unit_test_get_transition_character_type_failure(
-	Test_Log_Data* log_data, const unsigned char candidate, const LAH_Syntax_State current_state,
+	UTL_Test_Log_Data* log_data, const unsigned char candidate, const LAH_Syntax_State current_state,
 	const LAH_State_Transition_Characters expected_type, const LAH_State_Transition_Characters actual_type)
 {
 	// Force failures to be reported
 	bool stand_alone = log_data->stand_alone;
+	log_data->stand_alone = false;
 
-	log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step2(log_data);
 
-	char out_buffer[LOG_BUFFER_SIZE];
-	sprintf(out_buffer, "\tcurrent_state = %s input character = %c\n",
+	UTL_va_log_fprintf("\tcurrent_state = %s input character = %c\n",
 		state_name_for_printing(current_state), candidate);
-	log_generic_message(out_buffer);
 
-	sprintf(out_buffer, "\tExpected Transitiion %s Actual Transition %s\n\n",
+	UTL_va_log_fprintf("\tExpected Transitiion %s Actual Transition %s\n\n",
 		transition_names(expected_type), transition_names(actual_type));
-	log_generic_message(out_buffer);
 
 	log_data->stand_alone = stand_alone;
 }
@@ -66,18 +64,16 @@ static LAH_State_Transition_Characters get_expected_alpha_transition_character_t
 }
 
 typedef LAH_State_Transition_Characters(*STFfunct)(const unsigned char input, const LAH_Syntax_State current_state);
-static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, const LAH_Syntax_State current_state, STFfunct transition_function)
+static bool core_alpha_character_transition_unit_test(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
 	for (size_t alphabet = (size_t)LOWER_CASE; alphabet <= (size_t)UPPER_CASE; alphabet++)
 	{
 		if (log_data->stand_alone)
 		{
-			sprintf(buffer, "\tBegin Positive test path current_state = %s input character = %s\n\n",
+			UTL_va_log_fprintf("\tBegin Positive test path current_state = %s input character = %s\n\n",
 				state_name_for_printing(current_state), (alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
-			log_generic_message(buffer);
 		}
 
 		unsigned char fist_character_to_test = (alphabet == LOWER_CASE) ? 'a' : 'A';
@@ -95,40 +91,40 @@ static bool core_alpha_character_transition_unit_test(Test_Log_Data* log_data, c
 			}
 			else
 			{
-				log_test_status_each_step2(log_data);
+				UTL_log_test_status_each_step2(log_data);
 			}
 		}
 
 		if (log_data->stand_alone)
 		{
-			sprintf(buffer,
+			UTL_va_log_fprintf(
 				"\n\tEnd Positive test path current_state = %s input character = %s\n\n",
 				state_name_for_printing(current_state),
 				(alphabet == LOWER_CASE) ? "Lower Case" : "Upper case");
-			log_generic_message(buffer);
 		}
 	}
 
 	return test_passed;
 }
 
-static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_data,
+static bool core_non_alpha_character_transition_unit_test(UTL_Test_Log_Data* log_data,
 	const LAH_Syntax_State current_state, unsigned char* input,
 	LAH_State_Transition_Characters expected_transition[],
 	size_t positive_path_count, const char* local_func_name)
 {
 	bool test_passed = true;
-	char* keep_old_path = log_data->path;
+	UTL_Path_State keep_old_path = log_data->path;
+	log_data->stand_alone = true;
 
-	log_data->path = "Positive";
+	log_data->path = UTL_POSITIVE_PATH;
 	size_t test_count = 0;
 	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
 	{
 		if (positive_path_count == test_count)
 		{
-			log_end_positive_path(local_func_name);
-			log_start_negative_path(local_func_name);
-			log_data->path = "Negative";
+			UTL_log_end_positive_path(local_func_name);
+			UTL_log_start_negative_path(local_func_name);
+			log_data->path = UTL_NEGATIVE_PATH;
 		}
 
 		log_data->status = true;
@@ -143,7 +139,7 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
 		}
 		else
 		{
-			log_test_status_each_step2(log_data);
+			UTL_log_test_status_each_step2(log_data);
 		}
 	}
 
@@ -160,31 +156,31 @@ static bool core_non_alpha_character_transition_unit_test(Test_Log_Data* log_dat
 bool unit_test_get_alpha_input_transition_character_type(const size_t test_step)
 {
 	bool test_passed = true;
-	Test_Log_Data log_data;
+	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data(
+		"unit_test_get_alpha_input_transition_character_type",
+		test_passed, UTL_POSITIVE_PATH, test_step == 0);
 
-	init_test_log_data(&log_data, "unit_test_get_alpha_input_transition_character_type",
-		test_passed, "Positive", test_step == 0);
-
-	if (log_data.stand_alone)
+	if (log_data->stand_alone)
 	{
-		log_start_positive_path(log_data.function_name);
+		UTL_log_start_positive_path(log_data->function_name);
 	}
 
 	for (size_t state = (size_t)LAH_ENTER_OPCODE_STATE; state <= (size_t)LAH_END_OPERAND_STATE; state++)
 	{
-		test_passed = core_alpha_character_transition_unit_test(&log_data, state,
+		test_passed = core_alpha_character_transition_unit_test(log_data, state,
 			get_alpha_input_transition_character_type);
 	}
 
-	if (log_data.stand_alone)
+	if (log_data->stand_alone)
 	{
-		log_end_test_path(&log_data);
+		UTL_log_end_test_path(log_data);
 	}
+	free(log_data);
 
 	return test_passed;
 }
 
-static bool unit_test_whitespace_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
+static bool unit_test_whitespace_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = " \t\n\r\v\f";
@@ -198,11 +194,11 @@ static bool unit_test_whitespace_transition(Test_Log_Data* log_data, const LAH_S
 	};
 	size_t positive_path_count = 4;		// Change this if more positive path tests are added.
 
-	char buffer[LOG_BUFFER_SIZE];
-	sprintf(buffer, "%s whitespace transition test", log_data->function_name);
+	char buffer[UTL_LOG_BUFFER_SIZE];
+	snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s whitespace transition test", log_data->function_name);
 	char* local_func_name = _strdup(buffer);
 
-	log_start_positive_path(local_func_name);
+	UTL_log_start_positive_path(local_func_name);
 
 	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
 		input, expected_transition, positive_path_count, local_func_name))
@@ -210,7 +206,7 @@ static bool unit_test_whitespace_transition(Test_Log_Data* log_data, const LAH_S
 		test_passed = log_data->status;
 	}
 
-	log_end_negative_path(local_func_name);
+	UTL_log_end_negative_path(local_func_name);
 	free(local_func_name);
 
 	log_data->status = test_passed;
@@ -247,7 +243,7 @@ static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Char
 	}
 }
 
-static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
+static bool unit_test_digit_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
@@ -259,10 +255,10 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax
 	char* local_func_name = NULL;
 	if (log_data->stand_alone)
 	{
-		char buffer[LOG_BUFFER_SIZE];
-		sprintf(buffer, "%s digit transition test", log_data->function_name);
+		char buffer[UTL_LOG_BUFFER_SIZE];
+		snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s digit transition test", log_data->function_name);
 		local_func_name = _strdup(buffer);
-		log_start_positive_path(local_func_name);
+		UTL_log_start_positive_path(local_func_name);
 	}
 
 	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
@@ -275,16 +271,17 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax
 	{
 		if (positive_path_count > 10)
 		{
-			log_end_positive_path(local_func_name);
+			UTL_log_end_positive_path(local_func_name);
 		}
 		else
 		{
-			log_end_negative_path(local_func_name);
+			UTL_log_end_negative_path(local_func_name);
 		}
 	}
 
+	free(local_func_name);
 #undef MAX_INPUT_CHARACTERS
-
+	
 	log_data->status = test_passed;
 	return test_passed;
 }
@@ -293,17 +290,17 @@ static bool unit_test_digit_transition(Test_Log_Data* log_data, const LAH_Syntax
  * test the state specified by the caller function. Calls the higher level function
  * get_transition_character_type().
  */
-static bool unit_test_alpha_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
+static bool unit_test_alpha_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	char* local_func_name = NULL;
 
 	if (log_data->stand_alone)
 	{
-		char buffer[LOG_BUFFER_SIZE];
-		sprintf(buffer, "%s alpha transition test", log_data->function_name);
+		char buffer[UTL_LOG_BUFFER_SIZE];
+		snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s alpha transition test", log_data->function_name);
 		local_func_name = _strdup(buffer);
-		log_start_positive_path(local_func_name);
+		UTL_log_start_positive_path(local_func_name);
 	}
 
 	test_passed = core_alpha_character_transition_unit_test(log_data, current_state,
@@ -311,13 +308,15 @@ static bool unit_test_alpha_transition(Test_Log_Data* log_data, const LAH_Syntax
 
 	if (log_data->stand_alone)
 	{
-		log_end_positive_path(local_func_name);
+		UTL_log_end_positive_path(local_func_name);
 	}
+
+	free(local_func_name);
 
 	return test_passed;
 }
 
-static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_Syntax_State current_state)
+static bool unit_test_punctuation_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
 	unsigned char input[] = "{},+-/*=&";
@@ -332,11 +331,11 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_
 	};
 	size_t positive_path_count = 3;		// Change this if more positive path tests are added.
 
-	char buffer[LOG_BUFFER_SIZE];
-	sprintf(buffer, "%s punctuation transition test", log_data->function_name);
+	char buffer[UTL_LOG_BUFFER_SIZE];
+	snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s punctuation transition test", log_data->function_name);
 	char* local_func_name = _strdup(buffer);
 
-	log_start_positive_path(local_func_name);
+	UTL_log_start_positive_path(local_func_name);
 
 	if (core_non_alpha_character_transition_unit_test(log_data, current_state,
 		input, expected_transition, positive_path_count, local_func_name))
@@ -344,7 +343,7 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_
 		test_passed = log_data->status;
 	}
 
-	log_end_negative_path(local_func_name);
+	UTL_log_end_negative_path(local_func_name);
 	free(local_func_name);
 
 	log_data->status = test_passed;
@@ -352,28 +351,26 @@ static bool unit_test_punctuation_transition(Test_Log_Data* log_data, const LAH_
 	return test_passed;
 }
 
-typedef bool (*character_transition_test_function)(Test_Log_Data* log_data, const LAH_Syntax_State state);
+typedef bool (*character_transition_test_function)(UTL_Test_Log_Data* log_data, const LAH_Syntax_State state);
 
 bool unit_test_get_transition_character_type(const size_t test_step)
 {
 	bool test_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
-	Test_Log_Data* log_data = create_and_init_test_log_data(
-		"unit_test_get_transition_character_type", test_passed, "Positive",
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_get_transition_character_type", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0);
 	if (!log_data)
 	{
-		report_create_and_init_test_log_data_memory_failure(
+		UTL_report_create_and_init_test_log_data_memory_failure(
 			"unit_test_get_transition_character_type");
 		return false;
 	}
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "STARTING internal unit test for get_transition_character_type("
+		UTL_va_log_fprintf("STARTING internal unit test for get_transition_character_type("
 			"unsigned char input, Syntax_State current_state)");
-		log_generic_message(buffer);
 	}
 
 	character_transition_test_function test_function[] =
@@ -397,9 +394,8 @@ bool unit_test_get_transition_character_type(const size_t test_step)
 
 	if (log_data->stand_alone)
 	{
-		sprintf(buffer, "\nENDING internal unit test for get_transition_character_type("
+		UTL_va_log_fprintf("\nENDING internal unit test for get_transition_character_type("
 			"unsigned char input, Syntax_State current_state)\n");
-		log_generic_message(buffer);
 	}
 
 	free(log_data);
