@@ -30,7 +30,6 @@ typedef struct test_log_data
 
 extern FILE* UTL_unit_test_log_file;
 
-char* UTL_safe_strcat(char* destination, char* source, size_t destination_size);
 bool UTL_init_unit_tests(const char* log_file_name);
 void UTL_report_create_and_init_test_log_data_memory_failure(const char* function_name);
 void UTL_init_test_log_data(UTL_Test_Log_Data* log_data, const char* function_name,

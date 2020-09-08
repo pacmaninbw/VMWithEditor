@@ -8,21 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "my_strdup.h"
+#include "safe_string_functions.h"
 #include "unit_test_logging.h"
 #include "error_reporting.h"
 
 FILE* UTL_unit_test_log_file = NULL;
-
-char* UTL_safe_strcat(char* destination, char* source, size_t destination_size)
-{
-	if (strlen(destination) + strlen(source) < destination_size)
-	{
-		strcat(destination, source);
-	}
-
-	return destination;
-}
 
 bool UTL_init_unit_tests(const char* log_file_name)
 {
