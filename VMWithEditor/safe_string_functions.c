@@ -16,13 +16,34 @@
 #include <string.h>
 
 #include "SSF_safe_string_functions.h"
+#include "ERH_error_reporting.h"
 
+void SSF_report_strdup_failure(char *function_name, char* allocated_string)
+{
+	char buffer[ERH_ERROR_BUFFER_SIZE];
+	snprintf(buffer, sizeof(buffer), "in %s: SSF_strdup() returned NULL for %s",
+		function_name, allocated_string);
+	if (errno)
+	{
+		perror(buffer);
+	}
+	else
+	{
+		ERH_va_report_error_fprintf("%s\n", buffer);
+	}
+
+}
+
+/* This function was heavily influenced by this code review:
+ * https://codereview.stackexchange.com/questions/248817/common-unit-testing-code-follow-up/249103#249103 
+ * and by the comments and answers to this question on stackoverflow
+ * https://stackoverflow.com/questions/63732752/is-this-a-portable-strdup
+ */
 char* SSF_strdup(const char* string_to_copy)
 {
 	if (!string_to_copy)
 	{
 #ifdef EINVAL
-		// For systems that support this "invalid argument" errno
 		errno = EINVAL;
 #endif
 		return NULL;
@@ -38,7 +59,6 @@ char* SSF_strdup(const char* string_to_copy)
 	else
 	{
 #ifdef ENOMEM
-		// For systems that support this "out-of-memory" errno
 		errno = ENOMEM;
 #else
 		;
@@ -48,6 +68,9 @@ char* SSF_strdup(const char* string_to_copy)
 	return return_string;
 }
 
+/* 
+ * Do any necessary casting in only one place.
+ */
 unsigned char* SSF_ucstrdup(const unsigned char* string_to_copy)
 {
 	unsigned char* return_string = (unsigned char* )SSF_strdup((const char *)string_to_copy);

@@ -14,6 +14,8 @@
 #ifndef SSF_SAFE_STRING_FUNCTIONS_H
 #define SSF_SAFE_STRING_FUNCTIONS_H
 
+void SSF_report_strdup_failure(char* function_name, char* allocated_string);
+
 /*
  * Basic strdup function that won't have name space collisions with strdup()
  * when it becomes part of the C standard.
