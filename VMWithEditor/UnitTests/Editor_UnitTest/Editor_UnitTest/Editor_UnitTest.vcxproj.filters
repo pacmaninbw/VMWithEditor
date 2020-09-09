@@ -32,7 +32,13 @@
     <ClCompile Include="..\..\..\human_readable_program_format.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common_UnitTest_Code\common_unit_test_logic.c">
+    <ClCompile Include="..\..\..\error_reporting.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\safe_string_functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

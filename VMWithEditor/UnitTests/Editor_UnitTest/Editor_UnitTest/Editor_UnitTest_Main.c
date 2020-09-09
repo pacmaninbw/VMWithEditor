@@ -2,11 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Editor_UnitTest_main.h"
-#ifndef UNIT_TESTING
-#include "common_program_logic.h"
-#else
-#include "common_unit_test_logic.h"
-#endif
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 
 bool run_all_editor_unit_tests(void)
 {
@@ -17,27 +14,26 @@ bool run_all_editor_unit_tests(void)
 	return all_unit_tests_passed;
 }
 
-#ifndef ALL_UNIT_TESTING
+#ifdef EDITOR_UNIT_TEST_ONLY
 int main()
 {
 	int passed = EXIT_SUCCESS;
 
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 
-	if (!init_vm_error_reporting(NULL))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		UTL_init_unit_tests("editor_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
 
-#if 0
-	if (!run_all_hrf_unit_tests())
+	if (!run_all_editor_unit_tests())
 	{
 		passed = EXIT_FAILURE;
 	}
 
-	close_hrf_unit_tests();
-#endif
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 
