@@ -384,6 +384,10 @@ static char* error_state(unsigned char* text_line, size_t statement_number, unsi
 		statement_number, text_line, (size_t)(current_character - text_line),
 		*current_character);
 	parser_generated_error = SSF_strdup(buffer);
+	if (!parser_generated_error)
+	{
+		SSF_report_strdup_failure("error_state", "parser_generated_error");
+	}
 
 	return parser_generated_error;
 }

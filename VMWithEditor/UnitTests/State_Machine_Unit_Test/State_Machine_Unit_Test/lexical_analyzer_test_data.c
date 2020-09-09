@@ -100,6 +100,7 @@ static Lexical_Analyzer_Test_Data* create_and_init_lexical_test_data(unsigned ch
 		test_program_dupe[step_count] = SSF_ucstrdup(test_program[step_count]);
 		if (!test_program_dupe[step_count])
 		{
+			SSF_report_strdup_failure("create_and_init_lexical_test_data", "test_program_dupe[step_count]");
 			lexical_analyzer_test_data_allocation_failed(log_data, "init_positive_path_data_for_lexical_analysis", "ucstrdup");
 			deallocate_test_program(step_count, test_program_dupe);
 			deallocate_expected_data(expected_errors_dup);

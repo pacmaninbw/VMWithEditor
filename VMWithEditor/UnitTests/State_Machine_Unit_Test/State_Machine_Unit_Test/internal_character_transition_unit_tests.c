@@ -11,6 +11,7 @@
 #define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
 #define INCLUDED_IN_UNIT_TEST
 
+#include <Errno.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -195,8 +196,16 @@ static bool unit_test_whitespace_transition(UTL_Test_Log_Data* log_data, const L
 	size_t positive_path_count = 4;		// Change this if more positive path tests are added.
 
 	char buffer[UTL_LOG_BUFFER_SIZE];
-	snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s whitespace transition test", log_data->function_name);
-	char* local_func_name = _strdup(buffer);
+	snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s whitespace transition test",
+		log_data->function_name);
+	char* local_func_name = SSF_strdup(buffer);
+	if (!local_func_name)
+	{
+		snprintf(buffer, sizeof(buffer), "in %s whitespace transition test: ",
+			log_data->function_name);
+		SSF_report_strdup_failure(buffer, "local_func_name");
+		return false;
+	}
 
 	UTL_log_start_positive_path(local_func_name);
 
@@ -257,7 +266,13 @@ static bool unit_test_digit_transition(UTL_Test_Log_Data* log_data, const LAH_Sy
 	{
 		char buffer[UTL_LOG_BUFFER_SIZE];
 		snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s digit transition test", log_data->function_name);
-		local_func_name = _strdup(buffer);
+		local_func_name = SSF_strdup(buffer);
+		if (!local_func_name)
+		{
+			SSF_report_strdup_failure(buffer, "local_func_name");
+			return false;
+		}
+
 		UTL_log_start_positive_path(local_func_name);
 	}
 
@@ -299,7 +314,12 @@ static bool unit_test_alpha_transition(UTL_Test_Log_Data* log_data, const LAH_Sy
 	{
 		char buffer[UTL_LOG_BUFFER_SIZE];
 		snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s alpha transition test", log_data->function_name);
-		local_func_name = _strdup(buffer);
+		local_func_name = SSF_strdup(buffer);
+		if (!local_func_name)
+		{
+			SSF_report_strdup_failure(buffer, "local_func_name");
+			return false;
+		}
 		UTL_log_start_positive_path(local_func_name);
 	}
 
@@ -333,7 +353,12 @@ static bool unit_test_punctuation_transition(UTL_Test_Log_Data* log_data, const 
 
 	char buffer[UTL_LOG_BUFFER_SIZE];
 	snprintf(buffer, UTL_LOG_BUFFER_SIZE, "%s punctuation transition test", log_data->function_name);
-	char* local_func_name = _strdup(buffer);
+	char* local_func_name = SSF_strdup(buffer);
+	if (!local_func_name)
+	{
+		SSF_report_strdup_failure(buffer, "local_func_name");
+		return false;
+	}
 
 	UTL_log_start_positive_path(local_func_name);
 
