@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\my_strdup.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\error_reporting.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hrf_unit_test_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SSF_safe_string_functions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HRF_human_readable_program_format.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

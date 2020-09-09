@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "error_reporting.h"
-#include "human_readable_program_format.h"
-#include "unit_test_logging.h"
+#include "ERH_error_reporting.h"
+#include "HRF_human_readable_program_format.h"
 #include "hrf_unit_test_main.h"
+#include "unit_test_human_readable_program_format.h"
+#include "UTL_unit_test_logging.h"
 
 typedef bool (*unit_test_function2)(char* file_name, size_t test_step);
 typedef bool (*unit_test_function1)(size_t test_step);
@@ -33,15 +34,14 @@ static bool hrf_individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Fun
 	bool passed = true;
 	size_t test_step = 0;
 	char* file_name = NULL;
-	char buffer[LOG_BUFFER_SIZE];
 
 	for (size_t test_count = 0; test_count < test_max && passed; test_count++)
 	{
 		bool test_passed = (unit_tests[test_count].arg_count == 1) ?
 			unit_tests[test_count].func.func1(test_step) :
 			unit_tests[test_count].func.func2(file_name, test_step);
-		sprintf(buffer, "\nUnit Test %zd: %s : %s\n\n", test_count + 1, unit_tests[test_count].test_name, (test_passed)? "Passed" : "Failed");
-		log_generic_message(buffer);
+		UTL_va_log_fprintf("\nUnit Test %zd: %s : %s\n\n", test_count + 1,
+			unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
 		passed = test_passed;
 	}
 
@@ -52,7 +52,6 @@ bool run_all_hrf_unit_tests(void)
 {
 	bool all_unit_tests_passed = true;
 
-	char buffer[LOG_BUFFER_SIZE];
 	Unit_Test_Functions_and_Args unit_tests[] =
 	{
 		{1, "unit_test_hrf_duplicate_program", unit_test_hrf_duplicate_program},
@@ -68,21 +67,10 @@ bool run_all_hrf_unit_tests(void)
 	if (hrf_individual_stand_alone_unit_tests(test_count, unit_tests))
 	{
 		test_count++;
-		if (!unit_test_all_human_readable_format())
-		{
-			sprintf(buffer,
-				"Unit Test %zd: unit_test_all_human_readable_format() : Failed\n\n",
-				test_count);
-			log_generic_message(buffer);
-			all_unit_tests_passed = false;
-		}
-		else
-		{
-			sprintf(buffer,
-				"Unit Test %zd: unit_test_all_human_readable_format() : Passed\n\n",
-				test_count);
-			log_generic_message(buffer);
-		}
+		all_unit_tests_passed = unit_test_all_human_readable_format();
+		UTL_va_log_fprintf(
+			"Unit Test %zd: unit_test_all_human_readable_format() : %s\n\n",
+			test_count, all_unit_tests_passed ? "Passed" : "Failed");
 	}
 	else
 	{
@@ -99,11 +87,11 @@ bool run_all_hrf_unit_tests(void)
  */
 int main()
 {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) ||
-		!init_unit_tests("human_readable_format_unit_test_log.txt"))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		!UTL_init_unit_tests("human_readable_format_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -113,8 +101,8 @@ int main()
 		passed = EXIT_FAILURE;
 	}
 
-	close_unit_tests();
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 }
