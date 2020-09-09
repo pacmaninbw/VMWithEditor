@@ -2,7 +2,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "common_unit_test_logic.h"
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 #include "control_console_unit_test_main.h"
 
 bool run_all_control_console_unit_tests(void)
