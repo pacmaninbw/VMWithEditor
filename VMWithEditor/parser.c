@@ -6,6 +6,13 @@
 #ifndef PARSER_C
 #define PARSER_C
 
+#include <errno.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "ERH_error_reporting.h"
 #include "HRF_human_readable_program_format.h"
 #include "LAH_lexical_analyzer.h"
@@ -15,12 +22,6 @@
 #ifdef UNIT_TESTING
 #include "UTL_unit_test_logging.h"
 #endif
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 /*
  * Syntax checking starts here
  */
@@ -90,7 +91,7 @@ static unsigned char* get_opcode_or_operand_string(const unsigned char* original
 	unsigned char* local_copy = SSF_ucstrdup(original);
 	if (!local_copy)
 	{
-		return (unsigned char*)local_copy;
+		return local_copy;
 	}
 	register unsigned char* current_char = local_copy;
 	unsigned char* return_string = NULL;
@@ -119,6 +120,19 @@ static unsigned get_legal_opcode_or_oparand(const unsigned char** current_charac
 	}
 
 	unsigned char* possible_op = get_opcode_or_operand_string(*current_character);
+	if (!possible_op)
+	{
+		char *err_msg = "get_opcode_or_operand_string: Failed: returned NULL";
+		if (errno)
+		{
+			perror(err_msg);
+		}
+		else
+		{
+			ERH_va_report_error_fprintf("%s\n", err_msg);
+		}
+		return (unsigned)-1;
+	}
 
 	int test_value = (prime_index == LAH_LEGALOPCODE) ? OPC_translate_string_to_opcode(possible_op) :
 		VMH_translate_text_to_operand_and_validate((char*)possible_op);
