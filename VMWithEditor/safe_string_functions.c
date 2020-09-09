@@ -9,6 +9,7 @@
 #ifndef SAFE_STRING_FUNCTIONS_C
 #define SAFE_STRING_FUNCTIONS_C
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -18,14 +19,30 @@
 
 char* SSF_strdup(const char* string_to_copy)
 {
-	char* return_string = NULL;
+	if (!string_to_copy)
+	{
+#ifdef EINVAL
+		// For systems that support this "invalid argument" errno
+		errno = EINVAL;
+#endif
+		return NULL;
+	}
+
 	size_t length = strlen(string_to_copy);
 	++length;
-
-	return_string = calloc(length, sizeof(*return_string));
+	char* return_string = malloc(length);
 	if (return_string)
 	{
-		memcpy(return_string, string_to_copy, length - 1);
+		memcpy(return_string, string_to_copy, length);
+	}
+	else
+	{
+#ifdef ENOMEM
+		// For systems that support this "out-of-memory" errno
+		errno = ENOMEM;
+#else
+		;
+#endif
 	}
 
 	return return_string;
