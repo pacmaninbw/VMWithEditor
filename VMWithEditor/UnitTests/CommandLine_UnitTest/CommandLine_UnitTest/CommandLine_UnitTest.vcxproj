@@ -145,12 +145,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\arg_flags.c" />
     <ClCompile Include="..\..\..\error_reporting.c" />
-    <ClCompile Include="..\..\..\my_strdup.c" />
+    <ClCompile Include="..\..\..\safe_string_functions.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
     <ClCompile Include="command_line_unit_test_main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\arg_flags.h" />
+    <ClInclude Include="..\..\..\ARGF_arg_flags.h" />
     <ClInclude Include="command_line_unit_test_main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

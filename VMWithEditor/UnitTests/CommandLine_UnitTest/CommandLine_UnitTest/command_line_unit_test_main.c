@@ -10,17 +10,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "arg_flags.h"
+#include "ARGF_arg_flags.h"
 #include "command_line_unit_test_main.h"
-#include "error_reporting.h"
-#include "unit_test_logging.h"
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 
 bool run_all_command_line_unit_tests(const size_t test_step)
 {
 	bool all_unit_tests_passed = true;
-
-	char buffer[LOG_BUFFER_SIZE];
-
 
 	return all_unit_tests_passed;
 }
@@ -28,11 +25,11 @@ bool run_all_command_line_unit_tests(const size_t test_step)
 #ifdef COMMANDLINE_UNIT_TESTING_ONLY
 int main()
 {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) ||
-		!init_unit_tests("commandline_unittest_log.txt"))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		!UTL_init_unit_tests("commandline_unittest_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -42,8 +39,8 @@ int main()
 		passed = EXIT_FAILURE;
 	}
 
-	close_unit_tests();
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 }
