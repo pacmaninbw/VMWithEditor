@@ -1,6 +1,6 @@
 # Common Unit Testing Code – Follow Up
 
-This question is a follow up question to the [Common Unit Testing Code portion][1] of my lexical analyzer questions.  
+[This question](https://codereview.stackexchange.com/questions/248817/common-unit-testing-code-follow-up/248883) is a follow up question to the [Common Unit Testing Code portion][1] of my lexical analyzer questions.  
 
 My primary concern is the code in the header file and the C source file that implements strdup(). Since the program this code is a part of is designed to be cross platform it needs to compile and run on either Windows or Linux, and should be compliant with both. The `strdup()` function is part of the C2X C standard so if it becomes available the code should continue to compile and work. The #defines in the header file are based on the `gcc` version of `string.`h.  
 
