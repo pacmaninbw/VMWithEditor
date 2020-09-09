@@ -42,9 +42,6 @@
     <ClCompile Include="..\..\..\error_reporting.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\my_strdup.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="parser_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,27 +60,30 @@
     <ClCompile Include="internal_parser_tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\safe_string_functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\lexical_analyzer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser_unit_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\error_reporting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\my_strdup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="parser_unit_test_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ERH_error_reporting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SSF_safe_string_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common_UnitTest_Code\UTL_unit_test_logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\LAH_lexical_analyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -146,9 +146,9 @@
     <ClCompile Include="..\..\..\error_reporting.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\lexical_analyzer.c" />
-    <ClCompile Include="..\..\..\my_strdup.c" />
     <ClCompile Include="..\..\..\opcode.c" />
     <ClCompile Include="..\..\..\parser.c" />
+    <ClCompile Include="..\..\..\safe_string_functions.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
     <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\internal_character_transition_unit_tests.c" />
@@ -165,11 +165,11 @@
     <ClCompile Include="parser_unit_test.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\error_reporting.h" />
-    <ClInclude Include="..\..\..\lexical_analyzer.h" />
-    <ClInclude Include="..\..\..\my_strdup.h" />
+    <ClInclude Include="..\..\..\ERH_error_reporting.h" />
+    <ClInclude Include="..\..\..\LAH_lexical_analyzer.h" />
     <ClInclude Include="..\..\..\parser.h" />
-    <ClInclude Include="..\..\Common_UnitTest_Code\unit_test_logging.h" />
+    <ClInclude Include="..\..\..\SSF_safe_string_functions.h" />
+    <ClInclude Include="..\..\Common_UnitTest_Code\UTL_unit_test_logging.h" />
     <ClInclude Include="parser_unit_test.h" />
     <ClInclude Include="parser_unit_test_main.h" />
   </ItemGroup>

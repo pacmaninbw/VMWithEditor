@@ -6,20 +6,19 @@
 #include <string.h>
 
 
-#include "lexical_analyzer.h"
+#include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer_unit_test_main.h"
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #include "internal_sytax_state_tests.h"
-#include "unit_test_logging.h"
+#include "UTL_unit_test_logging.h"
 #include "parser_unit_test.h"
 
 bool run_all_parser_unit_tests(size_t test_step)
 {
 	bool all_unit_tests_passed = true;
-	char buffer[LOG_BUFFER_SIZE];
 
-	sprintf(buffer, "Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
-	log_generic_message(buffer);
+	UTL_va_log_fprintf("Unit Test %u: Starting Lexical Analizer Unit Tests \n\n",
+		test_step);
 
 	all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
 
@@ -30,14 +29,12 @@ bool run_all_parser_unit_tests(size_t test_step)
 			unit_test_parser(test_step);
 	}
 
-	sprintf(buffer, "Unit Test %u: run_all_parser_unit_tests(unsigned test_step) : %s\n\n",
+	UTL_va_log_fprintf("Unit Test %u: run_all_parser_unit_tests(unsigned test_step) : %s\n\n",
 		test_step, all_unit_tests_passed ? "Passed" : "Failed");
-	log_generic_message(buffer);
 
 	deactivate_lexical_analyzer();
 
-	sprintf(buffer, "Unit Test %u: Ending Lexical Analizer Unit Tests \n\n", test_step);
-	log_generic_message(buffer);
+	UTL_va_log_fprintf("Unit Test %u: Ending Lexical Analizer Unit Tests \n\n", test_step);
 
 	return all_unit_tests_passed;
 }
@@ -45,11 +42,11 @@ bool run_all_parser_unit_tests(size_t test_step)
 #ifdef PARSER_UNIT_TEST_ONLY
 int main()
 {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) ||
-		!init_unit_tests("parser_unit_test_log.txt"))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		!UTL_init_unit_tests("parser_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -68,8 +65,8 @@ int main()
 		}
 	}
 
-	close_unit_tests();
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 }
