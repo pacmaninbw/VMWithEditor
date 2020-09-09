@@ -33,11 +33,4 @@ HRF_Human_Readable_Program_Format* HRF_convert_link_list_program_to_array(const 
 HRF_Program_Step_Node* HRF_convert_array_program_to_linked_list(const HRF_Human_Readable_Program_Format* array_program, const size_t program_size);
 void HRF_delete_linked_list_of_program_steps(HRF_Program_Step_Node* linked_list_of_program_steps);
 
-#ifdef UNIT_TESTING
-#ifdef HRF_UNIT_TESTING
-// Don't need hrf unit tests for most other unit tests.
-#include "unit_test_HRF_human_readable_program_format.h"
-#endif	// HRF_UNIT_TESTiNG
-#endif	// UNIT_TESTING
-
 #endif	// !HRF_HUMAN_READABLE_PROGRAM_FORMAT_H
