@@ -1,20 +1,28 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "ERH_error_reporting.h"
+#include "UTL_unit_test_logging.h"
 #include "virtual_machine_unit_test_main.h"
 
 bool run_all_vm_unit_tests(void)
 {
+	bool all_tests_pased = true;
+
 	printf("Hello World!\n");
+
+	return all_tests_pased;
 }
 
-#ifndef ALL_UNIT_TESTING
+#ifdef VIRTUAL_MACHINE_UNIT_TEST_ONLY
 int main()
 {
-	error_out_file = stderr;
+	ERH_error_out_file = stderr;
 	int passed = EXIT_SUCCESS;
 
-	if (!init_vm_error_reporting(NULL) || !init_hrf_unit_tests("human_readable_format_unit_test_log.txt"))
+	if (!ERH_init_vm_error_reporting(NULL) ||
+		!UTL_init_unit_tests("virtual_machine_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}
@@ -24,8 +32,8 @@ int main()
 		passed = EXIT_FAILURE;
 	}
 
-	close_hrf_unit_tests();
-	disengage_error_reporting();
+	UTL_close_unit_tests();
+	ERH_disengage_error_reporting();
 
 	return passed;
 }
