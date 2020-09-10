@@ -19,12 +19,15 @@
 
 #include "UTL_unit_test_logging.h"
 #include "ERH_error_reporting.h"
+#include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer.c"
 #include "lexical_analyzer_unit_test_utilities.h"
 #include "internal_character_transition_unit_tests.h"
 
+typedef const unsigned char Const_U_Char;
+
 static void log_unit_test_get_transition_character_type_failure(
-	UTL_Test_Log_Data* log_data, const unsigned char candidate, const LAH_Syntax_State current_state,
+	UTL_Test_Log_Data* log_data, Const_U_Char candidate, const LAH_Syntax_State current_state,
 	const LAH_State_Transition_Characters expected_type, const LAH_State_Transition_Characters actual_type)
 {
 	// Force failures to be reported
@@ -49,7 +52,7 @@ typedef enum test_character_case
 } TEST_CHARACTER_CASE;
 
 static LAH_State_Transition_Characters get_expected_alpha_transition_character_type(
-	const unsigned char input, const LAH_Syntax_State current_state)
+	Const_U_Char input, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters expected_transition = LAH_ALPHA_STATE_TRANSITION;
 	if (isxdigit(input) || (input == 'x' || input == 'X'))
@@ -64,7 +67,7 @@ static LAH_State_Transition_Characters get_expected_alpha_transition_character_t
 	return expected_transition;
 }
 
-typedef LAH_State_Transition_Characters(*STFfunct)(const unsigned char input, const LAH_Syntax_State current_state);
+typedef LAH_State_Transition_Characters(*STFfunct)(Const_U_Char input, const LAH_Syntax_State current_state);
 static bool core_alpha_character_transition_unit_test(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state, STFfunct transition_function)
 {
 	bool test_passed = true;
@@ -109,7 +112,7 @@ static bool core_alpha_character_transition_unit_test(UTL_Test_Log_Data* log_dat
 }
 
 static bool core_non_alpha_character_transition_unit_test(UTL_Test_Log_Data* log_data,
-	const LAH_Syntax_State current_state, unsigned char* input,
+	const LAH_Syntax_State current_state, Const_U_Char* input,
 	LAH_State_Transition_Characters expected_transition[],
 	size_t positive_path_count, const char* local_func_name)
 {
@@ -119,7 +122,7 @@ static bool core_non_alpha_character_transition_unit_test(UTL_Test_Log_Data* log
 
 	log_data->path = UTL_POSITIVE_PATH;
 	size_t test_count = 0;
-	for (unsigned char* test_input = input; *test_input; test_input++, test_count++)
+	for (Const_U_Char* test_input = input; *test_input; test_input++, test_count++)
 	{
 		if (positive_path_count == test_count)
 		{
@@ -184,7 +187,7 @@ bool unit_test_get_alpha_input_transition_character_type(const size_t test_step)
 static bool unit_test_whitespace_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
-	unsigned char input[] = " \t\n\r\v\f";
+	Const_U_Char input[] = " \t\n\r\v\f";
 
 	LAH_State_Transition_Characters expected_transition[] =
 	{
@@ -223,7 +226,7 @@ static bool unit_test_whitespace_transition(UTL_Test_Log_Data* log_data, const L
 	return test_passed;
 }
 
-static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Characters
+static void init_digit_test_data(Const_U_Char* input, LAH_State_Transition_Characters
 	expected_transition[], size_t* positive_test_path, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters* expected_ptr = expected_transition;
@@ -255,7 +258,7 @@ static void init_digit_test_data(unsigned char* input, LAH_State_Transition_Char
 static bool unit_test_digit_transition(UTL_Test_Log_Data* log_data, const LAH_Syntax_State current_state)
 {
 	bool test_passed = true;
-	unsigned char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
+	Const_U_Char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
 #define MAX_INPUT_CHARACTERS	24
 	LAH_State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
 	size_t positive_path_count;								// Change this if more positive path tests are added.
