@@ -106,7 +106,7 @@ static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size)
 	}
 	else
 	{
-		ERH_va_error_report_fprintf("Calloc failed in init_syntax_test_data()\n");
+		ERH_va_report_error_fprintf("Calloc failed in init_syntax_test_data()\n");
 	}
 
 	return test_data;
