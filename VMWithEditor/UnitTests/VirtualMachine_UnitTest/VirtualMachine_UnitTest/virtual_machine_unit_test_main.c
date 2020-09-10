@@ -1,3 +1,8 @@
+#ifndef VIRTUAL_MACHINE_UNIT_TEST_MAIN_C
+#define VIRTUAL_MACHINE_UNIT_TEST_MAIN_C
+/*
+ * virtual_machine_unit_test_main.c
+ */
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,3 +44,4 @@ int main()
 }
 #endif
 
+#endif // !VIRTUAL_MACHINE_UNIT_TEST_MAIN_C
