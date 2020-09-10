@@ -11,20 +11,18 @@
 #define INTERNAL_CHARACTER_TRANSITION_UNIT_TEST_C
 #define INCLUDED_IN_UNIT_TEST
 
-#include <Errno.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "vmwitheditor.h"
 #include "UTL_unit_test_logging.h"
 #include "ERH_error_reporting.h"
 #include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer.c"
 #include "lexical_analyzer_unit_test_utilities.h"
 #include "internal_character_transition_unit_tests.h"
-
-typedef const unsigned char Const_U_Char;
 
 static void log_unit_test_get_transition_character_type_failure(
 	UTL_Test_Log_Data* log_data, Const_U_Char candidate, const LAH_Syntax_State current_state,

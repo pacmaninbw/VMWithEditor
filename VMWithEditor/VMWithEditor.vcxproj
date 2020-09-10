@@ -168,6 +168,7 @@
     <ClInclude Include="parser.h" />
     <ClInclude Include="text_editor_console.h" />
     <ClInclude Include="VMH_virtual_machine.h" />
+    <ClInclude Include="vmwitheditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

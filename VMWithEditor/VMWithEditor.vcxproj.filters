@@ -98,5 +98,8 @@
     <ClInclude Include="OPC_opcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="vmwitheditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
