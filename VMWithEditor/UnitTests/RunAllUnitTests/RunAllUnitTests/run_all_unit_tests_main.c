@@ -12,10 +12,10 @@
 #include <stdlib.h>
 
 
-#include "error_reporting.h"
+#include "ERH_error_reporting.h"
 #include "lexical_analyzer_unit_test_main.h"
 #include "parser_unit_test_main.h"
-#include "unit_test_logging.h"
+#include "UTL_unit_test_logging.h"
 
 int main()
 {

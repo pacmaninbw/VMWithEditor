@@ -148,8 +148,9 @@
     <ClCompile Include="..\..\..\file_io_vm.c" />
     <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\lexical_analyzer.c" />
-    <ClCompile Include="..\..\..\my_strdup.c" />
     <ClCompile Include="..\..\..\opcode.c" />
+    <ClCompile Include="..\..\..\parser.c" />
+    <ClCompile Include="..\..\..\safe_string_functions.c" />
     <ClCompile Include="..\..\..\virtual_machine.c" />
     <ClCompile Include="..\..\CommandLine_UnitTest\CommandLine_UnitTest\command_line_unit_test_main.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
@@ -164,8 +165,6 @@
     <ClCompile Include="run_all_unit_tests_main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\human_readable_program_format.h" />
-    <ClInclude Include="..\..\..\opcode.h" />
     <ClInclude Include="..\..\..\virtual_machine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

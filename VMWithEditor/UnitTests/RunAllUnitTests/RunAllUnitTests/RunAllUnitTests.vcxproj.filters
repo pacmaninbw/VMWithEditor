@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\my_strdup.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\State_Machine_Unit_Test\State_Machine_Unit_Test\lexical_analyzer_test_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,15 +69,15 @@
     <ClCompile Include="..\..\CommandLine_UnitTest\CommandLine_UnitTest\command_line_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\safe_string_functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\human_readable_program_format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\virtual_machine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\opcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

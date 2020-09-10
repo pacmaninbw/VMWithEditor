@@ -6,7 +6,10 @@
 #ifndef INTERNAL_PARSER_TESTS_C
 #define INTERNAL_PARSER_TESTS_C
 #include <stdbool.h>
-#include "lexical_analyzer.h"
+#include "ERH_error_reporting.h"
+#include "HRF_human_readable_program_format.h"
+#include "LAH_lexical_analyzer.h"
+#include "UTL_unit_test_logging.h"
 
 /*
  * Include parser.c so we can test the internal static functions in the file.
@@ -25,7 +28,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 
 	test_file_name = (!file_name || !test_step) ? "No File Name" : file_name;
 
-	fprintf(unit_test_log_file, "\nStarting POSITIVE PATH testing for unit_test_print_syntax_errors\n");
+	UTL_va_log_fprintf("\nStarting POSITIVE PATH testing for unit_test_print_syntax_errors\n");
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
 		if (i < LAH_ILLEGALOPCODE)
@@ -41,9 +44,9 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 	this_test_passed = print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
 	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Positive", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
-	fprintf(unit_test_log_file, "\nEnding POSITIVE PATH testing for unit_test_print_syntax_errors\n");
+	UTL_va_log_fprintf("\nEnding POSITIVE PATH testing for unit_test_print_syntax_errors\n");
 
-	fprintf(unit_test_log_file, "\nStarting NEGATIVE PATH testing for unit_test_print_syntax_errors\n");
+	UTL_va_log_fprintf("\nStarting NEGATIVE PATH testing for unit_test_print_syntax_errors\n");
 	/*
 	 * The Ultimate negative test path, every check should fail.
 	 */
@@ -62,7 +65,7 @@ static bool unit_test_print_syntax_errors(char* file_name, unsigned test_step)
 	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
 	log_test_status_each_step("unit_test_print_syntax_errors", this_test_passed, "Negative", stand_alone_test);
 	passed = (!this_test_passed) ? false : passed;
-	fprintf(unit_test_log_file, "\nEndting NEGATIVE PATH testing for unit_test_print_syntax_errors\n");
+	UTL_va_log_fprintf("\nEndting NEGATIVE PATH testing for unit_test_print_syntax_errors\n");
 
 	return passed;
 }
@@ -103,7 +106,7 @@ static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size)
 	}
 	else
 	{
-		fprintf(error_out_file, "Calloc failed in init_syntax_test_data()\n");
+		ERH_va_error_report_fprintf("Calloc failed in init_syntax_test_data()\n");
 	}
 
 	return test_data;
@@ -112,17 +115,17 @@ static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size)
 static bool single_syntax_test(bool stand_alone_test, Syntax_Strings_For_Testing test_data, char* test_file_name)
 {
 	bool this_test_passed = true;
-	Program_Step_Node* test_head = NULL;
+	HRF_Program_Step_Node* test_head = NULL;
 	size_t prog_size = 1;
 
 	char* test_path = test_data.path_is_positive ? "Positive" : "Negative";
 	test_head = parser((unsigned char*)test_data.string_to_check, &prog_size, test_file_name);
 	this_test_passed = test_data.path_is_positive ?
-		(test_head && test_head->opcode_and_operand.opcode == HALT) :
+		(test_head && test_head->opcode_and_operand.opcode == OPC_HALT) :
 		(!test_head);
 	log_test_status_each_step("parser", this_test_passed, test_path, stand_alone_test);
 	free(test_head);
-	fprintf(unit_test_log_file, "\n");
+	UTL_va_log_fprintf("\n");
 
 	return this_test_passed;
 }
@@ -142,8 +145,8 @@ static bool unit_test_parser(char* file_name, unsigned test_step)
 	test_file_name = (!file_name || !test_step) ? "No File Name" : file_name;
 	if (stand_alone_test)
 	{
-		fprintf(unit_test_log_file, "\n\nStarting Unit Test for check_line_syntax_return_program_step_if_valid()\n");
-		fprintf(unit_test_log_file, "\n\tStarting POSITIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n\n");
+		UTL_va_log_fprintf("\n\nStarting Unit Test for check_line_syntax_return_program_step_if_valid()\n");
+		UTL_va_log_fprintf("\n\tStarting POSITIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n\n");
 	}
 
 	size_t test_count = 0;
@@ -154,8 +157,8 @@ static bool unit_test_parser(char* file_name, unsigned test_step)
 
 	if (stand_alone_test)
 	{
-		fprintf(unit_test_log_file, "\n\tEnding POSITIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n");
-		fprintf(unit_test_log_file, "\n\tStarting NEGATIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n\n");
+		UTL_va_log_fprintf("\n\tEnding POSITIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n");
+		UTL_va_log_fprintf("\n\tStarting NEGATIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n\n");
 	}
 
 	for (; test_count < test_data_size && passed; test_count++)
@@ -165,8 +168,8 @@ static bool unit_test_parser(char* file_name, unsigned test_step)
 
 	if (stand_alone_test)
 	{
-		fprintf(unit_test_log_file, "\n\tEnding NEGATIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n");
-		fprintf(unit_test_log_file, "\nEnding Unit Test for check_line_syntax_return_program_step_if_valid()\n\n");
+		UTL_va_log_fprintf("\n\tEnding NEGATIVE PATH Test for check_line_syntax_return_program_step_if_valid()\n");
+		UTL_va_log_fprintf("\nEnding Unit Test for check_line_syntax_return_program_step_if_valid()\n\n");
 	}
 
 	return passed;
