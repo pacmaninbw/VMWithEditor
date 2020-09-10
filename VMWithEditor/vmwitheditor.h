@@ -6,6 +6,8 @@
  * program and unit tests.
  */
 
+#include <stdbool.h>
+#include <stdint.h>
 
 typedef const unsigned char Const_U_Char;
 

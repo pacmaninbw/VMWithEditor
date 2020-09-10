@@ -8,10 +8,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "vmwitheditor.h"
 #include "ERH_error_reporting.h"
 #include "OPC_opcode.h"
 
-OPC_OPCODE OPC_translate_string_to_opcode(const unsigned char* string_opcode)
+OPC_OPCODE OPC_translate_string_to_opcode(Const_U_Char* string_opcode)
 {
 	char* local_s_opcode = (char *) string_opcode;
 	for (size_t i = 0; i < (size_t)OPC_LASTOPCODE; i++)

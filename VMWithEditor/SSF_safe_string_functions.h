@@ -14,6 +14,8 @@
 #ifndef SSF_SAFE_STRING_FUNCTIONS_H
 #define SSF_SAFE_STRING_FUNCTIONS_H
 
+#include "vmwitheditor.h"
+
 void SSF_report_strdup_failure(char* function_name, char* allocated_string);
 
 /*
@@ -25,7 +27,7 @@ char* SSF_strdup(const char* string_to_copy);
 /*
  * Provide an unsigned char* version of strdup().
  */
-unsigned char* SSF_ucstrdup(const unsigned char* string_to_copy);
+unsigned char* SSF_ucstrdup(Const_U_Char* string_to_copy);
 
 /*
  * Provides a safe version of strcat that makes sure the destination string

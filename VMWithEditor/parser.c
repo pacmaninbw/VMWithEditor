@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "vmwitheditor.h"
 #include "ERH_error_reporting.h"
 #include "HRF_human_readable_program_format.h"
 #include "LAH_lexical_analyzer.h"
@@ -38,7 +39,7 @@ static void init_error_strings(const char* error_strings[LAH_SYNTAX_CHECK_ARRAY_
 }
 
 static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_number,
-	const char* file_name, const unsigned char* line)
+	const char* file_name, Const_U_Char* line)
 {
 	bool syntax_is_good = true;
 	unsigned error_count = 0;
@@ -86,7 +87,7 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 	return syntax_is_good;
 }
 
-static unsigned char* get_opcode_or_operand_string(const unsigned char* original)
+static unsigned char* get_opcode_or_operand_string(Const_U_Char* original)
 {
 	unsigned char* local_copy = SSF_ucstrdup(original);
 	if (!local_copy)
@@ -109,7 +110,7 @@ static unsigned char* get_opcode_or_operand_string(const unsigned char* original
 	return return_string;
 }
 
-static unsigned get_legal_opcode_or_oparand(const unsigned char** current_character,
+static unsigned get_legal_opcode_or_oparand(Const_U_Char** current_character,
 	unsigned syntax_check_list[], const LAH_Syntax_Check_List_Items prime_index)
 {
 	if (prime_index != LAH_LEGALOPCODE && prime_index != LAH_LEGALOPERAND)
@@ -155,7 +156,7 @@ static unsigned get_legal_opcode_or_oparand(const unsigned char** current_charac
 	return (unsigned)minimum_value;
 }
 
-static void check_for_required_character(const unsigned char current_character,
+static void check_for_required_character(Const_U_Char current_character,
 	const LAH_Syntax_Check_List_Items item_to_check, const unsigned max_repetition,
 	unsigned syntax_check_list[])
 {
@@ -191,14 +192,14 @@ static void check_for_required_character(const unsigned char current_character,
  * the internal parser unit test file.
  */
 #ifndef INTERNAL_PARSER_TESTS_C
-HRF_Program_Step_Node* parser(const unsigned char* text_line, size_t* line_number, const char* file_name)
+HRF_Program_Step_Node* parser(Const_U_Char* text_line, size_t* line_number, const char* file_name)
 {
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
 	HRF_Human_Readable_Program_Format legal = { OPC_OPCODE_TRANSLATOR_ARRAY_SIZE, 0 };
 	LAH_Syntax_State current_state = LAH_START_STATE;
 
-	const unsigned char* current_character = text_line;
+	Const_U_Char* current_character = text_line;
 	while (*current_character)
 	{
 		LAH_Syntax_State new_state = lexical_analyzer(current_state, *current_character, syntax_check_list);

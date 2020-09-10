@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "vmwitheditor.h"
 #include "SSF_safe_string_functions.h"
 #include "ERH_error_reporting.h"
 
@@ -71,7 +72,7 @@ char* SSF_strdup(const char* string_to_copy)
 /* 
  * Do any necessary casting in only one place.
  */
-unsigned char* SSF_ucstrdup(const unsigned char* string_to_copy)
+unsigned char* SSF_ucstrdup(Const_U_Char* string_to_copy)
 {
 	unsigned char* return_string = (unsigned char* )SSF_strdup((const char *)string_to_copy);
 

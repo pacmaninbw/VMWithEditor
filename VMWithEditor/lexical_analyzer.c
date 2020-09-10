@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "vmwitheditor.h"
 #include "ERH_error_reporting.h"
 #include "LAH_lexical_analyzer.h"
 #include "SSF_safe_string_functions.h"
@@ -112,7 +113,7 @@ void deactivate_lexical_analyzer(void)
  * The calling function has already gone through one filter so it is assured that
  * the input character is an alpha and not some other type of character.
  */
-static LAH_State_Transition_Characters get_alpha_input_transition_character_type(const unsigned char input, const LAH_Syntax_State current_state)
+static LAH_State_Transition_Characters get_alpha_input_transition_character_type(Const_U_Char input, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -137,7 +138,7 @@ static LAH_State_Transition_Characters get_alpha_input_transition_character_type
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static LAH_State_Transition_Characters get_puctuation_transition_character_type(const unsigned char input)
+static LAH_State_Transition_Characters get_puctuation_transition_character_type(Const_U_Char input)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -167,7 +168,7 @@ static LAH_State_Transition_Characters get_puctuation_transition_character_type(
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static LAH_State_Transition_Characters get_whitespace_transition_character_type(const unsigned char input)
+static LAH_State_Transition_Characters get_whitespace_transition_character_type(Const_U_Char input)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -196,7 +197,7 @@ static LAH_State_Transition_Characters get_whitespace_transition_character_type(
  * set save space using ctype functions for large ranges. Also save time on
  * implementation and debugging.
  */
-static LAH_State_Transition_Characters get_transition_character_type(const unsigned char input, const LAH_Syntax_State current_state)
+static LAH_State_Transition_Characters get_transition_character_type(Const_U_Char input, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 	if (isalpha(input))
@@ -260,7 +261,7 @@ static void collect_error_reporting_data(const LAH_Syntax_State current_state,
  * implemented as a table to do this. That table is the next_states variable.
  */
 #ifndef INCLUDED_IN_UNIT_TEST
-LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[])
+LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, Const_U_Char input, unsigned syntax_check_list[])
 {
 	LAH_Syntax_State_Transition* next_states = get_or_create_next_states();
 	if (!next_states)

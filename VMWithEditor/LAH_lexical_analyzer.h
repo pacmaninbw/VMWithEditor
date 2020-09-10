@@ -15,6 +15,8 @@
 #ifndef LAH_LEXICAL_ANALYZER_H
 #define LAH_LEXICAL_ANALYZER_H
 
+#include "vmwitheditor.h"
+
 typedef enum syntax_check_list_items
 {
 	LAH_OPENBRACE = 0,
@@ -73,7 +75,8 @@ typedef struct syntax_state_transition
 #define LAH_MAX_OPERAND 1
 #define LAH_MAX_WHITE_SPACE	200
 
-LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, const unsigned char input, unsigned syntax_check_list[]);
+LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state,
+	Const_U_Char input, unsigned syntax_check_list[]);
 void deactivate_lexical_analyzer(void);
 
 #endif	//	LAH_LEXICAL_ANALYZER_H
