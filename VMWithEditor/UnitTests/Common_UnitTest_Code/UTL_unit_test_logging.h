@@ -28,8 +28,6 @@ typedef struct test_log_data
 	bool stand_alone;
 } UTL_Test_Log_Data;
 
-extern FILE* UTL_unit_test_log_file;
-
 bool UTL_init_unit_tests(const char* log_file_name);
 void UTL_report_create_and_init_test_log_data_memory_failure(const char* function_name);
 void UTL_init_test_log_data(UTL_Test_Log_Data* log_data, const char* function_name,

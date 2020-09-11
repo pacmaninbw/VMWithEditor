@@ -16,12 +16,18 @@ FILE* UTL_unit_test_log_file = NULL;
 
 bool UTL_init_unit_tests(const char* log_file_name)
 {
+	if (!ERH_error_reporting_is_initialized())
+	{
+		ERH_va_report_error_fprintf("Error reporting has not been initialized\n");
+		return false;
+	}
+
 	if (log_file_name)
 	{
 		UTL_unit_test_log_file = fopen(log_file_name, "w");
 		if (!UTL_unit_test_log_file)
 		{
-			fprintf(ERH_error_out_file, "Can't open %s for output\n", log_file_name);
+			ERH_report_error_output_fopen_failed(log_file_name);
 			return false;
 		}
 		ERH_error_out_file = UTL_unit_test_log_file;
@@ -37,7 +43,7 @@ bool UTL_init_unit_tests(const char* log_file_name)
 
 void UTL_close_unit_tests(void)
 {
-	if (UTL_unit_test_log_file != stdout)
+	if (UTL_unit_test_log_file != stdout && UTL_unit_test_log_file != stderr)
 	{
 		fclose(UTL_unit_test_log_file);
 	}
