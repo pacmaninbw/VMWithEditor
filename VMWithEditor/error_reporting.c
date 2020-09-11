@@ -14,11 +14,15 @@
 #include <stdio.h>
 
 #include "ERH_error_reporting.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif	// UNIT_TESTING
 
 FILE* ERH_error_out_file = NULL;
+
+static bool error_reporting_initialized = false;
+
+bool ERH_error_reporting_is_initialized(void)
+{
+	return error_reporting_initialized;
+}
 
 bool ERH_init_vm_error_reporting(const char* error_log_file_name)
 {
@@ -29,10 +33,7 @@ bool ERH_init_vm_error_reporting(const char* error_log_file_name)
 		ERH_error_out_file = fopen(error_log_file_name, "w");
 		if (!ERH_error_out_file)
 		{
-#ifdef UNIT_TESTING
-			// error_out_file is altered in unit_test_logging.c
 			ERH_error_out_file = stderr;
-#endif	// UNIT_TESTING
 			ERH_report_error_output_fopen_failed(error_log_file_name);
 			status_is_good = false;
 		}
@@ -42,12 +43,14 @@ bool ERH_init_vm_error_reporting(const char* error_log_file_name)
 		ERH_error_out_file = stderr;
 	}
 
+	error_reporting_initialized = status_is_good;
+
 	return status_is_good;
 }
 
 void ERH_disengage_error_reporting(void)
 {
-	if (ERH_error_out_file != stderr)
+	if (ERH_error_out_file != stderr && ERH_error_out_file != stdout)
 	{
 		fclose(ERH_error_out_file);
 	}

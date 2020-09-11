@@ -12,6 +12,7 @@
 
 extern FILE* ERH_error_out_file;
 
+bool ERH_error_reporting_is_initialized(void);
 bool ERH_init_vm_error_reporting(const char* error_log_file_name);
 void ERH_disengage_error_reporting(void);
 void ERH_report_error_generic(const char* error_message);
