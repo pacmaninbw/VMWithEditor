@@ -106,6 +106,7 @@ static LAH_Syntax_State_Transition* get_or_create_next_states(void)
 void deactivate_lexical_analyzer(void)
 {
 	free(allocate_next_states_once);
+	allocate_next_states_once = NULL;
 }
 #endif	// INCLUDED_IN_UNIT_TEST
 
