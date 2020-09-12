@@ -170,6 +170,7 @@
     <ClInclude Include="..\..\..\parser.h" />
     <ClInclude Include="..\..\..\SSF_safe_string_functions.h" />
     <ClInclude Include="..\..\Common_UnitTest_Code\UTL_unit_test_logging.h" />
+    <ClInclude Include="internal_parser_tests.h" />
     <ClInclude Include="parser_unit_test.h" />
     <ClInclude Include="parser_unit_test_main.h" />
   </ItemGroup>
