@@ -34,7 +34,8 @@ void UTL_log_end_unit_test(const UTL_Test_Log_Data* log_data);
 void UTL_log_start_test_path(const UTL_Test_Log_Data* log_data);
 void UTL_log_end_test_path(const UTL_Test_Log_Data* log_data);
 void UTL_va_log_fprintf(const char* format, ...);
-void UTL_va_test_log_fprintf(const UTL_Test_Log_Data* log_data, const char* format, ...);
+void UTL_va_test_log_fprintf(const UTL_Test_Log_Data* log_data, bool print_header,
+	const char* format, ...);
 
 bool UTL_init_unit_tests(const char* log_file_name);
 void UTL_close_unit_tests(void);
