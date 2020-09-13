@@ -376,1335 +376,1400 @@ unit_test_get_alpha_input_transition_character_type(): Positive Path Passed
 	End Positive test path current_state = END_OPERAND_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_alpha_input_transition_character_type, Path PASSED
+Ending POSITIVE PATH testing for unit_test_get_alpha_input_transition_character_type, POSITIVE PATH  PASSED
+
 
 Syntax Machine Internal Unit Test 1: unit_test_get_alpha_input_transition_character_type : Passed
 
 STARTING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)
+
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = START_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = START_STATE input character = Lower Case
 
 	Begin Positive test path current_state = START_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = START_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = ENTER_OPCODE_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ENTER_OPCODE_STATE input character = Lower Case
 
 	Begin Positive test path current_state = ENTER_OPCODE_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ENTER_OPCODE_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = OPCODE_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = OPCODE_STATE input character = Lower Case
 
 	Begin Positive test path current_state = OPCODE_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = OPCODE_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = END_OPCODE_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_OPCODE_STATE input character = Lower Case
 
 	Begin Positive test path current_state = END_OPCODE_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_OPCODE_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = ENTER_OPERAND_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ENTER_OPERAND_STATE input character = Lower Case
 
 	Begin Positive test path current_state = ENTER_OPERAND_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ENTER_OPERAND_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = OPERAND_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = OPERAND_STATE input character = Lower Case
 
 	Begin Positive test path current_state = OPERAND_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = OPERAND_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = END_OPERAND_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_OPERAND_STATE input character = Lower Case
 
 	Begin Positive test path current_state = END_OPERAND_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_OPERAND_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
+unit_test_get_transition_character_type digit transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type digit transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = END_STATEMENT_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_STATEMENT_STATE input character = Lower Case
 
 	Begin Positive test path current_state = END_STATEMENT_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = END_STATEMENT_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = DONE_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = DONE_STATE input character = Lower Case
 
 	Begin Positive test path current_state = DONE_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = DONE_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
+unit_test_get_transition_character_type punctuation transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type punctuation transition test, NEGATIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
 
 	Begin Positive test path current_state = ERROR_STATE input character = Lower Case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ERROR_STATE input character = Lower Case
 
 	Begin Positive test path current_state = ERROR_STATE input character = Upper case
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
+unit_test_get_transition_character_type alpha transition test(): Positive Path Passed
 
 	End Positive test path current_state = ERROR_STATE input character = Upper case
 
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type alpha transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
+unit_test_get_transition_character_type digit transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type digit transition test, POSITIVE PATH  PASSED
+
 
 Starting POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
-unit_test_get_transition_character_type(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending POSITIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
 
-unit_test_get_transition_character_type(): Negative Path Passed
-unit_test_get_transition_character_type(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
+unit_test_get_transition_character_type whitespace transition test(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test
+Ending NEGATIVE PATH testing for unit_test_get_transition_character_type whitespace transition test, NEGATIVE PATH  PASSED
+
 
 ENDING internal unit test for get_transition_character_type(unsigned char input, Syntax_State current_state)
 
@@ -1729,7 +1794,8 @@ unit_test_collect_error_reporting_data(): Positive Path Passed
 unit_test_collect_error_reporting_data(): Positive Path Passed
 unit_test_collect_error_reporting_data(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_collect_error_reporting_data, Path PASSED
+Ending POSITIVE PATH testing for unit_test_collect_error_reporting_data, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_collect_error_reporting_data
 
@@ -1737,7 +1803,8 @@ unit_test_collect_error_reporting_data(): Negative Path Passed
 unit_test_collect_error_reporting_data(): Negative Path Passed
 unit_test_collect_error_reporting_data(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_collect_error_reporting_data, Path PASSED
+Ending NEGATIVE PATH testing for unit_test_collect_error_reporting_data, NEGATIVE PATH  PASSED
+
 
 ENDING internal unit test for collect_error_reporting_data(
 
@@ -1761,7 +1828,8 @@ unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
 unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
 unit_test_parse_statements_for_lexical_analysis(): Positive Path Passed
 
-Ending POSITIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, Path PASSED
+Ending POSITIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, POSITIVE PATH  PASSED
+
 
 Starting NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis
 
@@ -1817,7 +1885,8 @@ Statement 10 (HALT) has the following syntax errors
 	Illegal character in column 1 (are you missing the opening brace { )
 unit_test_parse_statements_for_lexical_analysis(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, Path PASSED
+Ending NEGATIVE PATH testing for unit_test_parse_statements_for_lexical_analysis, NEGATIVE PATH  PASSED
+
 
 ENDING unit test for unit_test_lexical_analyzer: test PASSED
 
