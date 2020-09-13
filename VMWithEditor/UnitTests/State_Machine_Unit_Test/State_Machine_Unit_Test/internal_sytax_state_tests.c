@@ -91,7 +91,7 @@ static void print_syntax_error_checklist(unsigned syntax_checklist[], char *out_
 static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
 	UTL_Test_Log_Data* log_data, Error_Reporting_Test_Data test_data, unsigned syntax_check_list[])
 {
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 
 	char out_buffer[UTL_LOG_BUFFER_SIZE];
 	snprintf(out_buffer, UTL_LOG_BUFFER_SIZE, "\tcurrent_state = %s ", state_name_for_printing(test_data.current_state));
@@ -143,13 +143,15 @@ static bool run_error_checking_unit_tests(
 			test_data[test_count].input_character_state, syntax_check_list);
 		if (!errors_in_sync(syntax_check_list, test_data[test_count].expected_data))
 		{
+			// log_all_failure_data_for_unit_test_collect_error_reporting_data()
+			// calls UTL_log_test_status_each_step()
 			log_data->status = false;
 			log_all_failure_data_for_unit_test_collect_error_reporting_data(
 				log_data, test_data[test_count], syntax_check_list);
 		}
 		else
 		{
-			UTL_log_test_status_each_step2(log_data);
+			UTL_log_test_status_each_step(log_data);
 		}
 
 		if (!log_data->status && test_passed)
@@ -480,7 +482,7 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 		log_data->status = false;
 	}
 
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 	free(parser_generated_error);
 
 	return test_passed;
