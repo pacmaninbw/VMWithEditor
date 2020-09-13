@@ -39,7 +39,7 @@ bool unit_test_hrf_duplicate_program(size_t test_step)
 		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_duplicate_program NOT IMPLEMENTED\n");
 	}
 
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
 
 	free(log_data);
@@ -56,7 +56,7 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 
 	if (log_data->stand_alone)
 	{
-		UTL_log_start_positive_path(log_data->function_name);
+		UTL_log_start_test_path(log_data);
 	}
 
 	size_t test_program_size = 0;
@@ -70,24 +70,19 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 		if (!test_tail)
 		{
 			test_tail = HRF_create_program_step(&test_program[step_count]);
-			if (!test_tail)
-			{
-				log_data->status = false;
-				UTL_log_test_status_each_step2(log_data);
-				return false;
-			}
 			test_head = test_tail;
 		}
 		else
 		{
 			test_tail->next_step = HRF_create_program_step(&test_program[step_count]);
 			test_tail = test_tail->next_step;
-			if (!test_tail)
-			{
-				log_data->status = false;
-				UTL_log_test_status_each_step2(log_data);
-				return log_data->status;
-			}
+		}
+		// Now that an attempted allocation has been made to test_tail test for success
+		if (!test_tail)
+		{
+			log_data->status = false;
+			UTL_log_test_status_each_step(log_data);
+			return log_data->status;
 		}
 	}
 
@@ -106,15 +101,12 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 	}
 
 	log_data->status = passed;
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 
 	HRF_delete_linked_list_of_program_steps(test_head);
 	free(test_program);
 	
-	if (log_data->stand_alone)
-	{
-		UTL_log_end_positive_path(log_data->function_name);
-	}
+	UTL_log_end_test_path(log_data);
 	free(log_data);
 
 	return passed;
@@ -132,7 +124,7 @@ bool unit_test_hrf_convert_array_program_to_linked_list(size_t test_step)
 		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
 	}
 
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
 
 	free(log_data);
@@ -152,7 +144,7 @@ bool unit_test_hrf_convert_link_list_program_to_array(size_t test_step)
 		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_link_list_program_to_array NOT IMPLEMENTED\n");
 	}
 
-	UTL_log_test_status_each_step2(log_data);
+	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
 
 	free(log_data);
