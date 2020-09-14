@@ -157,7 +157,7 @@ bool unit_test_get_alpha_input_transition_character_type(const size_t test_step)
 	bool test_passed = true;
 	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data(
 		"unit_test_get_alpha_input_transition_character_type",
-		test_passed, UTL_POSITIVE_PATH, test_step == 0);
+		test_passed, UTL_POSITIVE_PATH, test_step == 0, true);
 
 	UTL_log_start_test_path(log_data);
 
@@ -352,7 +352,7 @@ bool unit_test_get_transition_character_type(const size_t test_step)
 
 	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
 		"unit_test_get_transition_character_type", test_passed, UTL_POSITIVE_PATH,
-		test_step == 0);
+		test_step == 0, true);
 	if (!log_data)
 	{
 		UTL_report_create_and_init_test_log_data_memory_failure(

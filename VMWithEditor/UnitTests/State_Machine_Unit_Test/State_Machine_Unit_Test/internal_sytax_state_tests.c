@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "UTL_unit_test_logging.h"
 #include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer.c"
 #include "internal_sytax_state_tests.h"
@@ -36,35 +37,32 @@ typedef struct state_test_data
 static bool unit_test_syntax_states(size_t test_step)
 {
 	bool test_passed = true;
-	bool stand_alone = test_step == 0;
+	if (test_step)
+	{
+		return true;
+	}
 
 	LAH_Syntax_State_Transition* test_transitions = get_or_create_next_states();
 	if (!test_transitions)
 	{
-		fprintf(error_out_file, "Memory allocation error in get_create_next_states()\n");
+		fprintf(ERH_error_out_file, "Memory allocation error in get_create_next_states()\n");
 		return false;
 	}
 
 	for (size_t state = 0; state < LAH_SYNTAX_STATE_ARRAY_SIZE; state++)
 	{
-		if (stand_alone)
-		{
-			UTL_va_log_fprintf("current_state = %s\n", state_name_for_printing(
-				test_transitions[state].current_state));
-		}
+		UTL_va_log_fprintf("current_state = %s\n", state_name_for_printing(
+			test_transitions[state].current_state));
 
-		if (stand_alone)
+		for (size_t character_index = 0; character_index < LAH_TRANSITION_ARRAY_SIZE;
+			character_index++)
 		{
-			for (size_t character_index = 0; character_index < LAH_TRANSITION_ARRAY_SIZE;
-				character_index++)
-			{
-				UTL_va_log_fprintf("\ttransition character = %s\t\tnew state %s\n",
-					transition_names(character_index),
-					state_name_for_printing(
-						test_transitions[state].transition_on_char_type[character_index]));
-			}
-			UTL_va_log_fprintf("\n");
+			UTL_va_log_fprintf("\ttransition character = %s\t\tnew state %s\n",
+				transition_names(character_index),
+				state_name_for_printing(
+					test_transitions[state].transition_on_char_type[character_index]));
 		}
+		UTL_va_log_fprintf("\n");
 	}
 
 	return test_passed;
@@ -206,7 +204,7 @@ static bool unit_test_collect_error_reporting_data(size_t test_step)
 	bool test_passed = true;
 	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
 		"unit_test_collect_error_reporting_data", test_passed, UTL_POSITIVE_PATH,
-		test_step == 0);
+		test_step == 0, true);
 	if (!log_data)
 	{
 		UTL_report_create_and_init_test_log_data_memory_failure(
@@ -225,17 +223,11 @@ static bool unit_test_collect_error_reporting_data(size_t test_step)
 		return false;
 	}
 
-	if (log_data->stand_alone)
-	{
-		UTL_va_log_fprintf("STARTING internal unit test for %s()\n\n", "collect_error_reporting_data");
-	}
+	UTL_log_start_unit_test(log_data);
 
 	test_passed = run_error_checking_unit_tests(log_data, positivie_path_count, test_data, test_count);
 
-	if (log_data->stand_alone)
-	{
-		UTL_va_log_fprintf("\nENDING internal unit test for %s(\n\n", "collect_error_reporting_data");
-	}
+	UTL_log_end_unit_test(log_data);
 
 	free(test_data);
 	free(log_data);
@@ -278,7 +270,7 @@ bool internal_tests_on_all_state_transitions(size_t test_step)
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		UTL_va_log_fprintf("\nSyntax Machine Internal Unit Test %zd: %s : %s\n\n",
+		UTL_va_log_fprintf("\nLexical Analyzer Internal Unit Test %zd: %s : %s\n\n",
 			test_count + 1, unit_tests[test_count].test_name,
 			(test_passed) ? "Passed" : "Failed");
 		// if one test already failed we are good
@@ -517,8 +509,8 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 {
 	bool test_passed = true;
 	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
-		"unit_test_parse_statements_for_lexical_analysis", test_passed, UTL_POSITIVE_PATH,
-		test_step == 0);
+		"unit_test_parse_statements_for_lexical_analysis", test_passed,
+		UTL_POSITIVE_PATH, test_step == 0, true);
 
 	Lexical_Analyzer_Test_Data* positive_path_data = init_positive_path_data_for_lexical_analysis(log_data);
 	if (!positive_path_data)
@@ -571,25 +563,19 @@ bool unit_test_lexical_analyzer(size_t test_step)
 
 	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
 		"unit_test_lexical_analyzer", test_passed, UTL_POSITIVE_PATH,
-		test_step == 0);
+		test_step == 0, true);
 	if (!log_data)
 	{
 		UTL_report_create_and_init_test_log_data_memory_failure("unit_test_lexical_analyzer");
 		return false;
 	}
 
-	if (log_data->stand_alone)
-	{
-		UTL_log_start_unit_test(log_data);
-	}
+	UTL_log_start_unit_test(log_data);
 
 	test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
 	log_data->status = test_passed;
 
-	if (log_data->stand_alone)
-	{
-		UTL_log_end_unit_test(log_data);
-	}
+	UTL_log_end_unit_test(log_data);
 
 	free(log_data);
 

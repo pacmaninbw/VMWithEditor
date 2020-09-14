@@ -2,6 +2,7 @@
 #define LEXICAL_ANALYZER_TEST_DATA_H
 
 #include "LAH_lexical_analyzer.h"
+#include "UTL_unit_test_logging.h"
 
 typedef struct expected_syntax_errors
 {
