@@ -1,3 +1,5 @@
+#ifndef UNIT_TEST_HUMAN_READABLE_PROGRAM_FORMAT_C
+#define UNIT_TEST_HUMAN_READABLE_PROGRAM_FORMAT_C
 /* This file is includes the file HRF_Human_Readable_Program_Format.c because there
  * is unit testing of static functions and variables. 
  */
@@ -30,14 +32,12 @@ static bool unit_test_template(unsigned test_step)
 bool unit_test_hrf_duplicate_program(size_t test_step)
 {
 	bool passed = true;
-	bool stand_alone_test = (!test_step);
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data("unit_test_hrf_duplicate_program", passed, UTL_NEGATIVE_PATH, stand_alone_test);
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_hrf_duplicate_program", passed, UTL_NEGATIVE_PATH,
+		test_step == 0, false);
 
-	if (stand_alone_test)
-	{
-		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_duplicate_program NOT IMPLEMENTED\n");
-	}
+	UTL_va_log_fprintf("\nUnit test: unit_test_hrf_duplicate_program NOT IMPLEMENTED\n");
 
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
@@ -50,14 +50,12 @@ bool unit_test_hrf_duplicate_program(size_t test_step)
 bool unit_test_hrf_create_program_step(size_t test_step)
 {
 	bool passed = true;
-	bool stand_alone_test = (!test_step);
 
-	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data("unit_test_hrf_create_program_step", passed, UTL_POSITIVE_PATH, stand_alone_test);
+	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data(
+		"unit_test_hrf_create_program_step", passed, UTL_POSITIVE_PATH,
+		test_step == 0, true);
 
-	if (log_data->stand_alone)
-	{
-		UTL_log_start_test_path(log_data);
-	}
+	UTL_log_start_test_path(log_data);
 
 	size_t test_program_size = 0;
 	HRF_Human_Readable_Program_Format* test_program = default_program(&test_program_size);
@@ -91,7 +89,9 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 	while (test_tail)
 	{
 		bool this_test_passed = true;
-		this_test_passed = (test_tail->opcode_and_operand.opcode == test_program[step_count].opcode && test_tail->opcode_and_operand.operand == test_program[step_count].operand);
+		this_test_passed = (test_tail->opcode_and_operand.opcode ==
+			test_program[step_count].opcode && test_tail->opcode_and_operand.operand
+			== test_program[step_count].operand);
 		if (!this_test_passed)
 		{
 			passed = false;
@@ -115,14 +115,12 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 bool unit_test_hrf_convert_array_program_to_linked_list(size_t test_step)
 {
 	bool passed = true;
-	bool stand_alone_test = (!test_step);
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data("unit_test_hrf_convert_array_program_to_linked_list", passed, UTL_NEGATIVE_PATH, (!test_step));
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_hrf_convert_array_program_to_linked_list", passed,
+		UTL_NEGATIVE_PATH, (!test_step), true);
 
-	if (stand_alone_test)
-	{
-		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
-	}
+	UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
 
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
@@ -137,7 +135,9 @@ bool unit_test_hrf_convert_link_list_program_to_array(size_t test_step)
 	bool passed = true;
 	bool stand_alone_test = (!test_step);
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data("unit_test_hrf_convert_link_list_program_to_array", passed, UTL_NEGATIVE_PATH, (!test_step));
+	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+		"unit_test_hrf_convert_link_list_program_to_array", passed, 
+		UTL_NEGATIVE_PATH, (!test_step), true);
 
 	if (stand_alone_test)
 	{
@@ -161,3 +161,4 @@ bool unit_test_all_human_readable_format()
 	return passed;
 }
 
+#endif // !UNIT_TEST_HUMAN_READABLE_PROGRAM_FORMAT_C
