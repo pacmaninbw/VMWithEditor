@@ -26,6 +26,8 @@ typedef struct test_log_data
 	UTL_Path_State path;
 	bool status;
 	bool stand_alone;
+	bool internal_test;
+	bool not_used_yet;
 } UTL_Test_Log_Data;
 
 void UTL_log_test_status_each_step(const UTL_Test_Log_Data* test_data_to_log);
@@ -42,7 +44,8 @@ void UTL_close_unit_tests(void);
 
 void UTL_report_create_and_init_test_log_data_memory_failure(const char* function_name);
 UTL_Test_Log_Data* UTL_create_and_init_test_log_data(const char* function_name,
-	const bool status, const UTL_Path_State path, const bool stand_alone);
+	const bool status, const UTL_Path_State path, const bool stand_alone,
+	const bool internal_test);
 
 #endif // !UTL_UNIT_TEST_LOGGING_H
 

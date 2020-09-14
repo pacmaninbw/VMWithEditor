@@ -73,13 +73,35 @@ void UTL_va_test_log_fprintf(const UTL_Test_Log_Data* log_data, bool print_heade
 
 void UTL_log_start_unit_test(const UTL_Test_Log_Data* log_data)
 {
-	fprintf(UTL_unit_test_log_file, "STARTING unit test for %s\n\n", log_data->function_name);
+	if (log_data->internal_test)
+	{
+		if (log_data->stand_alone)
+		{
+			fprintf(UTL_unit_test_log_file, "STARTING internal unit test for %s\n\n", log_data->function_name);
+		}
+	}
+	else
+	{
+		fprintf(UTL_unit_test_log_file, "STARTING unit test for %s\n\n", log_data->function_name);
+	}
 }
 
 void UTL_log_end_unit_test(const UTL_Test_Log_Data* log_data)
 {
-	fprintf(UTL_unit_test_log_file, "\nENDING unit test for %s: test %s\n\n",
-		log_data->function_name, get_status_string(log_data, true));
+	if (log_data->internal_test)
+	{
+		if (log_data->stand_alone)
+		{
+			fprintf(UTL_unit_test_log_file, "\nENDING internal unit test for %s: test %s\n\n",
+				log_data->function_name, get_status_string(log_data, true));
+		}
+	}
+	else
+	{
+		fprintf(UTL_unit_test_log_file, "\nENDING unit test for %s: test %s\n\n",
+			log_data->function_name, get_status_string(log_data, true));
+	}
+
 	fflush(UTL_unit_test_log_file);		// Current unit test is done flush the output.
 }
 
@@ -169,21 +191,18 @@ void UTL_close_unit_tests(void)
 	}
 }
 
-static void UTL_init_test_log_data(UTL_Test_Log_Data* log_data, const char* function_name,
-	const bool status, const UTL_Path_State path, bool stand_alone)
-{
-	log_data->function_name = function_name;
-	log_data->status = status;
-	log_data->path = path;
-	log_data->stand_alone = stand_alone;
-}
-
-UTL_Test_Log_Data* UTL_create_and_init_test_log_data(const char* function_name, const bool status, const UTL_Path_State path, const bool stand_alone)
+UTL_Test_Log_Data* UTL_create_and_init_test_log_data(const char* function_name,
+	const bool status, const UTL_Path_State path, const bool stand_alone,
+	const bool internal_test)
 {
 	UTL_Test_Log_Data* log_data = calloc(1, sizeof(*log_data));
 	if (log_data)
 	{
-		UTL_init_test_log_data(log_data, function_name, status, path, stand_alone);
+		log_data->function_name = function_name;
+		log_data->status = status;
+		log_data->path = path;
+		log_data->stand_alone = stand_alone;
+		log_data->internal_test = internal_test;
 	}
 	else
 	{
