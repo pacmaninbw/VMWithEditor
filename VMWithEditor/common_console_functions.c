@@ -13,9 +13,6 @@
 
 #include "common_console_functions.h"
 #include "ERH_error_reporting.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
 
 size_t get_user_selection(const size_t menu_minimum, const size_t menu_maximum)
 {

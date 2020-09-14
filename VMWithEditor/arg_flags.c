@@ -13,9 +13,6 @@
 
 #include "ARGF_arg_flags.h"
 #include "ERH_error_reporting.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
 
 static ARGF_ARG_FLAGS_PTR construct_arguments()
 {

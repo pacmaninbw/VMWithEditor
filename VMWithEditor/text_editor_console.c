@@ -17,9 +17,7 @@
 #include "common_console_functions.h"
 #include "ERH_error_reporting.h"
 #include "text_editor_console.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
+
 #include "VMH_virtual_machine.h"
 
 

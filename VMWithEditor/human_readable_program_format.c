@@ -26,9 +26,6 @@
 #include "HRF_human_readable_program_format.h"
 #include "LAH_lexical_analyzer.h"
 #include "VMH_virtual_machine.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
 
 HRF_Human_Readable_Program_Format* HRF_duplicate_program(const HRF_Human_Readable_Program_Format*
 	program, const size_t program_size)

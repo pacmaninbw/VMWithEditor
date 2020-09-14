@@ -16,9 +16,6 @@
 #include "file_io_vm.h"
 #include "HRF_human_readable_program_format.h"
 #include "parser.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
 
 bool write_program_to_file(const HRF_Human_Readable_Program_Format* program, const size_t program_size, FILE* out_file)
 {
