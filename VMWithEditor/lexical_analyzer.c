@@ -1,3 +1,6 @@
+#ifndef LEXICAL_ANALYZER_C
+#define LEXICAL_ANALYZER_C
+
 /*
  * lexical_analyzer.c
  *
@@ -11,9 +14,6 @@
  *
  */
 
-#ifndef LEXICAL_ANALYZER_C
-#define LEXICAL_ANALYZER_C
-
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -24,97 +24,13 @@
 #include "ERH_error_reporting.h"
 #include "LAH_lexical_analyzer.h"
 #include "SSF_safe_string_functions.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
-
-/*
- * This function returns the table that represents the current syntactic state
- * and the new state that each possible legal into can go to from the current
- * state. If this function is successful the function deallocate_next_states()
- * should be called when the lexical analisys is done.
- *
- * To allow the parser to report as many errors as possible per statement
- * not all errors result in ERROR_STATE, missing required items are reported
- * in a separate data structure. The decision to report the error is made
- * at the parser level.
- *
- * Columns in table below
- *	OPENBRACE_STATE_TRANSITION = 0,
- *	CLOSEBRACE_STATE_TRANSITION = 1,
- *	COMMA_STATE_TRANSITION = 2,
- *	ALPHA_STATE_TRANSITION = 3,
- *	DIGIT_STATE_TRANSITION = 4,
- *	WHITESPACE_STATE_TRANSITION = 5,
- *	EOL_STATE_TRANSITION = 6		// End of Line
- *  ILLEGAL_CHAR_TRANSITION = 7
- *
- * Rows in table below
- *	START_STATE = 0,			Start of a new line, only white space or open brace is really expected
- *	ENTER_OPCODE_STATE = 1,		Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
- *	OPCODE_STATE = 2,			Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
- *	END_OPCODE_STATE = 3,		White space has been encountered only white space or comma expected
- *	ENTER_OPERAND_STATE = 4,	Comma has been encountered, waiting for first digit of operand white space allowed
- *	OPERAND_STATE = 5,			First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
- *	END_OPERAND_STATE = 6,		White space has been encountered, waiting for close brace to end statement
- *	END_STATEMENT_STATE = 7,	Close brace has been encountered, comma or new line expected
- *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
- *	ERROR_STATE = 9
- */
-static LAH_Syntax_State_Transition* allocate_next_states_once = NULL;
-static LAH_Syntax_State_Transition* get_or_create_next_states(void)
-{
-	if (allocate_next_states_once)
-	{
-		return allocate_next_states_once;
-	}
-
-	allocate_next_states_once = calloc(((size_t)LAH_ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
-	if (!allocate_next_states_once)
-	{
-		ERH_report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
-		return allocate_next_states_once;
-	}
-
-	allocate_next_states_once[LAH_START_STATE] = (LAH_Syntax_State_Transition){ LAH_START_STATE, {LAH_ENTER_OPCODE_STATE, LAH_ERROR_STATE,
-		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_START_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_ENTER_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPCODE_STATE, {LAH_ENTER_OPCODE_STATE,
-		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPCODE_STATE,
-		LAH_ERROR_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_OPCODE_STATE] = (LAH_Syntax_State_Transition){LAH_OPCODE_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
-		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_END_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPCODE_STATE, {LAH_ERROR_STATE,
-		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE,
-		LAH_ERROR_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_ENTER_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPERAND_STATE, {LAH_ERROR_STATE,
-		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_OPERAND_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
-		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_END_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPERAND_STATE, {LAH_ERROR_STATE,
-		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_END_STATEMENT_STATE] = (LAH_Syntax_State_Transition){ LAH_END_STATEMENT_STATE, {LAH_ERROR_STATE,
-		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_DONE_STATE] = (LAH_Syntax_State_Transition){ LAH_DONE_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
-		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_DONE_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
-	allocate_next_states_once[LAH_ERROR_STATE] = (LAH_Syntax_State_Transition){ LAH_ERROR_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
-		LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
-
-	return allocate_next_states_once;
-}
-
-#ifndef INCLUDED_IN_UNIT_TEST
-void deactivate_lexical_analyzer(void)
-{
-	free(allocate_next_states_once);
-	allocate_next_states_once = NULL;
-}
-#endif	// INCLUDED_IN_UNIT_TEST
 
 /*
  * The calling function has already gone through one filter so it is assured that
  * the input character is an alpha and not some other type of character.
  */
-static LAH_State_Transition_Characters get_alpha_input_transition_character_type(Const_U_Char input, const LAH_Syntax_State current_state)
+static LAH_State_Transition_Characters get_alpha_input_transition_character_type(
+	Const_U_Char input, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -139,7 +55,8 @@ static LAH_State_Transition_Characters get_alpha_input_transition_character_type
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static LAH_State_Transition_Characters get_puctuation_transition_character_type(Const_U_Char input)
+static LAH_State_Transition_Characters get_puctuation_transition_character_type(
+	Const_U_Char input)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -169,7 +86,8 @@ static LAH_State_Transition_Characters get_puctuation_transition_character_type(
  * The calling function has already gone through several filter so it is assured
  * that the input character is not an alpha, digit, white space or end of line.
  */
-static LAH_State_Transition_Characters get_whitespace_transition_character_type(Const_U_Char input)
+static LAH_State_Transition_Characters get_whitespace_transition_character_type(
+	Const_U_Char input)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 
@@ -198,7 +116,8 @@ static LAH_State_Transition_Characters get_whitespace_transition_character_type(
  * set save space using ctype functions for large ranges. Also save time on
  * implementation and debugging.
  */
-static LAH_State_Transition_Characters get_transition_character_type(Const_U_Char input, const LAH_Syntax_State current_state)
+static LAH_State_Transition_Characters get_transition_character_type(
+	Const_U_Char input, const LAH_Syntax_State current_state)
 {
 	LAH_State_Transition_Characters character_type = LAH_ILLEGAL_CHAR_TRANSITION;
 	if (isalpha(input))
@@ -254,14 +173,100 @@ static void collect_error_reporting_data(const LAH_Syntax_State current_state,
 	}
 }
 
+
+#ifndef INCLUDED_IN_UNIT_TEST
+ /*
+  * This function returns the table that represents the current syntactic state
+  * and the new state that each possible legal into can go to from the current
+  * state. If this function is successful the function deallocate_next_states()
+  * should be called when the lexical analisys is done.
+  *
+  * To allow the parser to report as many errors as possible per statement
+  * not all errors result in ERROR_STATE, missing required items are reported
+  * in a separate data structure. The decision to report the error is made
+  * at the parser level.
+  *
+  * Columns in table below
+  *	OPENBRACE_STATE_TRANSITION = 0,
+  *	CLOSEBRACE_STATE_TRANSITION = 1,
+  *	COMMA_STATE_TRANSITION = 2,
+  *	ALPHA_STATE_TRANSITION = 3,
+  *	DIGIT_STATE_TRANSITION = 4,
+  *	WHITESPACE_STATE_TRANSITION = 5,
+  *	EOL_STATE_TRANSITION = 6		// End of Line
+  *  ILLEGAL_CHAR_TRANSITION = 7
+  *
+  * Rows in table below
+  *	START_STATE = 0,			Start of a new line, only white space or open brace is really expected
+  *	ENTER_OPCODE_STATE = 1,		Open brace encountered, waiting for opcode (first alpha character) white space or alpha is expected
+  *	OPCODE_STATE = 2,			Open brace and first leter of opcode have been encoutered more alpha, white space or comma expected
+  *	END_OPCODE_STATE = 3,		White space has been encountered only white space or comma expected
+  *	ENTER_OPERAND_STATE = 4,	Comma has been encountered, waiting for first digit of operand white space allowed
+  *	OPERAND_STATE = 5,			First digit of operand has been encountered, remain in this state until white space or close brace is encountered.
+  *	END_OPERAND_STATE = 6,		White space has been encountered, waiting for close brace to end statement
+  *	END_STATEMENT_STATE = 7,	Close brace has been encountered, comma or new line expected
+  *	DONE_STATE = 8,				Comma has been encountered only legal input is white space or new line
+  *	ERROR_STATE = 9
+  */
+static LAH_Syntax_State_Transition* allocate_next_states_once = NULL;
+static LAH_Syntax_State_Transition* get_or_create_next_states(void)
+{
+	if (allocate_next_states_once)
+	{
+		return allocate_next_states_once;
+	}
+
+	allocate_next_states_once = calloc(((size_t)LAH_ERROR_STATE) + 1, sizeof(*allocate_next_states_once));
+	if (!allocate_next_states_once)
+	{
+		ERH_report_error_generic("In create_next_states(), memory allocation for next_states failed\n");
+		return allocate_next_states_once;
+	}
+
+	allocate_next_states_once[LAH_START_STATE] = (LAH_Syntax_State_Transition){ LAH_START_STATE, {LAH_ENTER_OPCODE_STATE, LAH_ERROR_STATE,
+		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_START_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ENTER_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPCODE_STATE, {LAH_ENTER_OPCODE_STATE,
+		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPCODE_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_OPCODE_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
+		LAH_ENTER_OPERAND_STATE, LAH_OPCODE_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_OPCODE_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPCODE_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPCODE_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ENTER_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_ENTER_OPERAND_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_ENTER_OPERAND_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_OPERAND_STATE, {LAH_ERROR_STATE, LAH_END_STATEMENT_STATE,
+		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_OPERAND_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_OPERAND_STATE] = (LAH_Syntax_State_Transition){ LAH_END_OPERAND_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_OPERAND_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_END_STATEMENT_STATE] = (LAH_Syntax_State_Transition){ LAH_END_STATEMENT_STATE, {LAH_ERROR_STATE,
+		LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_END_STATEMENT_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_DONE_STATE] = (LAH_Syntax_State_Transition){ LAH_DONE_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
+		LAH_DONE_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_DONE_STATE, LAH_DONE_STATE, LAH_ERROR_STATE} };
+	allocate_next_states_once[LAH_ERROR_STATE] = (LAH_Syntax_State_Transition){ LAH_ERROR_STATE, {LAH_ERROR_STATE, LAH_ERROR_STATE,
+		LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE, LAH_ERROR_STATE} };
+
+	return allocate_next_states_once;
+}
+
+/*
+ * Called when the lexical analysis is completed, to delete any memory
+ * allocated by the lexical analyzer. To ensure that the lexical analyzer
+ * can run more than once make sure the pointer to the memory is set to NULL.
+ */
+void deactivate_lexical_analyzer(void)
+{
+	free(allocate_next_states_once);
+	allocate_next_states_once = NULL;
+}
+
 /*
  * A design decision was made to allocate next_states only once to save overhead in
  * this function and to not force the parser to allocate the memory.
- * 
+ *
  * This function performs the lexical analysis for the parser, it uses a state machine
  * implemented as a table to do this. That table is the next_states variable.
  */
-#ifndef INCLUDED_IN_UNIT_TEST
 LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state, Const_U_Char input, unsigned syntax_check_list[])
 {
 	LAH_Syntax_State_Transition* next_states = get_or_create_next_states();

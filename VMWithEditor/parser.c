@@ -20,10 +20,8 @@
 #include "SSF_safe_string_functions.h"
 #include "parser.h"
 #include "VMH_virtual_machine.h"
-#ifdef UNIT_TESTING
-#include "UTL_unit_test_logging.h"
-#endif
-/*
+
+ /*
  * Syntax checking starts here
  */
 static void init_error_strings(const char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE])
@@ -185,13 +183,27 @@ static void check_for_required_character(Const_U_Char current_character,
 
 }
 
+/*
+ * Exclude the following public interfaces from being included in the unit test
+ * files to prevent linker errors.
+ */
+#ifndef INTERNAL_PARSER_TESTS_C
+/*
+ * Called when the parser is completed, to delete any memory allocated by the
+ * parser. The progam steps returned by the parser are owned by the calling 
+ * function and will be freed by the calling function when necessary.
+ */
+void deactivate_parser(void)
+{
+	deactivate_lexical_analyzer();
+}
+
 /* Expected syntax:		{opcode, operand} with possible comma at the end.
  *
  * To prevent the global function parser from being defined in multiple object
  * file when this file is included for unit test we check to see if we are in
  * the internal parser unit test file.
  */
-#ifndef INTERNAL_PARSER_TESTS_C
 HRF_Program_Step_Node* parser(Const_U_Char* text_line, size_t* line_number, const char* file_name)
 {
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
@@ -230,6 +242,7 @@ HRF_Program_Step_Node* parser(Const_U_Char* text_line, size_t* line_number, cons
 
 	return next_node;
 }
+
 #endif
 
 #endif // !PARSER_C
