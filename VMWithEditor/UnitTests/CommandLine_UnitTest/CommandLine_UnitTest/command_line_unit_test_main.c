@@ -22,6 +22,11 @@ bool run_all_command_line_unit_tests(const size_t test_step)
 	return all_unit_tests_passed;
 }
 
+/*
+ * The Command Line Unit Test is included in other unit tests such as the
+ * RunAllUnitTests, the main() function is only needed when the command line
+ * unit test is built as a stand alone application.
+ */
 #ifdef COMMANDLINE_UNIT_TESTING_ONLY
 int main()
 {

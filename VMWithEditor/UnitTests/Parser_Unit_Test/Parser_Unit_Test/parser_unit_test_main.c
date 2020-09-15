@@ -40,6 +40,11 @@ bool run_all_parser_unit_tests(size_t test_step)
 	return all_unit_tests_passed;
 }
 
+/*
+ * The Parser Unit Test is included in other unit tests such as the RunAllUnitTests,
+ * the main() function is only needed when the parser is built as a stand alone
+ * application.
+ */
 #ifdef PARSER_UNIT_TEST_ONLY
 int main()
 {

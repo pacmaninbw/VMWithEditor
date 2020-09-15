@@ -106,6 +106,6 @@ int main()
 
 	return passed;
 }
-#endif	// ALL_UNIT_TESTiNG
+#endif	// HRF_UNIT_TESTING_ONLY
 
 #endif // !HRF_UNIT_TEST_MAIN_C

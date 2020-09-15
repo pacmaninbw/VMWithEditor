@@ -1,3 +1,9 @@
+#ifndef EDITOR_UNITTEST_MAIN_C_
+#define EDITOR_UNITTEST_MAIN_C_
+
+/*
+ * Editor_UnitTest_main.c
+ */
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,11 +20,15 @@ bool run_all_editor_unit_tests(void)
 	return all_unit_tests_passed;
 }
 
+/*
+ * The Editor Unit Test is included in other unit tests such as the RunAllUnitTests,
+ * the main() function is only needed when the editor is built as a stand alone
+ * application.
+ */
 #ifdef EDITOR_UNIT_TEST_ONLY
 int main()
 {
 	int passed = EXIT_SUCCESS;
-
 	ERH_error_out_file = stderr;
 
 	if (!ERH_init_vm_error_reporting(NULL) ||
@@ -40,4 +50,4 @@ int main()
 }
 #endif
 
-
+#endif // !EDITOR_UNITTEST_MAIN_C_

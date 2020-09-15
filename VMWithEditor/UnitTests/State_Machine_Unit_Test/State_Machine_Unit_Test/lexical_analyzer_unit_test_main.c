@@ -40,6 +40,10 @@ bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 }
 
 #ifdef LEXICAL_UNIT_TEST_ONLY
+/*
+ * All the unit tests can be combined into a single executable, when this is
+ * done main should not be in each file.
+ */
 int main()
 {
 	ERH_error_out_file = stderr;
@@ -61,6 +65,6 @@ int main()
 
 	return passed;
 }
-#endif
+#endif	// LEXICAL_UNIT_TEST_ONLY
 
 #endif	// !LEXICAL_ANALYZER_UNIT_TEST_MAIN_C

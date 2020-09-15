@@ -21,6 +21,10 @@ bool run_all_vm_unit_tests(void)
 }
 
 #ifdef VIRTUAL_MACHINE_UNIT_TEST_ONLY
+/*
+ * All the unit tests can be combined into a single executable, when this is
+ * done main should not be in each file.
+ */
 int main()
 {
 	ERH_error_out_file = stderr;
@@ -42,6 +46,6 @@ int main()
 
 	return passed;
 }
-#endif
+#endif	// VIRTUAL_MACHINE_UNIT_TEST_ONLY
 
 #endif // !VIRTUAL_MACHINE_UNIT_TEST_MAIN_C
