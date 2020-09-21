@@ -98,7 +98,7 @@ static void log_all_failure_data_for_unit_test_collect_error_reporting_data(
 	SSF_strcat(out_buffer, "new checklist value {", UTL_LOG_BUFFER_SIZE);
 	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
 	SSF_strcat(out_buffer, "\n", UTL_LOG_BUFFER_SIZE);
-	UTL_va_log_fprintf(out_buffer);
+	UTL_va_test_log_formatted_output(log_data, false, out_buffer);
 }
 
 static bool errors_in_sync(unsigned syntax_check_list[], Expected_Syntax_Errors expected_errors)
@@ -122,16 +122,16 @@ static bool run_error_checking_unit_tests(
 {
 	bool test_passed = true;
 
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 
 	for (size_t test_count = 0; test_count < test_runs; test_count++)
 	{
 		log_data->status = true;
 		if (test_count == positive_path_test_count)
 		{
-			UTL_log_end_test_path(log_data);
+			UTL_log_end_test_path(log_data, NULL);
 			log_data->path = UTL_NEGATIVE_PATH;
-			UTL_log_start_test_path(log_data);
+			UTL_log_start_test_path(log_data, NULL);
 		}
 
 		unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
@@ -158,7 +158,7 @@ static bool run_error_checking_unit_tests(
 		}
 	}
 
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 
 	return test_passed;
 }
@@ -202,7 +202,7 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 static bool unit_test_collect_error_reporting_data(size_t test_step)
 {
 	bool test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_collect_error_reporting_data", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0, true);
 	if (!log_data)
@@ -223,11 +223,11 @@ static bool unit_test_collect_error_reporting_data(size_t test_step)
 		return false;
 	}
 
-	UTL_log_start_unit_test(log_data);
+	UTL_log_start_unit_test(log_data, NULL);
 
 	test_passed = run_error_checking_unit_tests(log_data, positivie_path_count, test_data, test_count);
 
-	UTL_log_end_unit_test(log_data);
+	UTL_log_end_unit_test(log_data, NULL);
 
 	free(test_data);
 	free(log_data);
@@ -252,6 +252,9 @@ typedef struct unit_test_functions_and_args
 bool internal_tests_on_all_state_transitions(size_t test_step)
 {
 	bool all_tests_passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
+		"internal_tests_on_all_state_transitions", all_tests_passed,
+		UTL_POSITIVE_PATH, test_step == 0, true);
 
 	State_Machine_Unit_Test_Functions unit_tests[] =
 	{
@@ -270,15 +273,17 @@ bool internal_tests_on_all_state_transitions(size_t test_step)
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		UTL_va_log_fprintf("\nLexical Analyzer Internal Unit Test %zd: %s : %s\n\n",
-			test_count + 1, unit_tests[test_count].test_name,
-			(test_passed) ? "Passed" : "Failed");
+		log_data->function_name = unit_tests[test_count].test_name;
+		log_data->status = test_passed;
+		UTL_log_high_level_test_result(log_data, test_count + 1);
 		// if one test already failed we are good
 		if (all_tests_passed)
 		{
 			all_tests_passed = test_passed;
 		}
 	}	
+
+	free(log_data);
 
 	return all_tests_passed;
 }
@@ -301,11 +306,11 @@ static void report_syntax_errors(const unsigned necessary_items[])
 	{
 		if (i >= LAH_ILLEGALOPCODE && necessary_items[i])
 		{
-			UTL_va_log_fprintf("\t%s\n", error_strings[i]);
+			UTL_va_test_log_formatted_output(NULL, false, "\t%s\n", error_strings[i]);
 		}
 		else if (i < LAH_ILLEGALOPCODE && !necessary_items[i])
 		{
-			UTL_va_log_fprintf("\t%s\n", error_strings[i]);
+			UTL_va_test_log_formatted_output(NULL, false, "\t%s\n", error_strings[i]);
 		}
 	}
 
@@ -341,10 +346,10 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 
 	if (state == LAH_ERROR_STATE || error_count)
 	{
-		UTL_va_log_fprintf("\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
+		UTL_va_test_log_formatted_output(NULL, false, "\n\nStatement %zu (%s) has the following syntax errors\n", statement_number + 1, text_line);
 		if (parser_generated_error)
 		{
-			UTL_va_log_fprintf(parser_generated_error);
+			UTL_va_test_log_formatted_output(NULL, false, parser_generated_error);
 		}
 		report_syntax_errors(syntax_check_list);
 	}
@@ -352,8 +357,8 @@ static bool check_syntax_check_list_and_report_errors_as_parser_would(
 	{
 		if (expected_errors->error_count)
 		{
-			UTL_va_log_fprintf("\n\nStatement %zu (%s)\n", statement_number + 1, text_line);
-			UTL_va_log_fprintf("Expected syntax errors were:\n");
+			UTL_va_test_log_formatted_output(NULL, false, "\n\nStatement %zu (%s)\n", statement_number + 1, text_line);
+			UTL_va_test_log_formatted_output(NULL, false, "Expected syntax errors were:\n");
 			report_syntax_errors(expected_errors->syntax_check_list);
 		}
 	}
@@ -399,7 +404,7 @@ static void report_lexical_analyzer_test_failure(LAH_Syntax_State current_state,
 	SSF_strcat(out_buffer, "new checklist values {", sizeof(out_buffer));
 	print_syntax_error_checklist(syntax_check_list, out_buffer, sizeof(out_buffer));
 	SSF_strcat(out_buffer, "\n", sizeof(out_buffer));
-	UTL_va_log_fprintf(out_buffer);
+	UTL_va_test_log_formatted_output(NULL, false, out_buffer);
 }
 
 /*
@@ -508,7 +513,7 @@ bool run_parse_program_loop(UTL_Test_Log_Data* log_data, Lexical_Analyzer_Test_D
 bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 {
 	bool test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_parse_statements_for_lexical_analysis", test_passed,
 		UTL_POSITIVE_PATH, test_step == 0, true);
 
@@ -518,12 +523,12 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 		return false;
 	}
 
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 	if (!run_parse_program_loop(log_data, positive_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 
 
 	Lexical_Analyzer_Test_Data* negative_path_data = init_negative_path_data_for_lexical_analysis(log_data);
@@ -533,15 +538,15 @@ bool unit_test_parse_statements_for_lexical_analysis(size_t test_step)
 	}
 
 	log_data->path = UTL_NEGATIVE_PATH;
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 	char* explanation = "Only statements with syntax errors are printed"
 		" Statement 1 and statement 8 do not contain syntax errors\n\n";
-	UTL_va_log_fprintf(explanation);
+	UTL_va_test_log_formatted_output(NULL, false, explanation);
 	if (!run_parse_program_loop(log_data, negative_path_data))
 	{
 		test_passed = log_data->status;
 	}
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 
 	deallocate_lexical_test_data(positive_path_data);
 	deallocate_lexical_test_data(negative_path_data);
@@ -561,7 +566,7 @@ bool unit_test_lexical_analyzer(size_t test_step)
 {
 	bool test_passed = true;
 
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_lexical_analyzer", test_passed, UTL_POSITIVE_PATH,
 		test_step == 0, true);
 	if (!log_data)
@@ -570,12 +575,12 @@ bool unit_test_lexical_analyzer(size_t test_step)
 		return false;
 	}
 
-	UTL_log_start_unit_test(log_data);
+	UTL_log_start_unit_test(log_data, NULL);
 
 	test_passed = unit_test_parse_statements_for_lexical_analysis(test_step);
 	log_data->status = test_passed;
 
-	UTL_log_end_unit_test(log_data);
+	UTL_log_end_unit_test(log_data, NULL);
 
 	free(log_data);
 

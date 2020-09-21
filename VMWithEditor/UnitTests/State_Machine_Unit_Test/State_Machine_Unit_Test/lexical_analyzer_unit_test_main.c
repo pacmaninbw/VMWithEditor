@@ -17,8 +17,12 @@
 bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 {
 	bool all_unit_tests_passed = true;
+	char additional_data[UTL_LOG_BUFFER_SIZE];
+	snprintf(additional_data, sizeof(additional_data), ": Unit Test %u", test_step);
+	UTL_Test_Log_Data* log_data = UTL_new_log_data("run_all_lexical_analyzer_unit_tests",
+		all_unit_tests_passed, UTL_POSITIVE_PATH, test_step == 0, false);
 
-	UTL_va_log_fprintf("Unit Test %u: Starting Lexical Analizer Unit Tests \n\n", test_step);
+	UTL_log_high_level_start_test(log_data, test_step);
 
 	all_unit_tests_passed = internal_tests_on_all_state_transitions(test_step);
 
@@ -29,12 +33,13 @@ bool run_all_lexical_analyzer_unit_tests(unsigned test_step)
 			unit_test_lexical_analyzer(test_step);
 	}
 
-	UTL_va_log_fprintf("Unit Test %u: run_all_lexical_analyzer_unit_tests(unsigned "
-		"test_step) : %s\n\n", test_step, all_unit_tests_passed ? "Passed" : "Failed");
+	UTL_log_end_unit_test(log_data, additional_data);
 
 	deactivate_lexical_analyzer();
 
-	UTL_va_log_fprintf("Unit Test %u: Ending Lexical Analizer Unit Tests \n\n", test_step);
+	log_data->status = all_unit_tests_passed;
+	UTL_log_high_level_test_result(log_data, test_step);
+	free(log_data);
 
 	return all_unit_tests_passed;
 }
