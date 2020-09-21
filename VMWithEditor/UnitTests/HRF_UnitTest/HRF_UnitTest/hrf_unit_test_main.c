@@ -6,6 +6,7 @@
 #define HRF_UNIT_TEST_MAIN_C
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "ERH_error_reporting.h"
@@ -34,23 +35,27 @@ static bool hrf_individual_stand_alone_unit_tests(size_t test_max, Unit_Test_Fun
 	bool passed = true;
 	size_t test_step = 0;
 	char* file_name = NULL;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
+		"hrf_individual_stand_alone_unit_tests", passed, UTL_POSITIVE_PATH, true, false);
 
-	for (size_t test_count = 0; test_count < test_max && passed; test_count++)
+	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = (unit_tests[test_count].arg_count == 1) ?
 			unit_tests[test_count].func.func1(test_step) :
 			unit_tests[test_count].func.func2(file_name, test_step);
-		UTL_va_log_fprintf("\nUnit Test %zd: %s : %s\n\n", test_count + 1,
-			unit_tests[test_count].test_name, (test_passed) ? "Passed" : "Failed");
+		UTL_log_high_level_test_result(log_data, test_count + 1);
 		passed = test_passed;
 	}
 
 	return passed;
 }
 
-bool run_all_hrf_unit_tests(void)
+bool run_all_hrf_unit_tests(size_t test_id)
 {
 	bool all_unit_tests_passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
+		"run_all_hrf_unit_tests", all_unit_tests_passed, UTL_POSITIVE_PATH,
+		true, false);
 
 	Unit_Test_Functions_and_Args unit_tests[] =
 	{
@@ -68,14 +73,16 @@ bool run_all_hrf_unit_tests(void)
 	{
 		test_count++;
 		all_unit_tests_passed = unit_test_all_human_readable_format();
-		UTL_va_log_fprintf(
-			"Unit Test %zd: unit_test_all_human_readable_format() : %s\n\n",
-			test_count, all_unit_tests_passed ? "Passed" : "Failed");
 	}
 	else
 	{
 		all_unit_tests_passed = false;
 	}
+
+	log_data->status = all_unit_tests_passed;
+	UTL_log_high_level_test_result(log_data, test_id);
+
+	free(log_data);
 
 	return all_unit_tests_passed;
 }
@@ -96,7 +103,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	if (!run_all_hrf_unit_tests())
+	if (!run_all_hrf_unit_tests(0))
 	{
 		passed = EXIT_FAILURE;
 	}

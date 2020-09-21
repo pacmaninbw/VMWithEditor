@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\..\default_program.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\safe_string_functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="unit_test_human_readable_program_format.h">
@@ -47,10 +50,13 @@
     <ClInclude Include="hrf_unit_test_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\SSF_safe_string_functions.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\HRF_human_readable_program_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common_UnitTest_Code\UTL_unit_test_logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ERH_error_reporting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

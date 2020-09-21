@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\..\default_program.c" />
     <ClCompile Include="..\..\..\error_reporting.c" />
     <ClCompile Include="..\..\..\opcode.c" />
+    <ClCompile Include="..\..\..\safe_string_functions.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
     <ClCompile Include="hrf_unit_test_main.c">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS;UNIT_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -154,10 +155,11 @@
     <ClCompile Include="unit_test_human_readable_program_format.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ERH_error_reporting.h" />
     <ClInclude Include="..\..\..\file_io_vm.h" />
     <ClInclude Include="..\..\..\HRF_human_readable_program_format.h" />
-    <ClInclude Include="..\..\..\SSF_safe_string_functions.h" />
     <ClInclude Include="..\..\..\virtual_machine.h" />
+    <ClInclude Include="..\..\Common_UnitTest_Code\UTL_unit_test_logging.h" />
     <ClInclude Include="hrf_unit_test_main.h" />
     <ClInclude Include="unit_test_human_readable_program_format.h" />
   </ItemGroup>

@@ -33,11 +33,12 @@ bool unit_test_hrf_duplicate_program(size_t test_step)
 {
 	bool passed = true;
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_hrf_duplicate_program", passed, UTL_NEGATIVE_PATH,
 		test_step == 0, false);
 
-	UTL_va_log_fprintf("\nUnit test: unit_test_hrf_duplicate_program NOT IMPLEMENTED\n");
+	UTL_log_test_not_implemented(log_data);
+	this_test_passed = log_data->status;
 
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
@@ -51,11 +52,11 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 {
 	bool passed = true;
 
-	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data *log_data = UTL_new_log_data(
 		"unit_test_hrf_create_program_step", passed, UTL_POSITIVE_PATH,
 		test_step == 0, true);
 
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 
 	size_t test_program_size = 0;
 	HRF_Human_Readable_Program_Format* test_program = default_program(&test_program_size);
@@ -106,7 +107,7 @@ bool unit_test_hrf_create_program_step(size_t test_step)
 	HRF_delete_linked_list_of_program_steps(test_head);
 	free(test_program);
 	
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 	free(log_data);
 
 	return passed;
@@ -116,11 +117,12 @@ bool unit_test_hrf_convert_array_program_to_linked_list(size_t test_step)
 {
 	bool passed = true;
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_hrf_convert_array_program_to_linked_list", passed,
 		UTL_NEGATIVE_PATH, (!test_step), true);
 
-	UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_array_program_to_linked_list NOT IMPLEMENTED\n");
+	UTL_log_test_not_implemented(log_data);
+	this_test_passed = log_data->status;
 
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
@@ -133,16 +135,13 @@ bool unit_test_hrf_convert_array_program_to_linked_list(size_t test_step)
 bool unit_test_hrf_convert_link_list_program_to_array(size_t test_step)
 {
 	bool passed = true;
-	bool stand_alone_test = (!test_step);
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_hrf_convert_link_list_program_to_array", passed, 
 		UTL_NEGATIVE_PATH, (!test_step), true);
 
-	if (stand_alone_test)
-	{
-		UTL_va_log_fprintf("\nUnit test: unit_test_hrf_convert_link_list_program_to_array NOT IMPLEMENTED\n");
-	}
+	UTL_log_test_not_implemented(log_data);
+	this_test_passed = log_data->status;
 
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
@@ -155,8 +154,12 @@ bool unit_test_hrf_convert_link_list_program_to_array(size_t test_step)
 bool unit_test_all_human_readable_format()
 {
 	bool passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
+		"unit_test_all_human_readable_format", passed,
+		UTL_NEGATIVE_PATH, false, true);
 
-	UTL_va_log_fprintf("\nUnit test: unit_test_all_human_readable_format NOT IMPLEMENTED\n");
+	UTL_log_test_not_implemented(log_data);
+	passed = log_data->status;
 
 	return passed;
 }
