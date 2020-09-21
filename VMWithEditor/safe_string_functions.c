@@ -24,15 +24,8 @@ void SSF_report_strdup_failure(char *function_name, char* allocated_string)
 	char buffer[ERH_ERROR_BUFFER_SIZE];
 	snprintf(buffer, sizeof(buffer), "in %s: SSF_strdup() returned NULL for %s",
 		function_name, allocated_string);
-	if (errno)
-	{
-		perror(buffer);
-	}
-	else
-	{
-		ERH_va_report_error_fprintf("%s\n", buffer);
-	}
 
+	ERH_use_perror_when_errno(buffer);
 }
 
 /* This function was heavily influenced by this code review:

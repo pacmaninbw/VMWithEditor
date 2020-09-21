@@ -9,6 +9,7 @@
 #ifndef ERROR_REPORTING_C
 #define ERROR_REPORTING_C
 
+#include <errno.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -22,6 +23,19 @@ static bool error_reporting_initialized = false;
 bool ERH_error_reporting_is_initialized(void)
 {
 	return error_reporting_initialized;
+}
+
+void ERH_use_perror_when_errno(const char* error_message)
+{
+	if (errno)
+	{
+		perror(error_message);
+	}
+	else
+	{
+		fprintf(ERH_error_out_file, "%s\n", error_message);
+	}
+
 }
 
 bool ERH_init_vm_error_reporting(const char* error_log_file_name)
@@ -65,14 +79,14 @@ void ERH_report_error_output_fopen_failed(const char* file_name)
 {
 	char buffer[ERH_ERROR_BUFFER_SIZE];
 	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open output file, %s", (char *)file_name);
-	perror(buffer);
+	ERH_use_perror_when_errno(buffer);
 }
 
 void ERH_report_error_input_fopen_failed(const char* file_name)
 {
 	char buffer[ERH_ERROR_BUFFER_SIZE];
 	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open input file, %s", (char*)file_name);
-	perror(buffer);
+	ERH_use_perror_when_errno(buffer);
 }
 
 void ERH_va_report_error_fprintf(const char *format, ...)
