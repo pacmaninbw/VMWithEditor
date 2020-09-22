@@ -1,13 +1,13 @@
-Unit Test 1: Starting Lexical Analizer Unit Tests 
+Unit Test 1: Starting run_all_lexical_analyzer_unit_tests
 
 
-Lexical Analyzer Internal Unit Test 1: unit_test_get_alpha_input_transition_character_type : Passed
+Unit Test 1: unit_test_get_alpha_input_transition_character_type : Passed
 
 
-Lexical Analyzer Internal Unit Test 2: unit_test_get_transition_character_type : Passed
+Unit Test 2: unit_test_get_transition_character_type : Passed
 
 
-Lexical Analyzer Internal Unit Test 3: unit_test_collect_error_reporting_data : Passed
+Unit Test 3: unit_test_collect_error_reporting_data : Passed
 
 Only statements with syntax errors are printed Statement 1 and statement 8 do not contain syntax errors
 
@@ -50,53 +50,65 @@ Statement 10 (HALT) has the following syntax errors
 	Missing comma(s)
 	Missing operand or operand out of range
 	Illegal character in column 1 (are you missing the opening brace { )
-Unit Test 1: run_all_lexical_analyzer_unit_tests(unsigned test_step) : Passed
 
-Unit Test 1: Ending Lexical Analizer Unit Tests 
+ENDING unit test for run_all_lexical_analyzer_unit_tests: test PASSED : Unit Test 1
+
+
+Unit Test 1: run_all_lexical_analyzer_unit_tests : Passed
 
 Unit Test 1: Ending Lexical Analizer Unit Tests Parser ready for testing.
 
+Unit Test 0: Starting run_all_parser_unit_tests
+
+STARTING internal unit test for run_all_internal_parser_unit_tests 
+
+    STARTING internal unit test for unit_test_get_opcode_or_operand_string 
 
 
-unit_test_get_opcode_or_operand_string NOT Implemented
+        Unit test: unit_test_get_opcode_or_operand_string NOT IMPLEMENTED
+
+    ENDING unit test for unit_test_get_opcode_or_operand_string: test FAILED 
 
 
-Parser Internal Unit Test 1: unit_test_get_opcode_or_operand_string : Failed
+Unit Test 1: unit_test_get_opcode_or_operand_string : Failed
+
+    STARTING internal unit test for unit_test_get_legal_opcode_or_oparand 
 
 
+        Unit test: unit_test_get_legal_opcode_or_oparand NOT IMPLEMENTED
 
-unit_test_get_legal_opcode_or_oparand NOT Implemented
-
-
-Parser Internal Unit Test 2: unit_test_get_legal_opcode_or_oparand : Failed
-
-STARTING internal unit test for unit_test_print_syntax_errors
+    ENDING unit test for unit_test_get_legal_opcode_or_oparand: test FAILED 
 
 
-Starting POSITIVE PATH testing for unit_test_print_syntax_errors
+Unit Test 2: unit_test_get_legal_opcode_or_oparand : Failed
+
+    STARTING internal unit test for unit_test_print_syntax_errors 
 
 
-unit_test_print_syntax_errors(): Positive Path Passed
-
-Ending POSITIVE PATH testing for unit_test_print_syntax_errors, POSITIVE PATH  PASSED
+        Starting POSITIVE PATH testing for unit_test_print_syntax_errors 
 
 
-Starting NEGATIVE PATH testing for unit_test_print_syntax_errors
+            unit_test_print_syntax_errors(): Positive Path Passed
+
+        Ending POSITIVE PATH testing for unit_test_print_syntax_errors, POSITIVE PATH  PASSED 
+
+
+        Starting NEGATIVE PATH testing for unit_test_print_syntax_errors 
 
 In file No File Name line 1 there are 11 errors: Unit Testing print_syntax_errors()
     The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
 	Missing the opening brace.
 
-unit_test_print_syntax_errors(): Negative Path Passed
+            unit_test_print_syntax_errors(): Negative Path Passed
 
-Ending NEGATIVE PATH testing for unit_test_print_syntax_errors, NEGATIVE PATH  PASSED
+        Ending NEGATIVE PATH testing for unit_test_print_syntax_errors, NEGATIVE PATH  PASSED 
 
 
-Parser Internal Unit Test 3: unit_test_print_syntax_errors : Passed
+Unit Test 3: unit_test_print_syntax_errors : Passed
 
-Unit Test 0: Ending Internal Parser Unit Tests : Failed
 
-Unit Test 0: run_all_parser_unit_tests(unsigned test_step) : Failed
+    ENDING unit test for run_all_internal_parser_unit_tests: test FAILED 
 
-Unit Test 0: Ending Parser Unit Tests 
+
+Unit Test 0: run_all_parser_unit_tests : Failed
 
