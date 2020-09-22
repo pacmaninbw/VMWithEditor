@@ -1,42 +1,55 @@
 #ifndef PARSER_UNIT_TEST_MAIN_C
 #define PARSER_UNIT_TEST_MAIN_C
+
+/*
+ * parser_unit_test_main.c
+ *
+ * Main entry point and control for the parser unit test.
+ */
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "parser.h"
+#include "ERH_error_reporting.h"
 #include "LAH_lexical_analyzer.h"
 #include "lexical_analyzer_unit_test_main.h"
-#include "ERH_error_reporting.h"
-#include "internal_sytax_state_tests.h"
-#include "UTL_unit_test_logging.h"
 #include "internal_parser_tests.h"
+#include "parser.h"
 #include "parser_unit_test.h"
+#include "UTL_unit_test_logging.h"
 
 bool run_all_parser_unit_tests(size_t test_step)
 {
 	bool all_unit_tests_passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data("run_all_parser_unit_tests", true, UTL_POSITIVE_PATH, test_step == 0, false);
+
+	UTL_log_high_level_start_test(log_data, test_step);
 
 	// Make sure all the internal parser functions work before testing the
 	// parser.
+	UTL_Test_Log_Data* internal_parser_unit_tests = UTL_new_log_data("Parser Unit Tests", true, UTL_POSITIVE_PATH, test_step == 0, true);
+	UTL_log_start_unit_test(internal_parser_unit_tests, NULL);
 	all_unit_tests_passed = run_all_internal_parser_unit_tests(test_step);
-	UTL_va_log_fprintf("Unit Test %u: Ending Internal Parser Unit Tests : %s\n\n",
-		test_step, all_unit_tests_passed ? "Passed" : "Failed");
+	internal_parser_unit_tests->status = all_unit_tests_passed;
+	UTL_log_end_unit_test(internal_parser_unit_tests, NULL);
+
+	log_data->status = internal_parser_unit_tests->status;
 
 	if (all_unit_tests_passed)
 	{
+		UTL_log_start_unit_test(log_data, NULL);
 		// test the public interface for the parser
 		all_unit_tests_passed = unit_test_parser(NULL, test_step);
+		log_data->status = all_unit_tests_passed;
+		UTL_log_end_unit_test(log_data, NULL);
 	}
-
-	UTL_va_log_fprintf("Unit Test %u: run_all_parser_unit_tests(unsigned test_step) : %s\n\n",
-		test_step, all_unit_tests_passed ? "Passed" : "Failed");
 
 	deactivate_parser();
 
-	UTL_va_log_fprintf("Unit Test %u: Ending Parser Unit Tests \n\n", test_step);
-
+	UTL_log_high_level_test_result(log_data, test_step);
+	
 	return all_unit_tests_passed;
 }
 
@@ -65,7 +78,7 @@ int main()
 	}
 	else
 	{
-		UTL_va_log_fprintf("Unit Test %u: Ending Lexical Analizer Unit Tests %s\n\n",
+		UTL_va_test_log_formatted_output(NULL, false, "Unit Test %u: Ending Lexical Analizer Unit Tests %s\n\n",
 			unit_test_test_step, "Parser ready for testing.");
 	}
 

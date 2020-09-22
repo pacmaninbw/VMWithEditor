@@ -73,17 +73,17 @@ static bool single_syntax_test(UTL_Test_Log_Data *log_data, Syntax_Strings_For_T
 	log_data->status = this_test_passed;
 	UTL_log_test_status_each_step(log_data);
 	free(test_head);
-	UTL_va_log_fprintf("\n");
+	UTL_va_test_log_formatted_output(NULL, false, "\n");
 
 	return this_test_passed;
 }
 
 bool unit_test_parser(char* file_name, unsigned test_step)
 {
-	bool passed = true;
+	bool all_tests_passed = true;
 	bool stand_alone_test = (!file_name && !test_step);
-	UTL_Test_Log_Data *log_data = UTL_create_and_init_test_log_data("unit_test_parser",
-		passed, UTL_POSITIVE_PATH, stand_alone_test, true);
+	UTL_Test_Log_Data* log_data = UTL_new_log_data("unit_test_parser",
+		all_tests_passed, UTL_POSITIVE_PATH, stand_alone_test, true);
 	char* test_file_name = NULL;
 	size_t test_data_size = 0;
 	size_t positive_count = 0;
@@ -94,31 +94,40 @@ bool unit_test_parser(char* file_name, unsigned test_step)
 	}
 
 	test_file_name = (!file_name || !test_step) ? "No File Name" : file_name;
-	UTL_log_start_unit_test(log_data);
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_unit_test(log_data, NULL);
+	UTL_log_start_test_path(log_data, NULL);
 
 	size_t test_count = 0;
-	for ( ; test_count < positive_count && passed; test_count++)
+	for (; test_count < positive_count; test_count++)
 	{
-		passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		bool passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		if (all_tests_passed)
+		{
+			all_tests_passed = passed;
+		}
 	}
 
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 	log_data->path = UTL_NEGATIVE_PATH;
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 
-	for (; test_count < test_data_size && passed; test_count++)
+	for (; test_count < test_data_size; test_count++)
 	{
-		passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		bool passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		if (all_tests_passed)
+		{
+			all_tests_passed = passed;
+		}
 	}
 
-	UTL_log_end_test_path(log_data);
-	UTL_log_end_unit_test(log_data);
+	log_data->status = all_tests_passed;
+	UTL_log_end_test_path(log_data, NULL);
+	UTL_log_end_unit_test(log_data, NULL);
 
 	free(test_data);
 	free(log_data);
 
-	return passed;
+	return all_tests_passed;
 }
 
 #endif	// !PARSER_UNIT_TEST_C

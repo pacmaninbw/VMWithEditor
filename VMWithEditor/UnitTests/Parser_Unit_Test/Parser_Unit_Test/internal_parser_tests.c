@@ -27,9 +27,21 @@
 static bool unit_test_get_opcode_or_operand_string(size_t test_step)
 {
 	bool passed = true;
+	UTL_Test_Log_Data *log_data = UTL_new_log_data(
+		"unit_test_get_opcode_or_operand_string", passed, UTL_POSITIVE_PATH,
+		test_step == 0, true);
 
-	UTL_va_log_fprintf("\n\nunit_test_get_opcode_or_operand_string NOT Implemented\n\n");
-	passed = false;
+	UTL_log_start_unit_test(log_data, NULL);
+
+	UTL_log_test_not_implemented(log_data);
+	log_data->status = false;
+
+	if (passed)
+	{
+		passed = log_data->status;
+	}
+
+	UTL_log_end_unit_test(log_data, NULL);
 
 	return passed;
 }
@@ -37,9 +49,21 @@ static bool unit_test_get_opcode_or_operand_string(size_t test_step)
 static bool unit_test_get_legal_opcode_or_oparand(size_t test_step)
 {
 	bool passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
+		"unit_test_get_legal_opcode_or_oparand", passed, UTL_POSITIVE_PATH,
+		test_step == 0, true);
 
-	UTL_va_log_fprintf("\n\nunit_test_get_legal_opcode_or_oparand NOT Implemented\n\n");
-	passed = false;
+	UTL_log_start_unit_test(log_data, NULL);
+
+	UTL_log_test_not_implemented(log_data);
+	log_data->status = false;
+
+	if (passed)
+	{
+		passed = log_data->status;
+	}
+
+	UTL_log_end_unit_test(log_data, NULL);
 
 	return passed;
 }
@@ -51,12 +75,12 @@ static bool unit_test_print_syntax_errors(size_t test_step)
 	char* test_file_name = "No File Name";
 	char* text_line = "Unit Testing print_syntax_errors()";
 	bool this_test_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_create_and_init_test_log_data(
+	UTL_Test_Log_Data* log_data = UTL_new_log_data(
 		"unit_test_print_syntax_errors", passed, UTL_POSITIVE_PATH, (!test_step), true);
 	size_t line_number = 1;
 
-	UTL_log_start_unit_test(log_data);
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_unit_test(log_data, NULL);
+	UTL_log_start_test_path(log_data, NULL);
 
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
@@ -73,10 +97,10 @@ static bool unit_test_print_syntax_errors(size_t test_step)
 	this_test_passed = print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 
 	log_data->path = UTL_NEGATIVE_PATH;
-	UTL_log_start_test_path(log_data);
+	UTL_log_start_test_path(log_data, NULL);
 	/*
 	 * The Ultimate negative test path, every check should fail.
 	 */
@@ -96,7 +120,7 @@ static bool unit_test_print_syntax_errors(size_t test_step)
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
 	log_data->status = this_test_passed;
-	UTL_log_end_test_path(log_data);
+	UTL_log_end_test_path(log_data, NULL);
 
 	return passed;
 }
@@ -113,6 +137,7 @@ typedef struct unit_test_functions_and_args
 bool run_all_internal_parser_unit_tests(size_t test_step)
 {
 	bool all_tests_passed = true;
+	UTL_Test_Log_Data* log_data = UTL_new_log_data("run_all_internal_parser_unit_tests", all_tests_passed, UTL_POSITIVE_PATH, test_step == 0, true);
 
 	Parser_Unit_Test_Functions unit_tests[] =
 	{
@@ -125,12 +150,13 @@ bool run_all_internal_parser_unit_tests(size_t test_step)
 	};
 	size_t test_max = (sizeof(unit_tests) / sizeof(*unit_tests));
 
+	const char* overall_log_function_name = log_data->function_name;
 	for (size_t test_count = 0; test_count < test_max; test_count++)
 	{
 		bool test_passed = unit_tests[test_count].func(test_step);
-		UTL_va_log_fprintf("\nParser Internal Unit Test %zd: %s : %s\n\n",
-			test_count + 1, unit_tests[test_count].test_name,
-			(test_passed) ? "Passed" : "Failed");
+		log_data->function_name = unit_tests[test_count].test_name;
+		log_data->status = test_passed;
+		UTL_log_high_level_test_result(log_data, test_count + 1);
 		// if one test already failed we are good
 		if (all_tests_passed)
 		{
