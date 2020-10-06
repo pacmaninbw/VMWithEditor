@@ -35,4 +35,10 @@ unsigned char* SSF_ucstrdup(Const_U_Char* string_to_copy);
  */
 char* SSF_strcat(char* destination, char* source, size_t destination_size);
 
+/*
+ * Provides a safe version of strcpy that makes sure the destination string
+ * will not overflow.
+ */
+char* SSF_strcpy(char* destination, char* source, size_t destination_size);
+
 #endif	// SSF_SAFE_STRING_FUNCTIONS_H

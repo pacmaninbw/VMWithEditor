@@ -74,9 +74,63 @@ unsigned char* SSF_ucstrdup(Const_U_Char* string_to_copy)
 
 char* SSF_strcat(char* destination, char* source, size_t destination_size)
 {
-	if ((strlen(destination) + strlen(source) + 1) < destination_size)
+	if (destination)
 	{
-		strcat(destination, source);
+		destination[0] = 0;
+	}
+
+	if (!destination || !source || !(destination_size > 0))
+	{
+#ifdef EINVAL
+		errno = EINVAL;
+#endif
+		ERH_use_perror_when_errno("Invalid argument in SSF_strcat.");
+	}
+	else
+	{
+		if ((strlen(destination) + strlen(source) + 1) < destination_size)
+		{
+			strcat(destination, source);
+		}
+		else
+		{
+#ifdef EINVAL
+			errno = EINVAL;
+#endif
+			ERH_use_perror_when_errno("In SSF_strcat destination is not large enough to concatenate source.");
+		}
+	}
+
+	return destination;
+}
+
+char* SSF_strcpy(char* destination, char* source, size_t destination_size)
+{
+	if (destination)
+	{
+		destination[0] = 0;
+	}
+
+	if (!destination || !source || !(destination_size > 0))
+	{
+#ifdef EINVAL
+		errno = EINVAL;
+#endif
+		ERH_use_perror_when_errno("Invalid argument in SSF_strcpy.");
+	}
+	else
+	{
+		if (strlen(source) + 1 <= destination_size)
+		{
+			strcpy(destination, source);
+		}
+		else
+		{
+#ifdef EINVAL
+			errno = EINVAL;
+#endif
+			ERH_use_perror_when_errno("In SSF_strcpy destination is shorter than source.");
+		}
 	}
 
 	return destination;
