@@ -17,7 +17,8 @@ typedef struct syntax_strings_for_testing
 	UTL_Path_State path;
 } Syntax_Strings_For_Testing;
 
-static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size, size_t* positive_count)
+static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size,
+	size_t* positive_count)
 {
 	Syntax_Strings_For_Testing check_line_syntax_test_data[] =
 	{
@@ -33,9 +34,11 @@ static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size,
 		{"{HALT}", UTL_NEGATIVE_PATH}						// missing comma and operand
 	};
 
-	*test_data_size = sizeof(check_line_syntax_test_data) / sizeof(*check_line_syntax_test_data);
+	*test_data_size = sizeof(check_line_syntax_test_data) /
+		sizeof(*check_line_syntax_test_data);
 
-	Syntax_Strings_For_Testing* test_data = calloc(*test_data_size, sizeof(*test_data));
+	Syntax_Strings_For_Testing* test_data = calloc(*test_data_size,
+		sizeof(*test_data));
 	if (test_data)
 	{
 		for (size_t i = 0; i < *test_data_size; i++)
@@ -60,13 +63,15 @@ static Syntax_Strings_For_Testing* init_syntax_test_data(size_t* test_data_size,
  * HRF_Program_Step_Node because the statement parsed properly, if we are testing
  * the negative path, the parser should encounter error syntax and return NULL.
  */
-static bool single_syntax_test(UTL_Test_Log_Data *log_data, Syntax_Strings_For_Testing test_data, char* test_file_name)
+static bool single_syntax_test(UTL_Test_Log_Data *log_data,
+	Syntax_Strings_For_Testing test_data, char* test_file_name)
 {
 	bool this_test_passed = true;
 	HRF_Program_Step_Node* test_head = NULL;
 	size_t prog_size = 1;
 
-	test_head = parser((unsigned char*)test_data.string_to_check, &prog_size, test_file_name);
+	test_head = parser((unsigned char*)test_data.string_to_check, &prog_size,
+		test_file_name);
 	this_test_passed = test_data.path == UTL_POSITIVE_PATH ?
 		(test_head && test_head->opcode_and_operand.opcode == OPC_HALT) :
 		(!test_head);
@@ -78,7 +83,7 @@ static bool single_syntax_test(UTL_Test_Log_Data *log_data, Syntax_Strings_For_T
 	return this_test_passed;
 }
 
-bool unit_test_parser(char* file_name, unsigned test_step)
+bool unit_test_parser(char* file_name, size_t test_step)
 {
 	bool all_tests_passed = true;
 	bool stand_alone_test = (!file_name && !test_step);
@@ -87,7 +92,8 @@ bool unit_test_parser(char* file_name, unsigned test_step)
 	char* test_file_name = NULL;
 	size_t test_data_size = 0;
 	size_t positive_count = 0;
-	Syntax_Strings_For_Testing* test_data = init_syntax_test_data(&test_data_size, &positive_count);
+	Syntax_Strings_For_Testing* test_data = init_syntax_test_data(&test_data_size,
+		&positive_count);
 	if (!test_data)
 	{
 		return false;
@@ -100,7 +106,8 @@ bool unit_test_parser(char* file_name, unsigned test_step)
 	size_t test_count = 0;
 	for (; test_count < positive_count; test_count++)
 	{
-		bool passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		bool passed = single_syntax_test(log_data, test_data[test_count],
+			test_file_name);
 		if (all_tests_passed)
 		{
 			all_tests_passed = passed;
@@ -113,7 +120,8 @@ bool unit_test_parser(char* file_name, unsigned test_step)
 
 	for (; test_count < test_data_size; test_count++)
 	{
-		bool passed = single_syntax_test(log_data, test_data[test_count], test_file_name);
+		bool passed = single_syntax_test(log_data, test_data[test_count],
+			test_file_name);
 		if (all_tests_passed)
 		{
 			all_tests_passed = passed;
