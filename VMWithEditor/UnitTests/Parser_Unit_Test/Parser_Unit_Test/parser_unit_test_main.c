@@ -23,17 +23,18 @@
 bool run_all_parser_unit_tests(size_t test_step)
 {
 	bool all_unit_tests_passed = true;
-	UTL_Test_Log_Data* log_data = UTL_new_log_data("run_all_parser_unit_tests", true, UTL_POSITIVE_PATH, test_step == 0, false);
+	UTL_Test_Log_Data* log_data = UTL_new_log_data("run_all_parser_unit_tests", true,
+		UTL_POSITIVE_PATH, test_step == 0, false);
 
 	UTL_log_high_level_start_test(log_data, test_step);
 
 	// Make sure all the internal parser functions work before testing the
 	// parser.
-	UTL_Test_Log_Data* internal_parser_unit_tests = UTL_new_log_data("Parser Unit Tests", true, UTL_POSITIVE_PATH, test_step == 0, true);
-	UTL_log_start_unit_test(internal_parser_unit_tests, NULL);
-	all_unit_tests_passed = run_all_internal_parser_unit_tests(test_step);
-	internal_parser_unit_tests->status = all_unit_tests_passed;
-	UTL_log_end_unit_test(internal_parser_unit_tests, NULL);
+	UTL_Test_Log_Data* internal_parser_unit_tests = UTL_new_log_data(
+		"run_all_internal_parser_unit_tests", true, UTL_POSITIVE_PATH,
+		test_step == 0, true);
+	all_unit_tests_passed = run_all_internal_parser_unit_tests(
+		internal_parser_unit_tests);
 
 	log_data->status = internal_parser_unit_tests->status;
 
@@ -71,14 +72,18 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	// Lexical analyzer unit tests must pass before testing the parser.
+	/*
+	 * Lexical analyzer unit tests must pass before testing the parser. The Lexical
+	 * analyzer functions are used extensively by the parser.
+	 */
 	if (!run_all_lexical_analyzer_unit_tests(unit_test_test_step))
 	{
 		passed = EXIT_FAILURE;
 	}
 	else
 	{
-		UTL_va_test_log_formatted_output(NULL, false, "Unit Test %u: Ending Lexical Analizer Unit Tests %s\n\n",
+		UTL_va_test_log_formatted_output(NULL, false, "Unit Test %u: Ending Lexical"
+			" Analizer Unit Tests %s\n\n",
 			unit_test_test_step, "Parser ready for testing.");
 	}
 
