@@ -74,11 +74,6 @@ unsigned char* SSF_ucstrdup(Const_U_Char* string_to_copy)
 
 char* SSF_strcat(char* destination, char* source, size_t destination_size)
 {
-	if (destination)
-	{
-		destination[0] = 0;
-	}
-
 	if (!destination || !source || !(destination_size > 0))
 	{
 #ifdef EINVAL
