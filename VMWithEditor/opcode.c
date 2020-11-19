@@ -15,7 +15,7 @@
 OPC_OPCODE OPC_translate_string_to_opcode(Const_U_Char* string_opcode)
 {
 	char* local_s_opcode = (char *) string_opcode;
-	for (size_t i = 0; i < (size_t)OPC_LASTOPCODE; i++)
+	for (size_t i = 0; i <= (size_t)OPC_LASTOPCODE; i++)
 	{
 		if (!strcmp(local_s_opcode, opcode_translator[i].opcode_string_translation))
 		{
