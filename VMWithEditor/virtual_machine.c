@@ -157,7 +157,7 @@ long VMH_translate_text_to_operand_and_validate(const char* string_operand)
 {
 	long possible_operand = strtol(string_operand, NULL, 0);
 
-	if (!VMH_is_legal_operand(possible_operand))
+	if (!VMH_is_legal_operand(possible_operand) || possible_operand < 0x0)
 	{
 		possible_operand = -1;
 	}
