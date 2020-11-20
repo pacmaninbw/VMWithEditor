@@ -190,10 +190,12 @@ static Error_Reporting_Test_Data* init_error_report_data(size_t *positive_path_t
 	*positive_path_test_count = 13;		// Count the lines of test_data above between the comments above.
 
 	Error_Reporting_Test_Data* test_data = calloc(*test_data_size, sizeof(*test_data));
-
-	for (size_t i = 0; i < *test_data_size; i++)
+	if (test_data)
 	{
-		memcpy(&test_data[i], &static_global_test_data[i], sizeof(*test_data));
+		for (size_t i = 0; i < *test_data_size; i++)
+		{
+			memcpy(&test_data[i], &static_global_test_data[i], sizeof(*test_data));
+		}
 	}
 
 	return test_data;
