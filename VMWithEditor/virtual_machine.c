@@ -153,9 +153,41 @@ bool VMH_is_legal_operand(const unsigned operand)
 	return operand <= VMH_get_maximum_operand_value();
 }
 
+static bool find_zero(const char* string_operand)
+{
+	const char* char_ptr = string_operand;
+	while (*char_ptr)
+	{
+		if (*char_ptr == '0')
+		{
+			return true;
+		}
+		char_ptr++;
+	}
+
+	return false;
+}
+
 long VMH_translate_text_to_operand_and_validate(const char* string_operand)
 {
+	if (!string_operand)
+	{
+		ERH_report_error_generic(
+			"Internal Error: VMH_translate_text_to_operand_and_validate:"
+			" NULL string input\n");
+		return -1;
+	}
+
 	long possible_operand = strtol(string_operand, NULL, 0);
+
+	// strtol returns 0 on error, need to check string to see if it is legal.
+	if (possible_operand == 0)
+	{
+		if (!find_zero(string_operand))
+		{
+			return -1;
+		}
+	}
 
 	if (!VMH_is_legal_operand(possible_operand) || possible_operand < 0x0)
 	{
