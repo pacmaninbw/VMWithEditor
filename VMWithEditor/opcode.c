@@ -15,15 +15,22 @@
 OPC_OPCODE OPC_translate_string_to_opcode(Const_U_Char* string_opcode)
 {
 	char* local_s_opcode = (char *) string_opcode;
-	for (size_t i = 0; i <= (size_t)OPC_LASTOPCODE; i++)
+	if (local_s_opcode)
 	{
-		if (!strcmp(local_s_opcode, opcode_translator[i].opcode_string_translation))
+		for (size_t i = 0; i <= (size_t)OPC_LASTOPCODE; i++)
 		{
-			return opcode_translator[i].opcode;
+			if (!strcmp(local_s_opcode, opcode_translator[i].opcode_string_translation))
+			{
+				return opcode_translator[i].opcode;
+			}
 		}
-	}
 
-	ERH_va_report_error_fprintf("Opcode translation error: %s is not a legal opcode name.\n", local_s_opcode);
+		ERH_va_report_error_fprintf("Opcode translation error: %s is not a legal opcode name.\n", local_s_opcode);
+	}
+	else
+	{
+		ERH_va_report_error_fprintf("Opcode translation error: Opcode string is NULL.\n");
+	}
 	return (OPC_OPCODE)-1;
 }
 
