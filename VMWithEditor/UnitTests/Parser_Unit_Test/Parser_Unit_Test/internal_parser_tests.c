@@ -353,7 +353,8 @@ static bool unit_test_print_syntax_errors(UTL_Test_Log_Data* log_data)
 		}
 	}
 
-	this_test_passed = print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
+	this_test_passed = print_syntax_errors(syntax_check_list, &line_number,
+		test_file_name, (unsigned char*)text_line);
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
 	UTL_log_end_test_path(log_data, NULL);
@@ -362,6 +363,7 @@ static bool unit_test_print_syntax_errors(UTL_Test_Log_Data* log_data)
 	UTL_log_start_test_path(log_data, NULL);
 	/*
 	 * The Ultimate negative test path, every check should fail.
+	 * However, the missing opening brace prevents cascading error messages. 
 	 */
 	for (size_t i = 0; i < LAH_SYNTAX_CHECK_ARRAY_SIZE; i++)
 	{
@@ -375,9 +377,21 @@ static bool unit_test_print_syntax_errors(UTL_Test_Log_Data* log_data)
 		}
 	}
 
-	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number, test_file_name, (unsigned char*)text_line);
+	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number,
+		test_file_name, (unsigned char*)text_line);
 	UTL_log_test_status_each_step(log_data);
 	passed = (!this_test_passed) ? false : passed;
+
+	/*
+	 * To test all the other error messages remove the missing open brace error.
+	 */
+	syntax_check_list[0] = 1;
+
+	this_test_passed = !print_syntax_errors(syntax_check_list, &line_number,
+		test_file_name, (unsigned char*)text_line);
+	UTL_log_test_status_each_step(log_data);
+	passed = (!this_test_passed) ? false : passed;
+
 	log_data->status = this_test_passed;
 	UTL_log_end_test_path(log_data, NULL);
 
