@@ -60,8 +60,6 @@ static GOOS_And_GLOO_Test_Data goos_and_gloo_test_data[] =
  *End Positive Test Path
  */
 	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("HEALT"), "HEALT", "HEALT"},	// Passes GOOS fails GLOO, invalid opcode
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, OPC_HALT, 0, "HEALT", NULL},						// Fails Both GOOS and GLOO string length zero
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("HEALT"), "HEALT", "HALT"},	// Passes GOOS fails GLOO, invalid opcode
 	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("HEALT"), NULL, NULL}, 		// Fails Both GOOS and GLOO NULL input string
 	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, 0, NULL, NULL}, 						// Fails Both GOOS and GLOO
 	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("0x00"), "0x00", "0x00"},		// Passes GOOS fails GLOO, invalid opcode
