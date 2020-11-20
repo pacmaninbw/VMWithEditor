@@ -73,6 +73,16 @@ static GOOS_And_GLOO_Test_Data goos_and_gloo_test_data[] =
 static const size_t get_ops_test_count = sizeof(goos_and_gloo_test_data) /
 	sizeof(*goos_and_gloo_test_data);
 
+static void report_end_test_path_switch_test_paths(UTL_Test_Log_Data* log_data,
+	bool* this_path_passed, UTL_Path_State new_path)
+{
+	log_data->status = *this_path_passed;
+	UTL_log_end_test_path(log_data, NULL);
+	log_data->path = new_path;
+	UTL_log_start_test_path(log_data, NULL);
+	*this_path_passed = true;
+}
+
 static bool execute_single_get_opcode_or_operand_string_test(UTL_Test_Log_Data* log_data,
 	GOOS_And_GLOO_Test_Data test_data)
 {
@@ -116,12 +126,9 @@ static bool unit_test_get_opcode_or_operand_string(UTL_Test_Log_Data* log_data)
 		log_data->status = true;
 		if (current_path != goos_and_gloo_test_data[test_count].test_path)
 		{
-			log_data->status = this_path_passed;
-			UTL_log_end_test_path(log_data, NULL);
 			current_path = goos_and_gloo_test_data[test_count].test_path;
-			log_data->path = current_path;
-			UTL_log_start_test_path(log_data, NULL);
-			this_path_passed = true;
+			report_end_test_path_switch_test_paths(log_data, &this_path_passed,
+				current_path);
 		}
 		log_data->status = execute_single_get_opcode_or_operand_string_test(log_data,
 			goos_and_gloo_test_data[test_count]);
@@ -185,12 +192,9 @@ static bool unit_test_get_legal_opcode_or_oparand(UTL_Test_Log_Data* log_data)
 		log_data->status = true;
 		if (current_path != goos_and_gloo_test_data[test_count].test_path)
 		{
-			log_data->status = this_path_passed;
-			UTL_log_end_test_path(log_data, NULL);
 			current_path = goos_and_gloo_test_data[test_count].test_path;
-			log_data->path = current_path;
-			UTL_log_start_test_path(log_data, NULL);
-			this_path_passed = true;
+			report_end_test_path_switch_test_paths(log_data, &this_path_passed,
+				current_path);
 		}
 		log_data->status = execute_single_get_legal_opcode_or_operand_test(log_data, goos_and_gloo_test_data[test_count]);
 		if (this_path_passed && !log_data->status)
@@ -203,12 +207,122 @@ static bool unit_test_get_legal_opcode_or_oparand(UTL_Test_Log_Data* log_data)
 		}
 	}
 
+	log_data->status = this_path_passed;
 	UTL_log_end_test_path(log_data, NULL);
 
+	log_data->status = passed;
+	UTL_log_end_unit_test(log_data, NULL);
 
-	UTL_log_test_not_implemented(log_data);
-	log_data->status = false;
+	return passed;
+}
 
+typedef struct
+{
+	UTL_Path_State test_path;
+	LAH_Syntax_State state;
+	size_t expected_opcode_or_operand;
+	char* source_test_string;
+	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
+} Validate_Ops_Test_Data;
+
+static Validate_Ops_Test_Data validate_ops_test_data[] =
+{
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_HALT, "HALT", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_PUSH, "PUSH", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_POP, "POP", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_STORE, "STORE", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_LOAD, "LOAD", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_ADD, "ADD", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_SUBTRACT, "SUBTRACT", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_MULTIPLY, "MULTIPLY", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_DIVIDE, "DIVIDE", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_OUTPUTCHAR, "OUTPUTCHAR", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPCODE_STATE, OPC_INPUTCHAR, "INPUTCHAR", {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPERAND_STATE, 0x00, "0x00", {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}},			// Minimum legal value
+	{UTL_POSITIVE_PATH, LAH_OPERAND_STATE, 0xFFFFFF, "0xFFFFFF", {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}},	// Maximum legal value
+	{UTL_POSITIVE_PATH, LAH_OPERAND_STATE, 0xFFFFFE, "0xFFFFFE", {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPERAND_STATE, 0x01, "0x01", {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}},
+	{UTL_POSITIVE_PATH, LAH_OPERAND_STATE, 0x000FFF, "0x000FFF", {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}},
+	/*
+	 *End Positive Test Path
+	 */
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, "HEALT", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},	// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, NULL, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}}, 		// Fails Both GOOS and GLOO NULL input string
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, "0x00", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, (size_t)-1, "HALT", {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, not numeric
+	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, 0xFFFFFFFF, "0xFFFFFFFF", {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}},	// Maximum legal value exceded
+	{UTL_NEGATIVE_PATH, LAH_START_STATE, (size_t)-1, "0x000FFF", {0}},		// Passes GOOS fails GLOO, invalid state
+};
+static const size_t validate_ops_test_data_count = sizeof(validate_ops_test_data) / sizeof(*validate_ops_test_data);
+
+static bool execute_single_validate_opcode_or_operand_test(UTL_Test_Log_Data* log_data,
+	Validate_Ops_Test_Data test_data)
+{
+	bool passed = true;
+	bool expected_op_found = true;
+	bool expected_syntax_items_found = true;
+
+	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
+	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
+
+	unsigned int test_value = validate_opcode_or_operand(
+		(Const_U_Char *)test_data.source_test_string, test_data.state, syntax_check_list);
+
+	expected_op_found = test_value == test_data.expected_opcode_or_operand;
+
+	size_t check_item = 0;
+	while (expected_syntax_items_found && check_item < LAH_SYNTAX_CHECK_ARRAY_SIZE)
+	{
+		expected_syntax_items_found = syntax_check_list[check_item] ==
+			test_data.syntax_check_list[check_item];
+		check_item++;
+	}
+
+	passed = expected_op_found && expected_syntax_items_found;
+	log_data->status = passed;
+	UTL_log_test_status_each_step(log_data);
+
+	return passed;
+}
+
+static bool unit_test_validate_opcode_or_operand(UTL_Test_Log_Data* log_data)
+{
+	bool passed = true;
+
+	bool this_path_passed = true;
+	log_data->function_name = "unit_test_validate_opcode_or_operand";
+	log_data->status = passed;
+	log_data->path = UTL_POSITIVE_PATH;
+	UTL_Path_State current_path = UTL_POSITIVE_PATH;
+
+	UTL_log_start_unit_test(log_data, NULL);
+	UTL_log_start_test_path(log_data, NULL);
+
+	for (size_t test_count = 0; test_count < validate_ops_test_data_count; test_count++)
+	{
+		log_data->status = true;
+		if (current_path != validate_ops_test_data[test_count].test_path)
+		{
+			current_path = validate_ops_test_data[test_count].test_path;
+			report_end_test_path_switch_test_paths(log_data, &this_path_passed,
+				current_path);
+		}
+		log_data->status = execute_single_validate_opcode_or_operand_test(
+			log_data, validate_ops_test_data[test_count]);
+		if (this_path_passed && !log_data->status)
+		{
+			this_path_passed = log_data->status;
+		}
+		if (passed && !log_data->status)
+		{
+			passed = log_data->status;
+		}
+	}
+
+	log_data->status = this_path_passed;
+	UTL_log_end_test_path(log_data, NULL);
+
+	log_data->status = passed;
 	UTL_log_end_unit_test(log_data, NULL);
 
 	return passed;
@@ -289,6 +403,8 @@ bool run_all_internal_parser_unit_tests(UTL_Test_Log_Data* log_data)
 	{
 		{"unit_test_get_opcode_or_operand_string",
 			unit_test_get_opcode_or_operand_string},
+		{"unit_test_validate_opcode_or_operand",
+			unit_test_validate_opcode_or_operand},
 		{"unit_test_get_legal_opcode_or_oparand",
 			unit_test_get_legal_opcode_or_oparand},
 		{"unit_test_print_syntax_errors",
