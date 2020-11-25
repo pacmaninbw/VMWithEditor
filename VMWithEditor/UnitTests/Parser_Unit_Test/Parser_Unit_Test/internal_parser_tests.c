@@ -84,9 +84,11 @@ static void report_end_test_path_switch_test_paths(UTL_Test_Log_Data* log_data,
 static bool execute_single_get_opcode_or_operand_string_test(UTL_Test_Log_Data* log_data,
 	GOOS_And_GLOO_Test_Data test_data)
 {
-	unsigned char* test_string = get_opcode_or_operand_string((Const_U_Char *)
-		test_data.source_test_string, test_data.source_string_length);
-	if (test_string && test_data.expected_string)
+	unsigned char test_string[MAX_OP_LENGTH];
+	memset(test_string, 0, sizeof(test_string));
+	get_opcode_or_operand_string((Const_U_Char *) test_data.source_test_string,
+		test_data.source_string_length, test_string);
+	if (strlen((char*)test_string) && test_data.expected_string)
 	{
 		if (strncmp((char *)test_string, test_data.expected_string,
 			test_data.source_string_length))
@@ -96,7 +98,8 @@ static bool execute_single_get_opcode_or_operand_string_test(UTL_Test_Log_Data* 
 	}
 	else
 	{
-		if ((!test_string && test_data.expected_string) || (test_string && !test_data.expected_string))
+		if ((!strlen((char *)test_string) && test_data.expected_string) || 
+			(strlen((char *)test_string) && !test_data.expected_string))
 		{
 			log_data->status = false;
 		}

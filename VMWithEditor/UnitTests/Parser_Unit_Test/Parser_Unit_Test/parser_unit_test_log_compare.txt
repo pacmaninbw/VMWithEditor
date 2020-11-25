@@ -65,22 +65,142 @@ STARTING internal unit test for run_all_internal_parser_unit_tests
     STARTING internal unit test for unit_test_get_opcode_or_operand_string 
 
 
-        Unit test: unit_test_get_opcode_or_operand_string NOT IMPLEMENTED
+        Starting POSITIVE PATH testing for unit_test_get_opcode_or_operand_string 
 
-    ENDING unit test for unit_test_get_opcode_or_operand_string: test FAILED 
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+            unit_test_get_opcode_or_operand_string(): Positive Path Passed
+
+        Ending POSITIVE PATH testing for unit_test_get_opcode_or_operand_string, POSITIVE PATH  PASSED 
 
 
-Unit Test 1: unit_test_get_opcode_or_operand_string : Failed
+        Starting NEGATIVE PATH testing for unit_test_get_opcode_or_operand_string 
+
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+Internal error: get_opcode_or_operand_string: illegal value opcode or operand string  original = 0x0 lenght = 6
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+Internal error: get_opcode_or_operand_string: illegal value opcode or operand string  original = 0x0 lenght = 0
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+            unit_test_get_opcode_or_operand_string(): Negative Path Passed
+
+        Ending NEGATIVE PATH testing for unit_test_get_opcode_or_operand_string, NEGATIVE PATH  PASSED 
+
+
+    ENDING unit test for unit_test_get_opcode_or_operand_string: test PASSED 
+
+
+Unit Test 1: unit_test_get_opcode_or_operand_string : Passed
+
+    STARTING internal unit test for unit_test_validate_opcode_or_operand 
+
+
+        Starting POSITIVE PATH testing for unit_test_validate_opcode_or_operand 
+
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+            unit_test_validate_opcode_or_operand(): Positive Path Passed
+
+        Ending POSITIVE PATH testing for unit_test_validate_opcode_or_operand, POSITIVE PATH  PASSED 
+
+
+        Starting NEGATIVE PATH testing for unit_test_validate_opcode_or_operand 
+
+Opcode translation error: HEALT is not a legal opcode name.
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+Opcode translation error: Opcode string is NULL.
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+Opcode translation error: 0x00 is not a legal opcode name.
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+            unit_test_validate_opcode_or_operand(): Negative Path Passed
+
+        Ending NEGATIVE PATH testing for unit_test_validate_opcode_or_operand, NEGATIVE PATH  PASSED 
+
+
+    ENDING unit test for unit_test_validate_opcode_or_operand: test PASSED 
+
+
+Unit Test 2: unit_test_validate_opcode_or_operand : Passed
 
     STARTING internal unit test for unit_test_get_legal_opcode_or_oparand 
 
 
-        Unit test: unit_test_get_legal_opcode_or_oparand NOT IMPLEMENTED
+        Starting POSITIVE PATH testing for unit_test_get_legal_opcode_or_oparand 
 
-    ENDING unit test for unit_test_get_legal_opcode_or_oparand: test FAILED 
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Positive Path Passed
+
+        Ending POSITIVE PATH testing for unit_test_get_legal_opcode_or_oparand, POSITIVE PATH  PASSED 
 
 
-Unit Test 2: unit_test_get_legal_opcode_or_oparand : Failed
+        Starting NEGATIVE PATH testing for unit_test_get_legal_opcode_or_oparand 
+
+Opcode translation error: HEALT is not a legal opcode name.
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+Internal error: get_opcode_or_operand_string: illegal value opcode or operand string  original = 0x0 lenght = 6
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+Internal error: get_opcode_or_operand_string: illegal value opcode or operand string  original = 0x0 lenght = 0
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+Opcode translation error: 0x00 is not a legal opcode name.
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+
+Internal error: get_legal_opcode_or_oparand() : Illegal state.
+
+            unit_test_get_legal_opcode_or_oparand(): Negative Path Passed
+
+        Ending NEGATIVE PATH testing for unit_test_get_legal_opcode_or_oparand, NEGATIVE PATH  PASSED 
+
+
+    ENDING unit test for unit_test_get_legal_opcode_or_oparand: test PASSED 
+
+
+Unit Test 3: unit_test_get_legal_opcode_or_oparand : Passed
 
     STARTING internal unit test for unit_test_print_syntax_errors 
 
@@ -100,15 +220,108 @@ In file No File Name line 1 there are 11 errors: Unit Testing print_syntax_error
 	Missing the opening brace.
 
             unit_test_print_syntax_errors(): Negative Path Passed
+In file No File Name line 1 there are 10 errors: Unit Testing print_syntax_errors()
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing the closing brace.
+	Missing comma(s)
+	Missing or unknow opcode
+	Missing operand or operand out of range
+	Unknown Opcode.
+	The operand is out of range [0x0, 0xffffff]
+	Illegal character in column 1 (are you missing the opening brace { )
+	Only one program step per line
+	Illegal character
+	Missing comma(s)
+
+            unit_test_print_syntax_errors(): Negative Path Passed
 
         Ending NEGATIVE PATH testing for unit_test_print_syntax_errors, NEGATIVE PATH  PASSED 
 
 
-Unit Test 3: unit_test_print_syntax_errors : Passed
+Unit Test 4: unit_test_print_syntax_errors : Passed
 
 
-    ENDING unit test for run_all_internal_parser_unit_tests: test FAILED 
+    ENDING unit test for run_all_internal_parser_unit_tests: test PASSED 
+
+STARTING unit test for run_all_parser_unit_tests 
+
+STARTING internal unit test for unit_test_parser 
 
 
-Unit Test 0: run_all_parser_unit_tests : Failed
+    Starting POSITIVE PATH testing for unit_test_parser 
+
+
+        unit_test_parser(): Positive Path Passed
+
+
+        unit_test_parser(): Positive Path Passed
+
+
+    Ending POSITIVE PATH testing for unit_test_parser, POSITIVE PATH  PASSED 
+
+
+    Starting NEGATIVE PATH testing for unit_test_parser 
+
+In file No File Name line 1 there are 1 errors: {HALT 0x0},
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing comma(s)
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 1 errors: {LOAD, 0x0}, {HALT, 0x0},
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Only one program step per line
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 2 errors: HALT, 0x0},
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing the opening brace.
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 1 errors: {HALT, 0x0,
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing the closing brace.
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 1 errors: {, 0x0}
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing or unknow opcode
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 3 errors: { 0x0}
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing comma(s)
+	Missing or unknow opcode
+	Missing comma(s)
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 1 errors: {HALT, }
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing operand or operand out of range
+
+        unit_test_parser(): Negative Path Passed
+
+In file No File Name line 1 there are 2 errors: {HALT}
+    The proper format of a program step is { OPCODE , OPERAND }[,] the second comma is necessary when the program step is not the last one in the file. Only one program step per line
+	Missing comma(s)
+	Missing operand or operand out of range
+
+        unit_test_parser(): Negative Path Passed
+
+
+    Ending NEGATIVE PATH testing for unit_test_parser, NEGATIVE PATH  PASSED 
+
+
+ENDING unit test for unit_test_parser: test PASSED 
+
+
+ENDING unit test for run_all_parser_unit_tests: test PASSED 
+
+
+Unit Test 0: run_all_parser_unit_tests : Passed
 
