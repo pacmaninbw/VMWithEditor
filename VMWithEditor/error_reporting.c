@@ -48,7 +48,7 @@ bool ERH_init_vm_error_reporting(const char* error_log_file_name)
 		if (!ERH_error_out_file)
 		{
 			ERH_error_out_file = stderr;
-			ERH_report_error_output_fopen_failed(error_log_file_name);
+			ERH_report_error_fopen_failed("output", error_log_file_name);
 			status_is_good = false;
 		}
 	}
@@ -75,18 +75,13 @@ void ERH_report_error_generic(const char *error_message)
 	fprintf(ERH_error_out_file, "%s\n", error_message);
 }
 
-void ERH_report_error_output_fopen_failed(const char* file_name)
+void ERH_report_error_fopen_failed(const char* direction, const char* file_name)
 {
 	char buffer[ERH_ERROR_BUFFER_SIZE];
-	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open output file, %s", (char *)file_name);
+	char* format = "Can't open %s file, %s";
+	snprintf(buffer, ERH_ERROR_BUFFER_SIZE, format, direction, file_name);
 	ERH_use_perror_when_errno(buffer);
-}
-
-void ERH_report_error_input_fopen_failed(const char* file_name)
-{
-	char buffer[ERH_ERROR_BUFFER_SIZE];
-	vsnprintf(buffer, ERH_ERROR_BUFFER_SIZE, "Can't open input file, %s", (char*)file_name);
-	ERH_use_perror_when_errno(buffer);
+	fflush(ERH_error_out_file);
 }
 
 void ERH_va_report_error_fprintf(const char *format, ...)
