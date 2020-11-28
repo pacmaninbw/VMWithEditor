@@ -22,19 +22,24 @@ This program adds:
  - A command line processing capability to bypass the Command Interface Console.  
 
 ## Unit Tests  
-Unit tests have been developed or are being developed as stand alone programs for each major portion of the program, there will also be a unit test to run all of the portions of the code together. The unit tests are not currently utilizing and unit test framework.  
+Unit tests have been developed or are being developed as stand alone programs for each major portion of the program, there will also be a unit test to run all of the portions of the code together. The unit tests are not currently utilizing any unit test framework.  
  - Command Console unit test  
- - Assembly Language unit test  
+ - Lexical Analyzer unit test (Completed)  
+ - Parser unit test (Windows 10 Visual Studio 2019 version is complete Linux gcc version still undergoing testing).  
  - File input and output unit test
  - Editor Console unit test
  - Command Line unit test.  
+ - Virtual Machine execution unit test
 
 ## Modifications to the Original Program  
 The parts of the original program contained in `vm.h` and `vm.c` have been rewritten to change coupling from a `data` coupling to accessor functions, removing any specific knowledge about the virtual machine in other parts of the program. 
 
 ## All Development Environments
-C programming language - C90
+C programming language - C99
 Modular Design
+
+## Linux Development Environment
+Two unit test directories currently have Linux makefiles. The current Linux build environment is Linux on Windows using CentOS 8.1, the compiler is gcc. The standard has been switched from C90 to C99.
 
 ## My Original Development Environment.
  - Visual Studion 2019 Professional.  
