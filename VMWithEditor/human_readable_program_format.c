@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 #include "ERH_error_reporting.h"
 #include "HRF_human_readable_program_format.h"

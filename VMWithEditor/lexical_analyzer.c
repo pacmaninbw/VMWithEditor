@@ -173,9 +173,8 @@ static void collect_error_reporting_data(const LAH_Syntax_State current_state,
 	}
 }
 
-
 #ifndef INCLUDED_IN_UNIT_TEST
- /*
+/*
   * This function returns the table that represents the current syntactic state
   * and the new state that each possible legal into can go to from the current
   * state. If this function is successful the function deallocate_next_states()

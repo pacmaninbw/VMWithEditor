@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include <inttypes.h>
 
 #include "vmwitheditor.h"
@@ -45,7 +46,7 @@ static bool print_syntax_errors(const unsigned* necessary_items, size_t* line_nu
 	bool syntax_is_good = true;
 	unsigned error_count = 0;
 
-	char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
+	const char* error_strings[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	init_error_strings(error_strings);
 	char illegal_operand[256];
 	snprintf(illegal_operand, sizeof(illegal_operand),
@@ -207,6 +208,8 @@ static void check_for_required_character(Const_U_Char current_character,
 		break;
 	case LAH_CLOSEBRACE:
 		test_comparitor = '}';
+		break;
+	default:
 		break;
 	}
 

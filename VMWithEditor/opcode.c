@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stddef.h>
 
 #include "vmwitheditor.h"
 #include "ERH_error_reporting.h"
