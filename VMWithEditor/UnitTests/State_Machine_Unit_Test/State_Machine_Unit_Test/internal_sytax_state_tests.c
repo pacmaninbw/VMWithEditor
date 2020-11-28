@@ -420,9 +420,6 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 	memset(&syntax_check_list[0], 0, sizeof(syntax_check_list));
 	LAH_Syntax_State current_state = LAH_START_STATE;
-	unsigned char* opcode_start = NULL;
-	unsigned char* opcode_end = NULL;
-	unsigned char* operand_start = NULL;
 	char* parser_generated_error = NULL;
 
 	unsigned char* current_character = text_line;
@@ -440,16 +437,13 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 					break;
 
 				case LAH_OPCODE_STATE:
-					opcode_start = current_character;
 					syntax_check_list[LAH_LEGALOPCODE]++;
 					break;
 
 				case LAH_END_OPCODE_STATE:
-					opcode_end = current_character;
 					break;
 
 				case LAH_OPERAND_STATE:
-					operand_start = current_character;
 					syntax_check_list[LAH_LEGALOPERAND]++;
 					if (!syntax_check_list[LAH_COMMA])
 					{
@@ -458,7 +452,6 @@ static bool unit_test_final_lexical_parse_statement(unsigned char* text_line, si
 					break;
 
 				case LAH_END_OPERAND_STATE:
-					opcode_end = current_character;
 					break;
 
 				default:
