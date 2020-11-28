@@ -59,4 +59,4 @@ extern OPC_OPCODE_TRANSLATION_UNIT opcode_translator[];
 char* OPC_translate_opcode_to_string(const OPC_OPCODE opcode);
 OPC_OPCODE OPC_translate_string_to_opcode(Const_U_Char* string_opcode);
 
-#endif	// !OPC_OPCODE_H
+#endif	/* !OPC_OPCODE_H */

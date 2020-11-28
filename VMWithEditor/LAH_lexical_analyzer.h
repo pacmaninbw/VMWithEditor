@@ -79,4 +79,4 @@ LAH_Syntax_State lexical_analyzer(const LAH_Syntax_State current_state,
 	Const_U_Char input, unsigned syntax_check_list[]);
 void deactivate_lexical_analyzer(void);
 
-#endif	//	LAH_LEXICAL_ANALYZER_H
+#endif	/*	!LAH_LEXICAL_ANALYZER_H */

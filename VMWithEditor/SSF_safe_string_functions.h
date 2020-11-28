@@ -41,4 +41,4 @@ char* SSF_strcat(char* destination, char* source, size_t destination_size);
  */
 char* SSF_strcpy(char* destination, char* source, size_t destination_size);
 
-#endif	// SSF_SAFE_STRING_FUNCTIONS_H
+#endif	/* SSF_SAFE_STRING_FUNCTIONS_H */

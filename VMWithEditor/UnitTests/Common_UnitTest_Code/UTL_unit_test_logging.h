@@ -70,5 +70,5 @@ UTL_Test_Log_Data* UTL_new_log_data(const char* function_name, const bool status
 bool UTL_init_unit_tests(const char* log_file_name);
 void UTL_close_unit_tests(void);
 
-#endif // !UTL_UNIT_TEST_LOGGING_H
+#endif /* !UTL_UNIT_TEST_LOGGING_H */
 
