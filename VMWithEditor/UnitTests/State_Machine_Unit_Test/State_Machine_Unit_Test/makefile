@@ -15,15 +15,12 @@ LEXICAL_TEST_DIR := ./
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
 
-INCLUDE_DIRS := -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
-
 EXECUTABLES := $(BIN_DIR)/Lexical_Analyzer_Unit_Test.exe
 
 # All Target
 all: $(DIRS) $(EXECUTABLES)
 
-OBJS := $(addprefix $(OBJ_DIR)/, error_reporting.o \
- unit_test_logging.o \
+OBJS := $(addprefix $(OBJ_DIR)/, unit_test_logging.o error_reporting.o \
  lexical_analyzer.o internal_character_transition_unit_tests.o \
  internal_sytax_state_tests.o lexical_analyzer_test_data.o \
  lexical_analyzer_unit_test_main.o lexical_analyzer_unit_test_utilities.o \
@@ -38,33 +35,37 @@ LEXICAL_TEST_SOURCES := $(addprefix $(LEXICAL_TEST_DIR)/, internal_character_tra
  lexical_analyzer_unit_test_utilities.c)
 
 
-COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
+COMMON_TEST_SOURCES := $(COMMON_TEST_DIR)/unit_test_logging.c
 
-SOURCES := $(VM_DIR_SOURCES) $(COMMON_TEST_SOURCES) $(LEXICAL_TEST_SOURCES)
+SOURCES := $(COMMON_TEST_SOURCES) $(VM_DIR_SOURCES) $(LEXICAL_TEST_SOURCES)
+
 
 DEFINES := -DUNIT_TESTING -DLEXICAL_UNIT_TEST_ONLY
+INCLUDE_DIRS := -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
+C_STANDARD := -std=c99
+OPTIMIZATION := -g
+WARNINGS := -Wall -Wno-unused-function
+CC := gcc
+CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
 
 $(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
 	@echo 'Building file: $@ from $<'
 	@echo 'Invoking: GCC C++ Compiler'
-#	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -O3 -Wall -c -o "$@" "$<" # Production
-	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -g3 -Wall -c -o "$@" "$<" # Debug
+	$(CC) $(CCFLAGS) -c -o "$@" "$<"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 $(OBJ_DIR)/%.o: $(LEXICAL_TEST_DIR)/%.c
 	@echo 'Building file: $@ from $<'
 	@echo 'Invoking: GCC C++ Compiler'
-#	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -O3 -Wall -c -o "$@" "$<" # Production
-	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -g3 -Wall -c -o "$@" "$<" # Debug
+	$(CC) $(CCFLAGS) -o "$@" "$<"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-$(OBJ_DIR)/%.o: $(COMMON_TEST_SOURCES)/%.c
+$(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
 	@echo 'Building file: $@ from $<'
 	@echo 'Invoking: GCC C++ Compiler'
-#	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -O3 -Wall -c -o "$@" "$<" # Production
-	gcc -std=c99 $(DEFINES) $(INCLUDE_DIRS) -g3 -Wall -c -o "$@" "$<" # Debug
+	$(CC) $(CCFLAGS) -c -o "$@" "$<"
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -141,7 +142,7 @@ $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.h:
 $(EXECUTABLES): $(OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "$(BIN_DIR)/Parser_Unit_Test.exe" $(OBJS)
+	gcc  -o "$(EXECUTABLES)" $(OBJS)
 	ln -s $(EXECUTABLES) .
 	@echo 'Finished building target: $@'
 	@echo ' '
