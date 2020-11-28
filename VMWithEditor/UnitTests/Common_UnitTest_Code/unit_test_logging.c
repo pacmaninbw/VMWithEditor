@@ -291,7 +291,7 @@ bool UTL_init_unit_tests(const char* log_file_name)
 		UTL_unit_test_log_file = fopen(log_file_name, "w");
 		if (!UTL_unit_test_log_file)
 		{
-			ERH_report_error_output_fopen_failed(log_file_name);
+			ERH_report_error_fopen_failed("output", log_file_name);
 			return false;
 		}
 		else
@@ -323,7 +323,8 @@ bool UTL_init_unit_tests(const char* log_file_name)
 
 void UTL_close_unit_tests(void)
 {
-	if (UTL_unit_test_log_file != stdout && UTL_unit_test_log_file != stderr)
+	if (UTL_unit_test_log_file != stdout && UTL_unit_test_log_file != stderr &&
+		UTL_unit_test_log_file != ERH_error_out_file)
 	{
 		fclose(UTL_unit_test_log_file);
 		free(UTL_fwrite_buffer);
