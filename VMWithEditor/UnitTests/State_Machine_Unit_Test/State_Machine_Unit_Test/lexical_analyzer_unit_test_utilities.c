@@ -2,6 +2,7 @@
 #define LEXICAL_ANALYZER_UNIT_TEST_UTILITIES_C
 
 #include <stdint.h>
+#include <stddef.h>
 #include "lexical_analyzer_unit_test_utilities.h"
 
 const char* state_name_for_printing(const LAH_Syntax_State state)
