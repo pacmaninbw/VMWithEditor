@@ -72,7 +72,7 @@ bool save_program_to_file(const HRF_Human_Readable_Program_Format* program, cons
 	return successful;
 }
 
-bool initialize_control_console(ARGF_ARG_FLAGS_PTR command_line_arguments)
+bool initialize_control_console(ARGF_ARG_FLAGS* command_line_arguments)
 {
 	bool successful = true;
 

@@ -63,7 +63,7 @@ static HRF_Program_Step_Node* add_program_step(void)
 	return next_step;
 }
 
-bool initialize_text_editor(const ARGF_ARG_FLAGS_PTR command_line_arguments)
+bool initialize_text_editor(const ARGF_ARG_FLAGS* command_line_arguments)
 {
 	bool successful = true;
 

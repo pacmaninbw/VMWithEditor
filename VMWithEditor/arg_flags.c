@@ -14,9 +14,9 @@
 #include "ARGF_arg_flags.h"
 #include "ERH_error_reporting.h"
 
-static ARGF_ARG_FLAGS_PTR construct_arguments()
+static ARGF_ARG_FLAGS* construct_arguments()
 {
-	ARGF_ARG_FLAGS_PTR arguments = calloc(sizeof(*arguments), 1);
+	ARGF_ARG_FLAGS* arguments = calloc(sizeof(*arguments), 1);
 	if (!arguments)
 	{
 		ERH_va_report_error_fprintf("In construct_arguments() calloc() failed.\n");
@@ -25,14 +25,14 @@ static ARGF_ARG_FLAGS_PTR construct_arguments()
 	return arguments;
 }
 
-static void parse_command_line(ARGF_ARG_FLAGS_PTR arguments, const int argc, const char **argv)
+static void parse_command_line(ARGF_ARG_FLAGS* arguments, const int argc, const char *argv[])
 {
 
 }
 
-ARGF_ARG_FLAGS_PTR ARGF_construct_arg_flags_from_argc_argv(const int argc, const char **argv)
+ARGF_ARG_FLAGS* ARGF_construct_arg_flags_from_argc_argv(const int argc, const char *argv[])
 {
-	ARGF_ARG_FLAGS_PTR arguments = construct_arguments();
+	ARGF_ARG_FLAGS* arguments = construct_arguments();
 	if (arguments)
 	{
 		if (argc == 1)
@@ -49,7 +49,7 @@ ARGF_ARG_FLAGS_PTR ARGF_construct_arg_flags_from_argc_argv(const int argc, const
 	return arguments;
 }
 
-ARGF_ARG_FLAGS_PTR ARGF_delete_arguments(ARGF_ARG_FLAGS_PTR arguments)
+ARGF_ARG_FLAGS* ARGF_delete_arguments(ARGF_ARG_FLAGS* arguments)
 {
 	free(arguments);
 	return NULL;

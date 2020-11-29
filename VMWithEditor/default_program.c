@@ -11,6 +11,7 @@
 #define DEFAULT_PROGRAM_C
 
 #include <stdint.h>
+#include <stddef.h>
 #include "HRF_human_readable_program_format.h"
 #include "default_program.h"
 

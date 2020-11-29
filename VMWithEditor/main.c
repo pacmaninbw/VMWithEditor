@@ -14,7 +14,7 @@
 #include "ERH_error_reporting.h"
 #include "VMH_virtual_machine.h"
 
-static bool execute_original_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
+static bool execute_original_program_logic(ARGF_ARG_FLAGS* command_line_args)
 {
 	bool successful = true;
 
@@ -37,9 +37,9 @@ static bool execute_original_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
 	return successful;
 }
 
-static ARGF_ARG_FLAGS_PTR  set_up_command_line_args_and_vm(int argc, char* argv[])
+static ARGF_ARG_FLAGS*  set_up_command_line_args_and_vm(int argc, const char* argv[])
 {
-	ARGF_ARG_FLAGS_PTR command_line_args = ARGF_construct_arg_flags_from_argc_argv(argc, argv);
+	ARGF_ARG_FLAGS* command_line_args = ARGF_construct_arg_flags_from_argc_argv(argc, argv);
 	if (!command_line_args)
 	{
 		ERH_va_report_error_fprintf("Due to memory allocation error %s is exiting.\n", argv[0]);
@@ -57,7 +57,7 @@ static ARGF_ARG_FLAGS_PTR  set_up_command_line_args_and_vm(int argc, char* argv[
 	return command_line_args;
 }
 
-static bool execute_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
+static bool execute_program_logic(ARGF_ARG_FLAGS* command_line_args)
 {
 	bool successful = true;
 
@@ -75,7 +75,7 @@ static bool execute_program_logic(ARGF_ARG_FLAGS_PTR command_line_args)
 int main(int argc, char *argv[]) {
 	ERH_error_out_file = stderr;
 	int exit_status = EXIT_SUCCESS;
-	ARGF_ARG_FLAGS_PTR command_line_args = set_up_command_line_args_and_vm(argc, argv);
+	ARGF_ARG_FLAGS* command_line_args = set_up_command_line_args_and_vm(argc, (const char**) argv);
 
 	if (command_line_args)
 	{
