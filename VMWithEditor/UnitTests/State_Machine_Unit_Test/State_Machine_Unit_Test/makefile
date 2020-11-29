@@ -5,8 +5,6 @@ OBJ_DIR := obj
 
 BIN_DIR := bin
 
-SRC_DIR := # src/
-
 VM_SRC_DIR := ../../..
 
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
@@ -15,10 +13,12 @@ LEXICAL_TEST_DIR := ./
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
 
-EXECUTABLES := $(BIN_DIR)/Lexical_Analyzer_Unit_Test.exe
+EXECUTABLE := Lexical_Analyzer_Unit_Test.exe
+BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
+LINK_EXECUTABLE := ./$(EXECUTABLE)
 
 # All Target
-all: $(DIRS) $(EXECUTABLES)
+all: $(LINK_EXECUTABLE)
 
 OBJS := $(addprefix $(OBJ_DIR)/, unit_test_logging.o error_reporting.o \
  lexical_analyzer.o internal_character_transition_unit_tests.o \
@@ -34,11 +34,9 @@ LEXICAL_TEST_SOURCES := $(addprefix $(LEXICAL_TEST_DIR)/, internal_character_tra
  internal_sytax_state_tests.c lexical_analyzer_test_data.c lexical_analyzer_unit_test_main.c \
  lexical_analyzer_unit_test_utilities.c)
 
-
 COMMON_TEST_SOURCES := $(COMMON_TEST_DIR)/unit_test_logging.c
 
 SOURCES := $(COMMON_TEST_SOURCES) $(VM_DIR_SOURCES) $(LEXICAL_TEST_SOURCES)
-
 
 DEFINES := -DUNIT_TESTING -DLEXICAL_UNIT_TEST_ONLY
 INCLUDE_DIRS := -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
@@ -48,28 +46,21 @@ WARNINGS := -Wall -Wno-unused-function
 CC := gcc
 CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
 
+define Compile_Source =
+@echo 'Generating object file for: $<'
+$(CC) $(CCFLAGS) -o "$@" "$<"
+@echo 'Finished building: $@'
+@echo ' '
+endef
+
 $(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
-	@echo 'Building file: $@ from $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	$(CC) $(CCFLAGS) -c -o "$@" "$<"
-	@echo 'Finished building: $@'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(LEXICAL_TEST_DIR)/%.c
-	@echo 'Building file: $@ from $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	$(CC) $(CCFLAGS) -o "$@" "$<"
-	@echo 'Finished building: $@'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
-	@echo 'Building file: $@ from $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	$(CC) $(CCFLAGS) -c -o "$@" "$<"
-	@echo 'Finished building: $@'
-	@echo ' '
-
-#
+	$(Compile_Source)
 
 $(OBJ_DIR)/error_reporting.o: $(VM_SRC_DIR)/error_reporting.c \
  $(VM_SRC_DIR)/ERH_error_reporting.h
@@ -117,39 +108,25 @@ $(OBJ_DIR)/lexical_analyzer_unit_test_utilities.o: \
  $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.c \
  $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.h
 
-$(VM_SRC_DIR)/ERH_error_reporting.h:
+$(VM_SRC_DIR)/%.h:
 
-$(VM_SRC_DIR)/LAH_lexical_analyzer.h:
+$(LEXICAL_TEST_DIR)/%.h:
 
-$(VM_SRC_DIR)/OPC_opcode.h:
+$(COMMON_TEST_DIR)/%.h:
 
-$(VM_SRC_DIR)/SSF_safe_string_functions.h:
+$(LINK_EXECUTABLE): $(DIRS) $(BINARY_EXECUTABLE)
+	ln -s $(BINARY_EXECUTABLE) .
 
-$(VM_SRC_DIR)/VMH_virtual_machine.h:
-
-$(VM_SRC_DIR)/vmwitheditor.h:
-
-$(LEXICAL_TEST_DIR)/internal_character_transition_unit_tests.h:
-
-$(LEXICAL_TEST_DIR)/internal_sytax_state_tests.h:
-
-$(LEXICAL_TEST_DIR)/lexical_analyzer_test_data.h:
-
-$(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_main.h:
-
-$(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.h:
-
-$(EXECUTABLES): $(OBJS)
+$(BINARY_EXECUTABLE): $(OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "$(EXECUTABLES)" $(OBJS)
-	ln -s $(EXECUTABLES) .
+	gcc  -o "$(BINARY_EXECUTABLE)" $(OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(DIRS) $(EXECUTABLES)
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
 	-@echo ' '
 
 MKDIR_P := mkdir -p

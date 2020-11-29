@@ -15,7 +15,9 @@ LEXICAL_TEST_DIR := ../../State_Machine_Unit_Test/State_Machine_Unit_Test
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
 
-EXECUTABLES := $(BIN_DIR)/Parser_Unit_Test.exe
+EXECUTABLE := Parser_Unit_Test.exe
+BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
+LINK_EXECUTABLE := ./$(EXECUTABLE)
 
 OBJS := $(addprefix $(OBJ_DIR)/, error_reporting.o unit_test_logging.o opcode.o \
  parser.o human_readable_program_format.o lexical_analyzer.o virtual_machine.o \
@@ -47,36 +49,27 @@ WARNINGS := -Wall -Wno-unused-function
 CC := gcc
 CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
 
+define Compile_Source =
+@echo 'Generating object file for: $<'
+$(CC) $(CCFLAGS) -o "$@" "$<"
+@echo 'Finished building: $@'
+@echo ' '
+endef
+
 # All Target
-all: $(DIRS) $(EXECUTABLES)
+all: $(LINK_EXECUTABLE)
 
 $(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	$(CC) $(CCFLAGS) -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(LEXICAL_TEST_DIR)/%.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	$(CC) $(CCFLAGS) -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(PARSER_TEST_DIR)/%.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	$(CC) $(CCFLAGS) -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	$(CC) $(CCFLAGS) -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
+	$(Compile_Source)
 
 $(OBJ_DIR)/unit_test_logging.o: $(COMMON_TEST_DIR)/unit_test_logging.c \
  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h $(VM_SRC_DIR)/SSF_safe_string_functions.h \
@@ -161,17 +154,19 @@ $(PARSER_TEST_DIR)/%.h:
 
 $(COMMON_TEST_DIR)/%.h:
 
-$(EXECUTABLES): $(OBJS)
+$(LINK_EXECUTABLE): $(DIRS) $(BINARY_EXECUTABLE)
+	ln -s $(BINARY_EXECUTABLE) .
+
+$(BINARY_EXECUTABLE): $(OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "$(EXECUTABLES)" $(OBJS)
-	ln -s $(EXECUTABLES) .
+	gcc  -o "$(BINARY_EXECUTABLE)" $(OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES) $(DIRS) ./*.exe
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
 	-@echo ' '
 
 MKDIR_P := mkdir -p
