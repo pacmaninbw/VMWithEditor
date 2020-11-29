@@ -22,9 +22,9 @@ typedef struct arg_flags
 	bool execute_input_file;
 	bool edit_input_file;
 	bool use_default_program;
-} ARGF_ARG_FLAGS, *ARGF_ARG_FLAGS_PTR;
+} ARGF_ARG_FLAGS;
 
-ARGF_ARG_FLAGS_PTR ARGF_construct_arg_flags_from_argc_argv(const int argc, const char** argv);
-ARGF_ARG_FLAGS_PTR ARGF_delete_arguments(ARGF_ARG_FLAGS_PTR arguments);
+ARGF_ARG_FLAGS* ARGF_construct_arg_flags_from_argc_argv(const int argc, const char* argv[]);
+ARGF_ARG_FLAGS* ARGF_delete_arguments(ARGF_ARG_FLAGS* arguments);
 
 #endif // !ARGF_ARG_FLAGS_H

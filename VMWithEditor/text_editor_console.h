@@ -13,6 +13,6 @@
 #include "HRF_human_readable_program_format.h"
 #include "ARGF_arg_flags.h"
 
-bool initialize_text_editor(const ARGF_ARG_FLAGS_PTR command_line_arguments);
+bool initialize_text_editor(const ARGF_ARG_FLAGS* command_line_arguments);
 
 #endif
