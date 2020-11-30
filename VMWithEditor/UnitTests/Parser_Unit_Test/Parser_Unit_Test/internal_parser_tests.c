@@ -32,7 +32,7 @@
 typedef struct {
 	UTL_Path_State test_path;
 	LAH_Syntax_State state;
-	size_t expected_opcode_or_operand;
+	unsigned int expected_opcode_or_operand;
 	size_t source_string_length;
 	char* source_test_string;
 	char* expected_string;
@@ -59,13 +59,13 @@ static GOOS_And_GLOO_Test_Data goos_and_gloo_test_data[] =
 /* 
  *End Positive Test Path
  */
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("HEALT"), "HEALT", "HEALT"},	// Passes GOOS fails GLOO, invalid opcode
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("HEALT"), NULL, NULL}, 		// Fails Both GOOS and GLOO NULL input string
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, 0, NULL, NULL}, 						// Fails Both GOOS and GLOO
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, sizeof("0x00"), "0x00", "0x00"},		// Passes GOOS fails GLOO, invalid opcode
-	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, (size_t)-1, sizeof("HALT"), "HALT", "HALT"},		// Passes GOOS fails GLOO, not numeric
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, sizeof("HEALT"), "HEALT", "HEALT"},	// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, sizeof("HEALT"), NULL, NULL}, 		// Fails Both GOOS and GLOO NULL input string
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, 0, NULL, NULL}, 						// Fails Both GOOS and GLOO
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, sizeof("0x00"), "0x00", "0x00"},		// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, (unsigned int)-1, sizeof("HALT"), "HALT", "HALT"},		// Passes GOOS fails GLOO, not numeric
 	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, 0xFFFFFFFF, sizeof("0xFFFFFFFF"), "0xFFFFFFFF", "0xFFFFFFFF"},	// Maximum legal value exceded
-	{UTL_NEGATIVE_PATH, LAH_START_STATE, (size_t)-1, sizeof("0x000FFF"), "0x000FFF", "0x000FFF"},		// Passes GOOS fails GLOO, invalid state
+	{UTL_NEGATIVE_PATH, LAH_START_STATE, (unsigned int)-1, sizeof("0x000FFF"), "0x000FFF", "0x000FFF"},		// Passes GOOS fails GLOO, invalid state
 };
 
 static const size_t get_ops_test_count = sizeof(goos_and_gloo_test_data) /
@@ -221,7 +221,7 @@ typedef struct
 {
 	UTL_Path_State test_path;
 	LAH_Syntax_State state;
-	size_t expected_opcode_or_operand;
+	unsigned int expected_opcode_or_operand;
 	char* source_test_string;
 	unsigned syntax_check_list[LAH_SYNTAX_CHECK_ARRAY_SIZE];
 } Validate_Ops_Test_Data;
@@ -247,12 +247,12 @@ static Validate_Ops_Test_Data validate_ops_test_data[] =
 	/*
 	 *End Positive Test Path
 	 */
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, "HEALT", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},	// Passes GOOS fails GLOO, invalid opcode
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, NULL, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}}, 		// Fails Both GOOS and GLOO NULL input string
-	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (size_t)-1, "0x00", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, invalid opcode
-	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, (size_t)-1, "HALT", {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, not numeric
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, "HEALT", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},	// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, NULL, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}}, 		// Fails Both GOOS and GLOO NULL input string
+	{UTL_NEGATIVE_PATH, LAH_OPCODE_STATE, (unsigned int)-1, "0x00", {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, invalid opcode
+	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, (unsigned int)-1, "HALT", {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}},		// Passes GOOS fails GLOO, not numeric
 	{UTL_NEGATIVE_PATH, LAH_OPERAND_STATE, 0xFFFFFFFF, "0xFFFFFFFF", {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}},	// Maximum legal value exceded
-	{UTL_NEGATIVE_PATH, LAH_START_STATE, (size_t)-1, "0x000FFF", {0}},		// Passes GOOS fails GLOO, invalid state
+	{UTL_NEGATIVE_PATH, LAH_START_STATE, (unsigned int)-1, "0x000FFF", {0}},		// Passes GOOS fails GLOO, invalid state
 };
 static const size_t validate_ops_test_data_count = sizeof(validate_ops_test_data) / sizeof(*validate_ops_test_data);
 
