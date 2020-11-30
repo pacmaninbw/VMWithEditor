@@ -257,7 +257,12 @@ static bool unit_test_digit_transition(UTL_Test_Log_Data* log_data, const LAH_Sy
 {
 	bool test_passed = true;
 	Const_U_Char* input = (unsigned char*)"0123456789ABCDEFXabcdefx";		// size is currently 24
+#ifdef WIN32
 #define MAX_INPUT_CHARACTERS	24
+#else
+// Using gcc on Linux
+	const size_t MAX_INPUT_CHARACTERS = strlen((const char*)input);
+#endif
 	LAH_State_Transition_Characters expected_transition[MAX_INPUT_CHARACTERS];
 	size_t positive_path_count;								// Change this if more positive path tests are added.
 	init_digit_test_data(input, expected_transition, &positive_path_count, current_state);
@@ -275,8 +280,10 @@ static bool unit_test_digit_transition(UTL_Test_Log_Data* log_data, const LAH_Sy
 	}
 
 	free((void *)log_data->function_name);
+#ifdef WIN32
 #undef MAX_INPUT_CHARACTERS
-	
+#endif
+
 	log_data->function_name = real_function_name;
 	log_data->status = test_passed;
 	return test_passed;
