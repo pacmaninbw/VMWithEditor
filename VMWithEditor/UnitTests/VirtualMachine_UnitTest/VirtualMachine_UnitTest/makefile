@@ -1,0 +1,111 @@
+
+RM := rm -rf
+
+OBJ_DIR := obj
+
+BIN_DIR := bin
+
+VM_SRC_DIR := ../../..
+
+VM_TEST_DIR := ./
+
+COMMON_TEST_DIR := ../../Common_UnitTest_Code
+
+LEXICAL_TEST_DIR := ../../State_Machine_Unit_Test/State_Machine_Unit_Test
+
+DIRS := $(OBJ_DIR) $(BIN_DIR)
+
+EXECUTABLE := VirtualMachine_UnitTest.exe
+BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
+LINK_EXECUTABLE := ./$(EXECUTABLE)
+
+OBJS := $(addprefix $(OBJ_DIR)/, error_reporting.o unit_test_logging.o virtual_machine.o \
+ virtual_machine_unit_test_main.o safe_string_functions.o \
+)
+
+VM_DIR_SOURCES := $(addprefix $(VM_SRC_DIR)/, error_reporting.c  \
+ safe_string_functions.c  virtual_machine.c)
+
+VM_TEST_SOURCES := (addprefix $(VM_TEST_DIR)/ virtual_machine_unit_test_main.c)
+
+COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
+
+SOURCES := $(VM_TEST_SOURCES) $(COMMON_TEST_SOURCES) $(VM_TEST_SOURCES)
+
+INCLUDE_DIRS := -I$(VM_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(VM_SRC_DIR)
+DEFINES := -DUNIT_TESTING -DVIRTUAL_MACHINE_UNIT_TEST_ONLY
+C_STANDARD := -std=c99
+OPTIMIZATION := -g
+WARNINGS := -Wall
+CC := gcc
+CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
+
+define Compile_Source =
+@echo 'Generating object file for: $<'
+$(CC) $(CCFLAGS) -o "$@" "$<"
+@echo 'Finished building: $@'
+@echo ' '
+endef
+
+# All Target
+all: $(LINK_EXECUTABLE)
+
+$(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
+	$(Compile_Source)
+
+$(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
+	$(Compile_Source)
+
+$(OBJ_DIR)/%.o: $(VM_TEST_DIR)/%.c
+	$(Compile_Source)
+
+$(OBJ_DIR)/virtual_machine_unit_test_main.o: $(VM_TEST_DIR)/virtual_machine_unit_test_main.c \
+ $(VM_TEST_DIR)/virtual_machine_unit_test_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
+ $(VM_SRC_DIR)/ERH_error_reporting.h
+
+$(OBJ_DIR)/unit_test_logging.o: $(COMMON_TEST_DIR)/unit_test_logging.c \
+ $(COMMON_TEST_DIR)/UTL_unit_test_logging.h $(VM_SRC_DIR)/SSF_safe_string_functions.h \
+ $(VM_SRC_DIR)/ERH_error_reporting.h
+
+$(OBJ_DIR)/error_reporting.o: $(VM_SRC_DIR)/error_reporting.c \
+ $(VM_SRC_DIR)/ERH_error_reporting.h
+
+$(OBJ_DIR)/safe_string_functions.o: $(VM_SRC_DIR)/safe_string_functions.c \
+ $(VM_SRC_DIR)/vmwitheditor.h $(VM_SRC_DIR)/SSF_safe_string_functions.h \
+ $(VM_SRC_DIR)/ERH_error_reporting.h
+
+$(OBJ_DIR)/virtual_machine.o: $(VM_SRC_DIR)/virtual_machine.c \
+ $(VM_SRC_DIR)/ERH_error_reporting.h $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
+ $(VM_SRC_DIR)/VMH_virtual_machine.h
+
+$(VM_SRC_DIR)/%.h:
+
+$(VM_TEST_DIR)/%.h:
+
+$(COMMON_TEST_DIR)/%.h:
+
+$(LINK_EXECUTABLE): $(DIRS) $(BINARY_EXECUTABLE)
+	ln -s $(BINARY_EXECUTABLE) .
+
+$(BINARY_EXECUTABLE): $(OBJS)
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C Linker'
+	gcc  -o "$(BINARY_EXECUTABLE)" $(OBJS)
+	@echo 'Finished building target: $@'
+	@echo ' '
+
+# Other Targets
+clean:
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
+	-@echo ' '
+
+MKDIR_P := mkdir -p
+
+${OBJ_DIR}:
+	${MKDIR_P} ${OBJ_DIR}
+
+${BIN_DIR}:
+	${MKDIR_P} ${BIN_DIR}
+
+.PHONY: all clean $(DIRS)
+.SECONDARY:
