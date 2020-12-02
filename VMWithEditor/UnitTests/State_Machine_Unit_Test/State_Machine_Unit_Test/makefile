@@ -1,18 +1,19 @@
 
 RM := rm -rf
 
-OBJ_DIR := obj
-
-BIN_DIR := bin
-
+# All paths are relative to the current directory to allow this to build on any
+# system. This assumes that the directory structure in GitHub is maintained.
+OBJ_DIR := ./obj
+BIN_DIR := ./bin
+VS_BUILD_DIRS := ./Debug ./Release	# For make clean only
 VM_SRC_DIR := ../../..
-
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
-
 LEXICAL_TEST_DIR := ./
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
 
+# The executable changes for each directory, the 2 following variables are
+# standard in all the make files
 EXECUTABLE := Lexical_Analyzer_Unit_Test.exe
 BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
 LINK_EXECUTABLE := ./$(EXECUTABLE)
@@ -38,6 +39,7 @@ COMMON_TEST_SOURCES := $(COMMON_TEST_DIR)/unit_test_logging.c
 
 SOURCES := $(COMMON_TEST_SOURCES) $(VM_DIR_SOURCES) $(LEXICAL_TEST_SOURCES)
 
+# define the flags used by the compiler
 DEFINES := -DUNIT_TESTING -DLEXICAL_UNIT_TEST_ONLY
 INCLUDE_DIRS := -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
 C_STANDARD := -std=c99
@@ -46,6 +48,7 @@ WARNINGS := -Wall -Wno-unused-function
 CC := gcc
 CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
 
+# Common recipe for compiling the code.
 define Compile_Source =
 @echo 'Generating object file for: $<'
 $(CC) $(CCFLAGS) -o "$@" "$<"
@@ -62,6 +65,7 @@ $(OBJ_DIR)/%.o: $(LEXICAL_TEST_DIR)/%.c
 $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
 	$(Compile_Source)
 
+# Specific source to object rules
 $(OBJ_DIR)/error_reporting.o: $(VM_SRC_DIR)/error_reporting.c \
  $(VM_SRC_DIR)/ERH_error_reporting.h
 
@@ -126,7 +130,7 @@ $(BINARY_EXECUTABLE): $(OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS) makelog.txt
 	-@echo ' '
 
 MKDIR_P := mkdir -p
