@@ -1,20 +1,19 @@
 
 RM := rm -rf
 
-OBJ_DIR := obj
-
-BIN_DIR := bin
-
+# All paths are relative to the current directory to allow this to build on any
+# system. This assumes that the directory structure in GitHub is maintained.
+OBJ_DIR := ./obj
+BIN_DIR := ./bin
+VS_BUILD_DIRS := ./Debug ./Release	# For make clean only
 VM_SRC_DIR := ../../..
-
 VM_TEST_DIR := ./
-
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
-
-LEXICAL_TEST_DIR := ../../State_Machine_Unit_Test/State_Machine_Unit_Test
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
 
+# The executable changes for each directory, the 2 following variables are
+# standard in all the make files
 EXECUTABLE := VirtualMachine_UnitTest.exe
 BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
 LINK_EXECUTABLE := ./$(EXECUTABLE)
@@ -32,6 +31,7 @@ COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
 
 SOURCES := $(VM_TEST_SOURCES) $(COMMON_TEST_SOURCES) $(VM_TEST_SOURCES)
 
+# define the flags used by the compiler
 INCLUDE_DIRS := -I$(VM_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(VM_SRC_DIR)
 DEFINES := -DUNIT_TESTING -DVIRTUAL_MACHINE_UNIT_TEST_ONLY
 C_STANDARD := -std=c99
@@ -40,6 +40,7 @@ WARNINGS := -Wall
 CC := gcc
 CCFLAGS := $(C_STANDARD) $(DEFINES) $(INCLUDE_DIRS) $(OPTIMIZATION) $(WARNINGS) -c
 
+# Common recipe for compiling the code.
 define Compile_Source =
 @echo 'Generating object file for: $<'
 $(CC) $(CCFLAGS) -o "$@" "$<"
@@ -59,6 +60,7 @@ $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
 $(OBJ_DIR)/%.o: $(VM_TEST_DIR)/%.c
 	$(Compile_Source)
 
+# Specific source to object rules
 $(OBJ_DIR)/virtual_machine_unit_test_main.o: $(VM_TEST_DIR)/virtual_machine_unit_test_main.c \
  $(VM_TEST_DIR)/virtual_machine_unit_test_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
  $(VM_SRC_DIR)/ERH_error_reporting.h
@@ -79,9 +81,7 @@ $(OBJ_DIR)/virtual_machine.o: $(VM_SRC_DIR)/virtual_machine.c \
  $(VM_SRC_DIR)/VMH_virtual_machine.h
 
 $(VM_SRC_DIR)/%.h:
-
 $(VM_TEST_DIR)/%.h:
-
 $(COMMON_TEST_DIR)/%.h:
 
 $(LINK_EXECUTABLE): $(DIRS) $(BINARY_EXECUTABLE)
@@ -96,7 +96,7 @@ $(BINARY_EXECUTABLE): $(OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS)
 	-@echo ' '
 
 MKDIR_P := mkdir -p
