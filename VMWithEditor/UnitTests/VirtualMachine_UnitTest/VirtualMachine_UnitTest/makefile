@@ -96,7 +96,7 @@ $(BINARY_EXECUTABLE): $(OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS)
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS) makelog.txt
 	-@echo ' '
 
 MKDIR_P := mkdir -p
