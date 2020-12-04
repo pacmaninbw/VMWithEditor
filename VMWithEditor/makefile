@@ -1,18 +1,15 @@
 
 RM := rm -rf
 
-OBJ_DIR := obj
-
-BIN_DIR := bin
-
+# All paths are relative to the current directory to allow this to build on any
+# system. This assumes that the directory structure in GitHub is maintained.
+OBJ_DIR := ./obj
+BIN_DIR := ./bin
+VS_BUILD_DIRS := ./Debug ./Release # For make clean only
 VM_SRC_DIR := ./
-
 UNIT_TEST_DIR := ./UnitTests
-
 PARSER_TEST_DIR := $(UNIT_TEST_DIR)/Parser_Unit_Test/Parser_Unit_Test
-
 COMMON_TEST_DIR := $(UNIT_TEST_DIR)/Common_UnitTest_Code
-
 LEXICAL_TEST_DIR := $(UNIT_TEST_DIR)/State_Machine_Unit_Test/State_Machine_Unit_Test
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
@@ -107,7 +104,7 @@ $(BINARY_EXECUTABLE): $(OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS)
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS) makelog.txt
 	-@echo ' '
 
 MKDIR_P := mkdir -p
