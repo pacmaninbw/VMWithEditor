@@ -5,7 +5,7 @@ RM := rm -rf
 # system. This assumes that the directory structure in GitHub is maintained.
 OBJ_DIR := ./obj
 BIN_DIR := ./bin
-VS_BUILD_DIRS := ./Debug ./Release	# For make clean only
+VS_BUILD_DIRS := ./Debug ./Release # For make clean only
 VM_SRC_DIR := ../../..
 VM_TEST_DIR := ./
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
