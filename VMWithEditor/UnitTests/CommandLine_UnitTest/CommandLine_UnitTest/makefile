@@ -25,11 +25,11 @@ OBJS := $(addprefix $(OBJ_DIR)/, command_line_unit_test_main.o error_reporting.o
 VM_DIR_SOURCES := $(addprefix $(VM_SRC_DIR)/, error_reporting.c  \
  safe_string_functions.c  arg_flags.c)
 
-CMD_LINE_TEST_SOURCES := (addprefix $(LOCAL_TEST_DIR), command_line_unit_test_main.c)
+LOCAL_TEST_SOURCES := (addprefix $(LOCAL_TEST_DIR), command_line_unit_test_main.c)
 
 COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
 
-SOURCES := $(VM_TEST_SOURCES) $(COMMON_TEST_SOURCES) $(CMD_LINE_TEST_SOURCES)
+SOURCES := $(VM_TEST_SOURCES) $(COMMON_TEST_SOURCES) $(LOCAL_TEST_SOURCES)
 
 # define the flags used by the compiler
 INCLUDE_DIRS := -I$(LOCAL_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(VM_SRC_DIR)
