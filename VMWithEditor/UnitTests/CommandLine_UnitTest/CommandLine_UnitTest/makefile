@@ -7,7 +7,7 @@ OBJ_DIR := ./obj
 BIN_DIR := ./bin
 VS_BUILD_DIRS := ./Debug ./Release # For make clean only
 VM_SRC_DIR := ../../..
-CMD_LINE_TEST_DIR := ./
+LOCAL_TEST_DIR := ./
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
 
 DIRS := $(OBJ_DIR) $(BIN_DIR)
@@ -25,14 +25,14 @@ OBJS := $(addprefix $(OBJ_DIR)/, command_line_unit_test_main.o error_reporting.o
 VM_DIR_SOURCES := $(addprefix $(VM_SRC_DIR)/, error_reporting.c  \
  safe_string_functions.c  arg_flags.c)
 
-CMD_LINE_TEST_SOURCES := (addprefix $(CMD_LINE_TEST_DIR), command_line_unit_test_main.c)
+CMD_LINE_TEST_SOURCES := (addprefix $(LOCAL_TEST_DIR), command_line_unit_test_main.c)
 
 COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
 
 SOURCES := $(VM_TEST_SOURCES) $(COMMON_TEST_SOURCES) $(CMD_LINE_TEST_SOURCES)
 
 # define the flags used by the compiler
-INCLUDE_DIRS := -I$(CMD_LINE_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(VM_SRC_DIR)
+INCLUDE_DIRS := -I$(LOCAL_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(VM_SRC_DIR)
 DEFINES := -DUNIT_TESTING -DCOMMANDLINE_UNIT_TESTING_ONLY
 C_STANDARD := -std=c99
 OPTIMIZATION := -g
@@ -57,12 +57,12 @@ $(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
 $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
 	$(Compile_Source)
 
-$(OBJ_DIR)/%.o: $(CMD_LINE_TEST_DIR)/%.c
+$(OBJ_DIR)/%.o: $(LOCAL_TEST_DIR)/%.c
 	$(Compile_Source)
 
 # Specific source to object rules
-$(OBJ_DIR)/command_line_unit_test_main.o: $(CMD_LINE_TEST_DIR)/command_line_unit_test_main.c \
- $(CMD_LINE_TEST_DIR)/command_line_unit_test_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
+$(OBJ_DIR)/command_line_unit_test_main.o: $(LOCAL_TEST_DIR)/command_line_unit_test_main.c \
+ $(LOCAL_TEST_DIR)/command_line_unit_test_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
  $(VM_SRC_DIR)/ERH_error_reporting.h $(VM_SRC_DIR)/ARGF_arg_flags.h
 
 $(OBJ_DIR)/unit_test_logging.o: $(COMMON_TEST_DIR)/unit_test_logging.c \
