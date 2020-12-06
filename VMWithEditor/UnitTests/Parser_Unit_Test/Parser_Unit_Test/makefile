@@ -7,7 +7,7 @@ OBJ_DIR := ./obj
 BIN_DIR := ./bin
 VS_BUILD_DIRS := ./Debug ./Release	# For make clean only
 VM_SRC_DIR := ../../..
-PARSER_TEST_DIR := ./
+LOCAL_TEST_DIR := ./
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
 LEXICAL_TEST_DIR := ../../State_Machine_Unit_Test/State_Machine_Unit_Test
 
@@ -34,15 +34,15 @@ LEXICAL_TEST_SOURCES := $(addprefix $(LEXICAL_TEST_DIR)/, internal_character_tra
  internal_sytax_state_tests.c lexical_analyzer_test_data.c lexical_analyzer_unit_test_main.c \
  lexical_analyzer_unit_test_utilities.c)
 
-PARSER_TEST_SOURCES := $(addprefix $(PARSER_TEST_DIR)/, internal_parser_tests.c \
+LOCAL_TEST_SOURCES := $(addprefix $(LOCAL_TEST_DIR)/, internal_parser_tests.c \
  parser_unit_test_main.c parser_unit_test.c) 
 
 COMMON_TEST_SOURCES := $(addprefix $(COMMON_TEST_DIR), unit_test_logging.c)
 
-SOURCES := $(VM_DIR_SOURCES) $(COMMON_TEST_SOURCES) $(LEXICAL_TEST_SOURCES) $(PARSER_TEST_SOURCES)
+SOURCES := $(VM_DIR_SOURCES) $(COMMON_TEST_SOURCES) $(LEXICAL_TEST_SOURCES) $(LOCAL_TEST_SOURCES)
 
 # define the flags used by the compiler
-INCLUDE_DIRS := -I$(PARSER_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
+INCLUDE_DIRS := -I$(LOCAL_TEST_DIR) -I$(COMMON_TEST_DIR) -I$(LEXICAL_TEST_DIR) -I$(VM_SRC_DIR)
 DEFINES := -DUNIT_TESTING -DPARSER_UNIT_TEST_ONLY
 C_STANDARD := -std=c99
 OPTIMIZATION := -g
@@ -67,7 +67,7 @@ $(OBJ_DIR)/%.o: $(VM_SRC_DIR)/%.c
 $(OBJ_DIR)/%.o: $(LEXICAL_TEST_DIR)/%.c
 	$(Compile_Source)
 
-$(OBJ_DIR)/%.o: $(PARSER_TEST_DIR)/%.c
+$(OBJ_DIR)/%.o: $(LOCAL_TEST_DIR)/%.c
 	$(Compile_Source)
 
 $(OBJ_DIR)/%.o: $(COMMON_TEST_DIR)/%.c
@@ -136,24 +136,24 @@ $(OBJ_DIR)/lexical_analyzer_unit_test_utilities.o: \
  $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.c \
  $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_utilities.h
 
-$(OBJ_DIR)/parser_unit_test_main.o: $(PARSER_TEST_DIR)/parser_unit_test_main.c \
+$(OBJ_DIR)/parser_unit_test_main.o: $(LOCAL_TEST_DIR)/parser_unit_test_main.c \
  $(VM_SRC_DIR)/ERH_error_reporting.h $(VM_SRC_DIR)/LAH_lexical_analyzer.h \
  $(LEXICAL_TEST_DIR)/lexical_analyzer_unit_test_main.h \
- $(PARSER_TEST_DIR)/internal_parser_tests.h $(VM_SRC_DIR)/parser.h \
- $(PARSER_TEST_DIR)/parser_unit_test.h $(COMMON_TEST_DIR)/UTL_unit_test_logging.h
+ $(LOCAL_TEST_DIR)/internal_parser_tests.h $(VM_SRC_DIR)/parser.h \
+ $(LOCAL_TEST_DIR)/parser_unit_test.h $(COMMON_TEST_DIR)/UTL_unit_test_logging.h
 
-$(OBJ_DIR)/parser_unit_test.o: $(PARSER_TEST_DIR)/parser_unit_test.c \
+$(OBJ_DIR)/parser_unit_test.o: $(LOCAL_TEST_DIR)/parser_unit_test.c \
  $(VM_SRC_DIR)/parser.h $(VM_SRC_DIR)/ERH_error_reporting.h \
  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
  $(VM_SRC_DIR)/HRF_human_readable_program_format.h $(VM_SRC_DIR)/OPC_opcode.h
 
-$(OBJ_DIR)/internal_parser_tests.o: $(PARSER_TEST_DIR)/internal_parser_tests.c $(VM_SRC_DIR)/ERH_error_reporting.h $(VM_SRC_DIR)/HRF_human_readable_program_format.h $(VM_SRC_DIR)/LAH_lexical_analyzer.h $(COMMON_TEST_DIR)/UTL_unit_test_logging.h $(PARSER_TEST_DIR)/internal_parser_tests.h $(VM_SRC_DIR)/OPC_opcode.h
+$(OBJ_DIR)/internal_parser_tests.o: $(LOCAL_TEST_DIR)/internal_parser_tests.c $(VM_SRC_DIR)/ERH_error_reporting.h $(VM_SRC_DIR)/HRF_human_readable_program_format.h $(VM_SRC_DIR)/LAH_lexical_analyzer.h $(COMMON_TEST_DIR)/UTL_unit_test_logging.h $(LOCAL_TEST_DIR)/internal_parser_tests.h $(VM_SRC_DIR)/OPC_opcode.h
 
 $(VM_SRC_DIR)/%.h:
 
 $(LEXICAL_TEST_DIR)/%.h:
 
-$(PARSER_TEST_DIR)/%.h:
+$(LOCAL_TEST_DIR)/%.h:
 
 $(COMMON_TEST_DIR)/%.h:
 
