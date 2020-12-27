@@ -62,7 +62,7 @@ $(OBJ_DIR)/%.o: $(LOCAL_TEST_DIR)/%.c
 
 # Specific source to object rules
 $(OBJ_DIR)/Editor_UnitTest_Main.o: $(LOCAL_TEST_DIR)/Editor_UnitTest_Main.c \
- $(LOCAL_TEST_DIR)/Editor_UnitTest_Main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
+ $(LOCAL_TEST_DIR)/Editor_UnitTest_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
  $(VM_SRC_DIR)/ERH_error_reporting.h $(VM_SRC_DIR)/ARGF_arg_flags.h
 
 $(OBJ_DIR)/unit_test_logging.o: $(COMMON_TEST_DIR)/unit_test_logging.c \
