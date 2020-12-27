@@ -14,7 +14,7 @@ DIRS := $(OBJ_DIR) $(BIN_DIR)
 
 # The executable changes for each directory, the 2 following variables are
 # standard in all the make files
-EXECUTABLE := HRF_Unit_Test.exe
+EXECUTABLE := Control_Console_Unit_Test.exe
 BINARY_EXECUTABLE := $(BIN_DIR)/$(EXECUTABLE)
 LINK_EXECUTABLE := ./$(EXECUTABLE)
 
