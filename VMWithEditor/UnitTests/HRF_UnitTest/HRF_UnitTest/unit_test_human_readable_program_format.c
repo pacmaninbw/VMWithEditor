@@ -9,11 +9,11 @@
 #include <stdlib.h>
 
 #include "default_program.h"
-#include "HRF_Human_Readable_Program_Format.h"
+#include "HRF_human_readable_program_format.h"
 #include "unit_test_human_readable_program_format.h"
 #include "UTL_unit_test_logging.h"
 
-#include "Human_Readable_Program_Format.c"
+#include "human_readable_program_format.c"
 
 #ifdef UNIT_TEST_TEMPLATE
 static bool unit_test_template(unsigned test_step)
