@@ -63,7 +63,7 @@ $(OBJ_DIR)/%.o: $(LOCAL_TEST_DIR)/%.c
 	$(Compile_Source)
 
 # Specific source to object rules
-$(OBJ_DIR)/command_line_unit_test_main.o: $(LOCAL_TEST_DIR)/hrf_unit_test_main.c \
+$(OBJ_DIR)/hrf_unit_test_main.o: $(LOCAL_TEST_DIR)/hrf_unit_test_main.c \
  $(LOCAL_TEST_DIR)/hrf_unit_test_main.h  $(COMMON_TEST_DIR)/UTL_unit_test_logging.h \
  $(VM_SRC_DIR)/ERH_error_reporting.h \
  $(LOCAL_TEST_DIR)/unit_test_human_readable_program_format.h \
