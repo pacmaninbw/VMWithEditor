@@ -39,7 +39,7 @@ C programming language - C99
 Modular Design
 
 ## Linux Development Environment
-Two unit test directories currently have Linux makefiles. The current Linux build environment is Linux on Windows using CentOS 8.1, the compiler is gcc. The standard has been switched from C90 to C99.
+Two unit test directories currently have Linux makefiles. The current Linux build environment is a Virtual version of Fedora running in VMWare Workstation 16 on Windows 10., the compiler is gcc. The standard has been switched from C90 to C99.
 
 ## My Original Development Environment.
  - Visual Studion 2019 Professional.  

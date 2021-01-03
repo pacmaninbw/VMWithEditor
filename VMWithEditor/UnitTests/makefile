@@ -26,7 +26,7 @@ DIRS := $(OBJ_DIR) $(BIN_DIR)
 # The executable changes for each directory, the 2 following variables are
 # standard in all the make files
 EXECUTABLE := Run_All_Unit_Tests.exe
-ALL_TEST_EXES := $(HRF_TEST_EXE) $(LEX_TEST_EXE) $(PARSE_TEST_EXE) \
+ALL_TEST_EXES := $(HRF_TEST_EXE) $(LEX_TEST_EXE) $(PARSER_TEST_EXE) \
  $(VM_TEST_EXE) $(CMD_TEST_EXE) $(CTRL_CONSOLE_TEST_EXE) \
  $(EDITOR_TEST_EXE) $(ALL_UNIT_TEST_EXE)
 
@@ -63,7 +63,7 @@ $(VM_TEST_EXE):
 	@echo 'cd $(VM_TEST_DIR)'
 	cd $(VM_TEST_DIR) && $(MAKE) >& makelog.txt
 
-$(CMD_LINE_TEST_EXE):
+$(CMD_TEST_EXE):
 	@echo 'Making $@'
 	@echo 'cd $(CMD_LINE_TEST_DIR)'
 	cd $(CMD_LINE_TEST_DIR) && $(MAKE) >& makelog.txt
