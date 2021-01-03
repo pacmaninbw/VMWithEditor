@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\..\safe_string_functions.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\human_readable_program_format.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="unit_test_human_readable_program_format.h">

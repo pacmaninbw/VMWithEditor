@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\default_program.c" />
     <ClCompile Include="..\..\..\error_reporting.c" />
+    <ClCompile Include="..\..\..\human_readable_program_format.c" />
     <ClCompile Include="..\..\..\opcode.c" />
     <ClCompile Include="..\..\..\safe_string_functions.c" />
     <ClCompile Include="..\..\Common_UnitTest_Code\unit_test_logging.c" />
