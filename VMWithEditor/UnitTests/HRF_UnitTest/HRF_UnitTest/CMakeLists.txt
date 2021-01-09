@@ -12,7 +12,7 @@ endif()
 set(VM_SRC_DIR "../../..")
 set(COMMON_TEST_DIR "../../Common_UnitTest_Code")
 
-add_executable(${EXECUTABLE_NAME} hrf_unit_test_main.c unit_test_human_readable_program_format.c ${VM_SRC_DIR}/error_reporting.c ${VM_SRC_DIR}/default_program.c ${VM_SRC_DIR}/safe_string_functions.c ${COMMON_TEST_DIR}/unit_test_logging.c)
+add_executable(${EXECUTABLE_NAME} hrf_unit_test_main.c unit_test_human_readable_program_format.c ${VM_SRC_DIR}/error_reporting.c ${VM_SRC_DIR}/default_program.c ${VM_SRC_DIR}/safe_string_functions.c ${COMMON_TEST_DIR}/unit_test_logging.c ${VM_SRC_DIR}/human_readable_program_format.c)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
