@@ -6,6 +6,7 @@ RM := rm -rf
 OBJ_DIR := ./obj
 BIN_DIR := ./bin
 VS_BUILD_DIRS := ./Debug ./Release # For make clean only
+LOGFILES := buildDebuglog.txt buildReleaselog.txt makelog.txt # For make clean only
 VM_SRC_DIR := ../../..
 LOCAL_TEST_DIR := ./
 COMMON_TEST_DIR := ../../Common_UnitTest_Code
@@ -109,7 +110,7 @@ $(BINARY_EXECUTABLE): $(OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS) makelog.txt
+	-$(RM) $(LINK_EXECUTABLE) $(BINARY_EXECUTABLE) $(DIRS) $(VS_BUILD_DIRS) $(LOGFILES)
 	-@echo ' '
 
 MKDIR_P := mkdir -p
