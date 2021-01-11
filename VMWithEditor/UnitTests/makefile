@@ -86,7 +86,7 @@ $(ALL_UNIT_TEST_EXE):
 # Other Targets
 clean: cleanHRF cleanLEX cleanPARSE cleanVM cleanCMDLINE cleanCTRLCONSOLE \
  cleanEDITOR cleanALLUNITTESTS
-	$(RM) makelog.txt
+	$(RM) makelog.txt buildDebuglog.txt buildReleaselog.txt
 	-@echo 'make clean complete'
 
 cleanHRF:
