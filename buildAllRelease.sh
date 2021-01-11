@@ -1,8 +1,8 @@
 #! /usr/bin/bash
-
+#
 # Build the release version of the Virtual Machine and all the unit tests
 # Stop on any build errors.
-
+#
 UNITTESTDIRECTORY="./VMWithEditor/UnitTests"
 SHELLFILE="$UNITTESTDIRECTORY/buildAllRelease.sh";
 if [ -d "$UNITTESTDIRECTORY" ] ; then

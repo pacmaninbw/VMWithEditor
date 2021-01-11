@@ -1,8 +1,8 @@
 #! /usr/bin/bash
-
+#
 # Build the debug version of the Virtual MAchine and all the unit tests
 # Stop on any build errors.
-
+#
 UNITTESTDIRECTORY="./VMWithEditor/UnitTests"
 SHELLFILE="$UNITTESTDIRECTORY/buildAllDebug.sh";
 if [ -d "$UNITTESTDIRECTORY" ] ; then
