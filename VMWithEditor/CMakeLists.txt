@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18.4)
+cmake_minimum_required(VERSION 3.16.1)
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(GCC_WARN_COMPILE_FLAGS  " -Wall ")
