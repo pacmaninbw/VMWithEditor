@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18.4)
+cmake_minimum_required(VERSION 3.16.1)
 
 set(EXECUTABLE_NAME "HRF_Unit_Test.exe")
 
