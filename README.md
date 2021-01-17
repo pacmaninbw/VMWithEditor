@@ -28,7 +28,7 @@ This program adds:
 ## Unit Tests  
 Unit tests have been developed or are being developed as stand alone programs for each major portion of the program, there will also be a unit test to run all of the portions of the code together. The unit tests are not currently utilizing any unit test framework.  
  - Command Console unit test  
- - Lexical Analyzer unit test (Completed)  
+ - Lexical Analyzer unit test (Completed and code reviewed)  
  - Parser unit test (Completed ready for review).  
  - File input and output unit test
  - Editor Console unit test
