@@ -2,6 +2,8 @@
 
 Last update 01/17/2021  
 
+Contributions to the code are welcome. If you want to contribute start with the `Before_Build_Code_Review` branch and create a fork. Credit will be attributed to you in the commit comments of all merges.
+
 ## VWWithEditor  
 Virtual Machine With Editor
 
