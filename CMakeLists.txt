@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.16)
+project(VMWithEditor LANGUAGES C VERSION 1.0)
+
+add_subdirectory(VMWithEditor)
+enable_testing()
+add_subdirectory(VMWithEditor/UnitTests/CommandLine_UnitTest/CommandLine_UnitTest)
+add_subdirectory(VMWithEditor/UnitTests/ControlConsole_UnitTest/ControlConsole_UnitTest)
+add_subdirectory(VMWithEditor/UnitTests/Editor_UnitTest/Editor_UnitTest)
+add_subdirectory(VMWithEditor/UnitTests/HRF_UnitTest/HRF_UnitTest)
+add_subdirectory(VMWithEditor/UnitTests/Parser_Unit_Test/Parser_Unit_Test)
+add_subdirectory(VMWithEditor/UnitTests/State_Machine_Unit_Test/State_Machine_Unit_Test)
+add_subdirectory(VMWithEditor/UnitTests/VirtualMachine_UnitTest/VirtualMachine_UnitTest)

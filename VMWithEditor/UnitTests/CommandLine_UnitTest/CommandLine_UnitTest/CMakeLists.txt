@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.16.1)
-
-set(EXECUTABLE_NAME "CommandLine_UnitTest.exe")
-
-project(${EXECUTABLE_NAME} LANGUAGES C VERSION 1.0)
+set(EXECUTABLE_NAME "CommandLine_UnitTest")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(GCC_WARN_COMPILE_FLAGS  " -Wall ")
@@ -25,4 +21,5 @@ target_include_directories(${EXECUTABLE_NAME} PUBLIC "${PROJECT_BINARY_DIR}")
 target_include_directories(${EXECUTABLE_NAME} PRIVATE "${VM_SRC_DIR}")
 target_include_directories(${EXECUTABLE_NAME} PRIVATE "${COMMON_TEST_DIR}")
 
-
+add_test(NAME "command-line-unit-test"
+         COMMAND "${EXECUTABLE_NAME}")
