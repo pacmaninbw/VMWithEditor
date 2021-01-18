@@ -32,7 +32,7 @@ int main()
 	ERH_error_out_file = stderr;
 
 	if (!ERH_init_vm_error_reporting(NULL) ||
-		UTL_init_unit_tests("editor_unit_test_log.txt"))
+		!UTL_init_unit_tests("editor_unit_test_log.txt"))
 	{
 		return EXIT_FAILURE;
 	}

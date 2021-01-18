@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.16.1)
-
-set(EXECUTABLE_NAME "Parser_Unit_Test.exe")
-
-project(${EXECUTABLE_NAME} LANGUAGES C VERSION 1.0)
+set(EXECUTABLE_NAME "Parser_Unit_Test")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(GCC_WARN_COMPILE_FLAGS  " -Wall ")
@@ -27,6 +23,5 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE "${VM_SRC_DIR}")
 target_include_directories(${EXECUTABLE_NAME} PRIVATE "${COMMON_TEST_DIR}")
 target_include_directories(${EXECUTABLE_NAME} PRIVATE "${LEXICAL_TEST_DIR}")
 
-
-
-
+add_test(NAME "parser-unit-test"
+         COMMAND "${EXECUTABLE_NAME}")
